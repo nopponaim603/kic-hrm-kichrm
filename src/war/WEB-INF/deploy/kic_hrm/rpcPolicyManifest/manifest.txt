@@ -1,0 +1,2 @@
+# Module kic_hrm
+# RPC service class, partial path of RPC policy file
