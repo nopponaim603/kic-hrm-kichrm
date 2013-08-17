@@ -94,7 +94,9 @@ public class HumanResourcesManagement implements EntryPoint {
 		
 		VerticalPanel verticalPanel_2 = new VerticalPanel();
 		horizontalPanel.add(verticalPanel_2);
-		verticalPanel_2.setSize("187px", "147px");
+		horizontalPanel.setCellHeight(verticalPanel_2, "100px");
+		horizontalPanel.setCellWidth(verticalPanel_2, "100px");
+		verticalPanel_2.setSize("187px", "195px");
 		
 		FlowPanel flowPanel_2 = new FlowPanel();
 		tabPanel.add(flowPanel_2, "New tab", false);
