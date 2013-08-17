@@ -16,6 +16,14 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -39,23 +47,62 @@ public class HumanResourcesManagement implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-		final Button sendButton = new Button("Send");
-		final TextBox nameField = new TextBox();
-		nameField.setText("GWT User");
 		final Label errorLabel = new Label();
-
-		// We can add style names to widgets
-		sendButton.addStyleName("sendButton");
 
 		// Add the nameField and sendButton to the RootPanel
 		// Use RootPanel.get() to get the entire body element
-		RootPanel.get("nameFieldContainer").add(nameField);
-		RootPanel.get("sendButtonContainer").add(sendButton);
+		RootPanel rootPanel = RootPanel.get("nameFieldContainer");
+		rootPanel.setStyleName("h1");
 		RootPanel.get("errorLabelContainer").add(errorLabel);
-
-		// Focus the cursor on the name field when the app loads
-		nameField.setFocus(true);
-		nameField.selectAll();
+		
+		TabPanel tabPanel = new TabPanel();
+		rootPanel.add(tabPanel, 10, 10);
+		tabPanel.setSize("780px", "580px");
+		
+		FlowPanel flowPanel = new FlowPanel();
+		tabPanel.add(flowPanel, "New tab", false);
+		flowPanel.setSize("780px", "550px");
+		
+		ScrollPanel scrollPanel = new ScrollPanel();
+		flowPanel.add(scrollPanel);
+		scrollPanel.setHeight("323px");
+		
+		VerticalPanel verticalPanel = new VerticalPanel();
+		tabPanel.add(verticalPanel, "New tab", false);
+		verticalPanel.setSize("780px", "550px");
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		verticalPanel.add(horizontalPanel);
+		horizontalPanel.setSize("780px", "266px");
+		
+		VerticalPanel verticalPanel_1 = new VerticalPanel();
+		horizontalPanel.add(verticalPanel_1);
+		verticalPanel_1.setSize("251px", "243px");
+		
+		HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
+		verticalPanel_1.add(horizontalPanel_1);
+		horizontalPanel_1.setSize("343px", "25px");
+		
+		Label lblNewLabel = new Label("\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48 17 \u0E2A\u0E34\u0E07\u0E2B\u0E32\u0E04\u0E21 2556 ");
+		lblNewLabel.setDirectionEstimator(true);
+		horizontalPanel_1.add(lblNewLabel);
+		lblNewLabel.setWidth("250px");
+		
+		Grid grid = new Grid(1, 1);
+		verticalPanel_1.add(grid);
+		grid.setSize("198px", "78px");
+		
+		VerticalPanel verticalPanel_2 = new VerticalPanel();
+		horizontalPanel.add(verticalPanel_2);
+		verticalPanel_2.setSize("187px", "147px");
+		
+		FlowPanel flowPanel_2 = new FlowPanel();
+		tabPanel.add(flowPanel_2, "New tab", false);
+		flowPanel_2.setSize("780px", "550px");
+		
+		FlowPanel flowPanel_3 = new FlowPanel();
+		tabPanel.add(flowPanel_3, "New tab", false);
+		flowPanel_3.setSize("780px", "580px");
 
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
@@ -77,14 +124,18 @@ public class HumanResourcesManagement implements EntryPoint {
 		dialogBox.setWidget(dialogVPanel);
 
 		// Add a handler to close the DialogBox
+		
 		closeButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				/*
 				dialogBox.hide();
 				sendButton.setEnabled(true);
 				sendButton.setFocus(true);
+				*/
 			}
 		});
-
+		
+		
 		// Create a handler for the sendButton and nameField
 		class MyHandler implements ClickHandler, KeyUpHandler {
 			/**
@@ -108,6 +159,7 @@ public class HumanResourcesManagement implements EntryPoint {
 			 */
 			private void sendNameToServer() {
 				// First, we validate the input.
+				/*
 				errorLabel.setText("");
 				String textToServer = nameField.getText();
 				if (!FieldVerifier.isValidName(textToServer)) {
@@ -140,13 +192,13 @@ public class HumanResourcesManagement implements EntryPoint {
 								dialogBox.center();
 								closeButton.setFocus(true);
 							}
-						});
+						
+				});
+				*/
 			}
 		}
 
 		// Add a handler to send the name to the server
-		MyHandler handler = new MyHandler();
-		sendButton.addClickHandler(handler);
-		nameField.addKeyUpHandler(handler);
+		//MyHandler handler = new MyHandler();
 	}
 }
