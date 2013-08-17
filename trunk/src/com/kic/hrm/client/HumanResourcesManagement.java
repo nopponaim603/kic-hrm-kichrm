@@ -67,7 +67,7 @@ public class HumanResourcesManagement implements EntryPoint {
 		tabPanel.setSize("780px", "580px");
 
 		VerticalPanel verticalPanel_3 = new VerticalPanel();
-		tabPanel.add(verticalPanel_3, "หน้าแรก", false);
+		tabPanel.add(verticalPanel_3, "Main Page", false);
 		verticalPanel_3.setSize("780px", "550px");
 
 		CellTable<Object> cellTable = new CellTable<Object>();
@@ -76,7 +76,7 @@ public class HumanResourcesManagement implements EntryPoint {
 
 		VerticalPanel verticalPanel = new VerticalPanel();
 		verticalPanel.setVisible(false);
-		tabPanel.add(verticalPanel, "แบบฟอร์มลางาน", false);
+		tabPanel.add(verticalPanel, "Leaving Form", false);
 		verticalPanel.setSize("780px", "550px");
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
@@ -262,6 +262,7 @@ public class HumanResourcesManagement implements EntryPoint {
 		listBox.setVisibleItemCount(5);
 
 		Button btnNewButton_4 = new Button("New button");
+		btnNewButton_4.setText("\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1A\u0E2D\u0E23\u0E4C\u0E42\u0E17\u0E23\u0E17\u0E31\u0E1E\u0E17\u0E4C\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D");
 		horizontalPanel_4.add(btnNewButton_4);
 
 		HorizontalPanel horizontalPanel_5 = new HorizontalPanel();
@@ -294,21 +295,24 @@ public class HumanResourcesManagement implements EntryPoint {
 		btnNewButton_6.setWidth("70px");
 
 		VerticalPanel verticalPanel_4 = new VerticalPanel();
-		tabPanel.add(verticalPanel_4, "รายงานการลา", false);
+		tabPanel.add(verticalPanel_4, "Leaving Reports", false);
 		verticalPanel_4.setSize("780px", "550px");
 		
 		Label lblNewLabel_1 = new Label("New label");
 		verticalPanel_4.add(lblNewLabel_1);
 		
 		ListBox comboBox_2 = new ListBox();
+		comboBox_2.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E40\u0E14\u0E37\u0E2D\u0E19");
+		comboBox_2.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E1B\u0E35");
 		verticalPanel_4.add(comboBox_2);
+		comboBox_2.setWidth("161px");
 		
 		CellTable<Object> cellTable_1 = new CellTable<Object>();
 		verticalPanel_4.add(cellTable_1);
 		cellTable_1.setSize("558px", "242px");
 
 		FlowPanel flowPanel_3 = new FlowPanel();
-		tabPanel.add(flowPanel_3, "ปฏิทินการลา", false);
+		tabPanel.add(flowPanel_3, "Leaving Calendar", true);
 		flowPanel_3.setSize("780px", "580px");
 
 		DatePicker datePicker = new DatePicker();
