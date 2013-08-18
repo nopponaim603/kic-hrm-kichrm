@@ -2,6 +2,8 @@ package com.kic.hrm.client;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+
+/*
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -9,6 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+*/
 
 import com.kic.hrm.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
@@ -382,6 +385,7 @@ public class HumanResourcesManagement implements EntryPoint {
 			}
 
 			public void onSubmitLeaving(){
+				/*
 				Properties props = new Properties();
 				Session session = Session.getDefaultInstance(props, null);
 
@@ -390,11 +394,12 @@ public class HumanResourcesManagement implements EntryPoint {
 				try {
 				    Message msg = new MimeMessage(session);
 				    try {
-						msg.setFrom(new InternetAddress("admin@example.com", "Example.com Admin"));
+						msg.setFrom(new InternetAddress("noppon.w@vr.camt.info", "Mr.Noppon"));
 					} catch (UnsupportedEncodingException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+				    
 				    try {
 						 msg.addRecipient(Message.RecipientType.TO,
 						 new InternetAddress("noppon.w@vr.camt.info", "Mr.Noppon"));
@@ -402,6 +407,7 @@ public class HumanResourcesManagement implements EntryPoint {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+				    
 				    msg.setSubject("Your Example.com account has been activated");
 				    msg.setText(msgBody);
 				    Transport.send(msg);
@@ -411,6 +417,7 @@ public class HumanResourcesManagement implements EntryPoint {
 				} catch (MessagingException e) {
 				    // ...
 				}
+				*/
 			}
 			/**
 			 * Send the name from the nameField to the server and wait for a
@@ -451,8 +458,7 @@ public class HumanResourcesManagement implements EntryPoint {
 		}
 
 		// Add a handler to send the name to the server
-		//MyHandler handler = new MyHandler();
-		//btnNewButton_5.addClickListener(handler.onSubmitLeaving(ClickEvent));
-		//btnNewButton_5.addClickHandler(handler);
+		MyHandler handler = new MyHandler();
+		btnNewButton_5.addClickHandler(handler);
 	}
 }
