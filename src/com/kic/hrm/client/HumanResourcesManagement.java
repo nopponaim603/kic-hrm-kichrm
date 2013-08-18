@@ -1,5 +1,15 @@
 package com.kic.hrm.client;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import com.kic.hrm.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -262,7 +272,8 @@ public class HumanResourcesManagement implements EntryPoint {
 		listBox.setVisibleItemCount(5);
 
 		Button btnNewButton_4 = new Button("New button");
-		btnNewButton_4.setText("\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1A\u0E2D\u0E23\u0E4C\u0E42\u0E17\u0E23\u0E17\u0E31\u0E1E\u0E17\u0E4C\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D");
+		btnNewButton_4
+				.setText("\u0E40\u0E1E\u0E34\u0E48\u0E21\u0E40\u0E1A\u0E2D\u0E23\u0E4C\u0E42\u0E17\u0E23\u0E17\u0E31\u0E1E\u0E17\u0E4C\u0E15\u0E34\u0E14\u0E15\u0E48\u0E2D");
 		horizontalPanel_4.add(btnNewButton_4);
 
 		HorizontalPanel horizontalPanel_5 = new HorizontalPanel();
@@ -297,16 +308,18 @@ public class HumanResourcesManagement implements EntryPoint {
 		VerticalPanel verticalPanel_4 = new VerticalPanel();
 		tabPanel.add(verticalPanel_4, "Leaving Reports", false);
 		verticalPanel_4.setSize("780px", "550px");
-		
+
 		Label lblNewLabel_1 = new Label("New label");
 		verticalPanel_4.add(lblNewLabel_1);
-		
+
 		ListBox comboBox_2 = new ListBox();
-		comboBox_2.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E40\u0E14\u0E37\u0E2D\u0E19");
-		comboBox_2.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E1B\u0E35");
+		comboBox_2
+				.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E40\u0E14\u0E37\u0E2D\u0E19");
+		comboBox_2
+				.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E1B\u0E35");
 		verticalPanel_4.add(comboBox_2);
 		comboBox_2.setWidth("161px");
-		
+
 		CellTable<Object> cellTable_1 = new CellTable<Object>();
 		verticalPanel_4.add(cellTable_1);
 		cellTable_1.setSize("558px", "242px");
@@ -356,7 +369,7 @@ public class HumanResourcesManagement implements EntryPoint {
 			 * Fired when the user clicks on the sendButton.
 			 */
 			public void onClick(ClickEvent event) {
-				sendNameToServer();
+				onSubmitLeaving();
 			}
 
 			/**
@@ -368,6 +381,37 @@ public class HumanResourcesManagement implements EntryPoint {
 				}
 			}
 
+			public void onSubmitLeaving(){
+				Properties props = new Properties();
+				Session session = Session.getDefaultInstance(props, null);
+
+				String msgBody = "...";
+				
+				try {
+				    Message msg = new MimeMessage(session);
+				    try {
+						msg.setFrom(new InternetAddress("admin@example.com", "Example.com Admin"));
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				    try {
+						 msg.addRecipient(Message.RecipientType.TO,
+						 new InternetAddress("noppon.w@vr.camt.info", "Mr.Noppon"));
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				    msg.setSubject("Your Example.com account has been activated");
+				    msg.setText(msgBody);
+				    Transport.send(msg);
+
+				} catch (AddressException e) {
+				    // ...
+				} catch (MessagingException e) {
+				    // ...
+				}
+			}
 			/**
 			 * Send the name from the nameField to the server and wait for a
 			 * response.
@@ -407,6 +451,8 @@ public class HumanResourcesManagement implements EntryPoint {
 		}
 
 		// Add a handler to send the name to the server
-		// MyHandler handler = new MyHandler();
+		//MyHandler handler = new MyHandler();
+		//btnNewButton_5.addClickListener(handler.onSubmitLeaving(ClickEvent));
+		//btnNewButton_5.addClickHandler(handler);
 	}
 }
