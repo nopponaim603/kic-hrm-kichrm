@@ -3,7 +3,7 @@ package com.kic.hrm.client;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-import com.google.appengine.api.mail.MailService;
+//import com.google.appengine.api.mail.MailService;
 //import javax.mail.internet.MimeMessage;
 /*
 
