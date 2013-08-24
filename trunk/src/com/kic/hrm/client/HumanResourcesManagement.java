@@ -3,8 +3,10 @@ package com.kic.hrm.client;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
+import com.google.appengine.api.mail.MailService;
+//import javax.mail.internet.MimeMessage;
 /*
-import javax.mail.Message;
+
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
@@ -385,6 +387,7 @@ public class HumanResourcesManagement implements EntryPoint {
 			}
 
 			public void onSubmitLeaving(){
+				//MailService mail = new MailService();
 				/*
 				Properties props = new Properties();
 				Session session = Session.getDefaultInstance(props, null);
