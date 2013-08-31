@@ -3,17 +3,16 @@ package com.kic.hrm.client;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
-//import com.google.appengine.api.mail.MailService;
-//import javax.mail.internet.MimeMessage;
-/*
 
+//import com.google.appengine.api.mail.*;
+
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-*/
 
 import com.kic.hrm.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
@@ -44,10 +43,12 @@ import com.google.gwt.user.datepicker.client.DatePicker;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.client.ui.FlexTable;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
+@SuppressWarnings("unused")
 public class HumanResourcesManagement implements EntryPoint {
 	/**
 	 * The message displayed to the user when the server cannot be reached or
@@ -61,8 +62,7 @@ public class HumanResourcesManagement implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	private final GreetingServiceAsync greetingService = GWT
-			.create(GreetingService.class);
+	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
 
 	/**
 	 * This is the entry point method.
@@ -93,95 +93,83 @@ public class HumanResourcesManagement implements EntryPoint {
 		verticalPanel.setVisible(false);
 		tabPanel.add(verticalPanel, "Leaving Form", false);
 		verticalPanel.setSize("780px", "550px");
-
-		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		verticalPanel.add(horizontalPanel);
-		horizontalPanel.setHeight("123px");
-
-		Grid grid_3 = new Grid(2, 1);
-		horizontalPanel.add(grid_3);
-		grid_3.setWidth("380px");
-
-		Label label = new Label(
-				"\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48 17 \u0E2A\u0E34\u0E07\u0E2B\u0E32\u0E04\u0E21 2556 ");
-		label.setStyleName("gwt-panal");
-		label.setDirectionEstimator(true);
-		grid_3.setWidget(0, 0, label);
-		label.setSize("151px", "24px");
-
-		Grid grid_1 = new Grid(3, 2);
-		grid_1.setStyleName("gwt-panal");
-		grid_3.setWidget(1, 0, grid_1);
-
-		Label label_1 = new Label(
-				"\u0E0A\u0E37\u0E48\u0E2D-\u0E19\u0E32\u0E21\u0E2A\u0E01\u0E38\u0E25");
-		label_1.setStyleName("gwt-panal");
-		grid_1.setWidget(0, 0, label_1);
-		label_1.setWidth("128px");
-
-		Label label_2 = new Label(
-				"\u0E19\u0E32\u0E22 \u0E23\u0E27\u0E22\u0E17\u0E23\u0E31\u0E1E\u0E22\u0E4C \u0E2A\u0E27\u0E07\u0E2A\u0E27\u0E23\u0E23\u0E04\u0E4C");
-		label_2.setStyleName("gwt-panal");
-		grid_1.setWidget(0, 1, label_2);
-
-		Label label_3 = new Label(
-				"\u0E23\u0E2B\u0E31\u0E2A\u0E1E\u0E19\u0E31\u0E01\u0E07\u0E32\u0E19");
-		label_3.setStyleName("gwt-panal");
-		grid_1.setWidget(1, 0, label_3);
-
-		Label label_4 = new Label("5032165");
-		label_4.setStyleName("gwt-panal");
-		grid_1.setWidget(1, 1, label_4);
-
-		Label label_5 = new Label("\u0E15\u0E33\u0E41\u0E2B\u0E19\u0E48\u0E07");
-		label_5.setStyleName("gwt-panal");
-		grid_1.setWidget(2, 0, label_5);
-
-		Label label_6 = new Label(
-				"\u0E1E\u0E19\u0E31\u0E01\u0E07\u0E32\u0E19\u0E1B\u0E23\u0E30\u0E08\u0E33 (\u0E2A\u0E48\u0E27\u0E19\u0E07\u0E32\u0E19)");
-		label_6.setStyleName("gwt-panal");
-		grid_1.setWidget(2, 1, label_6);
-
-		Grid grid_2 = new Grid(2, 1);
-		horizontalPanel.add(grid_2);
-		grid_2.setSize("100%", "112px");
-
-		Label lblNewLabel = new Label(
-				"\u0E08\u0E33\u0E19\u0E27\u0E19\u0E27\u0E31\u0E19\u0E25\u0E32\u0E2A\u0E30\u0E2A\u0E21");
-		grid_2.setWidget(0, 0, lblNewLabel);
-		lblNewLabel.setStyleName("gwt-panal");
-		lblNewLabel.setDirectionEstimator(true);
-		lblNewLabel.setSize("205px", "24px");
-
-		Grid grid = new Grid(3, 2);
-		grid.setStyleName("gwt-panal");
-		grid_2.setWidget(1, 0, grid);
-
-		Label label_9 = new Label("\u0E25\u0E32\u0E01\u0E34\u0E08");
-		label_9.setStyleName("gwt-panal");
-		grid.setWidget(0, 0, label_9);
-		label_9.setWidth("128px");
-
-		Label label_10 = new Label("10");
-		label_10.setStyleName("gwt-panal");
-		grid.setWidget(0, 1, label_10);
-
-		Label label_11 = new Label("\u0E25\u0E32\u0E1B\u0E48\u0E27\u0E22");
-		label_11.setStyleName("gwt-panal");
-		grid.setWidget(1, 0, label_11);
-
-		Label label_12 = new Label("10");
-		label_12.setStyleName("gwt-panal");
-		grid.setWidget(1, 1, label_12);
-
-		Label label_13 = new Label(
-				"\u0E25\u0E32\u0E1E\u0E31\u0E01\u0E1C\u0E48\u0E2D\u0E19\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E1B\u0E35");
-		label_13.setStyleName("gwt-panal");
-		grid.setWidget(2, 0, label_13);
-
-		Label label_14 = new Label("10");
-		label_14.setStyleName("gwt-panal");
-		grid.setWidget(2, 1, label_14);
+		
+		FlexTable flexTable = new FlexTable();
+		verticalPanel.add(flexTable);
+		flexTable.setSize("760px", "57px");
+		
+				Label label = new Label(
+						"\u0E27\u0E31\u0E19\u0E17\u0E35\u0E48 17 \u0E2A\u0E34\u0E07\u0E2B\u0E32\u0E04\u0E21 2556 ");
+				flexTable.setWidget(0, 0, label);
+				label.setStyleName("gwt-panal");
+				label.setDirectionEstimator(true);
+				label.setSize("151px", "24px");
+						
+								Label lblNewLabel = new Label(
+										"\u0E08\u0E33\u0E19\u0E27\u0E19\u0E27\u0E31\u0E19\u0E25\u0E32\u0E2A\u0E30\u0E2A\u0E21");
+								flexTable.setWidget(0, 2, lblNewLabel);
+								lblNewLabel.setStyleName("gwt-panal");
+								lblNewLabel.setDirectionEstimator(true);
+								lblNewLabel.setSize("106px", "24px");
+				
+						Label label_1 = new Label(
+								"\u0E0A\u0E37\u0E48\u0E2D-\u0E19\u0E32\u0E21\u0E2A\u0E01\u0E38\u0E25");
+						flexTable.setWidget(1, 0, label_1);
+						label_1.setStyleName("gwt-panal");
+						label_1.setWidth("128px");
+						
+								Label label_2 = new Label(
+										"\u0E19\u0E32\u0E22 \u0E23\u0E27\u0E22\u0E17\u0E23\u0E31\u0E1E\u0E22\u0E4C \u0E2A\u0E27\u0E07\u0E2A\u0E27\u0E23\u0E23\u0E04\u0E4C");
+								flexTable.setWidget(1, 1, label_2);
+								label_2.setStyleName("gwt-panal");
+										
+												Label label_9 = new Label("\u0E25\u0E32\u0E01\u0E34\u0E08");
+												flexTable.setWidget(1, 2, label_9);
+												label_9.setStyleName("gwt-panal");
+												label_9.setWidth("46px");
+										
+												Label label_10 = new Label("10");
+												flexTable.setWidget(1, 3, label_10);
+												label_10.setStyleName("gwt-panal");
+								
+										Label label_3 = new Label(
+												"\u0E23\u0E2B\u0E31\u0E2A\u0E1E\u0E19\u0E31\u0E01\u0E07\u0E32\u0E19");
+										flexTable.setWidget(2, 0, label_3);
+										label_3.setWidth("99px");
+										label_3.setStyleName("gwt-panal");
+										
+												Label label_4 = new Label("5032165");
+												flexTable.setWidget(2, 1, label_4);
+												label_4.setStyleName("gwt-panal");
+														
+																Label label_11 = new Label("\u0E25\u0E32\u0E1B\u0E48\u0E27\u0E22");
+																flexTable.setWidget(2, 2, label_11);
+																label_11.setWidth("55px");
+																label_11.setStyleName("gwt-panal");
+														
+																Label label_12 = new Label("10");
+																flexTable.setWidget(2, 3, label_12);
+																label_12.setStyleName("gwt-panal");
+												
+														Label label_5 = new Label("\u0E15\u0E33\u0E41\u0E2B\u0E19\u0E48\u0E07");
+														flexTable.setWidget(3, 0, label_5);
+														label_5.setWidth("115px");
+														label_5.setStyleName("gwt-panal");
+														
+																Label label_6 = new Label(
+																		"\u0E1E\u0E19\u0E31\u0E01\u0E07\u0E32\u0E19\u0E1B\u0E23\u0E30\u0E08\u0E33 (\u0E2A\u0E48\u0E27\u0E19\u0E07\u0E32\u0E19)");
+																flexTable.setWidget(3, 1, label_6);
+																label_6.setStyleName("gwt-panal");
+																
+																		Label label_13 = new Label(
+																				"\u0E25\u0E32\u0E1E\u0E31\u0E01\u0E1C\u0E48\u0E2D\u0E19\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E1B\u0E35");
+																		flexTable.setWidget(3, 2, label_13);
+																		label_13.setWidth("110px");
+																		label_13.setStyleName("gwt-panal");
+																		
+																				Label label_14 = new Label("10");
+																				flexTable.setWidget(3, 3, label_14);
+																				label_14.setStyleName("gwt-panal");
 
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
 		verticalPanel.add(verticalPanel_1);
@@ -309,25 +297,28 @@ public class HumanResourcesManagement implements EntryPoint {
 		btnNewButton_6.setText("\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01");
 		horizontalPanel_6.add(btnNewButton_6);
 		btnNewButton_6.setWidth("70px");
-
+		
 		VerticalPanel verticalPanel_4 = new VerticalPanel();
-		tabPanel.add(verticalPanel_4, "Leaving Reports", false);
+		tabPanel.add(verticalPanel_4, "Leaving Report", false);
 		verticalPanel_4.setSize("780px", "550px");
-
-		Label lblNewLabel_1 = new Label("New label");
-		verticalPanel_4.add(lblNewLabel_1);
-
-		ListBox comboBox_2 = new ListBox();
-		comboBox_2
-				.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E40\u0E14\u0E37\u0E2D\u0E19");
-		comboBox_2
-				.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E1B\u0E35");
-		verticalPanel_4.add(comboBox_2);
-		comboBox_2.setWidth("161px");
-
-		CellTable<Object> cellTable_1 = new CellTable<Object>();
-		verticalPanel_4.add(cellTable_1);
-		cellTable_1.setSize("558px", "242px");
+		
+		FlexTable flexTable_1 = new FlexTable();
+		verticalPanel_4.add(flexTable_1);
+		
+				Label lblNewLabel_1 = new Label("New label");
+				flexTable_1.setWidget(0, 0, lblNewLabel_1);
+				
+						ListBox comboBox_2 = new ListBox();
+						flexTable_1.setWidget(1, 0, comboBox_2);
+						comboBox_2
+								.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E40\u0E14\u0E37\u0E2D\u0E19");
+						comboBox_2
+								.addItem("\u0E25\u0E32\u0E1B\u0E23\u0E30\u0E08\u0E33\u0E1B\u0E35");
+						comboBox_2.setWidth("161px");
+						
+								CellTable<Object> cellTable_1 = new CellTable<Object>();
+								flexTable_1.setWidget(2, 0, cellTable_1);
+								cellTable_1.setSize("692px", "364px");
 
 		FlowPanel flowPanel_3 = new FlowPanel();
 		tabPanel.add(flowPanel_3, "Leaving Calendar", true);
@@ -388,12 +379,13 @@ public class HumanResourcesManagement implements EntryPoint {
 
 			public void onSubmitLeaving(){
 				//MailService mail = new MailService();
-				/*
-				Properties props = new Properties();
-				Session session = Session.getDefaultInstance(props, null);
+				
+				//Properties props = new Properties();
+				//Session session = Session.getDefaultInstance(props, null);
 
 				String msgBody = "...";
-				
+				System.out.print(msgBody);
+				/*
 				try {
 				    Message msg = new MimeMessage(session);
 				    try {
