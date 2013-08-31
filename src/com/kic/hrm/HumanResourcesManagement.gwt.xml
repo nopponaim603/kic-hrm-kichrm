@@ -18,6 +18,7 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
+  <!-- inherits name='java.util.Properties'/> 					  -->
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.kic.hrm.client.HumanResourcesManagement'/>
@@ -25,5 +26,6 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>
   <source path='shared'/>
+  
 
 </module>
