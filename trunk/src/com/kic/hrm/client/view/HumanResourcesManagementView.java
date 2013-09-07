@@ -283,8 +283,10 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		flowPanel_3.add(datePicker);
 		datePicker.setSize("625px", "325px");
 		
-		
+		tabPanel.selectTab(0);
 		applyLeavingButton = btnNewButton_5;
+		
+		System.out.println("Create GWT");
 	}
 	
 	@Override
@@ -296,6 +298,8 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 	@Override
 	public Widget asWidget() {
 		// TODO Auto-generated method stub
+		
+		System.out.println("return Widget : " +this	);
 		return this;
 	}
 	
