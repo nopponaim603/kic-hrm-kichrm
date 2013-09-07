@@ -8,7 +8,9 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import com.kic.hrm.client.event.ApplyLeavingEvent;
+import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter;
 import com.kic.hrm.client.presenter.Presenter;
+import com.kic.hrm.client.view.HumanResourcesManagementView;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
@@ -23,20 +25,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		this.eventBus = eventBus;
 		bind();
 
-		System.out.println("onModuleLoad Complete!!");
+		System.out.println("AppController Complete!!");
 	}
 
 	private void bind() {
 		History.addValueChangeHandler(this);
 
 		/*
-		eventBus.addHandler(ApplyLeavingEvent.TYPE, new ApplyLeavingEvent() {
-			public void onAddContact(ApplyLeavingEvent event) {
-				ApplyLeaving();
-			}
-		});
-*/
-		
+		 * eventBus.addHandler(ApplyLeavingEvent.TYPE, new ApplyLeavingEvent() {
+		 * public void onAddContact(ApplyLeavingEvent event) { ApplyLeaving(); }
+		 * });
+		 */
+
 	}
 
 	@Override
@@ -44,6 +44,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		// TODO Auto-generated method stub
 		this.container = container;
 
+		if ("".equals(History.getToken())) {
+			History.newItem("list");
+		} else {
+			System.out.println("Appcontroller fireCurrentHistoryState");
+			History.fireCurrentHistoryState();
+		}
+
+		System.out.println("AppController go Complete!!");
 	}
 
 	private void ApplyLeaving() {
@@ -54,6 +62,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	public void onValueChange(ValueChangeEvent<String> event) {
 		// TODO Auto-generated method stub
 
+		Presenter presenter = null;
+		presenter = new HumanResourcesManagementPresenter(rpcService, eventBus,
+				new HumanResourcesManagementView());
+		if (presenter != null) {
+			presenter.go(container);
+		}
+
+		System.out.println("AppController onValuechange Complete!!");
 	}
 
 }
