@@ -1,5 +1,15 @@
 package com.kic.hrm.server;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import com.kic.hrm.client.GreetingService;
 import com.kic.hrm.shared.FieldVerifier;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -30,7 +40,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return "Hello, " + input + "!<br><br>I am running " + serverInfo
 				+ ".<br><br>It looks like you are using:<br>" + userAgent;
 	}
-
+	
 	/**
 	 * Escape an html string. Escaping data received from the client helps to
 	 * prevent cross-site script vulnerabilities.
@@ -45,4 +55,39 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return html.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
 				.replaceAll(">", "&gt;");
 	}
+
+	@Override
+	public boolean ApplyLeaving(String input) {
+		// TODO Auto-generated method stub
+		
+		System.out.print("Is coming");
+		
+		return false;
+	}
+	
+	public void SentEmail() 
+			//throws UnsupportedEncodingException 
+	{
+		/*
+		Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
+
+		String msgBody = "...";
+
+		try {
+		    Message msg = new MimeMessage(session);
+		    msg.setFrom(new InternetAddress("admin@example.com", "Example.com Admin"));
+		    msg.addRecipient(Message.RecipientType.TO,
+		     new InternetAddress("user@example.com", "Mr. User"));
+		    msg.setSubject("Your Example.com account has been activated");
+		    msg.setText(msgBody);
+		    Transport.send(msg);
+
+		} catch (AddressException e) {
+		    // ...
+		} catch (MessagingException e) {
+		    // ...
+		}*/
+	}
+
 }
