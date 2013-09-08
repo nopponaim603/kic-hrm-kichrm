@@ -33,6 +33,7 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 	public HumanResourcesManagementView() {
 		// TODO Auto-generated constructor stub
 		TabPanel tabPanel = new TabPanel();
+		tabPanel.setAnimationEnabled(true);
 		initWidget(tabPanel);
 		tabPanel.setSize("780px", "580px");
 		

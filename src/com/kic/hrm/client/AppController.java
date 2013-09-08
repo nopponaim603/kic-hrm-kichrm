@@ -8,6 +8,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 import com.kic.hrm.client.event.ApplyLeavingEvent;
+import com.kic.hrm.client.event.ApplyLeavingEventHandler;
 import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter;
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.view.HumanResourcesManagementView;
@@ -18,8 +19,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private final GreetingServiceAsync rpcService;
 	private HasWidgets container;
 
-	public AppController(GreetingServiceAsync rpcService,
-			HandlerManager eventBus) {
+	public AppController(GreetingServiceAsync rpcService,HandlerManager eventBus) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
@@ -31,11 +31,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private void bind() {
 		History.addValueChangeHandler(this);
 
-		/*
-		 * eventBus.addHandler(ApplyLeavingEvent.TYPE, new ApplyLeavingEvent() {
-		 * public void onAddContact(ApplyLeavingEvent event) { ApplyLeaving(); }
-		 * });
-		 */
+		eventBus.addHandler(ApplyLeavingEvent.TYPE, 
+		new ApplyLeavingEventHandler() {
+			@Override
+			public void onApplyLeaving(ApplyLeavingEvent event) {
+				// TODO Auto-generated method stub
+				ApplyLeaving();
+			}
+		});
 
 	}
 
@@ -45,7 +48,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		this.container = container;
 
 		if ("".equals(History.getToken())) {
-			History.newItem("list");
+			History.newItem("main");
 		} else {
 			System.out.println("Appcontroller fireCurrentHistoryState");
 			History.fireCurrentHistoryState();
@@ -54,8 +57,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		System.out.println("AppController go Complete!!");
 	}
 
+	
 	private void ApplyLeaving() {
-
+		System.out.println("Appcontroller run ApplyLeaving Event");
 	}
 
 	@Override

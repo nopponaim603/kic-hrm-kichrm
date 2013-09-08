@@ -7,6 +7,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
@@ -56,10 +57,29 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		// TODO Auto-generated method stub
 		display.getApplyLeavingButton().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
-		        eventBus.fireEvent(new ApplyLeavingEvent());
+		    	  System.out.println("HRM Presenter onClick");
+		        //eventBus.fireEvent(new ApplyLeavingEvent());
+		    	  ApplyLeaving();
 		      }
 		    });
 
+	}
+	
+	private void ApplyLeaving(){
+		System.out.println("HRM Presenter Before call rpcService");
+		rpcService.ApplyLeaving("test", new AsyncCallback<Boolean>() {
+			@Override
+			public void onSuccess(Boolean result) {
+				// TODO Auto-generated method stub
+				System.out.println("HRM Presenter onClick onSuccess");
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				System.out.println("HRM Presenter onClick onFailure");
+			}
+		});
 	}
 
 }
