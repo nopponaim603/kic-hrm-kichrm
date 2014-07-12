@@ -1,9 +1,22 @@
 package com.kic.hrm.client;
 
+import com.google.api.services.datastore.Datastore;
+import com.google.api.services.datastore.model.EntityResult;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.GeoPt;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.RootPanel;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -26,16 +39,20 @@ public class HumanResourcesManagement implements EntryPoint {
 	/**
 	 * This is the entry point method.
 	 */
+		
 	public void onModuleLoad() {
+		
+		System.out.println("Client HRM Start here.");
+		
 		GreetingServiceAsync rpcService = GWT.create(GreetingService.class);
 	    HandlerManager eventBus = new HandlerManager(null);
 	    AppController appViewer = new AppController(rpcService, eventBus);
 	    appViewer.go(RootPanel.get());
 	    
-	    System.out.println("onModuleLoad Complete!!");
+	    System.out.println("onModuleLoad Complete.");
+	    	    
 	}
 	
-
 //	
 //	
 //	// Add the nameField and sendButton to the RootPanel

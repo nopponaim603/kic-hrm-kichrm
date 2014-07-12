@@ -3,15 +3,14 @@ package com.kic.hrm.client;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
-
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
-
 import com.kic.hrm.client.event.ApplyLeavingEvent;
 import com.kic.hrm.client.event.ApplyLeavingEventHandler;
 import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter;
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.view.HumanResourcesManagementView;
+import com.kic.hrm.client.view.ProfileView;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
@@ -65,7 +64,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
 		// TODO Auto-generated method stub
-
+		String token = event.getValue();
 		Presenter presenter = null;
 		presenter = new HumanResourcesManagementPresenter(rpcService, eventBus,
 				new HumanResourcesManagementView());
@@ -73,6 +72,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			presenter.go(container);
 		}
 
+		if(token.equals("Profile")) {
+			//presenter = new ProfileView()
+		}
+		
 		System.out.println("AppController onValuechange Complete!!");
 	}
 
