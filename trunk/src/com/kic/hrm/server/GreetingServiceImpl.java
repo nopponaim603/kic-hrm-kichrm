@@ -15,11 +15,42 @@ import javax.mail.internet.MimeMessage;
 
 import com.kic.hrm.client.GreetingService;
 import com.kic.hrm.shared.FieldVerifier;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+//DataStore import
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query;
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+//import com.google.api.services.datastore.Datastore;
+
+/* 
+import com.google.appengine.api.datastore.GeoPt;
+import com.google.api.services.datastore.model.EntityResult;
+
+*/
+
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+
+import com.google.api.client.http.FileContent;
+
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.drive.model.File;
+
+
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 /**
  * The server side implementation of the RPC service.
@@ -64,12 +95,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public boolean ApplyLeaving(String input) {
+	public boolean ApplyLeaving(String input) throws IOException {
 		// TODO Auto-generated method stub
 		
 		System.out.println("Server ask Is coming");
 		//SentEmail();
-		LoadDatastore();
+		//LoadDatastore();
+		TestOAth2();
 		return false;
 	}
 	
@@ -145,4 +177,49 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	private  String CLIENT_ID = "392232398516-0kkqbokr4hkp3ou3s6spr9u78r1ens93.apps.googleusercontent.com";
+	private  String CLIENT_SECRET = "ZGNTRofblwZ3TTnlgJ6N7eyE";
+
+	private  String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
+	  
+	public  void TestOAth2() throws IOException  {
+		
+		System.out.println("TestOAth2.");
+		
+		HttpTransport httpTransport = new NetHttpTransport();
+		JsonFactory jsonFactory = new JacksonFactory();
+		   
+		    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+		        httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE_FILE))
+		        .setAccessType("online")
+		        .setApprovalPrompt("auto").build();
+		    
+		    String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
+		    System.out.println("Please open the following URL in your browser then type the authorization code:");
+		    System.out.println("  " + url);
+		    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		    
+		    //Try to throws 1
+		    String code = br.readLine();
+		    
+		    //Try to throws 2
+		    GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
+		    GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
+		    
+		    //Create a new authorized API client
+		    Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).build();
+
+		    //Insert a file  
+		    File body = new File();
+		    body.setTitle("My document");
+		    body.setDescription("A test document");
+		    body.setMimeType("text/plain");
+		    
+		    java.io.File fileContent = new java.io.File("document.txt");
+		    FileContent mediaContent = new FileContent("text/plain", fileContent);
+		    //Try to throws 3
+		    File file = service.files().insert(body, mediaContent).execute();
+		    System.out.println("File ID: " + file.getId());
+		    
+	  } 
 }
