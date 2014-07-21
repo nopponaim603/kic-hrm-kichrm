@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 
 import com.kic.hrm.client.GreetingService;
 import com.kic.hrm.shared.FieldVerifier;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
@@ -34,23 +35,24 @@ import com.google.api.services.datastore.model.EntityResult;
 
 */
 
-
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
-
 import com.google.api.client.http.FileContent;
-
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 
 
+import com.google.api.services.drive.Drive.Files;
+import com.google.api.services.drive.model.FileList;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The server side implementation of the RPC service.
@@ -58,7 +60,7 @@ import java.util.Arrays;
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
-
+    
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid. 
 		if (!FieldVerifier.isValidName(input)) {
@@ -222,4 +224,55 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		    System.out.println("File ID: " + file.getId());
 		    
 	  } 
+
+	  /**
+	    * Print a file's metadata.
+	    *
+	    * @param service Drive API service instance.
+	    * @param fileId ID of the file to print metadata for.
+	    */
+	   void printFile(Drive service, String fileId) {
+	    try {
+	      File file = service.files().get(fileId).execute();
+
+	      System.out.println("Title: " + file.getTitle());
+	      System.out.println("Description: " + file.getDescription());
+	      System.out.println("MIME type: " + file.getMimeType());
+	    } catch (HttpResponseException e) {
+	      if (e.getStatusCode() == 401) {
+	        // Credentials have been revoked.
+	        // TODO: Redirect the user to the authorization URL.
+	        throw new UnsupportedOperationException();
+	      }
+	    } catch (IOException e) {
+	      System.out.println("An error occurred: " + e);
+	    }
+	  }
+	  
+	  /**
+	   * Retrieve a list of File resources.
+	   *
+	   * @param service Drive API service instance.
+	   * @return List of File resources.
+	   */
+	  private  List<File> retrieveAllFiles(Drive service) throws IOException {
+	    List<File> result = new ArrayList<File>();
+	    Files.List request = service.files().list();
+
+	    do {
+	      try {
+	        FileList files = request.execute();
+
+	        result.addAll(files.getItems());
+	        request.setPageToken(files.getNextPageToken());
+	      } catch (IOException e) {
+	        System.out.println("An error occurred: " + e);
+	        request.setPageToken(null);
+	      }
+	    } while (request.getPageToken() != null &&
+	             request.getPageToken().length() > 0);
+
+	    return result;
+	  }
+	  
 }
