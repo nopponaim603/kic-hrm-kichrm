@@ -1,11 +1,6 @@
 package com.kic.hrm.client;
 
-import com.google.api.services.datastore.Datastore;
-import com.google.api.services.datastore.model.EntityResult;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.GeoPt;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -50,9 +45,9 @@ public class HumanResourcesManagement implements EntryPoint {
 	    appViewer.go(RootPanel.get());
 	    
 	    System.out.println("onModuleLoad Complete.");
-	    	    
+	   
 	}
-	
+		
 //	
 //	
 //	// Add the nameField and sendButton to the RootPanel
