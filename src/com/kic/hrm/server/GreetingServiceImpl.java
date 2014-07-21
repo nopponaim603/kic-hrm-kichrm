@@ -190,7 +190,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		JsonFactory jsonFactory = new JacksonFactory();
 		   
 		    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-		        httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE_FILE))
+		        httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
 		        .setAccessType("online")
 		        .setApprovalPrompt("auto").build();
 		    
