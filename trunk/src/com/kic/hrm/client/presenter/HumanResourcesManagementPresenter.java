@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -21,6 +20,8 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		//Apply Leaving
 		HasClickHandlers getApplyLeavingButton();
 		
+		//Toggle
+		HasClickHandlers getToggleOauth();
 		/*
 		void setData(List<String> data);
 		int getClickedRow(ClickEvent event);
@@ -63,6 +64,16 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		      }
 		    });
 
+		display.getToggleOauth().addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("HRM Presenter from : " + event.toString());
+				ToggleOauth();
+			}
+			
+		});
 	}
 	
 	private void ApplyLeaving(){
@@ -76,6 +87,24 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			
 			@Override
 			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				System.out.println("HRM Presenter on Click onFailure");
+			}
+		});
+	}
+	
+	private void ToggleOauth() {
+		System.out.println("HRM Presenter in ToggleOauth : Before call rpcService : By press True Only");
+		rpcService.EnableOauth(true, new AsyncCallback<Boolean>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				System.out.println("HRM Presenter on Click onSuccess");
+			}
+
+			@Override
+			public void onSuccess(Boolean result) {
 				// TODO Auto-generated method stub
 				System.out.println("HRM Presenter on Click onFailure");
 			}

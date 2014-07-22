@@ -10,4 +10,6 @@ public interface GreetingServiceAsync {
 	throws IllegalArgumentException;
 	
 	void ApplyLeaving(String input, AsyncCallback<Boolean> callback);
+	
+	void EnableOauth(Boolean input, AsyncCallback<Boolean> callback);
 }

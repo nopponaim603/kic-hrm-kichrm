@@ -13,10 +13,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DatePicker;
 import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter;
+import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Grid;
 
 public class HumanResourcesManagementView extends Composite implements HumanResourcesManagementPresenter.Display {
 	private final Button applyLeavingButton;
-	
+	private final ToggleButton m_tglbtnOauth;
 	public HumanResourcesManagementView() {
 		// TODO Auto-generated constructor stub
 		TabPanel tabPanel = new TabPanel();
@@ -27,11 +29,11 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		VerticalPanel verticalPanel_3 = new VerticalPanel();
 		tabPanel.add(verticalPanel_3, "Main Page", false);
 		verticalPanel_3.setSize("780px", "550px");
-
-		CellTable<Object> cellTable = new CellTable<Object>();
-		verticalPanel_3.add(cellTable);
-		cellTable.setWidth("521px");
-
+		
+		ToggleButton tglbtnOauth = new ToggleButton("Oauth 2.0");
+		verticalPanel_3.add(tglbtnOauth);
+		m_tglbtnOauth = tglbtnOauth;
+		
 		VerticalPanel verticalPanelLeavingForm = new VerticalPanel();
 		verticalPanelLeavingForm.setVisible(false);
 		tabPanel.add(verticalPanelLeavingForm, "Leaving Form", false);
@@ -73,7 +75,17 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		tabPanel.selectTab(0);
 		applyLeavingButton = Testbuttom;
 		
+		
+		
 		System.out.println("Create GWT");
+	}
+	
+	@Override
+	public Widget asWidget() {
+		// TODO Auto-generated method stub
+		
+		//System.out.println("return Widget : " +this	);
+		return this;
 	}
 	
 	@Override
@@ -83,11 +95,9 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 	}
 
 	@Override
-	public Widget asWidget() {
+	public HasClickHandlers getToggleOauth() {
 		// TODO Auto-generated method stub
-		
-		System.out.println("return Widget : " +this	);
-		return this;
+		return m_tglbtnOauth;
 	}
 	
 }
