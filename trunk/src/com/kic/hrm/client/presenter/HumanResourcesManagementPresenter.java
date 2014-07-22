@@ -57,7 +57,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		// TODO Auto-generated method stub
 		display.getApplyLeavingButton().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
-		    	  System.out.println("HRM Presenter onClick");
+		    	  System.out.println("HRM Presenter on Click");
 		        //eventBus.fireEvent(new ApplyLeavingEvent());
 		    	  ApplyLeaving();
 		      }
@@ -71,13 +71,13 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			@Override
 			public void onSuccess(Boolean result) {
 				// TODO Auto-generated method stub
-				System.out.println("HRM Presenter onClick onSuccess");
+				System.out.println("HRM Presenter on Click onSuccess");
 			}
 			
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				System.out.println("HRM Presenter onClick onFailure");
+				System.out.println("HRM Presenter on Click onFailure");
 			}
 		});
 	}
