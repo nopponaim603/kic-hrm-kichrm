@@ -78,6 +78,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	
 	private void ApplyLeaving(){
 		System.out.println("HRM Presenter Before call rpcService");
+		
 		rpcService.ApplyLeaving("test", new AsyncCallback<Boolean>() {
 			@Override
 			public void onSuccess(Boolean result) {
