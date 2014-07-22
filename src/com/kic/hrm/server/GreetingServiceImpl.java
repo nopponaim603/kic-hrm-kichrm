@@ -136,6 +136,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		System.out.println("Server ask Is coming");
 		//SentEmail();
 		//LoadDatastore();
+		//SaveDatastore();
 		TestOAth2();
 		return false;
 	}
@@ -232,15 +233,33 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		   httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
 		   .setAccessType("online")
 		   .setApprovalPrompt("auto").build();
-		    
+		
+		    /*
+		  HttpWebRequest request = (HttpWebRequest)WebRequest.Create(
+		            new Uri(file.DownloadUrl));
+		        authenticator.ApplyAuthenticationToRequest(request);
+		        HttpWebResponse response = (HttpWebResponse) request.GetResponse();
+		        if (response.StatusCode == HttpStatusCode.OK) {
+		          return response.GetResponseStream();
+		        } else {
+		          Console.WriteLine(
+		              "An error occurred: " + response.StatusDescription);
+		          return null;
+		        }
+		        */
+		
+		
 		String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
 		System.out.println("Please open the following URL in your browser then type the authorization code:");
 		System.out.println("  " + url);
+		
+	
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
 			//Try to throws 1
-			String code = br.readLine();
+			String code = "4/9pMzM__H0up4cBVMYgj58xyfVbPM.4lLqZ0FyTBgRgrKXntQAax00m9yyjgI";
+			//= br.readLine();
 		   
 		   //Try to throws 2
 		    GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
@@ -248,7 +267,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		    
 		    //Create a new authorized API client
 		    Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).build();
-		    
+		    System.out.println(code);
 		    InsertFile(service);
 		    
 		}catch (HttpResponseException e) {
@@ -265,6 +284,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	
 	void InsertFile( Drive service)  {
 		try {
+			System.out.println("File ID: ");  
 			//Insert a file  
 		    File body = new File();
 		    body.setTitle("My document");
@@ -284,7 +304,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		        throw new UnsupportedOperationException();
 		      }
 		}catch (IOException e) {
-		      System.out.println("An error occurred: " + e);
+		      System.out.println("InsertFile | An error occurred: " + e);
 		}
 		
 	}
