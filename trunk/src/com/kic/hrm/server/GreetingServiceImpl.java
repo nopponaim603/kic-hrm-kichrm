@@ -1,26 +1,11 @@
 package com.kic.hrm.server;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.Map;
-import java.util.Properties;
 
 import com.kic.hrm.client.GreetingService;
 import com.kic.hrm.shared.FieldVerifier;
-import com.google.api.client.http.HttpResponseException;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.model.File;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
-import com.google.api.client.http.FileContent;
-import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.Drive.Files;
-import com.google.api.services.drive.model.FileList;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -28,29 +13,26 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 
-import com.google.api.client.http.GenericUrl;
-import com.google.api.client.http.HttpResponse;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+
 import com.kic.hrm.shared.*;
+
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonGenerator;
 import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.JsonToken;
-import com.google.api.client.json.jackson2.JacksonFactory;
+
 
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
     
-	 
-	  
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid. 
 		if (!FieldVerifier.isValidName(input)) {
@@ -260,56 +242,3 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 }
 
-//try {
-/*
-JsonFactory f = new JsonFactory() {
-	
-	
-	
-	@Override
-	public JsonParser createJsonParser(InputStream in, Charset charset)
-			throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public JsonParser createJsonParser(Reader reader) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public JsonParser createJsonParser(String value) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public JsonParser createJsonParser(InputStream in) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public JsonGenerator createJsonGenerator(OutputStream out, Charset enc)
-			throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public JsonGenerator createJsonGenerator(Writer writer) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-};
-*/
-
-//final JsonFactory f = new JsonFactory();
-
-//} //catch (final JsonParseException e) {
-//log.log(Level.SEVERE, e.getMessage());
-//} //catch (final IOException e) {
-
-//}
