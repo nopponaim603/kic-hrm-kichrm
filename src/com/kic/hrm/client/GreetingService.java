@@ -13,4 +13,6 @@ public interface GreetingService extends RemoteService {
 	String greetServer(String name) throws IllegalArgumentException;
 
 	boolean ApplyLeaving(String input) throws IOException;
+
+	boolean EnableOauth(Boolean input);
 }
