@@ -20,6 +20,10 @@
   <!-- Other module inherits                                      -->
   <!-- inherits name='java.util.Properties'/> 					  -->
 
+  <!-- TODO #03: inherit the OAuth2 lib -->
+  <inherits name="com.google.api.gwt.oauth2.OAuth2" />
+  <!-- TODO #03:> end -->
+	
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.kic.hrm.client.HumanResourcesManagement'/>
 
