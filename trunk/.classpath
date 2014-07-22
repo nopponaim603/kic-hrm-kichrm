@@ -6,11 +6,11 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/drive-v2r131lv1.18.0-rc"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/datastore-v1beta2r18lv1.18.0-rc"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (2)"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/oauth2-v2r74lv1.18.0-rc"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/plus-v1r135lv1.18.0-rc"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/gmail-v1r4lv1.18.0-rc"/>
-	<classpathentry kind="lib" path="D:/Documents/workspace/google-api-java-client/libs/google-http-client-jackson-1.17.0-rc.jar"/>
-	<classpathentry kind="lib" path="D:/Documents/workspace/google-api-services-oauth2-v2-rev41-1.15.0-rc-sources.jar"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (1)"/>
+	<classpathentry kind="lib" path="D:/Developer/workspace/gwt-oauth2-0.2-alpha.jar"/>
+	<classpathentry kind="lib" path="D:/Developer/workspace/jackson-core-asl-1.9.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
