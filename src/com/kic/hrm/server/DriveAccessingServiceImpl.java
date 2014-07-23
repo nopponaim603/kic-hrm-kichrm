@@ -5,10 +5,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Files;
 import com.google.api.services.drive.model.File;
@@ -16,7 +20,21 @@ import com.google.api.services.drive.model.FileList;
 
 public class DriveAccessingServiceImpl {
 	
-	public static void InsertFile( Drive service)  {
+	  /**
+	    * Build a Drive service object.
+	    *
+	    * @param credentials OAuth 2.0 credentials.
+	    * @return Drive service object.
+	    */
+	  static Drive buildService(GoogleCredential credentials) {
+	    HttpTransport httpTransport = new NetHttpTransport();
+	    JacksonFactory jsonFactory = new JacksonFactory();
+
+	    return new Drive.Builder(httpTransport, jsonFactory, credentials)
+	        .build();
+	  }
+	  
+	public static void InsertFile(Drive service)  {
 		try {
 			System.out.println("File ID: ");  
 			//Insert a file  

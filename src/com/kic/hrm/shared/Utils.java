@@ -17,8 +17,6 @@ import com.google.api.client.json.jackson.JacksonFactory;
 import com.google.api.client.util.Preconditions;
 import com.google.api.services.plus.PlusScopes;
 
-
-
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;

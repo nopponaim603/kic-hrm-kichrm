@@ -49,7 +49,11 @@ public class authGoogleWebServer {
 	   */
 	  public static class GetCredentialsException extends Exception {
 
-	    protected String authorizationUrl;
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		protected String authorizationUrl;
 
 	    /**
 	     * Construct a GetCredentialsException.
@@ -81,6 +85,11 @@ public class authGoogleWebServer {
 	  public static class CodeExchangeException extends GetCredentialsException {
 
 	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
 	     * Construct a CodeExchangeException.
 	     *
 	     * @param authorizationUrl The authorization URL to redirect the user to.
@@ -97,6 +106,11 @@ public class authGoogleWebServer {
 	  public static class NoRefreshTokenException extends GetCredentialsException {
 
 	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
 	     * Construct a NoRefreshTokenException.
 	     *
 	     * @param authorizationUrl The authorization URL to redirect the user to.
@@ -111,6 +125,11 @@ public class authGoogleWebServer {
 	   * Exception thrown when no user ID could be retrieved.
 	   */
 	  private static class NoUserIdException extends Exception {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 	  }
 
 	  /**
