@@ -3,8 +3,8 @@ package com.kic.hrm.server;
 import java.io.IOException;
 
 import com.kic.hrm.client.GreetingService;
+import com.kic.hrm.client.HumanResourcesManagement;
 import com.kic.hrm.shared.FieldVerifier;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import java.io.BufferedReader;
@@ -13,26 +13,33 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
-
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-
 import com.kic.hrm.shared.*;
-
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonGenerator;
 import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.JsonToken;
 
 
+
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
     
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid. 
 		if (!FieldVerifier.isValidName(input)) {
@@ -111,9 +118,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		@Override
 		public LoginInfo login(final String requestUri) {
+			
 			final UserService userService = UserServiceFactory.getUserService();
 			final User user = userService.getCurrentUser();
 			final LoginInfo loginInfo = new LoginInfo();
+			
+			//System.out.println("Server coming url : " + requestUri);
+			
 			if (user != null) {
 				loginInfo.setLoggedIn(true);
 				loginInfo.setName(user.getEmail());
@@ -122,13 +133,34 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				loginInfo.setLoggedIn(false);
 				loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
 			}
+			
+			//log.severe("Server coming url. " + userService.createLogoutURL(requestUri));
 			return loginInfo;
 		}
 
+		private static final Logger log = Logger.getLogger(GreetingServiceImpl.class.getName());
+		
 		@Override
 		public LoginInfo loginDetails(final String token) {
+			
+			
+			/*
+			  GoogleAuthorizationCodeFlow authFlow = Utils.initializeFlow();
+			  
+			  
+			    Credential credential = authFlow.loadCredential(Utils.getUserId(this.getThreadLocalRequest()));
+			    if (credential == null) {
+			      // If we don't have a token in store, redirect to authorization screen.
+			      resp.sendRedirect(
+			          authFlow.newAuthorizationUrl().setRedirectUri(Utils.getRedirectUri(this.getThreadLocalRequest())).build());
+			    //  return;
+			    }
+			*/
+			
 			String url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + token;
-
+			log.severe("An error message. " + url);
+			System.out.println("Server coming url : " + url);
+			//https://accounts.google.com/o/oauth2/auth?client_id=392232398516-9lg977lv9qm97hus7deli7v0jpr294ko.apps.googleusercontent.com&response_type=token&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fplus.login&redirect_uri=http%3A%2F%2F127.0.0.1%3A8888%2Fhumanresourcesmanagement%2FoauthWindow.html
 			final StringBuffer r = new StringBuffer();
 			try {
 				final URL u = new URL(url);
@@ -148,16 +180,16 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				} catch (final java.net.ConnectException cex) {
 					r.append(cex.getMessage());
 				} catch (final Exception ex) {
-					//log.log(Level.SEVERE, ex.getMessage());
+					log.log(Level.SEVERE, ex.getMessage());
 				} finally {
 					try {
 						br.close();
 					} catch (final Exception ex) {
-						//log.log(Level.SEVERE, ex.getMessage());
+						log.log(Level.SEVERE, ex.getMessage());
 					}
 				}
 			} catch (final Exception e) {
-				//log.log(Level.SEVERE, e.getMessage());
+				log.log(Level.SEVERE, e.getMessage());
 			}
 
 			final LoginInfo loginInfo = new LoginInfo();
@@ -209,7 +241,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-				//log.log(Level.SEVERE, e.getMessage());
+				log.log(Level.SEVERE, e.getMessage());
 			}
 			try {
 				jp.nextToken();

@@ -9,7 +9,9 @@
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/oauth2-v2r74lv1.18.0-rc"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/plus-v1r135lv1.18.0-rc"/>
 	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/gmail-v1r4lv1.18.0-rc"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (1)"/>
-	<classpathentry kind="lib" path="D:/Developer/workspace/HumanResourcesManagement/gwt-oauth2-0.2-alpha.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/workspace/HumanResourcesManagement/gwt-oauth2-0.2-alpha.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Noppon/.m2/repository/org/codehaus/jackson/jackson-core-asl/1.9.11/jackson-core-asl-1.9.11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Noppon/.m2/repository/com/google/http-client/google-http-client-jackson/1.15.0-rc/google-http-client-jackson-1.15.0-rc.jar"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (2)"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
