@@ -12,7 +12,7 @@ import com.kic.hrm.client.event.EnableOauthEventHandler;
 import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter;
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.view.HumanResourcesManagementView;
-import com.kic.hrm.client.view.ProfileView;
+
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
