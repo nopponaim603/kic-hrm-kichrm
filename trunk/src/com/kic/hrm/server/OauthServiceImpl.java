@@ -55,6 +55,8 @@ public class OauthServiceImpl {
 		   .setAccessType("online")
 		   .setApprovalPrompt("auto").build();
 				
+		
+		
 		String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
 		System.out.println("Please open the following URL in your browser then type the authorization code:");
 		System.out.println("  " + url);

@@ -3,8 +3,7 @@ package com.kic.hrm.server;
 import java.io.IOException;
 
 import com.kic.hrm.client.GreetingService;
-import com.kic.hrm.client.HumanResourcesManagement;
-import com.kic.hrm.shared.FieldVerifier;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import java.io.BufferedReader;
@@ -23,23 +22,40 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.kic.hrm.shared.*;
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.JsonGenerator;
 import com.google.api.client.json.JsonParser;
 import com.google.api.client.json.JsonToken;
 
+/*
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential;
+import com.google.api.client.googleapis.services.CommonGoogleClientRequestInitializer;
+import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 
+*/
+
+/*
+import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.google.api.client.googleapis.extensions.appengine.auth.oauth2.AppIdentityCredential;
+*/
+
+@SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
-    
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 
+	private static final Logger log = Logger.getLogger(GreetingServiceImpl.class.getName());
+	
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid. 
 		if (!FieldVerifier.isValidName(input)) {
@@ -84,14 +100,34 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		//LoadDatastore();
 		//SaveDatastore();
 		//TestOAth2();
-
+		//AppIdentityCredential.Builder()
+		
+		
+		//HttpTransport httpTransport = new NetHttpTransport();
+		//JsonFactory jsonFactory = new JacksonFactory();
+		//AppIdentityCredential cd = new AppIdentityCredential(DriveScopes.DRIVE);
+		//  AppIdentityCredential credential = new AppIdentityCredential(HumanResourcesManagement.getDRIVE_SCOPES());
+		/*
+		  // new AppIdentityCredential.Builder(DriveScopes.DRIVE).build()
+		  // API_KEY is from the Google Console as a server API key
+		  GoogleClientRequestInitializer keyInitializer =
+		      new CommonGoogleClientRequestInitializer(HumanResourcesManagement.API_KEY);
+		  Drive service = new Drive.Builder(httpTransport, jsonFactory, null)
+		      .setHttpRequestInitializer(credential)
+		      .setGoogleClientRequestInitializer(keyInitializer)
+		      .build();
+		  
+		  
+		  */
+		  System.out.println("Test Drive");
+		  
 		return false;
 	}
 		
 	@Override
 	public boolean EnableOauth(Boolean input) {
 		// TODO Auto-generated method stub
-		System.out.println("Server-side : EnableOauth Mathod. | " + input);
+		System.out.println("S| EnableOauth Mathod. : " + input);
 		
 		try {
 			OauthServiceImpl.TestOAth2();
@@ -105,8 +141,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	// TODO #11: implement login helper methods in service implementation	
 
-		@Override
-		public String getUserEmail(final String token) {
+	@Override
+	public String getUserEmail(final String token) {
 			final UserService userService = UserServiceFactory.getUserService();
 			final User user = userService.getCurrentUser();
 			if (null != user) {
@@ -114,58 +150,45 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			} else {
 				return "noreply@sample.com";
 			}
-		}
+	}
 
-		@Override
-		public LoginInfo login(final String requestUri) {
+	@Override
+	public LoginInfo login(String requestUri) {
 			
-			final UserService userService = UserServiceFactory.getUserService();
-			final User user = userService.getCurrentUser();
-			final LoginInfo loginInfo = new LoginInfo();
+			UserService userService = UserServiceFactory.getUserService();
+			User user = userService.getCurrentUser();
+			LoginInfo loginInfo = new LoginInfo();
 			
 			//System.out.println("Server coming url : " + requestUri);
 			
 			if (user != null) {
 				loginInfo.setLoggedIn(true);
 				loginInfo.setName(user.getEmail());
+				System.out.println("S| Get Email : " + user.getEmail());
 				loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
 			} else {
 				loginInfo.setLoggedIn(false);
 				loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
+				System.out.println("S| user is NULL Get Email : " + userService.createLoginURL(requestUri));
 			}
 			
+			System.out.println("S| Before Return info." + loginInfo.toString());
 			//log.severe("Server coming url. " + userService.createLogoutURL(requestUri));
 			return loginInfo;
-		}
-
-		private static final Logger log = Logger.getLogger(GreetingServiceImpl.class.getName());
+	}
 		
-		@Override
-		public LoginInfo loginDetails(final String token) {
-			
-			
-			/*
-			  GoogleAuthorizationCodeFlow authFlow = Utils.initializeFlow();
-			  
-			  
-			    Credential credential = authFlow.loadCredential(Utils.getUserId(this.getThreadLocalRequest()));
-			    if (credential == null) {
-			      // If we don't have a token in store, redirect to authorization screen.
-			      resp.sendRedirect(
-			          authFlow.newAuthorizationUrl().setRedirectUri(Utils.getRedirectUri(this.getThreadLocalRequest())).build());
-			    //  return;
-			    }
-			*/
+	@Override
+	public LoginInfo loginDetails(String token) {
 			
 			String url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + token;
-			log.severe("An error message. " + url);
-			System.out.println("Server coming url : " + url);
-			//https://accounts.google.com/o/oauth2/auth?client_id=392232398516-9lg977lv9qm97hus7deli7v0jpr294ko.apps.googleusercontent.com&response_type=token&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fplus.login&redirect_uri=http%3A%2F%2F127.0.0.1%3A8888%2Fhumanresourcesmanagement%2FoauthWindow.html
-			final StringBuffer r = new StringBuffer();
+			//log.info("What url : " + url);
+			//System.out.println("What url : " + url);
+			
+		    StringBuffer r = new StringBuffer();
 			try {
-				final URL u = new URL(url);
-				final URLConnection uc = u.openConnection();
-				final int end = 1000;
+				URL u = new URL(url);
+				URLConnection uc = u.openConnection();
+				int end = 1000;
 				InputStreamReader isr = null;
 				BufferedReader br = null;
 				try {
@@ -268,7 +291,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			}
 			
 			return loginInfo;
-		}
+	}
 
 		// TODO #11:> end	
 

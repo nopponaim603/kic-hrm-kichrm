@@ -6,39 +6,34 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.logging.server.RemoteLoggingServiceUtil.RemoteLoggingException;
+
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.web.bindery.requestfactory.server.Logging;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+
 //import com.google.api.client.auth.oauth
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
-
 import com.google.gwt.user.client.Window;
 
 import java.io.IOException;
-import java.util.logging.Level;
+import java.util.Arrays;
+import java.util.List;
+
 //import com.sw_engineering_candies.oauth2.shared.LoginInfo;
 import java.util.logging.Logger;
 
-import sun.util.logging.resources.logging;
+
 
 import com.kic.hrm.shared.*;
 
@@ -46,69 +41,74 @@ import com.kic.hrm.shared.*;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-@SuppressWarnings("unused")
+
 public class HumanResourcesManagement implements EntryPoint {
+
+	
+	/**
+	 * This is the entry point method.
+	 */
+	private static final Logger log = Logger.getLogger(HumanResourcesManagement.class.getName());
+	private GreetingServiceAsync rpcService;
+	
+	private static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
+
+	// This app's personal client ID assigned by the Google APIs Console
+	// (http://code.google.com/apis/console).
+	private static final String GOOGLE_CLIENT_ID = "392232398516-hdd0r2biksrovka8a6v93roambr2b54r.apps.googleusercontent.com";
+
+	// The auth scope being requested. This scope will allow the application to
+	// identify who the authenticated user is.
+	private static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.me";
+	//private static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.login";
+	private static final List<String> DRIVE_SCOPES = Arrays.asList(
+		      "https://www.googleapis.com/auth/drive",
+		      "https://www.googleapis.com/auth/drive.file",
+		      "https://www.googleapis.com/auth/userinfo.email",
+		      "https://www.googleapis.com/auth/userinfo.profile");
+	  
+	public static List<String> getDRIVE_SCOPES() {
+		return DRIVE_SCOPES;
+	}
+	
+	//private static final String REDIRECT_URI = "http://xz-plasma-weft-8.appspot.com/oauth2callback";
+	//private static final String APP_CLIENT_URL = "http://royalbear42.appspot.com/";
+	//public static final String API_KEY = "CK3GHEBlWNYwVu5r717Q3VwL";
+	// TODO #05: add constants for OAuth2 (don't forget to update GOOGLE_CLIENT_ID)
+	private static final Auth AUTH = Auth.get();
+	// TODO #05:> end
+
+	// TODO #06: define controls for login
+	private final HorizontalPanel loginPanel = new HorizontalPanel();
+	private final Anchor signInLink = new Anchor("");
+	private final Image loginImage = new Image();
+	private final TextBox nameField = new TextBox();
+	// TODO #06:> end
+		
 	/**
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
 	 */
-	
-//https://accounts.google.com/AccountChooser?service=lso&continue=https%3A%2F%2Faccounts.google.com%2Fo%2Foauth2%2Fauth%3Fscope%3Dhttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fplus.me%26response_type%3Dtoken%26redirect_uri%3Dhttp%3A%2F%2Fgwt-oauth2.googlecode.com%2Fsvn%2Ftrunk%2Fsamples%2Fmulti%2Fdemo%2FoauthWindow.html%26client_id%3D452237527106.apps.googleusercontent.com%26hl%3Den-US%26from_login%3D1%26as%3D2c063392a3d1ac6d&btmpl=authsub&hl=en
-	//http://1-dot-xz-plasma-weft-8.appspot.com/humanresourcesmanagement/oauthWindow.html
-	//client_id=392232398516-9lg977lv9qm97hus7deli7v0jpr294ko.apps.googleusercontent.com
-
-	  private static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
-
-	  // This app's personal client ID assigned by the Google APIs Console
-	  // (http://code.google.com/apis/console).
-	  private static final String GOOGLE_CLIENT_ID = "392232398516-9lg977lv9qm97hus7deli7v0jpr294ko.apps.googleusercontent.com";
-
-	  // The auth scope being requested. This scope will allow the application to
-	  // identify who the authenticated user is.
-	  private static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.me";
-	  //private static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.login";
-	  
-	  private static final String REDIRECT_URI = "http://xz-plasma-weft-8.appspot.com/oauth2callback";
-	// TODO #05: add constants for OAuth2 (don't forget to update GOOGLE_CLIENT_ID)
-		private static final Auth AUTH = Auth.get();
-		
-			
-		
-		private static final String APP_CLIENT_URL = "http://royalbear42.appspot.com/";
-		// TODO #05:> end
-
-		// TODO #06: define controls for login
-		private final HorizontalPanel loginPanel = new HorizontalPanel();
-		private final Anchor signInLink = new Anchor("");
-		private final Image loginImage = new Image();
-		private final TextBox nameField = new TextBox();
-		// TODO #06:> end
-		
-		
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
 	// TODO #07: add helper methods for Login, Logout and AuthRequest
 
-		private void loadLogin(final LoginInfo loginInfo) {
+	private void loadLogin(final LoginInfo loginInfo) {
 			signInLink.setHref(loginInfo.getLoginUrl());
 			signInLink.setText("Please, sign in with your Google Account");
 			signInLink.setTitle("Sign in");
-		}
+	}
 
-		private void loadLogout(final LoginInfo loginInfo) {
+	private void loadLogout(final LoginInfo loginInfo) {
 			signInLink.setHref(loginInfo.getLogoutUrl());
 			signInLink.setText(loginInfo.getName());
 			signInLink.setTitle("Sign out");
-		}
+	}
 
-		private void addGoogleAuthHelper() throws IOException {
-			
-			
-			//GoogleAuthorizationCodeFlow authFlow = Utils.initializeFlow();
-			
-			
+	private void addGoogleAuthHelper() {
+
 			final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL, GOOGLE_CLIENT_ID)
 			.withScopes(PLUS_ME_SCOPE);
 			
@@ -124,7 +124,7 @@ public class HumanResourcesManagement implements EntryPoint {
 							@Override
 							public void onFailure(final Throwable caught) {
 								GWT.log("loginDetails -> onFailure : " + caught.getMessage());
-								log.severe(caught.getMessage());
+								//log.severe(caught.getMessage());
 							}
 
 							@Override
@@ -164,24 +164,18 @@ public class HumanResourcesManagement implements EntryPoint {
 				public void onFailure(Throwable reason) {
 					// TODO Auto-generated method stub
 					GWT.log("Error -> loginDetails\n" + reason.getMessage());
+					//log.info("Error -> loginDetails\n" + reason.getMessage());
 				}
 			});
 			
-		}
+	}
 
-		// TODO #07:> end
+	// TODO #07:> end
 	
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-
-	/**
-	 * This is the entry point method.
-	 */
-		private static final Logger log = Logger.getLogger(HumanResourcesManagement.class.getName());
-		GreetingServiceAsync rpcService;
-		
 	public void onModuleLoad() {
 		
 		System.out.println("Client HRM Start here.");
@@ -193,57 +187,49 @@ public class HumanResourcesManagement implements EntryPoint {
 	    
 	    System.out.println("onModuleLoad Complete.");
 	    	    
-	    
 	    addGoogleAuth();
 	    
-	    // Export the JS method that can be called in pure JS
-	    Auth.export();
-	    addGoogleAuthNative();
+	    // TODO #08: create login controls
+	 	nameField.setEnabled(false);	
 
-	    addClearTokens();
-	    
-	    //log.log(Level.INFO,"Test");
-	    /*
-	     * log.info("Test");
-	    log.warning("A warning message.");
-        log.severe("An error message.");
-        */
-	    	// TODO #08: create login controls
-	 		nameField.setEnabled(false);	
+	 	signInLink.getElement().setClassName("login-area");
+	 	signInLink.setTitle("sign out");
+	 	loginImage.getElement().setClassName("login-area");
+	 	loginPanel.add(signInLink);
+	 	RootPanel.get("loginPanelContainer").add(loginPanel);
+	 	final StringBuilder userEmail = new StringBuilder();
+	 	//System.out.println(GWT.getHostPageBaseURL());
 
-	 		signInLink.getElement().setClassName("login-area");
-	 		signInLink.setTitle("sign out");
-	 		loginImage.getElement().setClassName("login-area");
-	 		loginPanel.add(signInLink);
-	 		RootPanel.get("loginPanelContainer").add(loginPanel);
-	 		final StringBuilder userEmail = new StringBuilder();
-	 		System.out.println(GWT.getHostPageBaseURL());
-	 		//APP_CLIENT_URL
-	 		rpcService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+	 	rpcService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+	 		
 	 			@Override
 	 			public void onFailure(final Throwable caught) {
 	 				GWT.log("login -> onFailure");
-	 				System.out.println("on Failure");
+	 				System.out.println("login -> onFailure");
 	 			}
 
 	 			@Override
 	 			public void onSuccess(final LoginInfo result) {
+	 				System.out.println("C| Login Success : " + result);
 	 				if (result.getName() != null && !result.getName().isEmpty()) {
-	 					System.out.println("on Success");
-	 					//addGoogleAuthHelper();
+	 					System.out.println("result have name and is not Empty.");
+	 					
+	 					addGoogleAuthHelper();
+	 					
 						loadLogout(result);
 	 				
 	 					nameField.setEnabled(true);
 	 				} else {
+	 					System.out.println("result is Else.");
 	 					loadLogin(result);
 	 				}
 	 				userEmail.append(result.getEmailAddress());
 	 			}
-	 		});
-	 		// TODO #08:> end
+	 	});
+	 	// TODO #08:> end
 	}
 	
-	// //////////////////////////////////////////////////////////////////////////
+	  // //////////////////////////////////////////////////////////////////////////
 	  // AUTHENTICATING WITH GOOGLE ///////////////////////////////////////////////
 	  // //////////////////////////////////////////////////////////////////////////
 
@@ -282,7 +268,7 @@ public class HumanResourcesManagement implements EntryPoint {
 	  }
 		
 	  
-	// //////////////////////////////////////////////////////////////////////////
+	  // //////////////////////////////////////////////////////////////////////////
 	  // AUTHENTICATING WITH INSTAGRAM ////////////////////////////////////////////
 	  // //////////////////////////////////////////////////////////////////////////
 
