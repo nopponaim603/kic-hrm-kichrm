@@ -11,22 +11,15 @@ import java.util.logging.Logger;
 import java.net.URL;
 import java.net.URLConnection;
 
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-//import com.fasterxml.jackson.core.JsonFactory;
-//import com.google.gson.JsonParseException;
-//import com.google.gson.JsonParser;
-//import com.google.gson.
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.JsonToken;
-
+import com.google.gson.JsonParseException;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonToken;
 
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
@@ -84,24 +77,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		//TestOAth2();
 		//AppIdentityCredential.Builder()
 		
-		
-		//HttpTransport httpTransport = new NetHttpTransport();
-		//JsonFactory jsonFactory = new JacksonFactory();
-		//AppIdentityCredential cd = new AppIdentityCredential(DriveScopes.DRIVE);
-		//  AppIdentityCredential credential = new AppIdentityCredential(HumanResourcesManagement.getDRIVE_SCOPES());
-		/*
-		  // new AppIdentityCredential.Builder(DriveScopes.DRIVE).build()
-		  // API_KEY is from the Google Console as a server API key
-		  GoogleClientRequestInitializer keyInitializer =
-		      new CommonGoogleClientRequestInitializer(HumanResourcesManagement.API_KEY);
-		  Drive service = new Drive.Builder(httpTransport, jsonFactory, null)
-		      .setHttpRequestInitializer(credential)
-		      .setGoogleClientRequestInitializer(keyInitializer)
-		      .build();
-		  
-		  
-		  */
-		  System.out.println("Test Drive");
+		System.out.println("Test Drive");
 		  
 		return false;
 	}
@@ -191,11 +167,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		try {
 			JsonFactory f = new JsonFactory();
-			JsonParser jp;
+			com.fasterxml.jackson.core.JsonParser jp;
+			
 			jp = f.createJsonParser(r.toString());
-			/*
-			jp = f.createJsonParser(r.toString());
+			
+			//jp = f.createJsonParser(r.toString());
 			jp.nextToken();
+			//jp.nextToken()
+			//JsonToken.
 			while (jp.nextToken() != JsonToken.END_OBJECT) {
 				final String fieldname = jp.getCurrentName();
 				jp.nextToken();
@@ -207,13 +186,16 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 					loginInfo.setEmailAddress(jp.getText());
 				}
 			}
-			*/
-		} catch (final JsonParseException e) {
+			
+		} catch (JsonParseException e) {
 			log.log(Level.SEVERE, e.getMessage());
-		} catch (final IOException e) {
-			log.log(Level.SEVERE, e.getMessage());
+		} catch (com.fasterxml.jackson.core.JsonParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
 		return loginInfo;
 	}
 
