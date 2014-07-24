@@ -1,5 +1,7 @@
 package com.kic.hrm.client.presenter;
 
+import java.util.logging.Logger;
+
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
@@ -12,33 +14,26 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
+
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.HumanResourcesManagement;
 import com.kic.hrm.shared.LoginInfo;
 
-
 public class LoginPlusPresenter {
+	private static final Logger log = Logger.getLogger(LoginPlusPresenter.class.getName());
+	
 	private static final String LOGINPANEL = "loginPanelContainer";
+
 	// TODO #05: add constants for OAuth2 (don't forget to update GOOGLE_CLIENT_ID)
 	private static final Auth AUTH = Auth.get();
 	// TODO #05:> end
-		
-	
-    
+
 	// TODO #06: define controls for login
     private final HorizontalPanel loginPanel = new HorizontalPanel();
     private final Anchor signInLink = new Anchor("");
     private final Image loginImage = new Image();
-    private final TextBox nameField = new TextBox();
-    // TODO #06:> end
-    
-    public TextBox getNameField() {
-    	return nameField;
-    }
+    private final TextBox nameField = new TextBox();   
     private final StringBuilder userEmail;
-    public StringBuilder getUserEmail() {
-    	return userEmail;
-    }
     // TODO #06:> end
 	
     public LoginPlusPresenter() {
@@ -78,7 +73,8 @@ public class LoginPlusPresenter {
 				// TODO Auto-generated method stub
 				if (!result.isEmpty()) {
 					
-					rpcService.loginDetails(result, new AsyncCallback<LoginInfo>() {
+					
+						rpcService.loginDetails(result, new AsyncCallback<LoginInfo>() {
 						
 						@Override
 						public void onFailure(final Throwable caught) {
@@ -116,6 +112,8 @@ public class LoginPlusPresenter {
 							});
 						}
 					});
+					
+					
 				}
 			}
 			
@@ -123,7 +121,7 @@ public class LoginPlusPresenter {
 			public void onFailure(Throwable reason) {
 				// TODO Auto-generated method stub
 				GWT.log("Error -> loginDetails\n" + reason.getMessage());
-				//log.info("Error -> loginDetails\n" + reason.getMessage());
+				log.severe("Error -> loginDetails\n" + reason.getMessage());
 			}
 		});
 		
@@ -133,21 +131,16 @@ public class LoginPlusPresenter {
 		System.out.println("C| Login Success : " + result);
 			if (result.getName() != null && !result.getName().isEmpty()) {
 
-				System.out.println("on Success");
-				//addGoogleAuthHelper();
+				//System.out.println("on Success");
 				addGoogleAuthHelper(rpcService);
 				//System.out.println("result have name and is not Empty.");
 				
 				loadLogout(result);
-			
-				
-				//m_loginPlus.getNameField().setEnabled(true);
 				nameField.setEnabled(true);
 			} else {
-				System.out.println("result is Else.");
+				System.out.print("| result is Else not run addGoogleAuthHelper.");
 				loadLogin(result);
 			}
-			//m_loginPlus.getUserEmail().append(result.getEmailAddress());
 			userEmail.append(result.getEmailAddress());
 	}
 }

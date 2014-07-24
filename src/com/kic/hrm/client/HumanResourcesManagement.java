@@ -6,19 +6,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 //import com.google.api.client.auth.oauth
@@ -32,6 +27,9 @@ import java.util.List;
 
 //import com.sw_engineering_candies.oauth2.shared.LoginInfo;
 import java.util.logging.Logger;
+
+
+
 
 
 
@@ -63,7 +61,7 @@ public class HumanResourcesManagement implements EntryPoint {
 	
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.
-	private static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.me";
+	private static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.login";
 	//private static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.login";
 	public static String getPLUS_ME_SCOPE() {
 		return PLUS_ME_SCOPE;
@@ -112,8 +110,25 @@ public class HumanResourcesManagement implements EntryPoint {
 	    System.out.println("onModuleLoad Complete.");
 	    	    
 	    addGoogleAuth();
-
-	 	
+	    
+	    /*
+	    rpcService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
+			
+			@Override
+			public void onSuccess(LoginInfo result) {
+				// TODO Auto-generated method stub
+				GWT.log("C:P| login -> onSuccess");
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				GWT.log("C:P| login -> onFailure");
+ 				System.out.println("login -> onFailure");
+			}
+		});*/
+	    
 	}
 	
 	  // //////////////////////////////////////////////////////////////////////////

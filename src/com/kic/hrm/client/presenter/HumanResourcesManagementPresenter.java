@@ -1,7 +1,5 @@
 package com.kic.hrm.client.presenter;
 
-import java.util.List;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -10,9 +8,10 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
+
 import com.kic.hrm.client.GreetingServiceAsync;
-import com.kic.hrm.client.event.ApplyLeavingEvent;
 import com.kic.hrm.client.presenter.Presenter;
+
 import com.kic.hrm.shared.LoginInfo;
 
 public class HumanResourcesManagementPresenter implements Presenter {
@@ -36,13 +35,17 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	private final GreetingServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;
-	private LoginPlusPresenter m_loginPlus;
+	
+	private final LoginPlusPresenter m_loginPlus;
 	public HumanResourcesManagementPresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
 		
+		 m_loginPlus = new LoginPlusPresenter();
+		 //
+		    
 		System.out.println("HRM Presenter Constructor");
 	}
 	
@@ -54,8 +57,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	    container.clear();
 	    container.add(display.asWidget());
 	    
-	    m_loginPlus = new LoginPlusPresenter();
-	    LoginGooglePlus();
+	   LoginGooglePlus(this.rpcService);
 	}
 
 
@@ -79,6 +81,8 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			}
 			
 		});
+		
+		//
 	}
 	
 	private void ApplyLeaving(){
@@ -117,9 +121,9 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		});
 	}
 	
-	private void LoginGooglePlus() {
-		System.out.println("C:P| Login Plus");
+	private void LoginGooglePlus(final GreetingServiceAsync rpcService) {
 		
+		System.out.println("C:P| Login Plus");
 		rpcService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
 			
 			@Override
@@ -131,7 +135,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				GWT.log("login -> onFailure");
+				GWT.log("C:P| login -> onFailure");
  				System.out.println("login -> onFailure");
 			}
 		});

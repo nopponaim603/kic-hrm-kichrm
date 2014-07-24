@@ -2,9 +2,9 @@ package com.kic.hrm.shared;
 
 import java.io.Serializable;
 
-
+@SuppressWarnings("serial")
 public class LoginInfo  implements Serializable {
-	private static final long serialVersionUID = 1L;
+
 	private boolean loggedIn = false;
 
 	private String loginUrl;
