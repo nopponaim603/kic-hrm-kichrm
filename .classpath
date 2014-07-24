@@ -13,5 +13,7 @@
 	<classpathentry exported="true" kind="lib" path="gwt-oauth2-0.2-alpha.jar"/>
 	<classpathentry exported="true" kind="lib" path="google-api-client-1.4.0-alpha.jar"/>
 	<classpathentry exported="true" kind="lib" path="jackson-core-asl-1.9.12.jar"/>
+	<classpathentry kind="lib" path="google-oauth-client-java6-1.18.0-rc.jar"/>
+	<classpathentry kind="lib" path="google-oauth-client-jetty-1.18.0-rc.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

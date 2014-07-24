@@ -68,6 +68,7 @@ public class HumanResourcesManagement implements EntryPoint {
 	}
 
 	private static final List<String> DRIVE_SCOPES = Arrays.asList(
+			  "https://www.googleapis.com/auth/drive.install",
 		      "https://www.googleapis.com/auth/drive",
 		      "https://www.googleapis.com/auth/drive.file",
 		      "https://www.googleapis.com/auth/userinfo.email",
@@ -129,7 +130,8 @@ public class HumanResourcesManagement implements EntryPoint {
 	      public void onClick(ClickEvent event) {
 	        final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL, GOOGLE_CLIENT_ID)
 	            .withScopes(PLUS_ME_SCOPE);
-
+	        
+	        //AUTH.
 	        // Calling login() will display a popup to the user the first time it is
 	        // called. Once the user has granted access to the application,
 	        // subsequent calls to login() will not display the popup, and will
