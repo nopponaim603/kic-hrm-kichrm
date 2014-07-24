@@ -179,7 +179,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 	@Override
 	public LoginInfo loginDetails(String token) {
-			
+			//log.info("What url : " + token);
 			String url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + token;
 			//log.info("What url : " + url);
 			//System.out.println("What url : " + url);
@@ -289,6 +289,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			//System.out.println(loginInfo);
 			
 			return loginInfo;
 	}
