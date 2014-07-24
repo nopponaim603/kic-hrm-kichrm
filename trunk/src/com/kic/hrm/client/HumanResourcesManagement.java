@@ -110,25 +110,7 @@ public class HumanResourcesManagement implements EntryPoint {
 	    System.out.println("onModuleLoad Complete.");
 	    	    
 	    addGoogleAuth();
-	    
-	    /*
-	    rpcService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
-			
-			@Override
-			public void onSuccess(LoginInfo result) {
-				// TODO Auto-generated method stub
-				GWT.log("C:P| login -> onSuccess");
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				// TODO Auto-generated method stub
-				GWT.log("C:P| login -> onFailure");
- 				System.out.println("login -> onFailure");
-			}
-		});*/
-	    
+	    	    
 	}
 	
 	  // //////////////////////////////////////////////////////////////////////////
