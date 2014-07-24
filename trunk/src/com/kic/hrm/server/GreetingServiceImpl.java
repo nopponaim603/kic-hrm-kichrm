@@ -25,12 +25,12 @@ import com.fasterxml.jackson.core.JsonToken;
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
 
-	/**
-	 * 
-	 */
-
 	private static final Logger log = Logger.getLogger(GreetingServiceImpl.class.getName());
 	
+	public GreetingServiceImpl() {
+		// TODO Auto-generated constructor stub
+		
+	}
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid. 
 		if (!FieldVerifier.isValidName(input)) {
@@ -76,7 +76,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		//SaveDatastore();
 		//TestOAth2();
 		//AppIdentityCredential.Builder()
-		
+		//DriveAccessingServiceImpl.RUN();
+		//m_driveAcc.RUN();
 		System.out.println("Test Drive");
 		  
 		return false;
