@@ -21,4 +21,6 @@ public interface GreetingServiceAsync {
 
 	void loginDetails(String token, AsyncCallback<LoginInfo> asyncCallback);
 	// TODO #10:> end	
+	
+	void googleDrive(String token, AsyncCallback<String> callback);
 }

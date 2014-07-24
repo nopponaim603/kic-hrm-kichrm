@@ -12,11 +12,9 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-
 import com.google.gson.JsonParseException;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonToken;
@@ -26,11 +24,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
 
 	private static final Logger log = Logger.getLogger(GreetingServiceImpl.class.getName());
-	
-	public GreetingServiceImpl() {
-		// TODO Auto-generated constructor stub
-		
-	}
+
 	public String greetServer(String input) throws IllegalArgumentException {
 		// Verify that the input is valid. 
 		if (!FieldVerifier.isValidName(input)) {
@@ -79,7 +73,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		//DriveAccessingServiceImpl.RUN();
 		//m_driveAcc.RUN();
 		System.out.println("Test Drive");
-		  
+		
+	
 		return false;
 	}
 		
@@ -88,12 +83,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		// TODO Auto-generated method stub
 		System.out.println("S| EnableOauth Mathod. : " + input);
 		
-		try {
-			OauthServiceImpl.TestOAth2();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		//OauthServiceImpl.TestOAth2();
 		
 		return false;
 	}
@@ -198,6 +189,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			e.printStackTrace();
 		}
 		return loginInfo;
+	}
+
+	@Override
+	public String googleDrive(String token) {
+		// TODO Auto-generated method stub
+		DriveServiceImpl.RUN(token);
+		
+		return null;
 	}
 
 	// TODO #11:> end	

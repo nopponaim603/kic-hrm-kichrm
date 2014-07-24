@@ -9,11 +9,11 @@
 	<classpathentry exported="true" kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/oauth2-v2r74lv1.18.0-rc"/>
 	<classpathentry exported="true" kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/plus-v1r135lv1.18.0-rc"/>
 	<classpathentry exported="true" kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/gmail-v1r4lv1.18.0-rc"/>
-	<classpathentry exported="true" kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (2)"/>
+	<classpathentry exported="true" kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine (1)"/>
 	<classpathentry exported="true" kind="lib" path="gwt-oauth2-0.2-alpha.jar"/>
 	<classpathentry exported="true" kind="lib" path="google-api-client-1.4.0-alpha.jar"/>
 	<classpathentry exported="true" kind="lib" path="jackson-core-asl-1.9.12.jar"/>
-	<classpathentry kind="lib" path="google-oauth-client-java6-1.18.0-rc.jar"/>
-	<classpathentry kind="lib" path="google-oauth-client-jetty-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="google-oauth-client-java6-1.18.0-rc.jar"/>
+	<classpathentry exported="true" kind="lib" path="google-oauth-client-jetty-1.18.0-rc.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
