@@ -23,4 +23,6 @@ public interface GreetingService extends RemoteService {
 	LoginInfo login(String requestUri);
 
 	LoginInfo loginDetails(String token);
+
+	String googleDrive(String token);
 }

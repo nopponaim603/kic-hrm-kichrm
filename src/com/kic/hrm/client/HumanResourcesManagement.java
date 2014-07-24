@@ -6,42 +6,47 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.LoadEvent;
-import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.RootPanel;
 
 //import com.google.api.client.auth.oauth
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.user.client.Window;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
 //import com.sw_engineering_candies.oauth2.shared.LoginInfo;
 import java.util.logging.Logger;
 
-
-
-
-
-
 import com.kic.hrm.shared.*;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.FileContent;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.drive.model.File;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+//import com.google.api.gwt.client.GoogleApiRequestTransport;
+//import com.google.api.gwt.client.OAuth2Login;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 
 public class HumanResourcesManagement implements EntryPoint {
-
+	public Auth test;
+	//	OAuth2Login.
 	
 	/**
 	 * This is the entry point method.
@@ -68,17 +73,30 @@ public class HumanResourcesManagement implements EntryPoint {
 	}
 
 	private static final List<String> DRIVE_SCOPES = Arrays.asList(
+			  "https://www.googleapis.com/auth/plus.login",
 			  "https://www.googleapis.com/auth/drive.install",
 		      "https://www.googleapis.com/auth/drive",
 		      "https://www.googleapis.com/auth/drive.file",
 		      "https://www.googleapis.com/auth/userinfo.email",
 		      "https://www.googleapis.com/auth/userinfo.profile");
 
-	  
+	private static final String[] DRIVE_SCOPESArry = {
+		  "https://www.googleapis.com/auth/plus.login",
+		  "https://www.googleapis.com/auth/drive.install",
+	      "https://www.googleapis.com/auth/drive",
+	      "https://www.googleapis.com/auth/drive.file",
+	      "https://www.googleapis.com/auth/userinfo.email",
+	      "https://www.googleapis.com/auth/userinfo.profile" };
+	
 	public static List<String> getDRIVE_SCOPES() {
 		return DRIVE_SCOPES;
 	}
 	
+	
+	private static String CLIENT_ID = "392232398516-0kkqbokr4hkp3ou3s6spr9u78r1ens93.apps.googleusercontent.com";
+	private static String CLIENT_SECRET = "ZGNTRofblwZ3TTnlgJ6N7eyE";
+
+	private static String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 	//private static final String REDIRECT_URI = "http://xz-plasma-weft-8.appspot.com/oauth2callback";
 	//private static final String APP_CLIENT_URL = "http://royalbear42.appspot.com/";
 	//public static final String API_KEY = "CK3GHEBlWNYwVu5r717Q3VwL";
@@ -110,9 +128,56 @@ public class HumanResourcesManagement implements EntryPoint {
 	    
 	    System.out.println("onModuleLoad Complete.");
 	    	    
-	    addGoogleAuth();
+	    addGoogleAuth(rpcService);
 	    	    
+	   // test 
 	}
+	
+	/*
+	public void TestGoogleDrive() throws IOException {
+		
+		HttpTransport httpTransport = new NetHttpTransport();
+	    JsonFactory jsonFactory = new JacksonFactory();
+	   
+	    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+	        httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
+	        .setAccessType("online")
+	        .setApprovalPrompt("auto").build();
+	    
+	    String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
+	    
+	    AUTH.setOAuthWindowUrl(url);
+	    
+	    System.out.println("Please open the following URL in your browser then type the authorization code:");
+	    System.out.println("  " + url);
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	    String code = br.readLine();
+	    
+	    
+	    GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
+	    GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
+	    
+	    //Create a new authorized API client
+	    Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).build();
+
+	    //Insert a file  
+	    File body = new File();
+	    body.setTitle("My document");
+	    body.setDescription("A test document");
+	    body.setMimeType("text/plain");
+	    
+	    java.io.File fileContent = new java.io.File("document.txt");
+	    FileContent mediaContent = new FileContent("text/plain", fileContent);
+
+	    File file = service.files().insert(body, mediaContent).execute();
+	    System.out.println("File ID: " + file.getId());
+	    
+		
+	    
+	   
+	}
+	
+	*/
 	
 	  // //////////////////////////////////////////////////////////////////////////
 	  // AUTHENTICATING WITH GOOGLE ///////////////////////////////////////////////
@@ -120,7 +185,7 @@ public class HumanResourcesManagement implements EntryPoint {
 
 
 	  // Adds a button to the page that asks for authentication from Google.
-	  private void addGoogleAuth() {
+	  private void addGoogleAuth(final GreetingServiceAsync rpcService) {
 	    // Since the auth flow requires opening a popup window, it must be started
 	    // as a direct result of a user action, such as clicking a button or link.
 	    // Otherwise, a browser's popup blocker may block the popup.
@@ -129,7 +194,7 @@ public class HumanResourcesManagement implements EntryPoint {
 	      @Override
 	      public void onClick(ClickEvent event) {
 	        final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL, GOOGLE_CLIENT_ID)
-	            .withScopes(PLUS_ME_SCOPE);
+	            .withScopes(DRIVE_SCOPESArry);
 	        
 	        //AUTH.
 	        // Calling login() will display a popup to the user the first time it is
@@ -139,13 +204,28 @@ public class HumanResourcesManagement implements EntryPoint {
 	        AUTH.login(req, new Callback<String, Throwable>() {
 	          @Override
 	          public void onSuccess(String token) {
-	            Window.alert("Got an OAuth token:\n" + token + "\n"
-	                + "Token expires in " + AUTH.expiresIn(req) + " ms\n");
+	           // Window.alert("Got an OAuth token:\n" + token + "\n"
+	             //   + "Token expires in " + AUTH.expiresIn(req) + " ms\n");
+	        	  rpcService.googleDrive(token, new AsyncCallback<String>() {
+					
+					@Override
+					public void onSuccess(String result) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				} );
+	            
 	          }
 
 	          @Override
 	          public void onFailure(Throwable caught) {
-	            Window.alert("Error:\n" + caught.getMessage());
+	            //Window.alert("Error:\n" + caught.getMessage());
 	          }
 	        });
 	      }
