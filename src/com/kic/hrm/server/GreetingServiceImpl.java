@@ -122,6 +122,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 	@Override
 	public LoginInfo loginDetails(String token) {
+		//System.out.print(token);
 		String url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + token;
 
 		final StringBuffer r = new StringBuffer();

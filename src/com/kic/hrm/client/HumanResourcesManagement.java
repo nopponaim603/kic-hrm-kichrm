@@ -21,22 +21,6 @@ import java.util.List;
 //import com.sw_engineering_candies.oauth2.shared.LoginInfo;
 import java.util.logging.Logger;
 
-import com.kic.hrm.shared.*;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
-import com.google.api.client.http.FileContent;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.drive.Drive;
-import com.google.api.services.drive.DriveScopes;
-import com.google.api.services.drive.model.File;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 //import com.google.api.gwt.client.GoogleApiRequestTransport;
 //import com.google.api.gwt.client.OAuth2Login;
 
@@ -45,14 +29,17 @@ import java.io.InputStreamReader;
  */
 
 public class HumanResourcesManagement implements EntryPoint {
-	public Auth test;
 	//	OAuth2Login.
 	
 	/**
 	 * This is the entry point method.
 	 */
 	private static final Logger log = Logger.getLogger(HumanResourcesManagement.class.getName());
-		
+	
+	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
+	public static String getAPPLICATION_NAME() {
+		return APPLICATION_NAME;
+	}
 	private static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
 	public static String getGOOGLE_AUTH_URL() {
 		return GOOGLE_AUTH_URL;
