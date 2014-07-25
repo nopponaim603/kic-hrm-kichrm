@@ -124,7 +124,7 @@ public class authGoogleWebServer {
 	  /**
 	   * Exception thrown when no user ID could be retrieved.
 	   */
-	  private static class NoUserIdException extends Exception {
+	  public static class NoUserIdException extends Exception {
 
 		/**
 		 * 
@@ -272,6 +272,7 @@ public class authGoogleWebServer {
 	      String userId = userInfo.get().toString();
 	      
 	      //emailAddress = userInfo.getEmail();
+	      
 	      if (credentials.getRefreshToken() != null) {
 	        storeCredentials(userId, credentials);
 	        return credentials;

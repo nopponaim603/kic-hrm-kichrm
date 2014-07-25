@@ -16,6 +16,16 @@
     <url-pattern>/humanresourcesmanagement/greet</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>GAEJCronServlet</servlet-name>
+    <servlet-class>com.kic.hrm.server.GAEJCronServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>GAEJCronServlet</servlet-name>
+    <url-pattern>/cron/mycronjob</url-pattern>
+  </servlet-mapping>
+
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>HumanResourcesManagement.html</welcome-file>
