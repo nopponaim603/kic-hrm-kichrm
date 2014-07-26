@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 //import com.google.api.client.auth.oauth
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
+import com.google.api.services.plus.PlusScopes;
 import com.google.gwt.user.client.Window;
 
 import java.util.Arrays;
@@ -114,58 +115,12 @@ public class HumanResourcesManagement implements EntryPoint {
 	    appViewer.go(RootPanel.get());
 	    
 	    System.out.println("onModuleLoad Complete.");
-	    	    
+	    
+	    // test     
 	    addGoogleAuth(rpcService);
-	    	    
-	   // test 
-	}
-	
-	/*
-	public void TestGoogleDrive() throws IOException {
-		
-		HttpTransport httpTransport = new NetHttpTransport();
-	    JsonFactory jsonFactory = new JacksonFactory();
-	   
-	    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-	        httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
-	        .setAccessType("online")
-	        .setApprovalPrompt("auto").build();
-	    
-	    String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
-	    
-	    AUTH.setOAuthWindowUrl(url);
-	    
-	    System.out.println("Please open the following URL in your browser then type the authorization code:");
-	    System.out.println("  " + url);
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	    String code = br.readLine();
-	    
-	    
-	    GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
-	    GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
-	    
-	    //Create a new authorized API client
-	    Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).build();
 
-	    //Insert a file  
-	    File body = new File();
-	    body.setTitle("My document");
-	    body.setDescription("A test document");
-	    body.setMimeType("text/plain");
-	    
-	    java.io.File fileContent = new java.io.File("document.txt");
-	    FileContent mediaContent = new FileContent("text/plain", fileContent);
-
-	    File file = service.files().insert(body, mediaContent).execute();
-	    System.out.println("File ID: " + file.getId());
-	    
-		
-	    
-	   
 	}
-	
-	*/
-	
+		
 	  // //////////////////////////////////////////////////////////////////////////
 	  // AUTHENTICATING WITH GOOGLE ///////////////////////////////////////////////
 	  // //////////////////////////////////////////////////////////////////////////
@@ -181,7 +136,7 @@ public class HumanResourcesManagement implements EntryPoint {
 	      @Override
 	      public void onClick(ClickEvent event) {
 	        final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL, GOOGLE_CLIENT_ID)
-	            .withScopes(DRIVE_SCOPESArry);
+	            .withScopes("https://www.googleapis.com/auth/plus.me");
 	        
 	        //AUTH.
 	        // Calling login() will display a popup to the user the first time it is
@@ -191,9 +146,11 @@ public class HumanResourcesManagement implements EntryPoint {
 	        AUTH.login(req, new Callback<String, Throwable>() {
 	          @Override
 	          public void onSuccess(String token) {
-	           // Window.alert("Got an OAuth token:\n" + token + "\n"
-	             //   + "Token expires in " + AUTH.expiresIn(req) + " ms\n");
-	        	  rpcService.googleDrive(token, new AsyncCallback<String>() {
+	            Window.alert("Got an OAuth token:\n" + token + "\n"
+	                + "Token expires in " + AUTH.expiresIn(req) + " ms\n");
+	           
+	            /*
+	        	rpcService.googleDrive(token, new AsyncCallback<String>() {
 					
 					@Override
 					public void onSuccess(String result) {
@@ -207,7 +164,8 @@ public class HumanResourcesManagement implements EntryPoint {
 						
 					}
 				} );
-	            
+	        		
+	        	*/
 	          }
 
 	          @Override
