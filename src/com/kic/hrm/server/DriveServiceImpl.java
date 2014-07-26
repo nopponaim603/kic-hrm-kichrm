@@ -1,24 +1,27 @@
 package com.kic.hrm.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.api.client.auth.oauth2.Credential;
-
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.GenericUrl;
-
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Files;
@@ -27,6 +30,12 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.Oauth2.Userinfo;
+import com.google.gdata.client.authn.oauth.GoogleOAuthHelper;
+import com.google.gdata.client.authn.oauth.GoogleOAuthParameters;
+import com.google.gdata.client.authn.oauth.OAuthException;
+import com.google.gdata.client.authn.oauth.OAuthHmacSha1Signer;
+import com.google.gdata.client.authn.oauth.OAuthRsaSha1Signer;
+import com.google.gdata.client.authn.oauth.OAuthSigner;
 import com.kic.hrm.client.HumanResourcesManagement;
 
 //import com.google.api.gwt.services.
@@ -34,8 +43,7 @@ public class DriveServiceImpl {
 	
 	private static final Logger _logger = Logger.getLogger(DriveServiceImpl.class.getName());
 	//private static String CLIENT_SECRET = "ZGNTRofblwZ3TTnlgJ6N7eyE";
-	
-	
+
 	/** Email of the Service Account */
 	public static final String SERVICE_ACCOUNT_EMAIL = "392232398516-7nei78mpn8rl47pknpofrv4rtmt0id96@developer.gserviceaccount.com";
 
@@ -56,24 +64,20 @@ public class DriveServiceImpl {
 	public static void RUN(String token) {
 		System.out.println("RUNNN");
 		_logger.severe("Token is : " + token);
-		HttpTransport httpTransport = new NetHttpTransport();
-		//httpTransport.
-		//_logger.severe("create http : press");
-		JacksonFactory jsonFactory = new JacksonFactory();
-		//_logger.severe("create http , json  : press");
-		GoogleCredential credential = new GoogleCredential().setAccessToken(token);
 		
-		//_logger.severe("create http , json , credential : press");
-		Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(HumanResourcesManagement.getAPPLICATION_NAME()).build();
-		
-		//_logger.severe("create Drive : press");
+		Drive service = BuildDriveAPIbyTOKEN(token);
 		
 		InsertFile(service);
 		
-		String fileID = "105Ti_vBb46tz6znc6O1zp_yA1HzgQ-q-SULUFlSeCWY";
-		printFile(service,fileID);
+		//String fileID = "105Ti_vBb46tz6znc6O1zp_yA1HzgQ-q-SULUFlSeCWY";
+		//printFile(service,fileID);
 		//_logger.severe("End InsertFile");
+		
 		System.out.println("End InsertFile");
+	}
+	
+	public static void getFile(String FileID) {
+		
 	}
 	
 	public static void runByCronService() {
@@ -109,30 +113,21 @@ public class DriveServiceImpl {
 	      throw new NoUserIdException();
 	    }
 	  }
-	  /*
-	  void Newprocess() {
-		  GoogleOAuthParameters oauthParameters = new GoogleOAuthParameters();
-          oauthParameters.setOAuthConsumerKey(APPCONSTANTS.Google.CONSUMER_KEY);
 
-          OAuthSigner signer;
-          if (APPCONSTANTS.Google.USE_RSA_SIGNING) {
-                  signer = new OAuthRsaSha1Signer(APPCONSTANTS.Google.CONSUMER_SECRET);
-          } else {
-              oauthParameters.setOAuthConsumerSecret(APPCONSTANTS.Google.CONSUMER_SECRET);
-              signer = new OAuthHmacSha1Signer();
-          }
-
-          GoogleOAuthHelper oauthHelper = new GoogleOAuthHelper(signer);
-
-          oauthParameters.setScope(APPCONSTANTS.Google.SCOPES);
-
-          oauthHelper.getUnauthorizedRequestToken(oauthParameters);
-
-          String requestUrl = oauthHelper.createUserAuthorizationUrl(oauthParameters);
-
-          String token = oauthHelper.getAccessToken(oauthParameters);
+	  static Drive BuildDriveAPIbyTOKEN(String token) {
+		  HttpTransport httpTransport = new NetHttpTransport();
+			//httpTransport.
+			//_logger.severe("create http : press");
+			JacksonFactory jsonFactory = new JacksonFactory();
+			//_logger.severe("create http , json  : press");
+			GoogleCredential credential = new GoogleCredential().setAccessToken(token);
+			
+			//_logger.severe("create http , json , credential : press");
+			Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(HumanResourcesManagement.getAPPLICATION_NAME()).build();
+			
+			return service;
 	  }
-	  */
+	  
 	  /**
 	   * Build and returns a Drive service object authorized with the service accounts
 	   * that act on behalf of the given user.
@@ -140,7 +135,7 @@ public class DriveServiceImpl {
 	   * @param userEmail The email of the user.
 	   * @return Drive service object that is ready to make requests.
 	   */
-	  public static Drive getDriveService(String userEmail) throws GeneralSecurityException,
+	public static Drive getDriveService(String userEmail) throws GeneralSecurityException,
 	      IOException {
 		  _logger.severe("File key : " +  new java.io.File(SERVICE_ACCOUNT_PKCS12_FILE_PATH).exists() + " : " + new java.io.File(SERVICE_ACCOUNT_JSON_FILE_PATH).exists());
 		 
@@ -198,7 +193,10 @@ public class DriveServiceImpl {
 	      .setHttpRequestInitializer(credential) .setApplicationName(HumanResourcesManagement.getAPPLICATION_NAME()).build();
 		  		  
 		  return service;
-	  }
+	}
+	
+	
+	
 	
 	public static void InsertFile(Drive service)  {
 		try {
@@ -296,7 +294,6 @@ public class DriveServiceImpl {
 	   * @return InputStream containing the file's content if successful,
 	   *         {@code null} otherwise.
 	   */
-
 	public static InputStream downloadFile(Drive service, File file) {
 	    if (file.getDownloadUrl() != null && file.getDownloadUrl().length() > 0) {
 	      try {
@@ -314,9 +311,9 @@ public class DriveServiceImpl {
 	      return null;
 	    }
 	  }
+	  
 	
-	/*
-	 public static void main(String[] args) throws Exception{
+	void TestDirectoryAPI(String[] args) throws Exception{
 	        // TODO Auto-generated method stub
 
 	        HttpTransport httpTransport = new NetHttpTransport();
@@ -338,7 +335,7 @@ public class DriveServiceImpl {
 	            .build();
 
 
-	        Directory directory = new Directory.Builder(httpTransport, jsonFactory, credential).build();
+	       // Directory directory = new Directory.Builder(httpTransport, jsonFactory, credential).build();
 
 //	      Directory.Users.List list = directory.users().list();
 //	      list.setDomain("yourDomain.com");
@@ -348,8 +345,8 @@ public class DriveServiceImpl {
 	        //Directory.Users.Get user = directory.users().get("nishant.baser@ahold.com");
 	        //user.get
 
-	        Directory.Groups.Get group = directory.groups().get("ausa.googleams.group@ahold.com");
-	        Group groups = group.execute();
+	      //  Directory.Groups.Get group = directory.groups().get("ausa.googleams.group@ahold.com");
+	      //  Group groups = group.execute();
 
 //	      Directory.Members.List list = directory.members().list("ausa.googleams.group@ahold.com");
 
@@ -357,5 +354,46 @@ public class DriveServiceImpl {
 
 //	      System.out.println(members);
 	    }
-	 */
+
+	void TestDriveAPI() throws IOException {
+		
+		HttpTransport httpTransport = new NetHttpTransport();
+	    JsonFactory jsonFactory = new JacksonFactory();
+	   
+	    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+	        httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
+	        .setAccessType("online")
+	        .setApprovalPrompt("auto").build();
+	    
+	    String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI[0]).build();
+	    
+	    //AUTH.setOAuthWindowUrl(url);
+	    
+	    System.out.println("Please open the following URL in your browser then type the authorization code:");
+	    System.out.println("  " + url);
+	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	    String code = br.readLine();
+	    
+	    
+	    GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI[0]).execute();
+	    GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
+	    
+	    //Create a new authorized API client
+	    Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).build();
+
+	    //Insert a file  
+	    File body = new File();
+	    body.setTitle("My document");
+	    body.setDescription("A test document");
+	    body.setMimeType("text/plain");
+	    
+	    java.io.File fileContent = new java.io.File("document.txt");
+	    FileContent mediaContent = new FileContent("text/plain", fileContent);
+
+	    File file = service.files().insert(body, mediaContent).execute();
+	    System.out.println("File ID: " + file.getId());
+
+	}
+
+	
 }

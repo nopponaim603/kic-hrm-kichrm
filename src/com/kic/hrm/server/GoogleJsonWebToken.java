@@ -17,6 +17,12 @@ import com.google.appengine.api.urlfetch.HTTPRequest;
 import com.google.appengine.api.urlfetch.HTTPResponse;
 import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
+import com.google.gdata.client.authn.oauth.GoogleOAuthHelper;
+import com.google.gdata.client.authn.oauth.GoogleOAuthParameters;
+import com.google.gdata.client.authn.oauth.OAuthException;
+import com.google.gdata.client.authn.oauth.OAuthHmacSha1Signer;
+import com.google.gdata.client.authn.oauth.OAuthRsaSha1Signer;
+import com.google.gdata.client.authn.oauth.OAuthSigner;
 import com.google.gwt.http.client.URL;
 
 public class GoogleJsonWebToken {
@@ -48,6 +54,30 @@ public class GoogleJsonWebToken {
 		  */
 		 
 		return token;
+	}
+	
+	String OAuthOne() throws OAuthException {
+		String token = "";
+		GoogleOAuthParameters oauthParameters = new GoogleOAuthParameters();
+		oauthParameters.setOAuthConsumerKey("APPCONSTANTS.Google.CONSUMER_KEY");
+
+		OAuthSigner signer;
+		//if ("APPCONSTANTS.Google.USE_RSA_SIGNING" != "") {
+             
+		signer = new OAuthRsaSha1Signer("APPCONSTANTS.Google.CONSUMER_SECRET");
+				
+		//} else {
+		//	oauthParameters.setOAuthConsumerSecret("APPCONSTANTS.Google.CONSUMER_SECRET");
+		//	signer = new OAuthHmacSha1Signer();
+		//}
+     
+		GoogleOAuthHelper oauthHelper = new GoogleOAuthHelper(signer);
+		oauthParameters.setScope("APPCONSTANTS.Google.SCOPES");
+		oauthHelper.getUnauthorizedRequestToken(oauthParameters);
+   	 	String requestUrl = oauthHelper.createUserAuthorizationUrl(oauthParameters);
+   	 	token = oauthHelper.getAccessToken(oauthParameters);
+      
+   	 	return token;
 	}
 	
 	public static String CreateJsonToken() {
@@ -119,7 +149,7 @@ public class GoogleJsonWebToken {
 		    return token.toString();
 	}
 	
-	   public static void Encode(String email, String certificateFilePath)
+	public static void Encode(String email, String certificateFilePath)
 	    {
 		   /*
 		  String[] test =  {
@@ -145,5 +175,5 @@ public class GoogleJsonWebToken {
 	        var privateKey = certificate.Export(X509ContentType.Cert);
 */
 	       // return JsonWebToken.Encode(payload, privateKey, JwtHashAlgorithm.RS256);
-	    }
+	}
 }
