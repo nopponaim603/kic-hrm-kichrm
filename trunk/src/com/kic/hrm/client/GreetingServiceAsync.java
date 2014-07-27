@@ -23,4 +23,6 @@ public interface GreetingServiceAsync {
 	// TODO #10:> end	
 	
 	void googleDrive(String token, AsyncCallback<String> callback);
+	
+	void QuickTest(String testParametor , AsyncCallback<String> callback);
 }
