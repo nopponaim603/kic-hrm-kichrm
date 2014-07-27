@@ -25,4 +25,6 @@ public interface GreetingService extends RemoteService {
 	LoginInfo loginDetails(String token);
 
 	String googleDrive(String token);
+
+	String QuickTest(String testParametor);
 }

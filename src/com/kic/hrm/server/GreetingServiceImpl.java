@@ -200,6 +200,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return null;
 	}
 
+	@Override
+	public String QuickTest(String testParametor) {
+		// TODO Auto-generated method stub
+		DataStoreControllingServiceImpl.Process();
+		
+		return testParametor;
+	}
+
 	// TODO #11:> end	
 
 }

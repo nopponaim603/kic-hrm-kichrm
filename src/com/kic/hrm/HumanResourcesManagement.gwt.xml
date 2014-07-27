@@ -22,9 +22,8 @@
 
   <!-- TODO #03: inherit the OAuth2 lib -->
   <inherits name="com.google.api.gwt.oauth2.OAuth2" />
-  
   <!-- TODO #03:> end -->
-  
+  <!-- <inherits name='org.slim3.gwt.emul.S3Emulation' />  -->
 	
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.kic.hrm.client.HumanResourcesManagement'/>

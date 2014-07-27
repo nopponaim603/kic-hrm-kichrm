@@ -116,9 +116,37 @@ public class HumanResourcesManagement implements EntryPoint {
 	    
 	    System.out.println("onModuleLoad Complete.");
 	    
-	    // test     
+	    // test  
+	    QuickTest(rpcService);
 	    addGoogleAuth(rpcService);
 
+	}
+	
+	private void QuickTest(final GreetingServiceAsync rpcService) {
+		 Button button = new Button("QuickTest");
+		 button.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				rpcService.QuickTest("Test", new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}
+		});
+		 
+		RootPanel.get().add(button);
 	}
 		
 	  // //////////////////////////////////////////////////////////////////////////

@@ -30,5 +30,19 @@
   <welcome-file-list>
     <welcome-file>HumanResourcesManagement.html</welcome-file>
   </welcome-file-list>
+  
+	<!-- Datastore Filter by Slim3 -->
+	<!-- 
+		<filter>
+		    <filter-name>datastoreFilter</filter-name>
+		    <filter-class>org.slim3.datastore.DatastoreFilter</filter-class>
+		</filter>
+		<filter-mapping>
+		        <filter-name>datastoreFilter</filter-name>
+		        <url-pattern>/*</url-pattern>
+		        <dispatcher>REQUEST</dispatcher>
+		</filter-mapping>
+	 -->
+	<!-- END -->
 
 </web-app>
