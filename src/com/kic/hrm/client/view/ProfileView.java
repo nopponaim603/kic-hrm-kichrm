@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 
 public class ProfileView extends Composite {
+	
 	public ProfileView() {
 		TabPanel tabPanel = new TabPanel();
 		tabPanel.setAnimationEnabled(true);
@@ -229,4 +230,5 @@ public class ProfileView extends Composite {
 		horizontalPanel_6.add(btnNewButton_6);
 		btnNewButton_6.setWidth("70px");
 	}
+
 }

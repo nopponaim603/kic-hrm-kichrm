@@ -36,14 +36,14 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final Display display;
 	
-	private final LoginPlusPresenter m_loginPlus;
+	
 	public HumanResourcesManagementPresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
 		
-		 m_loginPlus = new LoginPlusPresenter();
+		 
 		 //
 		    
 		System.out.println("HRM Presenter Constructor");
@@ -57,7 +57,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	    container.clear();
 	    container.add(display.asWidget());
 	    
-	   LoginGooglePlus(this.rpcService);
+	   
 	}
 
 
@@ -121,24 +121,5 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		});
 	}
 	
-	private void LoginGooglePlus(final GreetingServiceAsync rpcService) {
-		
-		System.out.println("C:P| Login Plus");
-		rpcService.login(GWT.getHostPageBaseURL(), new AsyncCallback<LoginInfo>() {
-			
-			@Override
-			public void onSuccess(LoginInfo result) {
-				// TODO Auto-generated method stub
-				m_loginPlus.processLoginSucess(result, rpcService);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				GWT.log("C:P| login -> onFailure");
- 				System.out.println("login -> onFailure");
-			}
-		});
-		
-	}
+	
 }
