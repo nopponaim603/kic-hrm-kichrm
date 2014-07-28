@@ -25,4 +25,6 @@ public interface GreetingServiceAsync {
 	void googleDrive(String token, AsyncCallback<String> callback);
 	
 	void QuickTest(String testParametor , AsyncCallback<String> callback);
+	
+	void Register(String userID, AsyncCallback<String> callback);
 }
