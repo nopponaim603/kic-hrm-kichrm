@@ -1,4 +1,5 @@
 package com.kic.hrm.client.view;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -6,8 +7,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Widget;
+import com.kic.hrm.client.presenter.RegisterPresenter;
 
-public class RegisterView  extends Composite {
+public class RegisterView  extends Composite implements RegisterPresenter.Display{
+	
+	final Button SubmitButton;
 	
 	public RegisterView() {
 		// TODO Auto-generated constructor stub
@@ -111,6 +116,20 @@ public class RegisterView  extends Composite {
 		Button btnNewButton = new Button("Submit");
 		grid.setWidget(11, 1, btnNewButton);
 		//verticalPanelLeavingForm.add(verticalPanel);
+		SubmitButton = btnNewButton;
+	}
+
+	@Override
+	public HasClickHandlers getRegister() {
+		// TODO Auto-generated method stub
+		return SubmitButton;
+	}
+	
+	@Override
+	public Widget asWidget() {
+		// TODO Auto-generated method stub
 		
+		//System.out.println("return Widget : " +this	);
+		return this;
 	}
 }

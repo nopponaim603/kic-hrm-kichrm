@@ -117,6 +117,7 @@ public class HumanResourcesManagement implements EntryPoint {
 	    System.out.println("onModuleLoad Complete.");
 	    
 	    // test  
+	    //Register(rpcService);
 	    QuickTest(rpcService);
 	    addGoogleAuth(rpcService);
 
@@ -148,7 +149,35 @@ public class HumanResourcesManagement implements EntryPoint {
 		 
 		RootPanel.get().add(button);
 	}
-		
+	
+	private void Register(final GreetingServiceAsync rpcService) {
+		Button button = new Button("Register");
+		 button.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				rpcService.Register("Test", new AsyncCallback<String>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(String result) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+				});
+			}
+			 
+		 });
+		 
+		 RootPanel.get().add(button);
+	}
 	  // //////////////////////////////////////////////////////////////////////////
 	  // AUTHENTICATING WITH GOOGLE ///////////////////////////////////////////////
 	  // //////////////////////////////////////////////////////////////////////////

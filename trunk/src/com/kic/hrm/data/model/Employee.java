@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slim3.datastore.Attribute;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import com.kic.hrm.data.model.Sync;
+
+//import org.slim3.datastore.Attribute;
+//import com.kic.hrm.data.model.Sync;
+
 public class Employee implements Serializable{
 	public enum sex {
 		Mr,
@@ -60,11 +62,11 @@ public class Employee implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@Attribute(primaryKey = true)
-    @Sync(true)
+	//@Attribute(primaryKey = true)
+    //@Sync(true)
     private Key key;
 
-    @Attribute(version = true)
+    //@Attribute(version = true)
     private Long version;
     
     private Integer schemaVersion = 1;

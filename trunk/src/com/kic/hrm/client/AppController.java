@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
+
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -11,10 +12,14 @@ import com.kic.hrm.client.event.ApplyLeavingEvent;
 import com.kic.hrm.client.event.ApplyLeavingEventHandler;
 import com.kic.hrm.client.event.EnableOauthEvent;
 import com.kic.hrm.client.event.EnableOauthEventHandler;
+import com.kic.hrm.client.event.RegisterEvent;
+import com.kic.hrm.client.event.RegisterEventHandler;
 import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter;
 import com.kic.hrm.client.presenter.LoginPlusPresenter;
 import com.kic.hrm.client.presenter.Presenter;
+import com.kic.hrm.client.presenter.RegisterPresenter;
 import com.kic.hrm.client.view.HumanResourcesManagementView;
+import com.kic.hrm.client.view.RegisterView;
 import com.kic.hrm.shared.LoginInfo;
 
 
@@ -41,7 +46,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		History.addValueChangeHandler(this);
 
 		//Event Bus
-		
 		eventBus.addHandler(ApplyLeavingEvent.TYPE, 
 		new ApplyLeavingEventHandler() {
 			@Override
@@ -51,9 +55,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 		});
 		
-		
 		eventBus.addHandler(EnableOauthEvent.TYPE, new EnableOauthEventHandler() {
-			
 			@Override
 			public void onEnableOauth(ApplyLeavingEvent event) {
 				// TODO Auto-generated method stub
@@ -61,6 +63,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 		});
 
+		eventBus.addHandler(RegisterEvent.TYPE,new RegisterEventHandler() {
+			
+			@Override
+			public void onRegistering(RegisterEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem("Register");
+			}
+		});
 	}
 
 	@Override
@@ -92,17 +102,37 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
 		// TODO Auto-generated method stub
+		/*
 		String token = event.getValue();
 		Presenter presenter = null;
 		presenter = new HumanResourcesManagementPresenter(rpcService, eventBus,
 				new HumanResourcesManagementView());
 		if (presenter != null) {
-			presenter.go(container);
-		}
+			Presenter presenter = null;
+		
 
-		if(token.equals("Profile")) {
-			//presenter = new ProfileView()
 		}
+		*/
+		
+		String token = event.getValue();
+	    
+	    if (token != null) {
+	      Presenter presenter = null;
+
+	      if (token.equals("main")) {
+	        presenter = new HumanResourcesManagementPresenter(rpcService, eventBus, new HumanResourcesManagementView());
+	      }
+	      else if (token.equals("Register")) {
+	        presenter = new RegisterPresenter(rpcService, eventBus, new RegisterView());
+	      }
+	      else if (token.equals("edit")) {
+	    	  //presenter = new EditContactPresenter(rpcService, eventBus, new EditContactView());
+	      }
+	      
+	      if (presenter != null) {
+	        presenter.go(container);
+	      }
+	    }
 		
 		System.out.println("AppController onValuechange Complete!!");
 	}

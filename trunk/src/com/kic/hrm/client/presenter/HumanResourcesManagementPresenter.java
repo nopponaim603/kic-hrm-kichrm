@@ -5,13 +5,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
-
 import com.kic.hrm.client.GreetingServiceAsync;
+import com.kic.hrm.client.event.RegisterEvent;
 import com.kic.hrm.client.presenter.Presenter;
-
 import com.kic.hrm.shared.LoginInfo;
 
 public class HumanResourcesManagementPresenter implements Presenter {
@@ -46,7 +46,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		 
 		 //
 		    
-		System.out.println("HRM Presenter Constructor");
+		System.out.println(HumanResourcesManagementPresenter.class.getSimpleName() + " : constructor" );
 	}
 	
 	
@@ -67,7 +67,8 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		      public void onClick(ClickEvent event) {
 		    	  System.out.println("HRM Presenter on Click");
 		        //eventBus.fireEvent(new ApplyLeavingEvent());
-		    	  ApplyLeaving();
+		    	  eventBus.fireEvent(new RegisterEvent());
+		    	  //ApplyLeaving();
 		      }
 		    });
 
@@ -82,6 +83,13 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			
 		});
 		
+		/*
+		display.getAddButton().addClickHandler(new ClickHandler() {   
+		      public void onClick(ClickEvent event) {
+		        
+		      }
+		    });
+		*/
 		//
 	}
 	

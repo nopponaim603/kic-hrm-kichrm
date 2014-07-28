@@ -208,6 +208,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return testParametor;
 	}
 
+	@Override
+	public String Register(String userID) {
+		// TODO Auto-generated method stub
+		
+		return userID;
+	}
+
 	// TODO #11:> end	
 
 }
