@@ -5,11 +5,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
+import com.kic.hrm.client.event.ApplyLeavingEvent;
 import com.kic.hrm.client.event.RegisterEvent;
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.shared.LoginInfo;
@@ -42,7 +43,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
-		
+		bind();
 		 
 		 //
 		    
@@ -53,7 +54,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	@Override
 	public void go(HasWidgets container) {
 		// TODO Auto-generated method stub
-		bind();
+		
 	    container.clear();
 	    container.add(display.asWidget());
 	    
@@ -65,9 +66,10 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		// TODO Auto-generated method stub
 		display.getApplyLeavingButton().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
-		    	  System.out.println("HRM Presenter on Click");
+		    	  System.out.println("getApplyLeavingButton  : HRM Presenter on Click");
 		        //eventBus.fireEvent(new ApplyLeavingEvent());
-		    	  eventBus.fireEvent(new RegisterEvent());
+		    	  //eventBus.fireEvent(new ApplyLeavingEvent());
+		    	  //History.fireCurrentHistoryState();
 		    	  //ApplyLeaving();
 		      }
 		    });
@@ -118,13 +120,15 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				System.out.println("HRM Presenter on Click onSuccess");
+				System.out.println("HRM Presenter on Click onFailure");
 			}
 
 			@Override
 			public void onSuccess(Boolean result) {
 				// TODO Auto-generated method stub
-				System.out.println("HRM Presenter on Click onFailure");
+				System.out.println("HRM Presenter on Click onSuccess");
+				//eventBus.fireEvent(new RegisterEvent());
+				//eventBus.
 			}
 		});
 	}

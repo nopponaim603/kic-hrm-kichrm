@@ -15,6 +15,7 @@ import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.api.services.plus.PlusScopes;
 import com.google.gwt.user.client.Window;
+import com.kic.hrm.client.event.ApplyLeavingEvent;
 
 import java.util.Arrays;
 import java.util.List;
@@ -117,7 +118,7 @@ public class HumanResourcesManagement implements EntryPoint {
 	    System.out.println("onModuleLoad Complete.");
 	    
 	    // test  
-	    //Register(rpcService);
+	    Register(eventBus);
 	    QuickTest(rpcService);
 	    addGoogleAuth(rpcService);
 
@@ -150,28 +151,14 @@ public class HumanResourcesManagement implements EntryPoint {
 		RootPanel.get().add(button);
 	}
 	
-	private void Register(final GreetingServiceAsync rpcService) {
+	private void Register(final HandlerManager eventBus) {
 		Button button = new Button("Register");
 		 button.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				rpcService.Register("Test", new AsyncCallback<String>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(String result) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-				});
+				eventBus.fireEvent(new ApplyLeavingEvent());
 			}
 			 
 		 });

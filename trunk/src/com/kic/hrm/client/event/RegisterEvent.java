@@ -8,7 +8,7 @@ public class RegisterEvent  extends GwtEvent<RegisterEventHandler>{
 	public static Type<RegisterEventHandler> TYPE = new Type<RegisterEventHandler>();
 	
 	@Override
-	public com.google.gwt.event.shared.GwtEvent.Type<RegisterEventHandler> getAssociatedType() {
+	public Type<RegisterEventHandler> getAssociatedType() {
 		// TODO Auto-generated method stub
 		return TYPE;
 	}

@@ -51,7 +51,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onApplyLeaving(ApplyLeavingEvent event) {
 				// TODO Auto-generated method stub
-				ApplyLeaving();
+				System.out.print("Test Register");
+				History.newItem("Register");
+				//ApplyLeaving();
 			}
 		});
 		
@@ -68,9 +70,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onRegistering(RegisterEvent event) {
 				// TODO Auto-generated method stub
-				History.newItem("Register");
+
 			}
 		});
+		
+		//System.out.print("Add EventBus Complete.");
 	}
 
 	@Override
@@ -96,7 +100,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	}
 	
 	private void EnableOauth() {
-		System.out.println("Appcontroller run EnableOauth Event");
+		System.out.println("AAAppcontroller run EnableOauth Event");
 	}
 
 	@Override
@@ -115,7 +119,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		*/
 		
 		String token = event.getValue();
-	    
+	    System.out.println("Token Event : " + token);
 	    if (token != null) {
 	      Presenter presenter = null;
 

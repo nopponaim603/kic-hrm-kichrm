@@ -86,7 +86,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		//OauthServiceImpl.TestOAth2();
 		
-		return false;
+		return true;
 	}
 
 	// TODO #11: implement login helper methods in service implementation	
