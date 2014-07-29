@@ -36,7 +36,7 @@ import com.google.gdata.client.authn.oauth.OAuthException;
 import com.google.gdata.client.authn.oauth.OAuthHmacSha1Signer;
 import com.google.gdata.client.authn.oauth.OAuthRsaSha1Signer;
 import com.google.gdata.client.authn.oauth.OAuthSigner;
-import com.kic.hrm.client.HumanResourcesManagement;
+import com.kic.hrm.client.CloudHRM;
 
 //import com.google.api.gwt.services.
 public class DriveServiceImpl {
@@ -123,7 +123,7 @@ public class DriveServiceImpl {
 			GoogleCredential credential = new GoogleCredential().setAccessToken(token);
 			
 			//_logger.severe("create http , json , credential : press");
-			Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(HumanResourcesManagement.getAPPLICATION_NAME()).build();
+			Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(CloudHRM.getAPPLICATION_NAME()).build();
 			
 			return service;
 	  }
@@ -190,7 +190,7 @@ public class DriveServiceImpl {
 	      */
 	      
 	      Drive service = new Drive.Builder(httpTransport, jsonFactory, null)
-	      .setHttpRequestInitializer(credential) .setApplicationName(HumanResourcesManagement.getAPPLICATION_NAME()).build();
+	      .setHttpRequestInitializer(credential) .setApplicationName(CloudHRM.getAPPLICATION_NAME()).build();
 		  		  
 		  return service;
 	}

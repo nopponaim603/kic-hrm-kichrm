@@ -13,7 +13,7 @@
   
   <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/humanresourcesmanagement/greet</url-pattern>
+    <url-pattern>/CloudHRM/greet</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -28,7 +28,7 @@
 
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>HumanResourcesManagement.html</welcome-file>
+    <welcome-file>CloudHRM.html</welcome-file>
   </welcome-file-list>
   
 	<!-- Datastore Filter by Slim3 -->
