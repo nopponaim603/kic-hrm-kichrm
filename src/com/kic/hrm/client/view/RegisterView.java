@@ -1,6 +1,10 @@
 package com.kic.hrm.client.view;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.resources.css.ast.HasSelectors;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasName;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
@@ -14,7 +18,17 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 	
 	private final Button SubmitButton;
 	private final Button CancelButton;
-	
+	private final TextBox WorkIDTextBox;
+	private final ListBox SexTextBox;
+	private final TextBox NameTextBox;
+	private final TextBox SurnameTextBox;
+	private final TextBox NameTTextBox;
+	private final TextBox SurnameTTextBox;
+	private final TextBox ShortNameTextBox;
+	private final ListBox RoleTextBox;
+	private final ListBox SegmentTextBox;
+	private final TextBox EmailTextBox;
+	private final TextBox PhoneTextBox;
 	public RegisterView() {
 		// TODO Auto-generated constructor stub
 		VerticalPanel verticalPanel = new VerticalPanel();
@@ -117,8 +131,26 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		Button btnNewButton = new Button("Submit");
 		grid.setWidget(11, 1, btnNewButton);
 		//verticalPanelLeavingForm.add(verticalPanel);
+		
 		SubmitButton = btnNewButton;
 		CancelButton = btnBack;
+		
+		WorkIDTextBox = textBox;
+		
+		SexTextBox = comboBox;
+		NameTextBox = textBox_1;
+		SurnameTextBox = textBox_2;
+		NameTTextBox = textBox_3;
+		SurnameTTextBox = textBox_4;
+		ShortNameTextBox = textBox_5;
+		
+		RoleTextBox = comboBox_1;
+		SegmentTextBox = comboBox_2;
+		
+		EmailTextBox = textBox_7;
+		PhoneTextBox = textBox_6;
+		
+		//SegmentTextBox.getS
 	}
 	
 	@Override
@@ -140,4 +172,72 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		// TODO Auto-generated method stub
 		return CancelButton;
 	}
+
+	@Override
+	public HasValue<String> getWorkID() {
+		// TODO Auto-generated method stub
+		return WorkIDTextBox;
+	}
+
+	@Override
+	public HasValue<String> getName() {
+		// TODO Auto-generated method stub
+		return NameTextBox;
+	}
+
+	@Override
+	public HasValue<String> getSurname() {
+		// TODO Auto-generated method stub
+		return SurnameTextBox;
+	}
+
+	@Override
+	public HasValue<String> getNameT() {
+		// TODO Auto-generated method stub
+		return NameTTextBox;
+	}
+
+	@Override
+	public HasValue<String> getSurnameT() {
+		// TODO Auto-generated method stub
+		return SurnameTTextBox;
+	}
+
+	@Override
+	public HasValue<String> getShortname() {
+		// TODO Auto-generated method stub
+		return ShortNameTextBox;
+	}
+
+	@Override
+	public HasValue<String> getEmail() {
+		// TODO Auto-generated method stub
+		return EmailTextBox;
+	}
+
+	@Override
+	public HasValue<String> getPhone() {
+		// TODO Auto-generated method stub
+		return PhoneTextBox;
+	}
+
+	@Override
+	public HasName getSex() {
+		// TODO Auto-generated method stub
+		return SexTextBox;
+	}
+
+	@Override
+	public HasName getRole() {
+		// TODO Auto-generated method stub
+		return RoleTextBox;
+	}
+
+	@Override
+	public HasName getSegment() {
+		// TODO Auto-generated method stub
+		return SegmentTextBox;
+	}
+
+
 }

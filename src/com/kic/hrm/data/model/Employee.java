@@ -13,7 +13,7 @@ import com.kic.hrm.server.DataStoreControl;
 //import org.slim3.datastore.Attribute;
 //import com.kic.hrm.data.model.Sync;
 
-public class Employee implements Serializable{
+public class Employee {
 	public enum sex {
 		Mr,
 		Mrs,
@@ -58,11 +58,7 @@ public class Employee implements Serializable{
 		email,
 		phone
 	}
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 
 	//@Attribute(primaryKey = true)
     //@Sync(true)

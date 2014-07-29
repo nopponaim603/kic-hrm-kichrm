@@ -7273,3 +7273,85 @@ Compiling...
    Compilation completed in 0.00 seconds
 Removing invalidated units
 Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2770 units from cache.
+Compiling...
+   Compilation completed in 7.73 seconds
+Validating units:
+   Errors in 'file:/D:/Documents/workspace/CloudHRM/src/com/kic/hrm/client/presenter/RegisterPresenter.java'
+      Line 40: No source code is available for type com.kic.hrm.data.model.Employee; did you forget to inherit a required module?
+   Errors in 'file:/D:/Documents/workspace/CloudHRM/src/com/kic/hrm/client/view/RegisterView.java'
+      Line 31: VerticalPanel cannot be resolved to a type
+      Line 31: VerticalPanel cannot be resolved to a type
+      Line 34: Grid cannot be resolved to a type
+      Line 34: Grid cannot be resolved to a type
+      Line 37: Label cannot be resolved to a type
+      Line 37: Label cannot be resolved to a type
+      Line 43: Label cannot be resolved to a type
+      Line 43: Label cannot be resolved to a type
+      Line 52: Label cannot be resolved to a type
+      Line 52: Label cannot be resolved to a type
+      Line 58: Label cannot be resolved to a type
+      Line 58: Label cannot be resolved to a type
+      Line 64: Label cannot be resolved to a type
+      Line 64: Label cannot be resolved to a type
+      Line 70: Label cannot be resolved to a type
+      Line 70: Label cannot be resolved to a type
+      Line 76: Label cannot be resolved to a type
+      Line 76: Label cannot be resolved to a type
+      Line 82: Label cannot be resolved to a type
+      Line 82: Label cannot be resolved to a type
+      Line 102: Label cannot be resolved to a type
+      Line 102: Label cannot be resolved to a type
+      Line 113: Label cannot be resolved to a type
+      Line 113: Label cannot be resolved to a type
+      Line 119: Label cannot be resolved to a type
+      Line 119: Label cannot be resolved to a type
+      Line 136: SexTextBox cannot be resolved to a type
+      Line 136: Syntax error on token ";", delete this token
+      Line 136: Syntax error on token ";", delete this token
+      Line 138: SurnameTextBox cannot be resolved to a type
+      Line 138: Syntax error on token ";", delete this token
+      Line 138: Syntax error on token ";", delete this token
+      Line 140: SurnameTTextBox cannot be resolved to a type
+      Line 140: Syntax error on token ";", delete this token
+      Line 140: Syntax error on token ";", delete this token
+   Errors in 'file:/D:/Documents/workspace/CloudHRM/src/com/kic/hrm/shared/State.java'
+      Line 42: No source code is available for type com.google.gson.GsonBuilder; did you forget to inherit a required module?
+      Line 43: No source code is available for type com.google.gson.Gson; did you forget to inherit a required module?
+   Errors in 'file:/D:/Documents/workspace/CloudHRM/src/com/kic/hrm/shared/Utils.java'
+      Line 18: The import com.google.api.services.plus cannot be resolved
+      Line 27: PlusScopes cannot be resolved to a variable
+      Line 36: The method getResourceAsStream(String) is undefined for the type Class<Utils>
+   Errors in 'file:/D:/Documents/workspace/CloudHRM/src/com/kic/hrm/shared/Views.java'
+      Line 5: The import com.google.api.services.plus cannot be resolved
+      Line 23: Activity cannot be resolved to a type
+Removing invalidated units
+Finding entry point classes
+Rebinding com.google.gwt.i18n.client.impl.LocaleInfoImpl
+   Invoking generator com.google.gwt.i18n.rebind.LocaleInfoGenerator
+      Processing interface com.google.gwt.i18n.client.constants.NumberConstantsImpl
+         Generating method body for notANumber()
+         Generating method body for currencyPattern()
+         Generating method body for decimalPattern()
+         Generating method body for decimalSeparator()
+         Generating method body for defCurrencyCode()
+         Generating method body for exponentialSymbol()
+         Generating method body for globalCurrencyPattern()
+         Generating method body for groupingSeparator()
+         Generating method body for infinity()
+         Generating method body for minusSign()
+         Generating method body for monetaryGroupingSeparator()
+         Generating method body for monetarySeparator()
+         Generating method body for percent()
+         Generating method body for percentPattern()
+         Generating method body for perMill()
+         Generating method body for plusSign()
+         Generating method body for scientificPattern()
+         Generating method body for simpleCurrencyPattern()
+         Generating method body for zeroDigit()
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0.02 seconds
+      Removing invalidated units
