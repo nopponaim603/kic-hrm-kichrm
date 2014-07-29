@@ -13,7 +13,7 @@ public class EnableOauthEvent extends GwtEvent<EnableOauthEventHandler>{
 	@Override
 	protected void dispatch(EnableOauthEventHandler handler) {
 		// TODO Auto-generated method stub
-		
+		handler.onEnableOauth(this);
 	}
 
 }

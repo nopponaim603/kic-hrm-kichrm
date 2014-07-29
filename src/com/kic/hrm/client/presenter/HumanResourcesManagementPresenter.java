@@ -1,11 +1,11 @@
 package com.kic.hrm.client.presenter;
 
-import com.google.gwt.core.client.GWT;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.History;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -30,6 +30,10 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		List<Integer> getSelectedRows();
 		*/
 		
+		HasClickHandlers getAddProfileButton();
+		HasClickHandlers getEditProfileButton();
+		HasClickHandlers getRefreshButton();
+		
 		Widget asWidget();
 	}
 	
@@ -43,10 +47,10 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
+		
 		bind();
-		 
-		 //
-		    
+		
+		 //	    
 		System.out.println(HumanResourcesManagementPresenter.class.getSimpleName() + " : constructor" );
 	}
 	
@@ -61,30 +65,57 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	   
 	}
 
-
-	private void bind() {
+	public void bind() {
 		// TODO Auto-generated method stub
 		display.getApplyLeavingButton().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
-		    	  System.out.println("getApplyLeavingButton  : HRM Presenter on Click");
+		       System.out.println("HRM_P| " + event.toDebugString() + " is on Click");
 		        //eventBus.fireEvent(new ApplyLeavingEvent());
-		    	  //eventBus.fireEvent(new ApplyLeavingEvent());
+		       //eventBus
+		    	 eventBus.fireEvent(new ApplyLeavingEvent());
+		    	 System.out.println("HRM_P| After call eventBus fireEvent");
 		    	  //History.fireCurrentHistoryState();
 		    	  //ApplyLeaving();
 		      }
 		    });
 
+		display.getAddProfileButton().addClickHandler(new ClickHandler() {
+			
+		
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("HRM_P| " + event.toDebugString() + " is on Click");
+				eventBus.fireEvent(new RegisterEvent());
+				System.out.println("HRM_P| After call eventBus fireEvent");
+				//this.e
+			}
+		});
+		
 		display.getToggleOauth().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				System.out.println("HRM Presenter from : " + event.toString());
-				ToggleOauth();
+				System.out.println("HRM_P| " + event.toDebugString() + " is on Click");
+				// eventBus.fireEvent(new RegisterEvent());
+				//ToggleOauth();
 			}
 			
 		});
 		
+
+		
+		/*
+		display.getEditProfileButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				//eventBus.fireEvent(new RegisterEvent());
+			}
+		});
+		*/
 		/*
 		display.getAddButton().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
