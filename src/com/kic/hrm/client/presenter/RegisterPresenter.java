@@ -4,6 +4,7 @@ import javax.servlet.annotation.ServletSecurity.EmptyRoleSemantic;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerManager;
@@ -16,7 +17,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.ProfileUpdateEvent;
 import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter.Display;
-
 import com.kic.hrm.data.model.Employee;
 
 public class RegisterPresenter implements Presenter{
@@ -27,16 +27,16 @@ public class RegisterPresenter implements Presenter{
 		HasClickHandlers getSubmit();
 		HasClickHandlers getCancel();
 		
-		HasValue<String> getWorkID();
-		HasName getSex();
+		HasValue<Integer> getWorkID();
+		String getSex();
 		HasValue<String> getName();
 		HasValue<String> getSurname();
 		HasValue<String> getNameT();
 		HasValue<String> getSurnameT();
 		HasValue<String> getShortname();
 		
-		HasName  getRole();
-		HasName  getSegment();
+		String  getRole();
+		String  getSegment();
 		HasValue<String> getEmail();
 		HasValue<String> getPhone();
 		
@@ -63,7 +63,7 @@ public class RegisterPresenter implements Presenter{
 		display.getSubmit().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
 		    	  System.out.println("getSubmit  : on Click");
-		    	  //doSave();
+		    	  doSave();
 		      }
 		    });
 		
@@ -85,24 +85,24 @@ public class RegisterPresenter implements Presenter{
 	
 	private void doSave() {
 		
-		/*
-		 * 
-		m_employee.setM_employeeID(Integer.parseInt(display.getWorkID().getValue()));
-		m_employee.setM_sex(Employee.sex.valueOf(display.getSex().getName()));
+
+		m_employee.setM_employeeID(display.getWorkID().getValue());
+		m_employee.setM_sex(Employee.sex.valueOf(display.getSex()));
 		m_employee.setM_name(display.getName().getValue());
 		m_employee.setM_surname(display.getSurname().getValue());
 		m_employee.setM_nameT(display.getNameT().getValue());
 		m_employee.setM_surnameT(display.getSurnameT().getValue());
 		m_employee.setM_shortName(display.getShortname().getValue());
-		m_employee.setM_role(Employee.role.valueOf(display.getRole().getName()));
-		m_employee.setM_segment(Employee.segment.valueOf(display.getSegment().getName()));
+		m_employee.setM_role(Employee.role.valueOf(display.getRole()));
+		m_employee.setM_segment(Employee.segment.valueOf(display.getSegment()));
 		m_employee.setM_email(display.getEmail().getValue());
 		m_employee.setM_phone(display.getPhone().getValue());
 		
 		System.out.println("Test Value");
-		System.out.println(m_employee.getM_name() + " : " + m_employee.getM_employeeID() + " : " + m_employee.getM_sex());
+		System.out.println(m_employee.getM_name() + " : " + m_employee.getM_employeeID() + " : " + m_employee.getM_sex()
+				+ " : " +m_employee.getM_nameT());
 		
-		*/
+		
 		//eventBus.fireEvent(new ProfileUpdateEvent());
 	}
 }
