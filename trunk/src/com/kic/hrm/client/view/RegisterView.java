@@ -1,4 +1,5 @@
 package com.kic.hrm.client.view;
+import com.google.gwt.event.dom.client.HasChangeHandlers;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.resources.css.ast.HasSelectors;
@@ -13,12 +14,14 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.presenter.RegisterPresenter;
+import com.google.gwt.user.client.ui.LongBox;
+import com.google.gwt.user.client.ui.IntegerBox;
 
 public class RegisterView  extends Composite implements RegisterPresenter.Display{
 	
 	private final Button SubmitButton;
 	private final Button CancelButton;
-	private final TextBox WorkIDTextBox;
+	private final IntegerBox WorkIDTextBox;
 	private final ListBox SexTextBox;
 	private final TextBox NameTextBox;
 	private final TextBox SurnameTextBox;
@@ -40,8 +43,8 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		Label lblWorkid = new Label("WorkID");
 		grid.setWidget(0, 0, lblWorkid);
 		
-		TextBox textBox = new TextBox();
-		grid.setWidget(0, 1, textBox);
+		IntegerBox integerBox = new IntegerBox();
+		grid.setWidget(0, 1, integerBox);
 		
 		Label lblSec = new Label("sex");
 		grid.setWidget(1, 0, lblSec);
@@ -106,10 +109,10 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		grid.setWidget(8, 0, lblSegment);
 		
 		ListBox comboBox_2 = new ListBox();
-		comboBox_2.addItem("Director,");
-		comboBox_2.addItem("Project,");
-		comboBox_2.addItem("Office,");
-		comboBox_2.addItem("Researchers,");
+		comboBox_2.addItem("Director");
+		comboBox_2.addItem("Project");
+		comboBox_2.addItem("Office");
+		comboBox_2.addItem("Researchers");
 		comboBox_2.addItem("Advisor");
 		grid.setWidget(8, 1, comboBox_2);
 		
@@ -135,8 +138,7 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		SubmitButton = btnNewButton;
 		CancelButton = btnBack;
 		
-		WorkIDTextBox = textBox;
-		
+		WorkIDTextBox = integerBox;
 		SexTextBox = comboBox;
 		NameTextBox = textBox_1;
 		SurnameTextBox = textBox_2;
@@ -174,7 +176,7 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 	}
 
 	@Override
-	public HasValue<String> getWorkID() {
+	public HasValue<Integer> getWorkID() {
 		// TODO Auto-generated method stub
 		return WorkIDTextBox;
 	}
@@ -222,21 +224,21 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 	}
 
 	@Override
-	public HasName getSex() {
+	public String getSex() {
 		// TODO Auto-generated method stub
-		return SexTextBox;
+		return SexTextBox.getItemText(SexTextBox.getSelectedIndex());
 	}
 
 	@Override
-	public HasName getRole() {
+	public String getRole() {
 		// TODO Auto-generated method stub
-		return RoleTextBox;
+		return RoleTextBox.getItemText(RoleTextBox.getSelectedIndex());
 	}
 
 	@Override
-	public HasName getSegment() {
+	public String getSegment() {
 		// TODO Auto-generated method stub
-		return SegmentTextBox;
+		return SegmentTextBox.getItemText(SegmentTextBox.getSelectedIndex());
 	}
 
 

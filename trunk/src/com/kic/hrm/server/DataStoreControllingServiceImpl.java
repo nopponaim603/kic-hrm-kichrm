@@ -16,6 +16,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.EmployeeService;
 
 public class DataStoreControllingServiceImpl {
 	
@@ -57,8 +58,8 @@ public class DataStoreControllingServiceImpl {
 	   
 	   	
 	    Entity d_employee = DataStoreControl.CreateEntity(Employee.class);
-	    d_employee = m_employee.FlashData(d_employee);
-	    
+	    d_employee = EmployeeService.FlashData(d_employee, m_employee);
+	   
 	    DataStoreControl.Save(d_employee);
 	    
 	}
@@ -71,7 +72,8 @@ public class DataStoreControllingServiceImpl {
 		List<Employee> results;// = new ArrayList<Employee>();
 		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.DESCENDING);
 		//DataStoreControl.
-		results = Employee.Filter(entities, Employee.property.role , Employee.role.Director.toString());
+		
+		results = EmployeeService.Filter(entities, Employee.property.role, Employee.role.Director.toString());
 		System.out.println("Count resultes "+ results.size());
 		for(Employee em : results) {
 			System.out.println(em.toString());

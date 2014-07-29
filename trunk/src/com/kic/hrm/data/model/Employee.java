@@ -6,6 +6,9 @@ import java.util.List;
 
 
 
+
+
+
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.kic.hrm.server.DataStoreControl;
@@ -62,7 +65,7 @@ public class Employee {
 
 	//@Attribute(primaryKey = true)
     //@Sync(true)
-    private Key key;
+    private String key;
 
     //@Attribute(version = true)
     private Long version;
@@ -81,11 +84,11 @@ public class Employee {
     private String	m_email;
     private String	m_phone;
     
-    public Key getKey() {
+    public String getKey() {
 		return key;
 	}
     
-    public void setKey(Key key) {
+    public void setKey(String key) {
 		this.key = key;
 	}
 
@@ -269,64 +272,6 @@ public class Employee {
 		
 	}
 	
-	public Employee(Entity entity) {
-		// TODO Auto-generated method stub
-		this.key = entity.getKey();
-
-		this.m_employeeID = (int) (long) entity.getProperty(property.employeeID.toString());
-		this.m_sex = sex.valueOf(entity.getProperty(property.sex.toString()).toString());
-		this.m_name = (String)entity.getProperty(property.name.toString());
-		this.m_surname = (String)entity.getProperty(property.surname.toString());
-		this.m_nameT = (String)entity.getProperty(property.nameT.toString());
-		this.m_surnameT = (String)entity.getProperty(property.surnameT.toString());
-		this.m_shortName = (String)entity.getProperty(property.shortName.toString());
-		this.m_role = role.valueOf(entity.getProperty(property.role.toString()).toString());
-		this.m_segment = segment.valueOf(entity.getProperty(property.segment.toString()).toString());
-		this.m_email = (String)entity.getProperty(property.email.toString());
-		this.m_phone = (String)entity.getProperty(property.phone.toString());
-	}
-	
-	public Entity EditData() {
-		Entity temp = new Entity(this.key);
-		return FlashData(temp);
-	}
-	
-	public Entity FlashData(Entity entity) {
-		
-		//Entity etst = new Entity(kind, id)
-		//entity.s
-		//entity.
-		entity.setProperty(property.employeeID.toString(), this.m_employeeID);
-		entity.setProperty(property.sex.toString(), this.m_sex.toString());
-		entity.setProperty(property.name.toString(), this.m_name);
-		entity.setProperty(property.surname.toString(), this.m_surname);
-		entity.setProperty(property.nameT.toString(), this.m_nameT);
-		entity.setProperty(property.surnameT.toString(), this.m_surnameT);
-		entity.setProperty(property.shortName.toString(), this.m_shortName);
-		entity.setProperty(property.role.toString(), this.m_role.toString());
-		entity.setProperty(property.segment.toString(), this.m_segment.toString());
-		entity.setProperty(property.email.toString(), this.m_email);
-		entity.setProperty(property.phone.toString(), this.m_phone);
-		return entity;
-	}
-	
-	public static List<Employee> Clone(List<Entity> entities) {
-		List<Employee> results = new ArrayList<Employee>();
-		for (Entity entity : entities) 
-				results.add(new Employee(entity));
-				
-		return results;
-	}
-	
-	public static List<Employee> Filter(List<Entity> entities ,property type,String target) {
-		
-		List<Employee> results = new ArrayList<Employee>();
-		for (Entity entity : entities) {
-			if(entity.getProperty(type.toString()).toString().contentEquals(target))
-				results.add(new Employee(entity));
-		}
-		
-		return results;
-	}
 
 }
+
