@@ -1,7 +1,6 @@
 package com.kic.hrm.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.GwtEvent.Type;
 
 public class RegisterEvent  extends GwtEvent<RegisterEventHandler>{
 
@@ -16,7 +15,7 @@ public class RegisterEvent  extends GwtEvent<RegisterEventHandler>{
 	@Override
 	protected void dispatch(RegisterEventHandler handler) {
 		// TODO Auto-generated method stub
-		
+		handler.onRegistering(this);
 	}
 
 }

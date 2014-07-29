@@ -12,7 +12,8 @@ import com.kic.hrm.client.presenter.RegisterPresenter;
 
 public class RegisterView  extends Composite implements RegisterPresenter.Display{
 	
-	final Button SubmitButton;
+	private final Button SubmitButton;
+	private final Button CancelButton;
 	
 	public RegisterView() {
 		// TODO Auto-generated constructor stub
@@ -117,12 +118,7 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		grid.setWidget(11, 1, btnNewButton);
 		//verticalPanelLeavingForm.add(verticalPanel);
 		SubmitButton = btnNewButton;
-	}
-
-	@Override
-	public HasClickHandlers getRegister() {
-		// TODO Auto-generated method stub
-		return SubmitButton;
+		CancelButton = btnBack;
 	}
 	
 	@Override
@@ -131,5 +127,17 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		
 		//System.out.println("return Widget : " +this	);
 		return this;
+	}
+
+	@Override
+	public HasClickHandlers getSubmit() {
+		// TODO Auto-generated method stub
+		return SubmitButton;
+	}
+
+	@Override
+	public HasClickHandlers getCancel() {
+		// TODO Auto-generated method stub
+		return CancelButton;
 	}
 }

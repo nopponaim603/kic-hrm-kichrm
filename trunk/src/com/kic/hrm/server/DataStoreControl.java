@@ -18,9 +18,10 @@ public class DataStoreControl {
 	public static Entity CreateEntity(Class<?> entiryClassName) {
 		//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		Entity m_entiry = new Entity(entiryClassName.getSimpleName());
+		
 		return m_entiry;
 	}
-		
+			
 	public static void Edit(Entity entity,String propertyName,int value) {
 		entity.setProperty(propertyName, value);
 	}
@@ -43,6 +44,7 @@ public class DataStoreControl {
 	
 	public static void Save(Entity entity) {
 		//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		//datastore.
 		datastore.put(entity);
 	}
 	

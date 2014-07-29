@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.kic.hrm.server.DataStoreControl;
 
 //import org.slim3.datastore.Attribute;
 //import com.kic.hrm.data.model.Sync;
@@ -288,7 +290,16 @@ public class Employee implements Serializable{
 		this.m_phone = (String)entity.getProperty(property.phone.toString());
 	}
 	
+	public Entity EditData() {
+		Entity temp = new Entity(this.key);
+		return FlashData(temp);
+	}
+	
 	public Entity FlashData(Entity entity) {
+		
+		//Entity etst = new Entity(kind, id)
+		//entity.s
+		//entity.
 		entity.setProperty(property.employeeID.toString(), this.m_employeeID);
 		entity.setProperty(property.sex.toString(), this.m_sex.toString());
 		entity.setProperty(property.name.toString(), this.m_name);

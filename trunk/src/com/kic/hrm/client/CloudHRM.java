@@ -17,6 +17,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.kic.hrm.client.event.ApplyLeavingEvent;
+import com.kic.hrm.client.event.RegisterEvent;
 
 public class CloudHRM  implements EntryPoint{
 
@@ -147,7 +148,7 @@ public class CloudHRM  implements EntryPoint{
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				eventBus.fireEvent(new ApplyLeavingEvent());
+				eventBus.fireEvent(new RegisterEvent());
 			}
 			 
 		 });

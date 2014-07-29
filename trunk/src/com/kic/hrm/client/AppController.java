@@ -4,7 +4,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
-
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
@@ -12,6 +11,8 @@ import com.kic.hrm.client.event.ApplyLeavingEvent;
 import com.kic.hrm.client.event.ApplyLeavingEventHandler;
 import com.kic.hrm.client.event.EnableOauthEvent;
 import com.kic.hrm.client.event.EnableOauthEventHandler;
+import com.kic.hrm.client.event.ProfileUpdateEvent;
+import com.kic.hrm.client.event.ProfileUpdateEventHandler;
 import com.kic.hrm.client.event.RegisterEvent;
 import com.kic.hrm.client.event.RegisterEventHandler;
 import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter;
@@ -46,35 +47,51 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		History.addValueChangeHandler(this);
 
 		//Event Bus
-		eventBus.addHandler(ApplyLeavingEvent.TYPE, 
-		new ApplyLeavingEventHandler() {
+		eventBus.addHandler(RegisterEvent.TYPE,new RegisterEventHandler() {
+			
+			@Override
+			public void onRegistering(RegisterEvent event) {
+				// TODO Auto-generated method stub
+				System.out.print("App| Call Event Register.");
+				History.newItem("Register");
+			}
+		});
+		
+		eventBus.addHandler(ApplyLeavingEvent.TYPE, new ApplyLeavingEventHandler() {
 			@Override
 			public void onApplyLeaving(ApplyLeavingEvent event) {
 				// TODO Auto-generated method stub
-				System.out.print("Test Register");
-				History.newItem("Register");
+				System.out.print("App| Call Event ApplyLeaving.");
+				//History.newItem("Register");
 				//ApplyLeaving();
 			}
 		});
 		
 		eventBus.addHandler(EnableOauthEvent.TYPE, new EnableOauthEventHandler() {
 			@Override
-			public void onEnableOauth(ApplyLeavingEvent event) {
+			public void onEnableOauth(EnableOauthEvent event) {
 				// TODO Auto-generated method stub
 				EnableOauth();
 			}
 		});
+		
 
-		eventBus.addHandler(RegisterEvent.TYPE,new RegisterEventHandler() {
+		
+		eventBus.addHandler(ProfileUpdateEvent.TYPE	, new ProfileUpdateEventHandler() {
 			
 			@Override
-			public void onRegistering(RegisterEvent event) {
+			public void onProfileUpdated(ProfileUpdateEvent event) {
 				// TODO Auto-generated method stub
-
+				System.out.print("Back to main");
+				History.newItem("main");
 			}
 		});
 		
-		//System.out.print("Add EventBus Complete.");
+		//eventBus.fireEvent(new ApplyLeavingEvent());	
+		System.out.println("Count of Event ApplyLeaving " + eventBus.getHandlerCount(ApplyLeavingEvent.TYPE));
+		System.out.println("Count of Event RegisterEvent " + eventBus.getHandlerCount(RegisterEvent.TYPE));
+		
+		System.out.println("App| Add Handler EventBus Complete.");
 	}
 
 	@Override
@@ -105,19 +122,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
-		// TODO Auto-generated method stub
-		/*
-		String token = event.getValue();
-		Presenter presenter = null;
-		presenter = new HumanResourcesManagementPresenter(rpcService, eventBus,
-				new HumanResourcesManagementView());
-		if (presenter != null) {
-			Presenter presenter = null;
-		
-
-		}
-		*/
-		
+		// TODO Auto-generated method stub		
 		String token = event.getValue();
 	    System.out.println("Token Event : " + token);
 	    if (token != null) {
@@ -161,4 +166,16 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		});
 		
 	}
+	
+	/*
+	String token = event.getValue();
+	Presenter presenter = null;
+	presenter = new HumanResourcesManagementPresenter(rpcService, eventBus,
+			new HumanResourcesManagementView());
+	if (presenter != null) {
+		Presenter presenter = null;
+	
+
+	}
+	*/
 }
