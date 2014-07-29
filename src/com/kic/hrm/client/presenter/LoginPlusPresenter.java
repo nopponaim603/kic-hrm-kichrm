@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
 import com.kic.hrm.client.GreetingServiceAsync;
-import com.kic.hrm.client.HumanResourcesManagement;
+import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.shared.LoginInfo;
 
 public class LoginPlusPresenter {
@@ -63,8 +63,8 @@ public class LoginPlusPresenter {
 	
 	public void addGoogleAuthHelper(final GreetingServiceAsync rpcService) {
 
-		final AuthRequest req = new AuthRequest(HumanResourcesManagement.getGOOGLE_AUTH_URL(), HumanResourcesManagement.getGOOGLE_CLIENT_ID())
-		.withScopes(HumanResourcesManagement.getPLUS_ME_SCOPE());
+		final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(), CloudHRM.getGOOGLE_CLIENT_ID())
+		.withScopes(CloudHRM.getPLUS_ME_SCOPE());
 		
 		AUTH.login(	req, new Callback<String, Throwable>() {
 			

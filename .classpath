@@ -18,6 +18,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/guava-jdk5-13.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/gwt-oauth2-0.2-alpha.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jackson-core-asl-1.9.12.jar"/>
-	<classpathentry kind="lib" path="lib/slim3-1.0.16.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/slim3-1.0.16.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

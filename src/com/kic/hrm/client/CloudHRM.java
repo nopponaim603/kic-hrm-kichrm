@@ -1,42 +1,31 @@
 package com.kic.hrm.client;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
+
+import com.google.api.gwt.oauth2.client.Auth;
+import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
-
-//import com.google.api.client.auth.oauth
-import com.google.api.gwt.oauth2.client.Auth;
-import com.google.api.gwt.oauth2.client.AuthRequest;
-import com.google.api.services.plus.PlusScopes;
-import com.google.gwt.user.client.Window;
 import com.kic.hrm.client.event.ApplyLeavingEvent;
 
-import java.util.Arrays;
-import java.util.List;
+public class CloudHRM  implements EntryPoint{
 
-//import com.sw_engineering_candies.oauth2.shared.LoginInfo;
-import java.util.logging.Logger;
-
-//import com.google.api.gwt.client.GoogleApiRequestTransport;
-//import com.google.api.gwt.client.OAuth2Login;
-
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
- */
-
-public class HumanResourcesManagement implements EntryPoint {
-	//	OAuth2Login.
+//	OAuth2Login.
 	
 	/**
 	 * This is the entry point method.
 	 */
-	private static final Logger log = Logger.getLogger(HumanResourcesManagement.class.getName());
+	private static final Logger log = Logger.getLogger(CloudHRM.class.getName());
 	
 	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
 	public static String getAPPLICATION_NAME() {

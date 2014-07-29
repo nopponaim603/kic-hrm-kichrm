@@ -1,0 +1,2 @@
+# Module CloudHRM
+# RPC service class, partial path of RPC policy file
