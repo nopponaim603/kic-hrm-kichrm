@@ -37,6 +37,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		HasClickHandlers getAddProfileButton();
 		HasClickHandlers getEditProfileButton();
 		HasClickHandlers getRefreshButton();
+		HasClickHandlers getDeleteButton();
 		
 		Widget asWidget();
 		
@@ -139,7 +140,16 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				rpcService.UpdateList(Employee.class.getSimpleName(), new AsyncCallback<ArrayList<String>>() {
+				UpdateList();
+			}
+		});
+		
+		display.getDeleteButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				rpcService.deleteProfile(Integer.parseInt(display.getUsersListBox().getItemText(display.getUsersListBox().getSelectedIndex())), new AsyncCallback<Boolean>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -148,17 +158,35 @@ public class HumanResourcesManagementPresenter implements Presenter {
 					}
 
 					@Override
-					public void onSuccess(ArrayList<String> result) {
+					public void onSuccess(Boolean result) {
 						// TODO Auto-generated method stub
-						display.getUsersListBox().clear();
-						for(String nameUser : result) {
-							display.getUsersListBox().addItem(nameUser);
-						}
+						System.out.println("Delete Complete.");
+						UpdateList();
 					}
+					
 				});
 			}
 		});
 		
+	}
+	private void UpdateList() {
+		rpcService.UpdateList(Employee.class.getSimpleName(), new AsyncCallback<ArrayList<String>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				// TODO Auto-generated method stub
+				display.getUsersListBox().clear();
+				for(String nameUser : result) {
+					display.getUsersListBox().addItem(nameUser);
+				}
+			}
+		});
 	}
 	
 	private void ApplyLeaving(){

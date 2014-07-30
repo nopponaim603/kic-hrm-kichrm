@@ -232,7 +232,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			d_employee = DataStoreControl.CreateEntity(Employee.class);
 		else if(registerMode == state.edit) {
 			try {
-				d_employee = DataStoreControl.editEntity(userEmployee.getKind(), userEmployee.getKeyID());
+				d_employee = DataStoreControl.EditEntity(userEmployee.getKind(), userEmployee.getKeyID());
 			} catch (EntityNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -242,7 +242,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		//System.out.println(d_employee.toString() + " : " + d_employee.getProperty(property.employeeID.toString()));
 		 
 		d_employee = EmployeeService.FlashData(d_employee, userEmployee);  
-		DataStoreControl.Save(d_employee);
+		DataStoreControl.SaveEntity(d_employee);
 		 
 		return userEmployee;
 	}
@@ -280,6 +280,26 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			}
 		}
 		return temp_employee;
+	}
+
+	@Override
+	public boolean deleteProfile(Integer targetEmployee) {
+		// TODO Auto-generated method stub
+		List<Employee> results;// = new ArrayList<Employee>();
+		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING);
+		results = EmployeeService.Clone(entities);
+		Employee temp_employee = null;
+		for(Employee em : results) {
+			if(em.getM_employeeID() == targetEmployee)
+			{
+				temp_employee = em;
+				break;
+			}
+		}
+		
+		DataStoreControl.DeleteEntity(temp_employee.getKind(), temp_employee.getKeyID());
+		
+		return false;
 	}
 
 	// TODO #11:> end	

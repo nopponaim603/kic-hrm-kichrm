@@ -26,7 +26,7 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 	private final Button addProfileButton;
 	private final Button editProfileButton;
 	private final Button refreshButton;
-	
+	private final Button deleteButton;
 	private final ListBox userList;
 	
 	public HumanResourcesManagementView() {
@@ -86,7 +86,7 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		applyLeavingButton = Testbuttom;
 		
 		
-		Grid grid = new Grid(4, 4);
+		Grid grid = new Grid(4, 5);
 		tabPanel.add(grid, "Admin Control", false);
 		grid.setSize("auto", "auto");
 		
@@ -121,7 +121,10 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		refreshButton = btnReface;
 		editProfileButton = btnEdit;
 		userList = comboBox;
-		//comboBox
+		
+		Button btnDelete = new Button("Delete");
+		grid.setWidget(3, 4, btnDelete);
+		deleteButton = btnDelete;
 		
 		System.out.println("Create View on : " + HumanResourcesManagementView.class.getSimpleName());
 	}
@@ -162,6 +165,12 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 	public ListBox getUsersListBox() {
 		// TODO Auto-generated method stub
 		return userList;
+	}
+
+	@Override
+	public HasClickHandlers getDeleteButton() {
+		// TODO Auto-generated method stub
+		return deleteButton;
 	}
 	
 }

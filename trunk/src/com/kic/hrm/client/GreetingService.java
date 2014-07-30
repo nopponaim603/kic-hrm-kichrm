@@ -38,4 +38,7 @@ public interface GreetingService extends RemoteService {
 	Employee getProfile(Integer targetEmployee);
 
 	Employee addProfile(Employee userEmployee, state registerMode);
+
+	boolean deleteProfile(Integer targetEmployee);
+
 }

@@ -37,7 +37,7 @@ public class RegisterPresenter implements Presenter{
 		HasClickHandlers getSubmit();
 		HasClickHandlers getCancel();
 		
-		HasValue<Integer> getWorkID();
+		HasValue<String> getWorkID();
 		String getSex();
 		ListBox setSex();
 		HasValue<String> getName();
@@ -102,8 +102,13 @@ public class RegisterPresenter implements Presenter{
 				//System.out.println("Key :" + m_employee.getKey() + " : " + test);
 				
 				// TODO Auto-generated method stub
-				display.getWorkID().setValue(m_employee.getM_employeeID());
-								
+				//Integer.
+				//System.out.println(m_employee.getM_employeeID());
+				
+				display.getWorkID().setValue(String.valueOf(m_employee.getM_employeeID()));
+				
+				//System.out.println(display.getWorkID().getValue());
+				//Integer.				
 				display.setSex().setSelectedIndex(m_employee.getM_sex().ordinal());
 				display.getName().setValue(m_employee.getM_name());
 				display.getSurname().setValue(m_employee.getM_surname());
@@ -147,7 +152,7 @@ public class RegisterPresenter implements Presenter{
 	private void doSave() {
 		
 
-		m_employee.setM_employeeID(display.getWorkID().getValue());
+		m_employee.setM_employeeID(Integer.parseInt(display.getWorkID().getValue()));
 		m_employee.setM_sex(Employee.sex.valueOf(display.getSex()));
 		m_employee.setM_name(display.getName().getValue());
 		m_employee.setM_surname(display.getSurname().getValue());
