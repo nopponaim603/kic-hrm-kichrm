@@ -27,6 +27,8 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 	private final Button editProfileButton;
 	private final Button refreshButton;
 	
+	private final ListBox userList;
+	
 	public HumanResourcesManagementView() {
 		// TODO Auto-generated constructor stub
 		TabPanel tabPanel = new TabPanel();
@@ -118,6 +120,8 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		addProfileButton = btnAdd;
 		refreshButton = btnReface;
 		editProfileButton = btnEdit;
+		userList = comboBox;
+		//comboBox
 		
 		System.out.println("Create View on : " + HumanResourcesManagementView.class.getSimpleName());
 	}
@@ -152,6 +156,12 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 
 	public HasClickHandlers getRefreshButton() {
 		return refreshButton;
+	}
+
+	@Override
+	public ListBox getUsersListBox() {
+		// TODO Auto-generated method stub
+		return userList;
 	}
 	
 }

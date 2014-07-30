@@ -1,9 +1,12 @@
 package com.kic.hrm.client;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.kic.hrm.client.presenter.RegisterPresenter.state;
+import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.shared.LoginInfo;
 
 /**
@@ -29,4 +32,10 @@ public interface GreetingService extends RemoteService {
 	String QuickTest(String testParametor);
 
 	String Register(String userID);
+
+	ArrayList<String> UpdateList(String targetEntity);
+
+	Employee getProfile(Integer targetEmployee);
+
+	Employee addProfile(Employee userEmployee, state registerMode);
 }

@@ -1,7 +1,10 @@
 package com.kic.hrm.client;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import java.util.ArrayList;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.kic.hrm.client.presenter.RegisterPresenter.state;
+import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.shared.*;
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -27,4 +30,10 @@ public interface GreetingServiceAsync {
 	void QuickTest(String testParametor , AsyncCallback<String> callback);
 	
 	void Register(String userID, AsyncCallback<String> callback);
+	
+	void addProfile(Employee userEmployee , state registerMode, AsyncCallback<Employee> callback);
+	
+	void getProfile(Integer targetEmployee, AsyncCallback<Employee> callback);
+	
+	void UpdateList(String targetEntity,AsyncCallback<ArrayList<String>> callback);
 }

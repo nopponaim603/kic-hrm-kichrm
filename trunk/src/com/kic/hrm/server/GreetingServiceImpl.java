@@ -1,17 +1,26 @@
 package com.kic.hrm.server;
 
 import com.kic.hrm.client.GreetingService;
+import com.kic.hrm.client.presenter.RegisterPresenter.state;
+import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.EmployeeService;
+import com.kic.hrm.data.model.Employee.property;
 import com.kic.hrm.shared.*;
 
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.net.URL;
 import java.net.URLConnection;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -213,6 +222,64 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		// TODO Auto-generated method stub
 		
 		return userID;
+	}
+
+	@Override
+	public Employee addProfile(Employee userEmployee, state registerMode) {
+		// TODO Auto-generated method stub
+		Entity d_employee = null;
+		if(registerMode == state.add)
+			d_employee = DataStoreControl.CreateEntity(Employee.class);
+		else if(registerMode == state.edit) {
+			try {
+				d_employee = DataStoreControl.editEntity(userEmployee.getKind(), userEmployee.getKeyID());
+			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		//System.out.println(d_employee.toString() + " : " + d_employee.getProperty(property.employeeID.toString()));
+		 
+		d_employee = EmployeeService.FlashData(d_employee, userEmployee);  
+		DataStoreControl.Save(d_employee);
+		 
+		return userEmployee;
+	}
+
+
+	@Override
+	public ArrayList<String> UpdateList(String targetEntity) {
+		// TODO Auto-generated method stub
+		List<Employee> results;// = new ArrayList<Employee>();
+		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING);
+		results = EmployeeService.Clone(entities);
+		ArrayList<String> EmployeeID = new ArrayList<String>();
+		
+		
+		for(Employee em : results) {
+			EmployeeID.add(String.valueOf(em.getM_employeeID()));
+		}
+		
+		
+		return EmployeeID;
+	}
+
+	@Override
+	public Employee getProfile(Integer targetEmployee) {
+		// TODO Auto-generated method stub
+		List<Employee> results;// = new ArrayList<Employee>();
+		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING);
+		results = EmployeeService.Clone(entities);
+		Employee temp_employee = null;
+		for(Employee em : results) {
+			if(em.getM_employeeID() == targetEmployee)
+			{
+				temp_employee = em;
+				break;
+			}
+		}
+		return temp_employee;
 	}
 
 	// TODO #11:> end	

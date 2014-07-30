@@ -10,17 +10,27 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.resources.css.ast.HasSelectors;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
+import com.kic.hrm.client.event.AddProfileEvent;
 import com.kic.hrm.client.event.ProfileUpdateEvent;
+import com.kic.hrm.client.event.RegisterEvent;
 import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter.Display;
+import com.kic.hrm.client.view.RegisterView;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.Employee.sex;
 
 public class RegisterPresenter implements Presenter{
-
+	public enum state {
+		add,
+		edit,
+		NONE
+	}
 	public interface Display {
 		Widget asWidget();
 
@@ -29,6 +39,7 @@ public class RegisterPresenter implements Presenter{
 		
 		HasValue<Integer> getWorkID();
 		String getSex();
+		ListBox setSex();
 		HasValue<String> getName();
 		HasValue<String> getSurname();
 		HasValue<String> getNameT();
@@ -36,7 +47,11 @@ public class RegisterPresenter implements Presenter{
 		HasValue<String> getShortname();
 		
 		String  getRole();
+		ListBox setRole();
+		
 		String  getSegment();
+		ListBox setSegment();
+		
 		HasValue<String> getEmail();
 		HasValue<String> getPhone();
 		
@@ -46,16 +61,61 @@ public class RegisterPresenter implements Presenter{
 	private final HandlerManager eventBus;
 	private final Display display;
 	public Employee m_employee;
+	private state redisterState;
 	public RegisterPresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
+		bind();
+		redisterState = state.add;
 		m_employee = new Employee();
 		//display.getWorkID().getValue()
 		//display.getSex().getName()
-		bind();
 		
+		
+	}
+
+	public RegisterPresenter(GreetingServiceAsync rpcService,
+			HandlerManager eventBus, Display view, int employeeID) {
+		// TODO Auto-generated constructor stub
+		this.rpcService = rpcService;
+		this.eventBus = eventBus;
+		this.display = view;
+		bind();
+		redisterState = state.edit;
+		
+		//get employee data form rpc server
+		rpcService.getProfile(employeeID, new AsyncCallback<Employee>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Employee result) {
+				m_employee = result;
+				int test = m_employee.getM_sex().ordinal();
+				
+				//System.out.println("Key :" + m_employee.getKey() + " : " + test);
+				
+				// TODO Auto-generated method stub
+				display.getWorkID().setValue(m_employee.getM_employeeID());
+								
+				display.setSex().setSelectedIndex(m_employee.getM_sex().ordinal());
+				display.getName().setValue(m_employee.getM_name());
+				display.getSurname().setValue(m_employee.getM_surname());
+				display.getNameT().setValue(m_employee.getM_nameT());
+				display.getSurnameT().setValue(m_employee.getM_surnameT());
+				display.getShortname().setValue(m_employee.getM_shortName());
+				display.setRole().setSelectedIndex(m_employee.getM_role().ordinal());
+				display.setSegment().setSelectedIndex(m_employee.getM_segment().ordinal());
+				display.getEmail().setValue(m_employee.getM_email());
+				display.getPhone().setValue(m_employee.getM_phone());
+			}
+		});
 	}
 
 	private void bind() {
@@ -70,6 +130,7 @@ public class RegisterPresenter implements Presenter{
 		display.getCancel().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
 		    	  System.out.println("getCancel  : on Click");
+		    	  eventBus.fireEvent(new AddProfileEvent());
 		    	  //History.fireCurrentHistoryState();
 		    	  //eventBus.fireEvent(new ProfileUpdateEvent());
 		      }
@@ -98,11 +159,27 @@ public class RegisterPresenter implements Presenter{
 		m_employee.setM_email(display.getEmail().getValue());
 		m_employee.setM_phone(display.getPhone().getValue());
 		
+		/*
 		System.out.println("Test Value");
 		System.out.println(m_employee.getM_name() + " : " + m_employee.getM_employeeID() + " : " + m_employee.getM_sex()
 				+ " : " +m_employee.getM_nameT());
+		*/
 		
-		
+		rpcService.addProfile(m_employee ,this.redisterState, new AsyncCallback<Employee>() {
+			
+			@Override
+			public void onSuccess(Employee result) {
+				// TODO Auto-generated method stub
+				eventBus.fireEvent(new AddProfileEvent());
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		//eventBus.fireEvent(new ProfileUpdateEvent());
 	}
+
 }

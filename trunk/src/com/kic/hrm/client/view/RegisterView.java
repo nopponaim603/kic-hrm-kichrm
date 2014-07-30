@@ -234,11 +234,31 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		// TODO Auto-generated method stub
 		return RoleTextBox.getItemText(RoleTextBox.getSelectedIndex());
 	}
-
+	
+	
+	
 	@Override
 	public String getSegment() {
 		// TODO Auto-generated method stub
 		return SegmentTextBox.getItemText(SegmentTextBox.getSelectedIndex());
+	}
+
+	@Override
+	public ListBox setSex() {
+		// TODO Auto-generated method stub
+		return SexTextBox;
+	}
+
+	@Override
+	public ListBox setRole() {
+		// TODO Auto-generated method stub
+		return RoleTextBox;
+	}
+
+	@Override
+	public ListBox setSegment() {
+		// TODO Auto-generated method stub
+		return SegmentTextBox;
 	}
 
 

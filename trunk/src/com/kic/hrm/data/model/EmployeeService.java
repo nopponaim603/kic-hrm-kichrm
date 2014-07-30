@@ -3,6 +3,7 @@ package com.kic.hrm.data.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import com.google.appengine.api.datastore.Entity;
 import com.kic.hrm.data.model.Employee.property;
 import com.kic.hrm.data.model.Employee.role;
@@ -13,9 +14,14 @@ public class EmployeeService {
 	
 	public static Employee AddDataEmployee(Entity entity) {
 		// TODO Auto-generated method stub
+		/*
+		System.out.println("AppID : " + entity.getAppId() + " : " + entity.getKind() + " : " + entity.getParent()
+				+" : "	+ entity.getKey().getId() + entity.getKey().getName() + " : " + entity.getKey().getParent());
+		*/
+		
 		Employee m_employee = new Employee();
-		m_employee.setKey(entity.getKey().toString());
-
+		m_employee.setKind(entity.getKind());
+		m_employee.setKeyID(entity.getKey().getId());
 		m_employee.setM_employeeID((int) (long) entity.getProperty(property.employeeID.toString()));		
 		m_employee.setM_sex(sex.valueOf(entity.getProperty(property.sex.toString()).toString()));
 		m_employee.setM_name((String)entity.getProperty(property.name.toString()));
@@ -31,12 +37,16 @@ public class EmployeeService {
 		return m_employee;
 	}
 	
+	/*
 	public static Entity EditData(Employee m_employee) {
-		Entity temp = new Entity(Employee.class.getSimpleName(),m_employee.getKey());
+		Entity temp = new Entity(Employee.class.getSimpleName(),m_employee.);
 		return FlashData(temp , m_employee);
 	}
+	*/
 	
 	public static Entity FlashData(Entity entity , Employee m_employee) {
+		
+		//entity.getProperty("test")
 		
 		entity.setProperty(property.employeeID.toString(), m_employee.getM_employeeID());
 		entity.setProperty(property.sex.toString(), m_employee.getM_sex().toString());
@@ -54,8 +64,10 @@ public class EmployeeService {
 	
 	public static List<Employee> Clone(List<Entity> entities) {
 		List<Employee> results = new ArrayList<Employee>();
-		for (Entity entity : entities) 
-				results.add(AddDataEmployee(entity));
+		for (Entity entity : entities) 		
+			results.add(AddDataEmployee(entity));
+		
+				
 				
 		return results;
 	}
