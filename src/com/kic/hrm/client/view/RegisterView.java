@@ -21,7 +21,7 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 	
 	private final Button SubmitButton;
 	private final Button CancelButton;
-	private final IntegerBox WorkIDTextBox;
+	private final TextBox WorkIDTextBox;
 	private final ListBox SexTextBox;
 	private final TextBox NameTextBox;
 	private final TextBox SurnameTextBox;
@@ -43,8 +43,8 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		Label lblWorkid = new Label("WorkID");
 		grid.setWidget(0, 0, lblWorkid);
 		
-		IntegerBox integerBox = new IntegerBox();
-		grid.setWidget(0, 1, integerBox);
+		TextBox textBox = new TextBox();
+		grid.setWidget(0, 1, textBox);
 		
 		Label lblSec = new Label("sex");
 		grid.setWidget(1, 0, lblSec);
@@ -137,8 +137,7 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 		
 		SubmitButton = btnNewButton;
 		CancelButton = btnBack;
-		
-		WorkIDTextBox = integerBox;
+		WorkIDTextBox = textBox;
 		SexTextBox = comboBox;
 		NameTextBox = textBox_1;
 		SurnameTextBox = textBox_2;
@@ -176,7 +175,7 @@ public class RegisterView  extends Composite implements RegisterPresenter.Displa
 	}
 
 	@Override
-	public HasValue<Integer> getWorkID() {
+	public HasValue<String> getWorkID() {
 		// TODO Auto-generated method stub
 		return WorkIDTextBox;
 	}

@@ -24,42 +24,22 @@ public class DataStoreControl {
 		return m_entiry;
 	}
 	
-	public static Entity editEntity(String inputKey , Long inputID) throws EntityNotFoundException {
-		//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		//Entity m_entiry = new Entity(entiryClassName.getSimpleName(),key);
-		//datastore.
+	public static Entity EditEntity(String inputKey , Long inputID) throws EntityNotFoundException {
 		Key newkey = KeyFactory.createKey(inputKey, inputID);
-		//datastore.get
-		//datastore.d
 		return datastore.get(newkey);
 	}
-			
-	public static void EditProperty(Entity entity,String propertyName,int value) {
-		entity.setProperty(propertyName, value);
+	
+	public static void DeleteEntity(String inputKey , Long inputID) {
+		Key newkey = KeyFactory.createKey(inputKey, inputID);
+		datastore.delete(newkey);
 	}
 	
-	public static void EditProperty(Entity entity,String propertyName,float value) {
-		entity.setProperty(propertyName, value);
-	}
-	
-	public static void EditProperty(Entity entity,String propertyName,String value) {
-		entity.setProperty(propertyName, value);
-	}
-	
-	public static void EditProperty(Entity entity,String propertyName,Date value) {
-		entity.setProperty(propertyName, value);
-	}
-	
-	public static void DeleteProprety(Entity entity, String propertyName) {
-		entity.removeProperty(propertyName);
-	}
-	
-	public static void Save(Entity entity) {
+	public static void SaveEntity(Entity entity) {
 		//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		//datastore.
 		datastore.put(entity);
 	}
-	
+
 	public static List<Entity> Query(Class<?> entiryClassName,SortDirection sortdirection) {
 		
 		Query query = new Query(entiryClassName.getSimpleName());
@@ -89,19 +69,25 @@ public class DataStoreControl {
 	    
 	    return temp;
 	}
-	
-	public static void DeleteEntity(String entiry) {
-		//datastore.d
-		//DeleteAllData
-		//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		//datastore.
+				
+	public static void EditProperty(Entity entity,String propertyName,int value) {
+		entity.setProperty(propertyName, value);
 	}
 	
-	/*
-	public static <T> List<T> Filter() {
-		List<T> temps = new List<T>();
-		return  temps;
+	public static void EditProperty(Entity entity,String propertyName,float value) {
+		entity.setProperty(propertyName, value);
 	}
-	*/
-
+	
+	public static void EditProperty(Entity entity,String propertyName,String value) {
+		entity.setProperty(propertyName, value);
+	}
+	
+	public static void EditProperty(Entity entity,String propertyName,Date value) {
+		entity.setProperty(propertyName, value);
+	}
+	
+	public static void DeleteProprety(Entity entity, String propertyName) {
+		entity.removeProperty(propertyName);
+	}
+	
 }

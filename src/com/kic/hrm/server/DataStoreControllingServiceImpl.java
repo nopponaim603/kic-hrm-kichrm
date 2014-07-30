@@ -60,7 +60,7 @@ public class DataStoreControllingServiceImpl {
 	    Entity d_employee = DataStoreControl.CreateEntity(Employee.class);
 	    d_employee = EmployeeService.FlashData(d_employee, m_employee);
 	   
-	    DataStoreControl.Save(d_employee);
+	    DataStoreControl.SaveEntity(d_employee);
 	    
 	}
 	

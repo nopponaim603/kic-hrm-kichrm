@@ -35,5 +35,7 @@ public interface GreetingServiceAsync {
 	
 	void getProfile(Integer targetEmployee, AsyncCallback<Employee> callback);
 	
+	void deleteProfile(Integer targetEmployee, AsyncCallback<Boolean> callback);
+	
 	void UpdateList(String targetEntity,AsyncCallback<ArrayList<String>> callback);
 }
