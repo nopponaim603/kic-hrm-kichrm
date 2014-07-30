@@ -16,7 +16,7 @@ import com.kic.hrm.server.DataStoreControl;
 //import org.slim3.datastore.Attribute;
 //import com.kic.hrm.data.model.Sync;
 
-public class Employee {
+public class Employee implements Serializable {
 	public enum sex {
 		Mr,
 		Mrs,
@@ -65,10 +65,10 @@ public class Employee {
 
 	//@Attribute(primaryKey = true)
     //@Sync(true)
-    private String key;
+    private String Kind;
 
     //@Attribute(version = true)
-    private Long version;
+    private Long keyID;
     
     private Integer schemaVersion = 1;
     
@@ -84,22 +84,22 @@ public class Employee {
     private String	m_email;
     private String	m_phone;
     
-    public String getKey() {
-		return key;
-	}
-    
-    public void setKey(String key) {
-		this.key = key;
+	public String getKind() {
+		return Kind;
 	}
 
-    public Long getVersion() {
-		return version;
-	}
-    
-    public void setVersion(Long version) {
-		this.version = version;
+	public void setKind(String kind) {
+		Kind = kind;
 	}
 
+	public Long getKeyID() {
+		return keyID;
+	}
+
+	public void setKeyID(Long keyID) {
+		this.keyID = keyID;
+	}
+   
 	/**
 	 * @return the schemaVersion
 	 */
@@ -271,6 +271,10 @@ public class Employee {
 	public Employee() {
 		
 	}
+
+
+
+
 	
 
 }
