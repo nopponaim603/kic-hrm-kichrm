@@ -22,7 +22,10 @@ public class EmployeeService {
 		Employee m_employee = new Employee();
 		m_employee.setKind(entity.getKind());
 		m_employee.setKeyID(entity.getKey().getId());
-		m_employee.setM_employeeID((int) (long) entity.getProperty(property.employeeID.toString()));		
+		String tempLong = Long.toString((Long)entity.getProperty(property.employeeID.toString()));
+		//System.out.println(tempLong);
+		
+		m_employee.setM_employeeID(Integer.parseInt(tempLong));		
 		m_employee.setM_sex(sex.valueOf(entity.getProperty(property.sex.toString()).toString()));
 		m_employee.setM_name((String)entity.getProperty(property.name.toString()));
 		m_employee.setM_surname((String)entity.getProperty(property.surname.toString()));
