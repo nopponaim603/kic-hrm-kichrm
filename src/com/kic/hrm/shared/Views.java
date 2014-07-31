@@ -20,6 +20,12 @@ public class Views {
 		    System.out.println();
 		  }
 
+	public  static void header2(String name) {
+		    System.out.println();
+		    System.out.println("~~~~~~~~~~~~~~~~~~ " + name + " ~~~~~~~~~~~~~~~~~~");
+		    System.out.println();
+		  }
+	  
 		  public static void show(Activity activity, boolean onServer) {
 		    System.out.println("id: " + activity.getId());
 		    System.out.println("url: " + activity.getUrl());

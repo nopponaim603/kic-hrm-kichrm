@@ -1,6 +1,7 @@
 package com.kic.hrm.server;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,11 +9,16 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.TokenResponse;
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.FileContent;
@@ -23,6 +29,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Files;
 import com.google.api.services.drive.DriveScopes;
@@ -30,6 +37,9 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.Oauth2.Userinfo;
+
+
+
 import com.google.gdata.client.authn.oauth.GoogleOAuthHelper;
 import com.google.gdata.client.authn.oauth.GoogleOAuthParameters;
 import com.google.gdata.client.authn.oauth.OAuthException;
@@ -37,6 +47,22 @@ import com.google.gdata.client.authn.oauth.OAuthHmacSha1Signer;
 import com.google.gdata.client.authn.oauth.OAuthRsaSha1Signer;
 import com.google.gdata.client.authn.oauth.OAuthSigner;
 import com.kic.hrm.client.CloudHRM;
+
+
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.media.MediaHttpDownloader;
+import com.google.api.client.googleapis.media.MediaHttpUploader;
+import com.google.api.client.util.Preconditions;
+import com.google.api.client.util.store.DataStoreFactory;
+
+
+
+
+
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
+
 
 //import com.google.api.gwt.services.
 public class DriveServiceImpl {
@@ -48,8 +74,8 @@ public class DriveServiceImpl {
 	public static final String SERVICE_ACCOUNT_EMAIL = "392232398516-7nei78mpn8rl47pknpofrv4rtmt0id96@developer.gserviceaccount.com";
 
 	/** Path to the Service Account's Private Key file */
-	private static final String SERVICE_ACCOUNT_PKCS12_FILE_PATH = "Cloud HRM CAMT-f6db6aed9ea5.p12";
-	private static final String SERVICE_ACCOUNT_JSON_FILE_PATH = "Cloud HRM CAMT-6ea9c5e08eb5.json";
+	private static final String SERVICE_ACCOUNT_PKCS12_FILE_PATH = "xz-plasma-weft-8-4f36c102c352.p12";
+	private static final String SERVICE_ACCOUNT_JSON_FILE_PATH = "client_secrets.json";
 	
 	
 	  private static String CLIENT_ID = "392232398516-hdd0r2biksrovka8a6v93roambr2b54r.apps.googleusercontent.com";
@@ -61,14 +87,22 @@ public class DriveServiceImpl {
 		  	"http://127.0.0.1:8888/humanresourcesmanagement/oauthWindow.html"
 	  };
 	  
-	public static void RUN(String token) {
+	public static void RUN(String token) throws GeneralSecurityException, IOException {
 		System.out.println("RUNNN");
+		//System.out.println("Path : " + DriveServiceImpl.class.getResourceAsStream("/client_secret.json").toString() );
 		_logger.severe("Token is : " + token);
 		
-		Drive service = BuildDriveAPIbyTOKEN(token);
 		
-		InsertFile(service);
+		try {
+			Drive service = BuildDriveAPIbyTOKEN(token);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				//getDriveService("noppon.w@vr.camt.info");
 		
+		//InsertFile(service);
+		//printFile(service,"0BxCzuY_jk0HhUENoallIWHdqc28");
 		//String fileID = "105Ti_vBb46tz6znc6O1zp_yA1HzgQ-q-SULUFlSeCWY";
 		//printFile(service,fileID);
 		//_logger.severe("End InsertFile");
@@ -114,18 +148,67 @@ public class DriveServiceImpl {
 	    }
 	  }
 
-	  static Drive BuildDriveAPIbyTOKEN(String token) {
-		  HttpTransport httpTransport = new NetHttpTransport();
+	  static Drive BuildDriveAPIbyTOKEN(String token) throws Exception {
+		  	HttpTransport httpTransport = new NetHttpTransport();
 			//httpTransport.
 			//_logger.severe("create http : press");
 			JacksonFactory jsonFactory = new JacksonFactory();
 			//_logger.severe("create http , json  : press");
-			GoogleCredential credential = new GoogleCredential().setAccessToken(token);
-			
+			//GoogleCredential credential = new GoogleCredential().Builder().setAccessToken(token);
+		 // System.out.println("Path : " + DriveServiceImpl.class.getResourceAsStream("/client_secret.json").toString() );
+		  TokenResponse tokennn = new TokenResponse();
+		  tokennn.setAccessToken(token);
+		  
+			Credential credential = createCredentialWithRefreshToken(httpTransport,jsonFactory,tokennn);
 			//_logger.severe("create http , json , credential : press");
-			Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(CloudHRM.getAPPLICATION_NAME()).build();
+			Drive service = new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(CloudHRM.getAPPLICATION_NAME()).build();
 			
 			return service;
+	  }
+
+	  /** Global instance of the HTTP transport. */
+	  private static HttpTransport httpTransport;
+	  
+	  /** Global instance of the JSON factory. */
+	  private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+	  
+	  private static FileDataStoreFactory dataStoreFactory;
+	  
+	  /** Authorizes the installed application to access user's protected data. */
+	  private static Credential authorize() throws Exception {
+	
+	    // load client secrets
+	    GoogleClientSecrets clientSecrets =
+	        GoogleClientSecrets.load(JSON_FACTORY,
+	            new InputStreamReader(DriveServiceImpl.class.getResourceAsStream("/client_secret.json")));
+	    if (clientSecrets.getDetails().getClientId().startsWith("Enter")
+	        || clientSecrets.getDetails().getClientSecret().startsWith("Enter ")) {
+	      System.out
+	          .println("Enter Client ID and Secret from https://code.google.com/apis/console/?api=drive "
+	              + "into drive-cmdline-sample/src/main/resources/client_secrets.json");
+	      System.exit(1);
+	    }
+	    // set up authorization code flow
+	    GoogleAuthorizationCodeFlow flow =
+	        new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
+	            Collections.singleton(DriveScopes.DRIVE_FILE)).setDataStoreFactory(dataStoreFactory)
+	            .build();
+	    // authorize
+	    return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
+	  }
+	  
+	  /**
+	   * No need to go through OAuth dance, get an access token using the
+	   * existing refresh token.
+	   */
+	  public static GoogleCredential createCredentialWithRefreshToken(HttpTransport transport,
+	      JsonFactory jsonFactory, TokenResponse tokenResponse) {
+		  GoogleClientSecrets credential = null;
+	    return new GoogleCredential.Builder().setTransport(transport)
+	        .setJsonFactory(jsonFactory)
+	        .setClientSecrets(credential)
+	        .build()
+	        .setFromTokenResponse(tokenResponse);
 	  }
 	  
 	  /**
