@@ -60,16 +60,13 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		 //	    
 		System.out.println(HumanResourcesManagementPresenter.class.getSimpleName() + " : constructor" );
 	}
-	
-	
+		
 	@Override
 	public void go(HasWidgets container) {
 		// TODO Auto-generated method stub
 		
 	    container.clear();
 	    container.add(display.asWidget());
-	    
-	   
 	}
 
 	public void bind() {
@@ -169,6 +166,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		});
 		
 	}
+	
 	private void UpdateList() {
 		rpcService.UpdateList(Employee.class.getSimpleName(), new AsyncCallback<ArrayList<String>>() {
 

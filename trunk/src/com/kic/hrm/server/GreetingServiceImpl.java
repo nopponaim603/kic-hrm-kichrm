@@ -10,6 +10,7 @@ import com.kic.hrm.shared.*;
 import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -69,37 +70,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				.replaceAll(">", "&gt;");
 	}
 
-	@Override
-	public boolean ApplyLeaving(String input) throws IOException {
-		// TODO Auto-generated method stub
-		
-		System.out.println("Server ask Is coming");
-		//SentEmail();
-		//LoadDatastore();
-		//SaveDatastore();
-		//TestOAth2();
-		//AppIdentityCredential.Builder()
-		//DriveAccessingServiceImpl.RUN();
-		//m_driveAcc.RUN();
-		System.out.println("Test Drive");
-		
-	
-		return false;
-	}
-		
-	@Override
-	public boolean EnableOauth(Boolean input) {
-		// TODO Auto-generated method stub
-		System.out.println("S| EnableOauth Mathod. : " + input);
-		
-		
-		//OauthServiceImpl.TestOAth2();
-		
-		return true;
-	}
-
 	// TODO #11: implement login helper methods in service implementation	
-
 	@Override
 	public String getUserEmail(final String token) {
 		return LoginServiceImpl.getUserEmail(token);	
@@ -114,23 +85,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public LoginInfo loginDetails(String token) {
 		return LoginServiceImpl.loginDetails(token);
 	}
-
-	@Override
-	public String googleDrive(String token) {
-		// TODO Auto-generated method stub
-		DriveServiceImpl.RUN(token);
-		
-		return null;
-	}
-
-	@Override
-	public String QuickTest(String testParametor) {
-		// TODO Auto-generated method stub
-		DataStoreControllingServiceImpl.Process();
-		
-		return testParametor;
-	}
-
+	// TODO #11:> end	
+	
+	// Add Edit Delete Profile
 	@Override
 	public String Register(String userID) {
 		// TODO Auto-generated method stub
@@ -215,8 +172,62 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		return false;
 	}
+	// Add Edit Delete Profile > end
+	
+	
+	
+	@Override
+	public boolean ApplyLeaving(String input) throws IOException {
+		// TODO Auto-generated method stub
+		
+		System.out.println("Server ask Is coming");
+		//SentEmail();
+		//LoadDatastore();
+		//SaveDatastore();
+		//TestOAth2();
+		//AppIdentityCredential.Builder()
+		//DriveAccessingServiceImpl.RUN();
+		//m_driveAcc.RUN();
+		System.out.println("Test Drive");
+		
+	
+		return false;
+	}
+		
+	@Override
+	public boolean EnableOauth(Boolean input) {
+		// TODO Auto-generated method stub
+		System.out.println("S| EnableOauth Mathod. : " + input);
+		
+		
+		//OauthServiceImpl.TestOAth2();
+		
+		return true;
+	}
 
-	// TODO #11:> end	
+	@Override
+	public String googleDrive(String token) {
+		// TODO Auto-generated method stub
+		try {
+			DriveServiceImpl.RUN(token);
+		} catch (GeneralSecurityException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return token;
+	}
+
+	@Override
+	public String QuickTest(String testParametor) {
+		// TODO Auto-generated method stub
+		//DataStoreControllingServiceImpl.Process();
+		
+		
+		return testParametor;
+	}
+
+	
 
 }
 

@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
+import com.google.cloud.sql.jdbc.Driver;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -108,8 +109,8 @@ public class CloudHRM  implements EntryPoint{
 	    System.out.println("onModuleLoad Complete.");
 	    
 	    // test  
-	    Register(eventBus);
-	    QuickTest(rpcService);
+	    //Register(eventBus);
+	    //QuickTest(rpcService);
 	    addGoogleAuth(rpcService);
 
 	}
@@ -170,20 +171,24 @@ public class CloudHRM  implements EntryPoint{
 	      @Override
 	      public void onClick(ClickEvent event) {
 	        final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL, GOOGLE_CLIENT_ID)
-	            .withScopes("https://www.googleapis.com/auth/plus.me");
+	            .withScopes(DRIVE_SCOPESArry[0])
+	            .withScopes(DRIVE_SCOPESArry[1])
+	        	.withScopes(DRIVE_SCOPESArry[2])
+	            ;
 	        
 	        //AUTH.
 	        // Calling login() will display a popup to the user the first time it is
 	        // called. Once the user has granted access to the application,
 	        // subsequent calls to login() will not display the popup, and will
 	        // immediately result in the callback being given the token to use.
+	        //AUTH.
 	        AUTH.login(req, new Callback<String, Throwable>() {
 	          @Override
 	          public void onSuccess(String token) {
-	            Window.alert("Got an OAuth token:\n" + token + "\n"
-	                + "Token expires in " + AUTH.expiresIn(req) + " ms\n");
+	           // Window.alert("Got an OAuth token:\n" + token + "\n"
+	           //     + "Token expires in " + AUTH.expiresIn(req) + " ms\n");
 	           
-	            /*
+	            
 	        	rpcService.googleDrive(token, new AsyncCallback<String>() {
 					
 					@Override
@@ -199,7 +204,7 @@ public class CloudHRM  implements EntryPoint{
 					}
 				} );
 	        		
-	        	*/
+	        	
 	          }
 
 	          @Override
