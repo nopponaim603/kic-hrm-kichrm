@@ -50,7 +50,19 @@ public class DriveServiceImpl {
 		
 				//getDriveService("noppon.w@vr.camt.info");
 		Drive service = BuildDriveAPIbyTOKEN(token);
-		InsertFile(service);
+		
+		/*
+		try {
+			com.google.api.services.drive.Drive.Children.List items = service.children().list("");
+			//items.
+			//items
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+		//
+		//InsertFile(service);
 		//printFile(service,"0BxCzuY_jk0HhUENoallIWHdqc28");
 		//String fileID = "105Ti_vBb46tz6znc6O1zp_yA1HzgQ-q-SULUFlSeCWY";
 		//printFile(service,fileID);
