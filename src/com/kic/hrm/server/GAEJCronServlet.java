@@ -22,7 +22,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.PlusScopes;
 import com.google.api.services.plus.model.Activity;
-import com.google.common.io.Files;
+
 import com.kic.hrm.shared.Views;
 
 @SuppressWarnings("serial")
@@ -102,7 +102,10 @@ public class GAEJCronServlet extends HttpServlet   {
 					//httpTransport.
 					//_logger.severe("create http : press");
 					JSON_FACTORY = new JacksonFactory();
-					String p12Content = Files.readFirstLine(new File("xz-plasma-weft-8-4f36c102c352.p12"), Charset.defaultCharset());
+					
+					//BUG
+					String p12Content ="";
+					//= File.readFirstLine(new File("xz-plasma-weft-8-4f36c102c352.p12"), Charset.defaultCharset());
 			        if (p12Content.startsWith("Please")) {
 			        	
 			        	_logger.severe("File is Missing");

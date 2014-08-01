@@ -118,7 +118,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return userEmployee;
 	}
 
-
 	@Override
 	public ArrayList<String> UpdateList(String targetEntity) {
 		// TODO Auto-generated method stub
@@ -210,7 +209,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		// TODO Auto-generated method stub
 		DriveServiceImpl.RUN(token);
 		
-		return null;
+		return "Test Pass";
+	}
+	
+	@Override
+	public String getFileFormGoogleDrive(String token, String idFile) {
+		// TODO Auto-generated method stub
+		String getresouce = DriveServiceImpl.getFile(token, idFile);
+		return getresouce;
 	}
 
 	@Override
@@ -221,6 +227,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		return testParametor;
 	}
+
+
 
 	
 

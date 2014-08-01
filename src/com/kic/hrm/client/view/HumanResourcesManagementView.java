@@ -6,6 +6,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -28,6 +29,9 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 	private final Button refreshButton;
 	private final Button deleteButton;
 	private final ListBox userList;
+	
+	private final TextBox idFile;
+	private final Button getFileButton;
 	
 	public HumanResourcesManagementView() {
 		// TODO Auto-generated constructor stub
@@ -86,7 +90,7 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		applyLeavingButton = Testbuttom;
 		
 		
-		Grid grid = new Grid(4, 5);
+		Grid grid = new Grid(5, 5);
 		tabPanel.add(grid, "Admin Control", false);
 		grid.setSize("auto", "auto");
 		
@@ -98,26 +102,28 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		
 		TextBox textBox = new TextBox();
 		grid.setWidget(1, 1, textBox);
+		textBox.setWidth("102px");
 		
 		Label lblAddEmployee = new Label("Add Employee");
 		grid.setWidget(2, 0, lblAddEmployee);
 		
 		Button btnAdd = new Button("add");
-		grid.setWidget(2, 1, btnAdd);
+		grid.setWidget(2, 2, btnAdd);
+		
+		addProfileButton = btnAdd;
 		
 		Label lblEditProfileEmployee = new Label("Edit Profile Employee");
 		grid.setWidget(3, 0, lblEditProfileEmployee);
 		
 		ListBox comboBox = new ListBox();
 		grid.setWidget(3, 1, comboBox);
+		comboBox.setWidth("107px");
 		
 		Button btnReface = new Button("Refresh");
 		grid.setWidget(3, 2, btnReface);
 		
 		Button btnEdit = new Button("Edit");
 		grid.setWidget(3, 3, btnEdit);
-		
-		addProfileButton = btnAdd;
 		refreshButton = btnReface;
 		editProfileButton = btnEdit;
 		userList = comboBox;
@@ -125,6 +131,22 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		Button btnDelete = new Button("Delete");
 		grid.setWidget(3, 4, btnDelete);
 		deleteButton = btnDelete;
+		
+		Label lblGetFileForm = new Label("ID File Form Google Drive");
+		grid.setWidget(4, 0, lblGetFileForm);
+		
+		TextBox txtbxbxczuyjkhhuenoalliwhdqc = new TextBox();
+		txtbxbxczuyjkhhuenoalliwhdqc.setText("0BxCzuY_jk0HhUENoallIWHdqc28");
+		grid.setWidget(4, 1, txtbxbxczuyjkhhuenoalliwhdqc);
+		
+		Button btnGetfile = new Button("GetFile");
+		grid.setWidget(4, 2, btnGetfile);
+		
+		idFile = txtbxbxczuyjkhhuenoalliwhdqc;
+		getFileButton = btnGetfile;
+		
+		Button btnNewButton = new Button("New button");
+		grid.setWidget(4, 3, btnNewButton);
 		
 		System.out.println("Create View on : " + HumanResourcesManagementView.class.getSimpleName());
 	}
@@ -171,6 +193,18 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 	public HasClickHandlers getDeleteButton() {
 		// TODO Auto-generated method stub
 		return deleteButton;
+	}
+
+	@Override
+	public HasClickHandlers getFileButton() {
+		// TODO Auto-generated method stub
+		return getFileButton;
+	}
+
+	@Override
+	public HasValue<String> getIDFile() {
+		// TODO Auto-generated method stub
+		return idFile;
 	}
 	
 }

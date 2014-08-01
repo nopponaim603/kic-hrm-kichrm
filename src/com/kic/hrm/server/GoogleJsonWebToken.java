@@ -106,7 +106,7 @@ public class GoogleJsonWebToken {
 		      */
 		      String[] claimArray = new String[6];
 		      //iss
-		      claimArray[0] = DriveServiceImpl.SERVICE_ACCOUNT_EMAIL;
+		     // claimArray[0] = DriveServiceImpl.SERVICE_ACCOUNT_EMAIL;
 		      claimArray[1] = "noppon.w@vr.camt.info";
 		      claimArray[2] = "https://www.googleapis.com/auth/drive.file";
 		      claimArray[3] = "https://accounts.google.com/o/oauth2/token";

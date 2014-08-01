@@ -38,4 +38,7 @@ public interface GreetingServiceAsync {
 	void deleteProfile(Integer targetEmployee, AsyncCallback<Boolean> callback);
 	
 	void UpdateList(String targetEntity,AsyncCallback<ArrayList<String>> callback);
+	
+	void getFileFormGoogleDrive(String token, String idFile,
+			AsyncCallback<String> callback);
 }

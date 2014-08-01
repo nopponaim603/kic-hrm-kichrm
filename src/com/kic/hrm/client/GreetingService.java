@@ -41,4 +41,6 @@ public interface GreetingService extends RemoteService {
 
 	boolean deleteProfile(Integer targetEmployee);
 
+	String getFileFormGoogleDrive(String token, String idFile);
+
 }

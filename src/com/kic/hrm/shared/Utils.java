@@ -7,16 +7,16 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+
 import com.google.api.client.extensions.appengine.auth.oauth2.AppEngineCredentialStore;
 import com.google.api.client.extensions.appengine.http.UrlFetchTransport;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.http.GenericUrl;
-import com.google.api.client.json.jackson.JacksonFactory;
+
 //import com.google.api.client.json.jackson.
 import com.google.api.client.util.Preconditions;
 import com.google.api.services.plus.PlusScopes;
-
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -26,7 +26,7 @@ public class Utils {
 	 private static GoogleClientSecrets clientSecrets = null;
 	  private static final Set<String> SCOPES = Collections.singleton(PlusScopes.PLUS_ME);
 	  public static final UrlFetchTransport HTTP_TRANSPORT = new UrlFetchTransport();
-	  public static final JacksonFactory JSON_FACTORY = new JacksonFactory();
+	  public static final com.google.api.client.json.jackson2.JacksonFactory JSON_FACTORY = new com.google.api.client.json.jackson2.JacksonFactory();
 	  public static final String MAIN_SERVLET_PATH = "/plussampleservlet";
 	  public static final String AUTH_CALLBACK_SERVLET_PATH = "/oauth2callback";
 
