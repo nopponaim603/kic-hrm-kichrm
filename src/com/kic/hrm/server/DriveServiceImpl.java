@@ -59,6 +59,7 @@ import com.google.api.client.util.store.DataStoreFactory;
 
 
 
+
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
@@ -86,22 +87,17 @@ public class DriveServiceImpl {
 		  	"http://1-dot-xz-plasma-weft-8.appspot.com/humanresourcesmanagement/oauthWindow.html",
 		  	"http://127.0.0.1:8888/humanresourcesmanagement/oauthWindow.html"
 	  };
+	  private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
 	  
-	public static void RUN(String token) throws GeneralSecurityException, IOException {
+	public static void RUN(String token){
 		System.out.println("RUNNN");
 		//System.out.println("Path : " + DriveServiceImpl.class.getResourceAsStream("/client_secret.json").toString() );
 		_logger.severe("Token is : " + token);
 		
 		
-		try {
-			Drive service = BuildDriveAPIbyTOKEN(token);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 				//getDriveService("noppon.w@vr.camt.info");
-		
-		//InsertFile(service);
+		Drive service = BuildDriveAPIbyTOKEN(token);
+		InsertFile(service);
 		//printFile(service,"0BxCzuY_jk0HhUENoallIWHdqc28");
 		//String fileID = "105Ti_vBb46tz6znc6O1zp_yA1HzgQ-q-SULUFlSeCWY";
 		//printFile(service,fileID);
@@ -148,21 +144,11 @@ public class DriveServiceImpl {
 	    }
 	  }
 
-	  static Drive BuildDriveAPIbyTOKEN(String token) throws Exception {
-		  	HttpTransport httpTransport = new NetHttpTransport();
-			//httpTransport.
-			//_logger.severe("create http : press");
+	  static Drive BuildDriveAPIbyTOKEN(String token)  {
+		  HttpTransport httpTransport = new NetHttpTransport();
 			JacksonFactory jsonFactory = new JacksonFactory();
-			//_logger.severe("create http , json  : press");
-			//GoogleCredential credential = new GoogleCredential().Builder().setAccessToken(token);
-		 // System.out.println("Path : " + DriveServiceImpl.class.getResourceAsStream("/client_secret.json").toString() );
-		  TokenResponse tokennn = new TokenResponse();
-		  tokennn.setAccessToken(token);
-		  
-			Credential credential = createCredentialWithRefreshToken(httpTransport,jsonFactory,tokennn);
-			//_logger.severe("create http , json , credential : press");
-			Drive service = new Drive.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName(CloudHRM.getAPPLICATION_NAME()).build();
-			
+			GoogleCredential credential = new GoogleCredential().setAccessToken(token);
+			Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).setApplicationName(APPLICATION_NAME).build();
 			return service;
 	  }
 

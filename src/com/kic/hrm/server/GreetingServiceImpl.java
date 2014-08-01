@@ -208,14 +208,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String googleDrive(String token) {
 		// TODO Auto-generated method stub
-		try {
-			DriveServiceImpl.RUN(token);
-		} catch (GeneralSecurityException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		DriveServiceImpl.RUN(token);
 		
-		return token;
+		return null;
 	}
 
 	@Override

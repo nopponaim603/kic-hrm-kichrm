@@ -171,10 +171,7 @@ public class CloudHRM  implements EntryPoint{
 	      @Override
 	      public void onClick(ClickEvent event) {
 	        final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL, GOOGLE_CLIENT_ID)
-	            .withScopes(DRIVE_SCOPESArry[0])
-	            .withScopes(DRIVE_SCOPESArry[1])
-	        	.withScopes(DRIVE_SCOPESArry[2])
-	            ;
+	            .withScopes(DRIVE_SCOPESArry);
 	        
 	        //AUTH.
 	        // Calling login() will display a popup to the user the first time it is
