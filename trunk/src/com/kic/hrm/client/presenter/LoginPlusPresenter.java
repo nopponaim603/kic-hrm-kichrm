@@ -84,7 +84,7 @@ public class LoginPlusPresenter {
 
 						@Override
 						public void onSuccess(final LoginInfo loginInfo) {
-							System.out.println("Google H : on Success");
+							System.out.println("C:LP| Google H : on Success");
 							
 							signInLink.setText(loginInfo.getName());
 							nameField.setText(loginInfo.getName());
@@ -138,7 +138,7 @@ public class LoginPlusPresenter {
 				loadLogout(result);
 				nameField.setEnabled(true);
 			} else {
-				System.out.print("| result is Else not run addGoogleAuthHelper.");
+				System.out.println("C:LP| result is Else not run addGoogleAuthHelper.");
 				loadLogin(result);
 			}
 			userEmail.append(result.getEmailAddress());

@@ -52,14 +52,6 @@ public class CloudHRM  implements EntryPoint{
 		return PLUS_ME_SCOPE;
 	}
 
-	private static final List<String> DRIVE_SCOPES = Arrays.asList(
-			  "https://www.googleapis.com/auth/plus.login",
-			  "https://www.googleapis.com/auth/drive.install",
-		      "https://www.googleapis.com/auth/drive",
-		      "https://www.googleapis.com/auth/drive.file",
-		      "https://www.googleapis.com/auth/userinfo.email",
-		      "https://www.googleapis.com/auth/userinfo.profile");
-
 	private static final String[] DRIVE_SCOPESArry = {
 		  "https://www.googleapis.com/auth/plus.login",
 		  "https://www.googleapis.com/auth/drive.install",
@@ -68,10 +60,10 @@ public class CloudHRM  implements EntryPoint{
 	      "https://www.googleapis.com/auth/userinfo.email",
 	      "https://www.googleapis.com/auth/userinfo.profile" };
 	
-	public static List<String> getDRIVE_SCOPES() {
-		return DRIVE_SCOPES;
+
+	public static final String[] getDRIVE_SCOPESArry() {
+		return DRIVE_SCOPESArry;
 	}
-	
 	
 	private static String CLIENT_ID = "392232398516-0kkqbokr4hkp3ou3s6spr9u78r1ens93.apps.googleusercontent.com";
 	private static String CLIENT_SECRET = "ZGNTRofblwZ3TTnlgJ6N7eyE";
@@ -111,7 +103,7 @@ public class CloudHRM  implements EntryPoint{
 	    // test  
 	    //Register(eventBus);
 	    //QuickTest(rpcService);
-	    addGoogleAuth(rpcService);
+	    //addGoogleAuth(rpcService);
 
 	}
 	

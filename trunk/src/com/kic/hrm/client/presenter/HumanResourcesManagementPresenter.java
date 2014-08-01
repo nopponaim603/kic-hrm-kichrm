@@ -3,14 +3,20 @@ package com.kic.hrm.client.presenter;
 
 import java.util.ArrayList;
 
+import com.google.api.gwt.oauth2.client.Auth;
+import com.google.api.gwt.oauth2.client.AuthRequest;
+import com.google.gwt.core.client.Callback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.ApplyLeavingEvent;
 import com.kic.hrm.client.event.EditProfileEvent;
@@ -28,6 +34,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		
 		//Toggle
 		HasClickHandlers getToggleOauth();
+		
 		/*
 		void setData(List<String> data);
 		int getClickedRow(ClickEvent event);
@@ -38,6 +45,9 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		HasClickHandlers getEditProfileButton();
 		HasClickHandlers getRefreshButton();
 		HasClickHandlers getDeleteButton();
+		
+		HasClickHandlers getFileButton();
+		HasValue<String> getIDFile();
 		
 		Widget asWidget();
 		
@@ -161,6 +171,46 @@ public class HumanResourcesManagementPresenter implements Presenter {
 						UpdateList();
 					}
 					
+				});
+			}
+		});
+		
+		display.getFileButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(), CloudHRM.getGOOGLE_CLIENT_ID())
+	            .withScopes(CloudHRM.getDRIVE_SCOPESArry());
+				final Auth AUTH = Auth.get();
+				AUTH.login(req, new Callback<String, Throwable>() {
+					
+					@Override
+					public void onSuccess(String result) {
+						// TODO Auto-generated method stub
+						rpcService.getFileFormGoogleDrive(result, display.getIDFile().getValue(),new AsyncCallback<String>() {
+							
+							@Override
+							public void onSuccess(String result) {
+								// TODO Auto-generated method stub
+								System.out.println("onSuccess");
+								Window.alert("Call Server Success : Problem is " + result);
+							}
+							
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								System.out.println("onFailure");
+								Window.alert("onFailure");
+							}
+						});
+					}
+					
+					@Override
+					public void onFailure(Throwable reason) {
+						// TODO Auto-generated method stub
+						
+					}
 				});
 			}
 		});
