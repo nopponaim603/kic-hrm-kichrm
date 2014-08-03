@@ -1,35 +1,38 @@
 package com.kic.hrm.server;
 
 import java.io.BufferedReader;
-
 import java.io.FileNotFoundException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-
 import java.util.ArrayList;
-
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-
 import com.google.api.client.json.jackson2.JacksonFactory;
-
+import com.google.api.client.util.DateTime;
 import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.Drive.Children;
 import com.google.api.services.drive.Drive.Files;
-
+import com.google.api.services.drive.model.ChildList;
+import com.google.api.services.drive.model.ChildReference;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.kic.hrm.data.model.FileIDLeaveLog;
+import com.kic.hrm.data.model.StartTimeLog;
+import com.kic.hrm.data.model.StartTimeLogService;
 
 //import com.google.api.gwt.services.
 public class DriveServiceImpl {
@@ -45,33 +48,105 @@ public class DriveServiceImpl {
 	public static void RUN(String token){
 		System.out.println("RUNNN");
 		//System.out.println("Path : " + DriveServiceImpl.class.getResourceAsStream("/client_secret.json").toString() );
-		_logger.severe("Token is : " + token);
-		
-		
-				//getDriveService("noppon.w@vr.camt.info");
+		//_logger.severe("Token is : " + token);
+		//getDriveService("noppon.w@vr.camt.info");
 		Drive service = BuildDriveAPIbyTOKEN(token);
-		
-		/*
+				
 		try {
-			com.google.api.services.drive.Drive.Children.List items = service.children().list("");
-			//items.
-			//items
+			//com.google.api.services.drive.Drive.Children.List items = service.children().list("0BxCzuY_jk0HhQlNNRXJEdVJmRVU");
+			List<String> listIDFile = printFilesInFolder(service,"0BxCzuY_jk0HhQlNNRXJEdVJmRVU");
+			
+			for(String IDFile : listIDFile) {
+				File thisFile = getFileFormGoogleDrive(service,IDFile);
+				System.out.println("File Type : " + thisFile.getMimeType());
+				if(thisFile.getMimeType().contentEquals("text/csv")) {
+					System.out.println("This is CSV File.");
+					System.out.println("Last update :" 
+							+ thisFile.getLastModifyingUserName() 
+							+ " : " + thisFile.getLastModifyingUser().getDisplayName() 
+							+ " : " + thisFile.getLastViewedByMeDate().toString());
+					
+					System.out.println("This File is ID : " + 	thisFile.getId());
+					//String getQuryIDformDataStore = "test_0BxCzuY_jk0HhQlNNRXJEdVJmRVU";
+					boolean isFileAlready = false;
+					Date FileLastUpdate = new Date(thisFile.getModifiedByMeDate().getValue());
+					Date dateofFileinDatastore = null;
+					
+					List<Entity> ListFileID = DataStoreControl.Query(FileIDLeaveLog.class, SortDirection.DESCENDING);
+					System.out.println("Size fileID Log : " + ListFileID.size());
+							for(Entity en : ListFileID) {
+								if(en.getProperty(FileIDLeaveLog.property.fileId.toString())
+										.toString().contentEquals(thisFile.getId())) {
+									System.out.println("File is Already in DataStore.");
+									isFileAlready = true;
+									dateofFileinDatastore = (Date)en.getProperty(FileIDLeaveLog.property.lastUpdate.toString());
+									break;
+								}
+							}
+					if(isFileAlready) {
+						System.out.println("File is already.but double check if file have update.");
+						//Test Time
+						
+						//DateTime TestSecound = thisFile.getLastViewedByMeDate();
+						//DateTime TestSecound = new DateTime(dateofFileinDatastore.getTime());
+						System.out.println("Time Modified : " + FileLastUpdate.toString() + " : " + dateofFileinDatastore.toString());
+						
+						if(FileLastUpdate.equals(dateofFileinDatastore)) {
+							System.out.println("Is Updated to datastore.");
+						}else {
+							System.out.println("Is new update and save to datastore.");
+							pushLeaveLogToDataStore(service,thisFile,true);
+							saveFileID(thisFile.getId(),FileLastUpdate);
+						}
+					}else {
+						System.out.println("Is New File LeaveLog. and Save to Datastore.");
+						pushLeaveLogToDataStore(service,thisFile,false);
+						saveFileID(thisFile.getId(),FileLastUpdate);
+					}
+					
+				}
+			}
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
-		//
-		//InsertFile(service);
-		//printFile(service,"0BxCzuY_jk0HhUENoallIWHdqc28");
-		//String fileID = "105Ti_vBb46tz6znc6O1zp_yA1HzgQ-q-SULUFlSeCWY";
-		//printFile(service,fileID);
-		//_logger.severe("End InsertFile");
-		
+
 		System.out.println("End InsertFile");
 	}
+	static void saveFileID(String fileID,Date lastUpdate) {
+		//Date time = new  Date(lastUpdate.getValue());
+		Entity d_file = DataStoreControl.CreateEntity(FileIDLeaveLog.class);
+		d_file.setProperty(FileIDLeaveLog.property.fileId.toString(), fileID);
+		d_file.setProperty(FileIDLeaveLog.property.lastUpdate.toString(), lastUpdate);
+		//System.out.println("DataTime : "+ lastUpdate.toStringRfc3339() + " : " + lastUpdate.getValue() + " : " + time.toString());
+		
+		
+		DataStoreControl.SaveEntity(d_file);
+	}
 	
-	public static String getFile(String token ,String FileID) {
+	static void pushLeaveLogToDataStore(Drive service,File thisFile,Boolean isAlready){
+		InputStream fileInput = downloadFile(service, thisFile);
+		if(fileInput != null) {
+			Reader reader = new InputStreamReader(fileInput);
+			List<String[]> LeaveLog = ReadCSVFile(reader);
+			//printDataListinArry(LeaveLog);
+			//List<Entity> startTimeLogLists = new ArrayList();
+			for(String[] datalog : LeaveLog) {
+				Entity d_starttimelog = null;
+				d_starttimelog = DataStoreControl.CreateEntity(StartTimeLog.class);
+				d_starttimelog = StartTimeLogService.FlashData(d_starttimelog, StartTimeLogService.AddCVSData(datalog));
+				DataStoreControl.SaveEntity(d_starttimelog);
+			}
+			
+			if(isAlready)
+				System.out.println("New Logic to clean duplicate data.");
+		}
+		
+		System.out.println("Save is Done.");
+	}
+	
+ 	public static String getFile(String token ,String FileID) {
 		System.out.println("Come to Drive Service. \nToken is :" + token + " \nFile ID is : " + FileID);
 		String problem = "None";
 		Drive service = BuildDriveAPIbyTOKEN(token);
@@ -133,12 +208,19 @@ public class DriveServiceImpl {
 			while ((line = br.readLine()) != null) {
 				String[] tempLine;
 				tempLine = line.split(cvsSplitBy);
+				//System.out.println(tempLine.toString());
 				listData.add(tempLine);	          
 			};
 			
+			System.out.println("Skip header : " + listData.get(0)[0].toString());
+			if(listData.get(0)[0].contentEquals("AC-No.")){
+				listData.remove(0);
+				System.out.println("Skip Header AC-No.");
+			}
+				
 			//printDataListinArry
 			
-			System.out.println("Done,Data not Null");
+			System.out.println("CSV Read File is Done.What long data is : " + listData.size());
 			return listData;
 			//System.out.println("Count : " + country.length);
 	 
@@ -160,14 +242,14 @@ public class DriveServiceImpl {
 		return null;
 	}
 	
-	static void printDataListinArry(List<String[]> data) {
+	static void printDataListinArry(List<String[]> LeaveLog) {
 		
-		for(int x = 0 ; x < data.size() ; x++)
+		for(int x = 0 ; x < LeaveLog.size() ; x++)
 		{
-			System.out.print("Line : " + x + "Size : " + data.get(x).length);
-			for(int y = 0 ; y < data.get(x).length; y++)
+			System.out.print("Line : " + x + "Size : " + LeaveLog.get(x).length);
+			for(int y = 0 ; y < LeaveLog.get(x).length; y++)
 			{
-				System.out.print("	| Value : " + data.get(x)[y]);
+				System.out.print("	| Value : " + LeaveLog.get(x)[y]);
 			}
 			System.out.println("");
 		}
@@ -303,5 +385,36 @@ public class DriveServiceImpl {
 	    }
 	  }
 
+	 /**
+	   * Print files belonging to a folder.
+	   *
+	   * @param service Drive API service instance.
+	   * @param folderId ID of the folder to print files from.
+	   */
+	  @SuppressWarnings("rawtypes")
+	private static List<String> printFilesInFolder(Drive service, String folderId)
+	      throws IOException {
+	    Children.List request = service.children().list(folderId);
+	    @SuppressWarnings("unchecked")
+		List<String> listIDFile = new ArrayList();
+	    
+	    do {
+	      try {
+	        ChildList children = request.execute();
 
+	        for (ChildReference child : children.getItems()) {
+	          System.out.println("File Id: " + child.getId());
+	          listIDFile.add(child.getId());
+	        }
+	        request.setPageToken(children.getNextPageToken());
+	      } catch (IOException e) {
+	        System.out.println("An error occurred: " + e);
+	        request.setPageToken(null);
+	      }
+	    } while (request.getPageToken() != null &&
+	             request.getPageToken().length() > 0);
+	    
+	    return listIDFile;
+	  }
+	  
 }
