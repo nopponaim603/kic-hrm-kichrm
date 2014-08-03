@@ -178,18 +178,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public boolean ApplyLeaving(String input) throws IOException {
 		// TODO Auto-generated method stub
-		
-		System.out.println("Server ask Is coming");
-		//SentEmail();
-		//LoadDatastore();
-		//SaveDatastore();
-		//TestOAth2();
-		//AppIdentityCredential.Builder()
-		//DriveAccessingServiceImpl.RUN();
-		//m_driveAcc.RUN();
-		System.out.println("Test Drive");
-		
-	
+		DriveServiceImpl.RUN(input);	
 		return false;
 	}
 		

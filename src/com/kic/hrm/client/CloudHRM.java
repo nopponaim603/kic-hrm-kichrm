@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
-import com.google.cloud.sql.jdbc.Driver;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -17,7 +17,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.kic.hrm.client.event.ApplyLeavingEvent;
+
 import com.kic.hrm.client.event.RegisterEvent;
 
 public class CloudHRM  implements EntryPoint{

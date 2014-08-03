@@ -58,7 +58,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final Display display;
 	
-	
+	final Auth AUTH = Auth.get();
 	public HumanResourcesManagementPresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
@@ -89,10 +89,40 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		       System.out.println("HRM_P| " + event.toDebugString() + " is on Click");
 		        //eventBus.fireEvent(new ApplyLeavingEvent());
 		       //eventBus
-		    	 eventBus.fireEvent(new ApplyLeavingEvent());
-		    	 System.out.println("HRM_P| After call eventBus fireEvent");
-		    	  //History.fireCurrentHistoryState();
-		    	  //ApplyLeaving();
+		       final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(), CloudHRM.getGOOGLE_CLIENT_ID())
+	            .withScopes(CloudHRM.getDRIVE_SCOPESArry());
+		       
+		       AUTH.login(req, new Callback<String, Throwable>() {
+				
+					@Override
+					public void onSuccess(String result) {
+						// TODO Auto-generated method stub
+						rpcService.ApplyLeaving(result, new AsyncCallback<Boolean>() {
+							
+							@Override
+							public void onSuccess(Boolean result) {
+								// TODO Auto-generated method stub
+								 eventBus.fireEvent(new ApplyLeavingEvent());
+					    	 System.out.println("HRM_P| After call eventBus fireEvent");
+					    	  //History.fireCurrentHistoryState();
+					    	  //ApplyLeaving();
+							}
+							
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+						});
+					}
+					
+					@Override
+					public void onFailure(Throwable reason) {
+						// TODO Auto-generated method stub
+						
+					}
+		       	});
+		    	
 		      }
 		    });
 
@@ -182,7 +212,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 				// TODO Auto-generated method stub
 				final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(), CloudHRM.getGOOGLE_CLIENT_ID())
 	            .withScopes(CloudHRM.getDRIVE_SCOPESArry());
-				final Auth AUTH = Auth.get();
+				
 				AUTH.login(req, new Callback<String, Throwable>() {
 					
 					@Override
