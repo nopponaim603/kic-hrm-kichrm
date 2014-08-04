@@ -1,29 +1,30 @@
 package com.kic.hrm.client.presenter;
 
-import javax.servlet.annotation.ServletSecurity.EmptyRoleSemantic;
+
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasChangeHandlers;
+
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
+
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.resources.css.ast.HasSelectors;
+
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HasName;
+
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.kic.hrm.client.AppController;
 import com.kic.hrm.client.GreetingServiceAsync;
-import com.kic.hrm.client.event.AddProfileEvent;
-import com.kic.hrm.client.event.ProfileUpdateEvent;
-import com.kic.hrm.client.event.RegisterEvent;
-import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter.Display;
-import com.kic.hrm.client.view.RegisterView;
+
+
+import com.kic.hrm.client.event.gotoAdministratorEvent;
+import com.kic.hrm.client.event.gotoAdministratorEventHandler;
+
 import com.kic.hrm.data.model.Employee;
-import com.kic.hrm.data.model.Employee.sex;
+
 
 public class RegisterPresenter implements Presenter{
 	public enum state {
@@ -70,10 +71,6 @@ public class RegisterPresenter implements Presenter{
 		bind();
 		redisterState = state.add;
 		m_employee = new Employee();
-		//display.getWorkID().getValue()
-		//display.getSex().getName()
-		
-		
 	}
 
 	public RegisterPresenter(GreetingServiceAsync rpcService,
@@ -124,22 +121,32 @@ public class RegisterPresenter implements Presenter{
 	}
 
 	private void bind() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub	
+		eventBus.addHandler(gotoAdministratorEvent.TYPE, new gotoAdministratorEventHandler() {
+			
+			@Override
+			public void gotoAdministrator(gotoAdministratorEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem(AppController.eventFire.Administrator.toString());
+			}
+		});
+		
 		display.getSubmit().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
 		    	  System.out.println("getSubmit  : on Click");
 		    	  doSave();
+		    	  eventBus.fireEvent(new gotoAdministratorEvent());
 		      }
 		    });
 		
 		display.getCancel().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
 		    	  System.out.println("getCancel  : on Click");
-		    	  eventBus.fireEvent(new AddProfileEvent());
-		    	  //History.fireCurrentHistoryState();
-		    	  //eventBus.fireEvent(new ProfileUpdateEvent());
+		    	  eventBus.fireEvent(new gotoAdministratorEvent());
 		      }
-		    });
+		});
+		
+		
 	}
 
 	@Override
@@ -151,7 +158,6 @@ public class RegisterPresenter implements Presenter{
 	
 	private void doSave() {
 		
-
 		m_employee.setM_employeeID(Integer.parseInt(display.getWorkID().getValue()));
 		m_employee.setM_sex(Employee.sex.valueOf(display.getSex()));
 		m_employee.setM_name(display.getName().getValue());
@@ -163,19 +169,13 @@ public class RegisterPresenter implements Presenter{
 		m_employee.setM_segment(Employee.segment.valueOf(display.getSegment()));
 		m_employee.setM_email(display.getEmail().getValue());
 		m_employee.setM_phone(display.getPhone().getValue());
-		
-		/*
-		System.out.println("Test Value");
-		System.out.println(m_employee.getM_name() + " : " + m_employee.getM_employeeID() + " : " + m_employee.getM_sex()
-				+ " : " +m_employee.getM_nameT());
-		*/
-		
+				
 		rpcService.addProfile(m_employee ,this.redisterState, new AsyncCallback<Employee>() {
 			
 			@Override
 			public void onSuccess(Employee result) {
 				// TODO Auto-generated method stub
-				eventBus.fireEvent(new AddProfileEvent());
+				eventBus.fireEvent(new gotoAdministratorEvent());
 			}
 			
 			@Override
@@ -184,7 +184,6 @@ public class RegisterPresenter implements Presenter{
 				
 			}
 		});
-		//eventBus.fireEvent(new ProfileUpdateEvent());
 	}
 
 }

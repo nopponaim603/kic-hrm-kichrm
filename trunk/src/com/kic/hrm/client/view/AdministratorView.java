@@ -1,6 +1,8 @@
 package com.kic.hrm.client.view;
 
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.DecoratedStackPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -9,9 +11,24 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.kic.hrm.client.presenter.AdministratorPresenter;
 
-public class AdministratorView extends Composite{
+public class AdministratorView extends Composite implements AdministratorPresenter.Display{
 
+	private final TextBox folderIDTextBox;
+	private final Button saveToDriveButton;
+	private final Button flashDataStoreButton;
+	
+	private final TextBox emailReceiverTextBox;
+	
+	private final ListBox listProfileListBox;
+	private final Button refreshListProfileButton;
+	private final Button addProfileButton;
+	private final Button editProfileButton;
+	private final Button deleteProfileButton;
+	
+	private final Button backButton;
+	
 	public AdministratorView() {
 		// TODO Auto-generated constructor stub
 		VerticalPanel verticalPanel = new VerticalPanel();
@@ -150,15 +167,89 @@ public class AdministratorView extends Composite{
 		Button button_6 = new Button("Refresh");
 		horizontalPanel_2.add(button_6);
 		
-		Button button_8 = new Button("Delete");
-		horizontalPanel_2.add(button_8);
-		
 		Button button_7 = new Button("Edit");
 		horizontalPanel_2.add(button_7);
+		
+		Button button_8 = new Button("Delete");
+		horizontalPanel_2.add(button_8);
 		
 		Button btnNewButton_1 = new Button("Back");
 		verticalPanel.add(btnNewButton_1);
 		btnNewButton_1.setWidth("100%");
 		
+		
+		folderIDTextBox = textBox_1;
+		saveToDriveButton = button;
+		flashDataStoreButton = btnFlashDatastore;
+		
+		emailReceiverTextBox = textBox_2;
+		
+		addProfileButton = button_5;
+		listProfileListBox = listBox_5;
+		refreshListProfileButton = button_6;
+		editProfileButton = button_7;
+		deleteProfileButton = button_8;
+		
+		backButton = btnNewButton_1;
+	}
+
+	@Override
+	public HasValue<String> getFolderID() {
+		// TODO Auto-generated method stub
+		return folderIDTextBox;
+	}
+
+	@Override
+	public HasClickHandlers getSaveCSVtoDriveButton() {
+		// TODO Auto-generated method stub
+		return saveToDriveButton;
+	}
+
+	@Override
+	public HasClickHandlers getFlashDataStoreButton() {
+		// TODO Auto-generated method stub
+		return flashDataStoreButton;
+	}
+
+	@Override
+	public HasValue<String> getEmailReceiver() {
+		// TODO Auto-generated method stub
+		return emailReceiverTextBox;
+	}
+
+	@Override
+	public HasClickHandlers getAddProfileButton() {
+		// TODO Auto-generated method stub
+		return addProfileButton;
+	}
+
+	@Override
+	public HasClickHandlers getRefreshListsProfileButton() {
+		// TODO Auto-generated method stub
+		return refreshListProfileButton;
+	}
+
+	@Override
+	public HasClickHandlers getDeleteProfileButton() {
+		// TODO Auto-generated method stub
+		return deleteProfileButton;
+	}
+
+	@Override
+	public HasClickHandlers getEditProfileButton() {
+		// TODO Auto-generated method stub
+		return editProfileButton;
+	}
+
+	@Override
+	public HasClickHandlers getBackButton() {
+		// TODO Auto-generated method stub
+		return backButton;
+	}
+
+	@Override
+	public ListBox getUsersListBox() {
+		// TODO Auto-generated method stub
+		return listProfileListBox;
 	}
 }

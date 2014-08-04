@@ -4,36 +4,30 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
-
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.kic.hrm.client.event.AddProfileEvent;
-import com.kic.hrm.client.event.AddProfileEventHandler;
-import com.kic.hrm.client.event.ApplyLeavingEvent;
-import com.kic.hrm.client.event.ApplyLeavingEventHandler;
-import com.kic.hrm.client.event.EditProfileEvent;
-import com.kic.hrm.client.event.EditProfileEventHandler;
-import com.kic.hrm.client.event.EnableOauthEvent;
-import com.kic.hrm.client.event.EnableOauthEventHandler;
-import com.kic.hrm.client.event.ProfileUpdateEvent;
-import com.kic.hrm.client.event.ProfileUpdateEventHandler;
-import com.kic.hrm.client.event.RegisterEvent;
-import com.kic.hrm.client.event.RegisterEventHandler;
-import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter;
+
+
+import com.kic.hrm.client.event.gotoProfileAndEditEvent;
+import com.kic.hrm.client.event.gotoProfileAndEditEventHandler;
+import com.kic.hrm.client.presenter.AdministratorPresenter;
+import com.kic.hrm.client.presenter.DashBoardPresenter;
 import com.kic.hrm.client.presenter.LoginPlusPresenter;
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.presenter.RegisterPresenter;
-import com.kic.hrm.client.view.HumanResourcesManagementView;
+import com.kic.hrm.client.view.AdministratorView;
+import com.kic.hrm.client.view.DashBoardView;
 import com.kic.hrm.client.view.RegisterView;
 import com.kic.hrm.shared.LoginInfo;
 
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
-	enum eventFire {
+	public enum eventFire {
 		Main,
-		Register,
+		Administrator,
+		Profile,
 		Edit
 	}
 	
@@ -58,32 +52,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		History.addValueChangeHandler(this);
 
 		//Event Bus
-		eventBus.addHandler(EnableOauthEvent.TYPE, new EnableOauthEventHandler() {
+		eventBus.addHandler(gotoProfileAndEditEvent.TYPE, new gotoProfileAndEditEventHandler() {
+			
 			@Override
-			public void onEnableOauth(EnableOauthEvent event) {
+			public void gotoProfileAndEdit(gotoProfileAndEditEvent event) {
 				// TODO Auto-generated method stub
-				EnableOauth();
+				doEditProfile(event.getEmployeeid());
 			}
 		});
 		
-		eventBus.addHandler(ApplyLeavingEvent.TYPE, new ApplyLeavingEventHandler() {
-			@Override
-			public void onApplyLeaving(ApplyLeavingEvent event) {
-				// TODO Auto-generated method stub
-				System.out.print("App| Call Event ApplyLeaving.");
-				//History.newItem("Register");
-				//ApplyLeaving();
-			}
-		});
-		
-		EventBusMainGoToRegister();
-		EventBusRegisterGoToMain();
-		
-		//eventBus.fireEvent(new ApplyLeavingEvent());	
-		//System.out.println("Count of Event ApplyLeaving " + eventBus.getHandlerCount(ApplyLeavingEvent.TYPE));
-		//System.out.println("Count of Event RegisterEvent " + eventBus.getHandlerCount(RegisterEvent.TYPE));
-		
-		//System.out.println("App| Add Handler EventBus Complete.");
 	}
 
 	@Override
@@ -112,13 +89,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	      Presenter presenter = null;
 
 	      if (token.equals(eventFire.Main.toString())) {
-	        presenter = new HumanResourcesManagementPresenter(rpcService, eventBus, new HumanResourcesManagementView());
+		        presenter = new DashBoardPresenter(rpcService, eventBus, new DashBoardView());
+		  }
+		  else if (token.equals(eventFire.Administrator.toString())) {
+	        presenter = new AdministratorPresenter(rpcService, eventBus, new AdministratorView());
 	      }
-	      else if (token.equals(eventFire.Register.toString())) {
+	      else if (token.equals(eventFire.Profile.toString())) {
 	        presenter = new RegisterPresenter(rpcService, eventBus, new RegisterView());
-	      }
-	      else if (token.equals(eventFire.Edit.toString())) {
-	    	  //presenter = new EditContactPresenter(rpcService, eventBus, new EditContactView());
 	      }
 	      
 	      if (presenter != null) {
@@ -129,63 +106,18 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		System.out.println("AppController onValuechange Complete!!");
 	}
 	
-	private void EventBusMainGoToRegister() {
-		
-		eventBus.addHandler(RegisterEvent.TYPE,new RegisterEventHandler() {
-			
-			@Override
-			public void onRegistering(RegisterEvent event) {
-				// TODO Auto-generated method stub
-				System.out.print("App| Call Event Register.");
-				History.newItem("Register");
-			}
-		});
-		
-		eventBus.addHandler(EditProfileEvent.TYPE, new EditProfileEventHandler() {
-			
-			@Override
-			public void onEditProfile(EditProfileEvent event) {
-				// TODO Auto-generated method stub
-				doEditProfile(event.getEmployeeid());
-				//EditProfileEvent.
-			}
-		});
-		
-	}
-	
 	private void doEditProfile(int employeeID) {
 	    History.newItem(eventFire.Edit.toString(), false);
 	    Presenter presenter = new RegisterPresenter(rpcService, eventBus, new RegisterView(), employeeID);
 	    presenter.go(container);
 	}
 	
-	private void EventBusRegisterGoToMain() {
-		eventBus.addHandler(AddProfileEvent.TYPE, new AddProfileEventHandler() {
-
-			@Override
-			public void onAddProfile(AddProfileEvent event) {
-				// TODO Auto-generated method stub
-				System.out.print("Add New Profile Suscess and Back to main");
-				History.newItem(eventFire.Main.toString());
-			}
-			
-		});
-		
-		eventBus.addHandler(ProfileUpdateEvent.TYPE	, new ProfileUpdateEventHandler() {
-			
-			@Override
-			public void onProfileUpdated(ProfileUpdateEvent event) {
-				// TODO Auto-generated method stub
-				System.out.print("Back to main");
-				History.newItem(eventFire.Main.toString());
-			}
-		});
-	}
-	
+	@SuppressWarnings("unused")
 	private void ApplyLeaving() {
 		System.out.println("Appcontroller run ApplyLeaving Event");
 	}
 	
+	@SuppressWarnings("unused")
 	private void EnableOauth() {
 		System.out.println("AAAppcontroller run EnableOauth Event");
 	}

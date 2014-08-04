@@ -18,12 +18,12 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.client.GreetingServiceAsync;
-import com.kic.hrm.client.event.ApplyLeavingEvent;
-import com.kic.hrm.client.event.EditProfileEvent;
-import com.kic.hrm.client.event.RegisterEvent;
+
+
+
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.data.model.Employee;
-import com.kic.hrm.shared.LoginInfo;
+
 
 public class HumanResourcesManagementPresenter implements Presenter {
 
@@ -102,7 +102,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 							@Override
 							public void onSuccess(Boolean result) {
 								// TODO Auto-generated method stub
-								 eventBus.fireEvent(new ApplyLeavingEvent());
+								// eventBus.fireEvent(new ApplyLeavingEvent());
 					    	 System.out.println("HRM_P| After call eventBus fireEvent");
 					    	  //History.fireCurrentHistoryState();
 					    	  //ApplyLeaving();
@@ -157,7 +157,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				System.out.println("HRM_P| " + event.toDebugString() + " is on Click");
-				eventBus.fireEvent(new RegisterEvent());
+				//eventBus.fireEvent(new RegisterEvent());
 				System.out.println("HRM_P| After call eventBus fireEvent");
 				//this.e
 			}
@@ -168,7 +168,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				eventBus.fireEvent(new EditProfileEvent(Integer.parseInt(display.getUsersListBox().getItemText(display.getUsersListBox().getSelectedIndex()))));
+				//eventBus.fireEvent(new EditProfileEvent(Integer.parseInt(display.getUsersListBox().getItemText(display.getUsersListBox().getSelectedIndex()))));
 			}
 		});
 		
