@@ -1,12 +1,9 @@
 package com.kic.hrm.client;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
-
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -18,7 +15,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import com.kic.hrm.client.event.RegisterEvent;
 
 public class CloudHRM  implements EntryPoint{
 
@@ -81,6 +77,7 @@ public class CloudHRM  implements EntryPoint{
 	 * The message displayed to the user when the server cannot be reached or
 	 * returns an error.
 	 */
+	@SuppressWarnings("unused")
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
@@ -107,6 +104,7 @@ public class CloudHRM  implements EntryPoint{
 
 	}
 	
+	@SuppressWarnings("unused")
 	private void QuickTest(final GreetingServiceAsync rpcService) {
 		 Button button = new Button("QuickTest");
 		 button.addClickHandler(new ClickHandler() {
@@ -134,6 +132,7 @@ public class CloudHRM  implements EntryPoint{
 		RootPanel.get().add(button);
 	}
 	
+	@SuppressWarnings("unused")
 	private void Register(final HandlerManager eventBus) {
 		Button button = new Button("Register");
 		 button.addClickHandler(new ClickHandler() {
@@ -141,7 +140,7 @@ public class CloudHRM  implements EntryPoint{
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				eventBus.fireEvent(new RegisterEvent());
+				//eventBus.fireEvent(new RegisterEvent());
 			}
 			 
 		 });
@@ -154,7 +153,8 @@ public class CloudHRM  implements EntryPoint{
 
 
 	  // Adds a button to the page that asks for authentication from Google.
-	  private void addGoogleAuth(final GreetingServiceAsync rpcService) {
+	  @SuppressWarnings("unused")
+	private void addGoogleAuth(final GreetingServiceAsync rpcService) {
 	    // Since the auth flow requires opening a popup window, it must be started
 	    // as a direct result of a user action, such as clicking a button or link.
 	    // Otherwise, a browser's popup blocker may block the popup.

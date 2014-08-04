@@ -12,6 +12,11 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.client.ui.DecoratedStackPanel;
+import com.google.gwt.user.client.ui.StackPanel;
+import com.google.gwt.user.client.ui.StackLayoutPanel;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.HTML;
 
 public class ProfileView extends Composite {
 	
@@ -229,6 +234,40 @@ public class ProfileView extends Composite {
 		btnNewButton_6.setText("\u0E22\u0E01\u0E40\u0E25\u0E34\u0E01");
 		horizontalPanel_6.add(btnNewButton_6);
 		btnNewButton_6.setWidth("70px");
+		
+		DecoratedStackPanel decoratedStackPanel = new DecoratedStackPanel();
+		tabPanel.add(decoratedStackPanel, "New tab", true);
+		decoratedStackPanel.setSize("5cm", "3cm");
+		
+		Button btnNewButton = new Button("New button");
+		decoratedStackPanel.add(btnNewButton, "New widget", false);
+		btnNewButton.setSize("100%", "100%");
+		
+		Button btnNewButton_1 = new Button("New button");
+		decoratedStackPanel.add(btnNewButton_1, "New widget", false);
+		btnNewButton_1.setSize("100%", "100%");
+		
+		StackPanel stackPanel = new StackPanel();
+		tabPanel.add(stackPanel, "New tab", false);
+		stackPanel.setSize("5cm", "3cm");
+		
+		Button btnNewButton_2 = new Button("New button");
+		stackPanel.add(btnNewButton_2, "New widget", false);
+		btnNewButton_2.setSize("100%", "100%");
+		
+		Button btnNewButton_3 = new Button("New button");
+		stackPanel.add(btnNewButton_3, "New widget", false);
+		btnNewButton_3.setSize("100%", "100%");
+		
+		StackLayoutPanel stackLayoutPanel = new StackLayoutPanel(Unit.EM);
+		
+		Button btnNewButton_7 = new Button("New button");
+		stackLayoutPanel.add(btnNewButton_7, new HTML("New Widget"), 2.0);
+		
+		Button btnNewButton_8 = new Button("New button");
+		stackLayoutPanel.add(btnNewButton_8, new HTML("New Widget"), 2.0);
+		tabPanel.add(stackLayoutPanel, "New tab", false);
+		stackLayoutPanel.setSize("5cm", "3cm");
 	}
 
 }
