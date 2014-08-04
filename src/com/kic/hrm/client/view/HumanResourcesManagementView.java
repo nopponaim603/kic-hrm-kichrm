@@ -46,15 +46,17 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		
 		ToggleButton tglbtnOauth = new ToggleButton("Oauth 2.0");
 		verticalPanel_3.add(tglbtnOauth);
+		tglbtnOauth.setWidth("");
 		m_tglbtnOauth = tglbtnOauth;
 		
 		VerticalPanel verticalPanelLeavingForm = new VerticalPanel();
 		verticalPanelLeavingForm.setVisible(false);
 		tabPanel.add(verticalPanelLeavingForm, "Leaving Form", false);
-		verticalPanelLeavingForm.setSize("780px", "550px");
+		verticalPanelLeavingForm.setSize("100%", "100%");
 		
 		Button Testbuttom = new Button("New button");
 		verticalPanelLeavingForm.add(Testbuttom);
+		Testbuttom.setWidth("100%");
 
 		VerticalPanel verticalPanel_4 = new VerticalPanel();
 		tabPanel.add(verticalPanel_4, "Leaving Report", false);
