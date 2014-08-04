@@ -132,14 +132,14 @@ public class HumanResourcesManagementView extends Composite implements HumanReso
 		grid.setWidget(3, 4, btnDelete);
 		deleteButton = btnDelete;
 		
-		Label lblGetFileForm = new Label("ID File Form Google Drive");
+		Label lblGetFileForm = new Label("FolderID ");
 		grid.setWidget(4, 0, lblGetFileForm);
 		
 		TextBox txtbxbxczuyjkhhuenoalliwhdqc = new TextBox();
-		txtbxbxczuyjkhhuenoalliwhdqc.setText("0BxCzuY_jk0HhUENoallIWHdqc28");
+		txtbxbxczuyjkhhuenoalliwhdqc.setText("0BxCzuY_jk0HhQlNNRXJEdVJmRVU");
 		grid.setWidget(4, 1, txtbxbxczuyjkhhuenoalliwhdqc);
 		
-		Button btnGetfile = new Button("GetFile");
+		Button btnGetfile = new Button("Save CSV to Drive");
 		grid.setWidget(4, 2, btnGetfile);
 		
 		idFile = txtbxbxczuyjkhhuenoalliwhdqc;

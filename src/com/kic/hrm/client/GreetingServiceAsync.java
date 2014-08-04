@@ -41,4 +41,7 @@ public interface GreetingServiceAsync {
 	
 	void getFileFormGoogleDrive(String token, String idFile,
 			AsyncCallback<String> callback);
+	
+	void saveCSVtoDrive(String token, String FolderID,
+			AsyncCallback<String> callback);
 }

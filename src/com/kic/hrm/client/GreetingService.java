@@ -43,4 +43,6 @@ public interface GreetingService extends RemoteService {
 
 	String getFileFormGoogleDrive(String token, String idFile);
 
+	String saveCSVtoDrive(String token, String FolderID);
+
 }

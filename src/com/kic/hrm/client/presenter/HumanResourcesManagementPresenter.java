@@ -218,7 +218,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 					@Override
 					public void onSuccess(String result) {
 						// TODO Auto-generated method stub
-						rpcService.getFileFormGoogleDrive(result, display.getIDFile().getValue(),new AsyncCallback<String>() {
+						rpcService.saveCSVtoDrive(result, display.getIDFile().getValue(),new AsyncCallback<String>() {
 							
 							@Override
 							public void onSuccess(String result) {
