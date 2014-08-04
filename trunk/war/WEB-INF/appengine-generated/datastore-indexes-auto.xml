@@ -1,10 +1,4 @@
-<!-- Indices written at Mon, 4 Aug 2014 13:12:25 ICT -->
+<!-- Indices written at Mon, 4 Aug 2014 15:26:28 ICT -->
 
-<datastore-indexes>
+<datastore-indexes/>
 
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="FileIDLeaveLog" ancestor="false" source="auto">
-        <property name="__key__" direction="desc"/>
-    </datastore-index>
-
-</datastore-indexes>

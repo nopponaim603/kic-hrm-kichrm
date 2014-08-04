@@ -1,7 +1,6 @@
 package com.kic.hrm.client.event;
 
 import com.google.gwt.event.shared.GwtEvent;
-import com.google.gwt.event.shared.GwtEvent.Type;
 
 public class ProfileUpdateEvent extends GwtEvent<ProfileUpdateEventHandler>{
 

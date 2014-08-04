@@ -31,6 +31,12 @@ import com.kic.hrm.shared.LoginInfo;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
+	enum eventFire {
+		Main,
+		Register,
+		Edit
+	}
+	
 	private final HandlerManager eventBus;
 	private final GreetingServiceAsync rpcService;
 	private HasWidgets container;
@@ -86,7 +92,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		this.container = container;
 
 		if ("".equals(History.getToken())) {
-			History.newItem("main");
+			History.newItem(eventFire.Main.toString());
 		} else {
 			System.out.println("Appcontroller fireCurrentHistoryState");
 			History.fireCurrentHistoryState();
@@ -105,13 +111,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	    if (token != null) {
 	      Presenter presenter = null;
 
-	      if (token.equals("main")) {
+	      if (token.equals(eventFire.Main.toString())) {
 	        presenter = new HumanResourcesManagementPresenter(rpcService, eventBus, new HumanResourcesManagementView());
 	      }
-	      else if (token.equals("Register")) {
+	      else if (token.equals(eventFire.Register.toString())) {
 	        presenter = new RegisterPresenter(rpcService, eventBus, new RegisterView());
 	      }
-	      else if (token.equals("edit")) {
+	      else if (token.equals(eventFire.Edit.toString())) {
 	    	  //presenter = new EditContactPresenter(rpcService, eventBus, new EditContactView());
 	      }
 	      
@@ -148,7 +154,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	}
 	
 	private void doEditProfile(int employeeID) {
-	    History.newItem("edit", false);
+	    History.newItem(eventFire.Edit.toString(), false);
 	    Presenter presenter = new RegisterPresenter(rpcService, eventBus, new RegisterView(), employeeID);
 	    presenter.go(container);
 	}
@@ -160,7 +166,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void onAddProfile(AddProfileEvent event) {
 				// TODO Auto-generated method stub
 				System.out.print("Add New Profile Suscess and Back to main");
-				History.newItem("main");
+				History.newItem(eventFire.Main.toString());
 			}
 			
 		});
@@ -171,7 +177,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void onProfileUpdated(ProfileUpdateEvent event) {
 				// TODO Auto-generated method stub
 				System.out.print("Back to main");
-				History.newItem("main");
+				History.newItem(eventFire.Main.toString());
 			}
 		});
 	}
