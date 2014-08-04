@@ -5,6 +5,7 @@ import com.kic.hrm.client.presenter.RegisterPresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeService;
 import com.kic.hrm.data.model.Employee.property;
+import com.kic.hrm.server.businesslogic.RecordLog;
 import com.kic.hrm.shared.*;
 
 import java.io.IOException;
@@ -173,6 +174,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 	// Add Edit Delete Profile > end
 	
+	@Override
+	public String saveCSVtoDrive(String token, String FolderID) {
+		// TODO Auto-generated method stub
+		String getresouce = RecordLog.SaveStartTime(token, FolderID);
+		return getresouce;
+	}
 	
 	
 	@Override
@@ -192,6 +199,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		return true;
 	}
+	
+
 
 	@Override
 	public String googleDrive(String token) {
@@ -212,10 +221,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public String QuickTest(String testParametor) {
 		// TODO Auto-generated method stub
 		//DataStoreControllingServiceImpl.Process();
-		
-		
 		return testParametor;
 	}
+
+
 
 
 
