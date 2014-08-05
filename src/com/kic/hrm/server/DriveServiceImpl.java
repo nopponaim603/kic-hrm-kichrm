@@ -1,14 +1,12 @@
 package com.kic.hrm.server;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,11 +26,6 @@ import com.google.api.services.drive.model.ChildList;
 import com.google.api.services.drive.model.ChildReference;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.kic.hrm.data.model.FileIDLeaveLog;
-import com.kic.hrm.data.model.StartTimeLog;
-import com.kic.hrm.data.model.StartTimeLogService;
 
 //import com.google.api.gwt.services.
 public class DriveServiceImpl {

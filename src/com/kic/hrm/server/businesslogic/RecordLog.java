@@ -11,7 +11,8 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.kic.hrm.data.model.FileIDLeaveLog;
+
+import com.kic.hrm.data.model.FileIDStartTimeLog;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLogService;
 import com.kic.hrm.server.CSVServiceImpl;
@@ -45,17 +46,18 @@ public class RecordLog {
 					Date FileLastUpdate = new Date(thisFile.getModifiedByMeDate().getValue());
 					Date dateofFileinDatastore = null;
 					
-					List<Entity> ListFileID = DataStoreControl.Query(FileIDLeaveLog.class, SortDirection.DESCENDING);
+					List<Entity> ListFileID = DataStoreControl.Query(FileIDStartTimeLog.class, SortDirection.DESCENDING);
 					System.out.println("Size fileID Log : " + ListFileID.size());
 							for(Entity en : ListFileID) {
-								if(en.getProperty(FileIDLeaveLog.property.fileId.toString())
+								if(en.getProperty(FileIDStartTimeLog.property.fileId.toString())
 										.toString().contentEquals(thisFile.getId())) {
 									System.out.println("File is Already in DataStore.");
 									isFileAlready = true;
-									dateofFileinDatastore = (Date)en.getProperty(FileIDLeaveLog.property.lastUpdate.toString());
+									dateofFileinDatastore = (Date)en.getProperty(FileIDStartTimeLog.property.lastUpdate.toString());
 									break;
 								}
 							}
+							
 					if(isFileAlready) {
 						System.out.println("File is already.but double check if file have update.");
 						//Test Time
@@ -86,15 +88,16 @@ public class RecordLog {
 		}
 
 		System.out.println("End Insert Log");
+		//List<Entity> ListFileID = DataStoreControl.Query(FileIDStartTimeLog.class, SortDirection.DESCENDING);
 		
 		return problem;
 	}
 	
 	static void saveFileID(String fileID,Date lastUpdate) {
 		//Date time = new  Date(lastUpdate.getValue());
-		Entity d_file = DataStoreControl.CreateEntity(FileIDLeaveLog.class);
-		d_file.setProperty(FileIDLeaveLog.property.fileId.toString(), fileID);
-		d_file.setProperty(FileIDLeaveLog.property.lastUpdate.toString(), lastUpdate);
+		Entity d_file = DataStoreControl.CreateEntity(FileIDStartTimeLog.class);
+		d_file.setProperty(FileIDStartTimeLog.property.fileId.toString(), fileID);
+		d_file.setProperty(FileIDStartTimeLog.property.lastUpdate.toString(), lastUpdate);
 		//System.out.println("DataTime : "+ lastUpdate.toStringRfc3339() + " : " + lastUpdate.getValue() + " : " + time.toString());
 		DataStoreControl.SaveEntity(d_file);
 	}

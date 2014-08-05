@@ -62,6 +62,12 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		});
 		
 	}
+	
+	private void doEditProfile(int employeeID) {
+	    History.newItem(eventFire.Edit.toString(), false);
+	    Presenter presenter = new RegisterPresenter(rpcService, eventBus, new RegisterView(), employeeID);
+	    presenter.go(container);
+	}
 
 	@Override
 	public void go(final HasWidgets container) {
@@ -105,22 +111,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		
 		System.out.println("AppController onValuechange Complete!!");
 	}
-	
-	private void doEditProfile(int employeeID) {
-	    History.newItem(eventFire.Edit.toString(), false);
-	    Presenter presenter = new RegisterPresenter(rpcService, eventBus, new RegisterView(), employeeID);
-	    presenter.go(container);
-	}
-	
-	@SuppressWarnings("unused")
-	private void ApplyLeaving() {
-		System.out.println("Appcontroller run ApplyLeaving Event");
-	}
-	
-	@SuppressWarnings("unused")
-	private void EnableOauth() {
-		System.out.println("AAAppcontroller run EnableOauth Event");
-	}
 
 	private void LoginGooglePlus(final GreetingServiceAsync rpcService) {
 		
@@ -142,17 +132,5 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		});
 		
 	}
-	
 
-	/*
-	String token = event.getValue();
-	Presenter presenter = null;
-	presenter = new HumanResourcesManagementPresenter(rpcService, eventBus,
-			new HumanResourcesManagementView());
-	if (presenter != null) {
-		Presenter presenter = null;
-	
-
-	}
-	*/
 }

@@ -2,7 +2,7 @@ package com.kic.hrm.data.model;
 
 import java.util.Date;
 
-public class FileIDLeaveLog {
+public class FileIDStartTimeLog {
 	public enum property {
 		fileId,
 		lastUpdate
