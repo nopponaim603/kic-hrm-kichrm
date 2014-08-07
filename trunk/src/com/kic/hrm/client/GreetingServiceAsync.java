@@ -3,7 +3,7 @@ package com.kic.hrm.client;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.kic.hrm.client.presenter.RegisterPresenter.state;
+import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.shared.*;
 /**

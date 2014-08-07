@@ -15,10 +15,10 @@ import com.kic.hrm.client.presenter.AdministratorPresenter;
 import com.kic.hrm.client.presenter.DashBoardPresenter;
 import com.kic.hrm.client.presenter.LoginPlusPresenter;
 import com.kic.hrm.client.presenter.Presenter;
-import com.kic.hrm.client.presenter.RegisterPresenter;
+import com.kic.hrm.client.presenter.ProfilePresenter;
 import com.kic.hrm.client.view.AdministratorView;
 import com.kic.hrm.client.view.DashBoardView;
-import com.kic.hrm.client.view.RegisterView;
+import com.kic.hrm.client.view.ProfileView;
 import com.kic.hrm.shared.LoginInfo;
 
 
@@ -65,7 +65,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	
 	private void doEditProfile(int employeeID) {
 	    History.newItem(eventFire.Edit.toString(), false);
-	    Presenter presenter = new RegisterPresenter(rpcService, eventBus, new RegisterView(), employeeID);
+	    Presenter presenter = new ProfilePresenter(rpcService, eventBus, new ProfileView(), employeeID);
 	    presenter.go(container);
 	}
 
@@ -101,7 +101,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	        presenter = new AdministratorPresenter(rpcService, eventBus, new AdministratorView());
 	      }
 	      else if (token.equals(eventFire.Profile.toString())) {
-	        presenter = new RegisterPresenter(rpcService, eventBus, new RegisterView());
+	        presenter = new ProfilePresenter(rpcService, eventBus, new ProfileView());
 	      }
 	      
 	      if (presenter != null) {

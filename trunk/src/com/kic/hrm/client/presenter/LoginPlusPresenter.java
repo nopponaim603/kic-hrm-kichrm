@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.shared.LoginInfo;
@@ -35,6 +34,9 @@ public class LoginPlusPresenter {
     private final TextBox nameField = new TextBox();   
     private final StringBuilder userEmail;
     // TODO #06:> end
+    
+    @SuppressWarnings("unused")
+	private LoginInfo m_loginInfo;
 	
     public LoginPlusPresenter() {
 		// TODO Auto-generated constructor stub
@@ -85,7 +87,7 @@ public class LoginPlusPresenter {
 						@Override
 						public void onSuccess(final LoginInfo loginInfo) {
 							System.out.println("C:LP| Google H : on Success");
-							
+							m_loginInfo = loginInfo;
 							signInLink.setText(loginInfo.getName());
 							nameField.setText(loginInfo.getName());
 							signInLink.setStyleName("login-area");
