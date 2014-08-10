@@ -4,6 +4,15 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class StartTimeLog implements Serializable {
+	
+	public enum type {
+		Absence,
+		Onsite,
+		Late,
+		Leave,
+		Holiday
+	}
+	
 	public enum timetable {
 		Admin,
 		Project
@@ -31,7 +40,11 @@ public class StartTimeLog implements Serializable {
     private timetable	m_timeTable;
     private Date		m_clockIn;
     private Date		m_clockOut;
-    //private Date		m_coockLate;
+    
+    
+    private Date		m_coockLate;
+    private type		m_type;
+   
 	/**
 	 * @return the kind
 	 */
@@ -115,6 +128,30 @@ public class StartTimeLog implements Serializable {
 	 */
 	public void setM_clockOut(Date m_clockOut) {
 		this.m_clockOut = m_clockOut;
+	}
+	/**
+	 * @return the m_type
+	 */
+	public type getM_type() {
+		return m_type;
+	}
+	/**
+	 * @param m_type the m_type to set
+	 */
+	public void setM_type(type m_type) {
+		this.m_type = m_type;
+	}
+	/**
+	 * @return the m_coockLate
+	 */
+	public Date getM_coockLate() {
+		return m_coockLate;
+	}
+	/**
+	 * @param m_coockLate the m_coockLate to set
+	 */
+	public void setM_coockLate(Date m_coockLate) {
+		this.m_coockLate = m_coockLate;
 	}
     
     //private 

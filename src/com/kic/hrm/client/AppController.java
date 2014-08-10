@@ -15,6 +15,8 @@ import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.client.event.gotoDashBoardEventHandler;
 import com.kic.hrm.client.event.gotoLeaveEvent;
 import com.kic.hrm.client.event.gotoLeaveEventHandler;
+import com.kic.hrm.client.event.gotoNewEvent;
+import com.kic.hrm.client.event.gotoNewEventHandler;
 import com.kic.hrm.client.event.gotoProfileAndEditEvent;
 import com.kic.hrm.client.event.gotoProfileAndEditEventHandler;
 import com.kic.hrm.client.event.gotoProfileEvent;
@@ -23,12 +25,14 @@ import com.kic.hrm.client.presenter.AdministratorPresenter;
 import com.kic.hrm.client.presenter.DashBoardPresenter;
 import com.kic.hrm.client.presenter.LeavePresenter;
 import com.kic.hrm.client.presenter.LoginPlusPresenter;
+import com.kic.hrm.client.presenter.NewPresenter;
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.presenter.ProfilePresenter;
 import com.kic.hrm.client.view.AdministratorView;
 import com.kic.hrm.client.view.DashBoardView;
 import com.kic.hrm.client.view.LeaveFormView;
 import com.kic.hrm.client.view.LeaveView;
+import com.kic.hrm.client.view.NewView;
 import com.kic.hrm.client.view.ProfileView;
 import com.kic.hrm.shared.LoginInfo;
 
@@ -41,7 +45,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		Profile,
 		Edit,
 		Leave,
-		LeaveForm
+		LeaveForm,
+		New,
+		Report
 	}
 	
 	private final HandlerManager eventBus;
@@ -90,6 +96,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void gotoLeave(gotoLeaveEvent event) {
 				// TODO Auto-generated method stub
 				History.newItem(AppController.eventFire.Leave.toString());
+			}
+		});
+		
+		eventBus.addHandler(gotoNewEvent.TYPE, new gotoNewEventHandler() {
+			
+			@Override
+			public void gotoNew(gotoNewEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem(AppController.eventFire.New.toString());
 			}
 		});
 		
@@ -156,8 +171,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	        presenter = new ProfilePresenter(rpcService, eventBus, new ProfileView());
 	      }
 	      else if(token.equals(eventFire.Leave.toString())) {
-	    	 
 		    presenter = new LeavePresenter(rpcService, eventBus, new LeaveView(),m_loginPlus.getM_loginInfo());
+		  }
+	      else if(token.equals(eventFire.New.toString())) {
+			    presenter = new NewPresenter(rpcService, eventBus, new NewView(),m_loginPlus.getM_loginInfo());
 		  }
 	      
 	      if (presenter != null) {

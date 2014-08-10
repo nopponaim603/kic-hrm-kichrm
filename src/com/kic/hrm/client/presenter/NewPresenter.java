@@ -1,85 +1,80 @@
 package com.kic.hrm.client.presenter;
 
+import java.util.List;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
-import com.kic.hrm.client.AppController;
 import com.kic.hrm.client.GreetingServiceAsync;
-import com.kic.hrm.client.event.gotoAdministratorEvent;
-import com.kic.hrm.client.event.gotoAdministratorEventHandler;
-import com.kic.hrm.client.event.gotoLeaveEvent;
-import com.kic.hrm.client.event.gotoLeaveEventHandler;
-import com.kic.hrm.client.event.gotoNewEvent;
+import com.kic.hrm.client.event.gotoDashBoardEvent;
+import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LeaveTask.progress;
+import com.kic.hrm.shared.LoginInfo;
 
-
-public class DashBoardPresenter implements Presenter{
-
+public class NewPresenter implements Presenter{
+	
 	public interface Display {
-		HasClickHandlers getNewsButton();
-		HasClickHandlers getLeaveButton();
-		HasClickHandlers getReportButton();
-		HasClickHandlers getAdminButton();
-		
+		HasClickHandlers getBackButton();
+		void createTake(GreetingServiceAsync rpcService ,LeaveTask leavetask);
 		Widget asWidget();
 	}
 	
 	private final GreetingServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;
+	private LoginInfo m_loginInfo;
 	
-	public DashBoardPresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view) {
+	public NewPresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view ,LoginInfo m_loginInfo) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
-		
+		this.m_loginInfo = m_loginInfo;
 		bind();
+		
 	}
 	
 	private void bind() {
 		// TODO Auto-generated method stub
-	
-		
-		display.getAdminButton().addClickHandler(new ClickHandler() {
+		display.getBackButton().addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				eventBus.fireEvent(new gotoAdministratorEvent());
+				eventBus.fireEvent(new gotoDashBoardEvent());
 			}
 		});
 		
-		
-		
-		display.getLeaveButton().addClickHandler(new ClickHandler() {
+		rpcService.getLeaveTaskByID(LeaveTask.progress.None, 55000, new AsyncCallback<List<LeaveTask>>() {
 			
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onSuccess(List<LeaveTask> result) {
 				// TODO Auto-generated method stub
-				eventBus.fireEvent(new gotoLeaveEvent());
+				for(LeaveTask temp : result)
+					display.createTake(rpcService, temp );
 			}
-		});
-		
-		display.getNewsButton().addClickHandler(new ClickHandler() {
 			
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				eventBus.fireEvent(new gotoNewEvent());
+				
 			}
 		});
+		//LeaveTask temp = new LeaveTask();
+		
+		
 	}
 
 	@Override
 	public void go(HasWidgets container) {
 		// TODO Auto-generated method stub
-		
 		 container.clear();
 		 container.add(display.asWidget());
 	}
-	
+
 }

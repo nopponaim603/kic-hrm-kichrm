@@ -1,11 +1,13 @@
 package com.kic.hrm.client;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
+import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.shared.*;
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -47,5 +49,7 @@ public interface GreetingServiceAsync {
 	void saveCSVtoDrive(String token, String FolderID,
 			AsyncCallback<String> callback);
 
-	
+	void createLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
+	void approveLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
+	void getLeaveTaskByID(LeaveTask.progress InProgress,int targetID , AsyncCallback<List<LeaveTask>> callback);
 }
