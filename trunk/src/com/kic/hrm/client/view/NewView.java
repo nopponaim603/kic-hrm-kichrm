@@ -1,7 +1,6 @@
 package com.kic.hrm.client.view;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -10,12 +9,18 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.kic.hrm.client.GreetingServiceAsync;
+import com.kic.hrm.client.presenter.NewPresenter.Display;
 import com.kic.hrm.client.view.event.NewViewLeadApprove;
 import com.kic.hrm.client.view.event.NewViewLeadEject;
+import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LeaveTask.progress;
 
 
-public class NewView extends Composite{
+public class NewView extends Composite implements Display{
 	
+	private final Button backButton;
+	private final FlexTable flexTable;
 	public NewView() {
 		// TODO Auto-generated constructor stub
 		VerticalPanel verticalPanel = new VerticalPanel();
@@ -30,20 +35,21 @@ public class NewView extends Composite{
 		scrollPanel.setWidget(flexTable);
 		flexTable.setSize("100%", "100%");
 		
-		HorizontalPanel horizontalPanel_1 = new HorizontalPanel();
-		flexTable.setWidget(0, 0, horizontalPanel_1);
-		
-		Button btnNewButton_2 = new Button("New button");
-		horizontalPanel_1.add(btnNewButton_2);
-		
-		Button btnNewButton_3 = new Button("New button");
-		horizontalPanel_1.add(btnNewButton_3);
-		
 		Label lblNewLabel = new Label("News");
-		flexTable.setWidget(1, 0, lblNewLabel);
+		flexTable.setWidget(0, 0, lblNewLabel);
+		
+		Button btnBack = new Button("Back");
+		flexTable.setWidget(1, 0, btnBack);
+		btnBack.setWidth("100%");
+		
+		Label lblTaskList = new Label("Task List :");
+		flexTable.setWidget(2, 0, lblTaskList);
+		
+		
+		/*
 		
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
-		flexTable.setWidget(2, 0, verticalPanel_1);
+		flexTable.setWidget(3, 0, verticalPanel_1);
 		
 		Label lblLeave = new Label("Leave");
 		verticalPanel_1.add(lblLeave);
@@ -60,6 +66,10 @@ public class NewView extends Composite{
 		Button btnNewButton_1 = new Button("New button");
 		horizontalPanel.add(btnNewButton_1);
 		
+		*/
+		
+		backButton = btnBack;
+		this.flexTable = flexTable;
 	}
 	
 	@Override
@@ -70,15 +80,29 @@ public class NewView extends Composite{
 		return this;
 	}
 	
-	void createTake(FlexTable root,String TaskHader,String Taskcontent) {
+	@Override
+	public HasClickHandlers getBackButton() {
+		// TODO Auto-generated method stub
+		return backButton;
+	}
+	
+	public void createTake(FlexTable root,GreetingServiceAsync rpcService ,LeaveTask leavetask,progress InProgress) {
+		
+		
+	}
+
+	@Override
+	public void createTake(GreetingServiceAsync rpcService, LeaveTask leavetask) {
+		// TODO Auto-generated method stub
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
-		Label lblLeave = new Label(TaskHader);
+		Label lblLeave = new Label(leavetask.getM_leavetype().toString());
 		verticalPanel_1.add(lblLeave);
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		verticalPanel_1.add(horizontalPanel);
 		
-		Label lblNameDate = new Label(Taskcontent);
+		Label lblNameDate = new Label("Start : " + leavetask.getM_start().toString() + " to " + leavetask.getM_end().toString()
+							+ " \n Message : " + leavetask.getM_sendmessage());
 		horizontalPanel.add(lblNameDate);
 		
 		Button ApproveButton = new Button("Approve");
@@ -87,9 +111,10 @@ public class NewView extends Composite{
 		Button EjectButton = new Button("Eject");
 		horizontalPanel.add(EjectButton);
 		
-		ApproveButton.addClickHandler(new NewViewLeadApprove());
+		ApproveButton.addClickHandler(new NewViewLeadApprove(rpcService,leavetask));
 		EjectButton.addClickHandler(new NewViewLeadEject());
 		
-		root.setWidget(root.getRowCount(), 0, verticalPanel_1);
+		this.flexTable.setWidget(this.flexTable.getRowCount(), 0, verticalPanel_1);
 	}
+	
 }

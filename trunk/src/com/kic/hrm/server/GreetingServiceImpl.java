@@ -7,6 +7,9 @@ import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.EmployeeQuotaService;
 import com.kic.hrm.data.model.EmployeeService;
 import com.kic.hrm.data.model.Employee.property;
+import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LeaveTask.progress;
+import com.kic.hrm.data.model.LeaveTaskService;
 import com.kic.hrm.server.businesslogic.RecordLog;
 import com.kic.hrm.shared.*;
 
@@ -124,6 +127,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		 
 		d_employee = EmployeeService.FlashData(d_employee, userEmployee);  
 		DataStoreControl.SaveEntity(d_employee);
+		
 		d_quota = EmployeeQuotaService.FlashData(d_quota, userQuota);  
 		DataStoreControl.SaveEntity(d_quota);
 		return userEmployee;
@@ -264,6 +268,58 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		//System.out.println("IS : " + m_employeeQuota + " : " + m_employeeQuota.getM_leave());
 		return m_employeeQuota;
+	}
+
+	@Override
+	public boolean createLeaveTask(LeaveTask leavetask) {
+		// TODO Auto-generated method stub
+		Entity d_LeaveTask = null;
+		d_LeaveTask = DataStoreControl.CreateEntity(LeaveTask.class);
+		d_LeaveTask = LeaveTaskService.FlashData(d_LeaveTask, leavetask);
+		DataStoreControl.SaveEntity(d_LeaveTask);
+		
+		return true;
+	}
+
+	@Override
+	public boolean approveLeaveTask(LeaveTask leavetask) {
+		// TODO Auto-generated method stub
+		Entity d_LeaveTask = null;
+		d_LeaveTask = DataStoreControl.CreateEntity(LeaveTask.class);
+		try {
+			d_LeaveTask = DataStoreControl.EditEntity(leavetask.getKind(), leavetask.getKeyID());
+			d_LeaveTask = LeaveTaskService.FlashData(d_LeaveTask, leavetask);
+			DataStoreControl.SaveEntity(d_LeaveTask);
+			
+			return true;
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return false;
+	}
+
+	@Override
+	public List<LeaveTask> getLeaveTaskByID(progress InProgress ,int targetID) {
+		// TODO Auto-generated method stub
+		List<LeaveTask> results;// = new ArrayList<Employee>();
+		
+		List<Entity> entities = null;
+		if(InProgress == progress.LeaderApprove)
+			entities = DataStoreControl.Query(LeaveTask.class
+							, SortDirection.ASCENDING
+							,LeaveTaskService.findLeaderByLeaderID(targetID));
+		else if(InProgress == progress.HRApprove)
+			entities = DataStoreControl.Query(LeaveTask.class
+					, SortDirection.ASCENDING
+					,LeaveTaskService.findHRApprove());
+		else entities = DataStoreControl.Query(LeaveTask.class
+				, SortDirection.ASCENDING
+				,LeaveTaskService.findEmployeeByEmployeeID(targetID));
+		results = LeaveTaskService.Clone(entities);
+		
+		return results;
 	}
 
 

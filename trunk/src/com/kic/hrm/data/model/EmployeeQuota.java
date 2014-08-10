@@ -3,13 +3,7 @@ package com.kic.hrm.data.model;
 import java.io.Serializable;
 
 public class EmployeeQuota implements Serializable{
-	public enum type {
-		Absence,
-		Onsite,
-		Late,
-		Leave,
-		Holiday
-	}
+	
 	public enum property {
 		employeeID,
 		ontime,

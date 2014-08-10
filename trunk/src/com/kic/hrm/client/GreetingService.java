@@ -2,12 +2,15 @@ package com.kic.hrm.client;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
+import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.shared.LoginInfo;
 
 /**
@@ -48,5 +51,11 @@ public interface GreetingService extends RemoteService {
 	String getFileFormGoogleDrive(String token, String idFile);
 
 	String saveCSVtoDrive(String token, String FolderID);
+
+	boolean createLeaveTask(LeaveTask leavetask);
+
+	boolean approveLeaveTask(LeaveTask leavetask);
+
+	List<LeaveTask> getLeaveTaskByID(progress InProgress, int targetID);
 
 }

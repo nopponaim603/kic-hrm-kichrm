@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasValue;
@@ -21,6 +22,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.data.model.EmployeeQuota;
+import com.kic.hrm.data.model.StartTimeLog;
+import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.shared.LoginInfo;
 
 
@@ -52,6 +55,7 @@ public class LeavePresenter implements Presenter{
 	private Date m_endDate;
 	
 	private LoginInfo m_loginInfo;
+	private LeaveTask m_leavetask;
 	// 
 	public LeavePresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view ,LoginInfo m_loginInfo) {
 		// TODO Auto-generated constructor stub
@@ -106,8 +110,6 @@ public class LeavePresenter implements Presenter{
 			});
 		}else System.out.println("m_login" + m_loginInfo);
 
-
-		
 	}
 	
 	private void bind() {
@@ -131,9 +133,9 @@ public class LeavePresenter implements Presenter{
 				// TODO Auto-generated method stub
 				String valueTarget = display.getTypeLeaveListBox().getValue(display.getTypeLeaveListBox().getSelectedIndex());
 				System.out.println("event : " + valueTarget);
-				if(valueTarget.equals(EmployeeQuota.type.Leave.toString())) {
+				if(valueTarget.equals(StartTimeLog.type.Leave.toString())) {
 					display.getQuotaLabel().setText(String.valueOf(m_userQuota.getM_leave()));
-				}else if(valueTarget.equals(EmployeeQuota.type.Holiday.toString())) {
+				}else if(valueTarget.equals(StartTimeLog.type.Holiday.toString())) {
 					display.getQuotaLabel().setText(String.valueOf(m_userQuota.getM_holiday()));
 				}
 			}
@@ -164,6 +166,48 @@ public class LeavePresenter implements Presenter{
 				checkCodition();
 			}
 		});
+	
+		display.getLeaveButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("Click to Leave.");
+				m_leavetask = new LeaveTask();
+				
+				m_leavetask.setM_employeeID(m_loginInfo.getEmployeeID());
+				
+				m_leavetask.setM_leaderID(55000);
+				
+				m_leavetask.setM_leavetype(StartTimeLog.type.valueOf(
+					display.getTypeLeaveListBox().getValue(
+							display.getTypeLeaveListBox().getSelectedIndex())));
+				m_leavetask.setM_start(m_startDate);
+				m_leavetask.setM_end(m_endDate);
+				
+				m_leavetask.setM_sendmessage("Instance Leave Task : " + m_leavetask.getM_leavetype().toString());
+				m_leavetask.setM_commentmessage("  ");
+				m_leavetask.setM_leaveprogress(LeaveTask.progress.LeaderApprove);
+				
+				rpcService.createLeaveTask(m_leavetask, new AsyncCallback<Boolean>() {
+					
+					@Override
+					public void onSuccess(Boolean result) {
+						// TODO Auto-generated method stub
+						System.out.println("Create Task Success.");
+						Window.alert("Create Task Success.");
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						System.out.println("Create Task Failure.");
+						Window.alert("Create Task Failure.");
+					}
+				});
+				
+			}
+		});
 	}
 
 	@Override
@@ -188,15 +232,15 @@ public class LeavePresenter implements Presenter{
 			int DeltaDay = tempTime.getDate();
 			System.out.println("Time : " + DeltaDay);
 			
-			if(EmployeeQuota.type.valueOf(
+			if(StartTimeLog.type.valueOf(
 					display.getTypeLeaveListBox().getValue(
-							display.getTypeLeaveListBox().getSelectedIndex())) == EmployeeQuota.type.Leave) {
+							display.getTypeLeaveListBox().getSelectedIndex())) == StartTimeLog.type.Leave) {
 				if(DeltaDay <= m_userQuota.getM_leave()) {
 					isLeave = true;
 				}
-			}else if(EmployeeQuota.type.valueOf(
+			}else if(StartTimeLog.type.valueOf(
 					display.getTypeLeaveListBox().getValue(
-							display.getTypeLeaveListBox().getSelectedIndex())) == EmployeeQuota.type.Holiday) {
+							display.getTypeLeaveListBox().getSelectedIndex())) == StartTimeLog.type.Holiday) {
 				if(DeltaDay <= m_userQuota.getM_holiday()) {
 					isLeave = true;
 				}
