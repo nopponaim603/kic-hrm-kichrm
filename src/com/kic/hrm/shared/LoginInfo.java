@@ -16,6 +16,8 @@ public class LoginInfo  implements Serializable {
 	private String nickname;
 
 	private String pictureUrl;
+	
+	private int employeeID;
 
 	public boolean isLoggedIn() {
 		return loggedIn;
@@ -64,6 +66,20 @@ public class LoginInfo  implements Serializable {
 
 	public String getPictureUrl() {
 		return pictureUrl;
+	}
+
+	/**
+	 * @return the employeeID
+	 */
+	public int getEmployeeID() {
+		return employeeID;
+	}
+
+	/**
+	 * @param employeeID the employeeID to set
+	 */
+	public void setEmployeeID(int employeeID) {
+		this.employeeID = employeeID;
 	}
 
 }

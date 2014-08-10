@@ -39,6 +39,7 @@ public class ProfileView  extends Composite implements ProfilePresenter.Display{
 		initWidget(verticalPanel);
 		
 		Grid grid = new Grid(12, 2);
+		grid.setBorderWidth(0);
 		verticalPanel.add(grid);
 		
 		Label lblWorkid = new Label("WorkID");

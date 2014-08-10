@@ -4,14 +4,10 @@ package com.kic.hrm.client.presenter;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-
 import com.google.gwt.event.dom.client.HasClickHandlers;
-
 import com.google.gwt.event.shared.HandlerManager;
-
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
@@ -22,8 +18,9 @@ import com.kic.hrm.client.GreetingServiceAsync;
 
 import com.kic.hrm.client.event.gotoAdministratorEvent;
 import com.kic.hrm.client.event.gotoAdministratorEventHandler;
-
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.EmployeeQuota;
+import com.kic.hrm.data.model.SystemConfig;
 
 
 public class ProfilePresenter implements Presenter{
@@ -63,7 +60,7 @@ public class ProfilePresenter implements Presenter{
 	private final Display display;
 	public Employee m_employee;
 	private state redisterState;
-	
+	private EmployeeQuota m_employeeQuota;
 	public ProfilePresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
@@ -72,6 +69,7 @@ public class ProfilePresenter implements Presenter{
 		bind();
 		redisterState = state.add;
 		m_employee = new Employee();
+		m_employeeQuota = new EmployeeQuota();
 	}
 
 	public ProfilePresenter(GreetingServiceAsync rpcService,
@@ -95,7 +93,7 @@ public class ProfilePresenter implements Presenter{
 			@Override
 			public void onSuccess(Employee result) {
 				m_employee = result;
-				int test = m_employee.getM_sex().ordinal();
+				//int test = m_employee.getM_sex().ordinal();
 				
 				//System.out.println("Key :" + m_employee.getKey() + " : " + test);
 				
@@ -119,18 +117,26 @@ public class ProfilePresenter implements Presenter{
 				display.getPhone().setValue(m_employee.getM_phone());
 			}
 		});
+		
+		rpcService.getEmployeeQuota(employeeID, new AsyncCallback<EmployeeQuota>() {
+			
+			@Override
+			public void onSuccess(EmployeeQuota result) {
+				// TODO Auto-generated method stub
+				m_employeeQuota = result;
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 	private void bind() {
 		// TODO Auto-generated method stub	
-		eventBus.addHandler(gotoAdministratorEvent.TYPE, new gotoAdministratorEventHandler() {
-			
-			@Override
-			public void gotoAdministrator(gotoAdministratorEvent event) {
-				// TODO Auto-generated method stub
-				History.newItem(AppController.eventFire.Administrator.toString());
-			}
-		});
+		
 		
 		display.getSubmit().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
@@ -170,8 +176,21 @@ public class ProfilePresenter implements Presenter{
 		m_employee.setM_segment(Employee.segment.valueOf(display.getSegment()));
 		m_employee.setM_email(display.getEmail().getValue());
 		m_employee.setM_phone(display.getPhone().getValue());
-				
-		rpcService.addProfile(m_employee ,this.redisterState, new AsyncCallback<Employee>() {
+		
+		if(redisterState == redisterState.add) {
+			m_employeeQuota.setM_employeeID(Integer.parseInt(display.getWorkID().getValue()));
+			m_employeeQuota.setM_ontime(0);
+			m_employeeQuota.setM_onsite(0);
+			
+			m_employeeQuota.setM_late(0);
+			m_employeeQuota.setM_absence(0);
+			
+			m_employeeQuota.setM_leave(SystemConfig.limitQuota_Leave);
+			m_employeeQuota.setM_holiday(SystemConfig.limitQuota_Holiday);
+		}
+
+		
+		rpcService.addProfile(m_employee , m_employeeQuota,this.redisterState, new AsyncCallback<Employee>() {
 			
 			@Override
 			public void onSuccess(Employee result) {

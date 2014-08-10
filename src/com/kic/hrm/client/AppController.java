@@ -9,15 +9,26 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 
 
+import com.kic.hrm.client.event.gotoAdministratorEvent;
+import com.kic.hrm.client.event.gotoAdministratorEventHandler;
+import com.kic.hrm.client.event.gotoDashBoardEvent;
+import com.kic.hrm.client.event.gotoDashBoardEventHandler;
+import com.kic.hrm.client.event.gotoLeaveEvent;
+import com.kic.hrm.client.event.gotoLeaveEventHandler;
 import com.kic.hrm.client.event.gotoProfileAndEditEvent;
 import com.kic.hrm.client.event.gotoProfileAndEditEventHandler;
+import com.kic.hrm.client.event.gotoProfileEvent;
+import com.kic.hrm.client.event.gotoProfileEventHandler;
 import com.kic.hrm.client.presenter.AdministratorPresenter;
 import com.kic.hrm.client.presenter.DashBoardPresenter;
+import com.kic.hrm.client.presenter.LeavePresenter;
 import com.kic.hrm.client.presenter.LoginPlusPresenter;
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.presenter.ProfilePresenter;
 import com.kic.hrm.client.view.AdministratorView;
 import com.kic.hrm.client.view.DashBoardView;
+import com.kic.hrm.client.view.LeaveFormView;
+import com.kic.hrm.client.view.LeaveView;
 import com.kic.hrm.client.view.ProfileView;
 import com.kic.hrm.shared.LoginInfo;
 
@@ -28,7 +39,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		Main,
 		Administrator,
 		Profile,
-		Edit
+		Edit,
+		Leave,
+		LeaveForm
 	}
 	
 	private final HandlerManager eventBus;
@@ -52,6 +65,43 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		History.addValueChangeHandler(this);
 
 		//Event Bus
+		eventBus.addHandler(gotoAdministratorEvent.TYPE,new gotoAdministratorEventHandler() {
+			
+			@Override
+			public void gotoAdministrator(gotoAdministratorEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem(AppController.eventFire.Administrator.toString());
+			}
+		});
+		
+		eventBus.addHandler(gotoDashBoardEvent.TYPE,new gotoDashBoardEventHandler() {
+			
+			@Override
+			public void gotoDashBoard(gotoDashBoardEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem(AppController.eventFire.Main.toString());
+				
+			}
+		});
+
+		eventBus.addHandler(gotoLeaveEvent.TYPE, new gotoLeaveEventHandler() {
+			
+			@Override
+			public void gotoLeave(gotoLeaveEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem(AppController.eventFire.Leave.toString());
+			}
+		});
+		
+		eventBus.addHandler(gotoProfileEvent.TYPE, new gotoProfileEventHandler() {
+			
+			@Override
+			public void gotoProfile(gotoProfileEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem(AppController.eventFire.Profile.toString());
+			}
+		});
+					
 		eventBus.addHandler(gotoProfileAndEditEvent.TYPE, new gotoProfileAndEditEventHandler() {
 			
 			@Override
@@ -60,6 +110,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				doEditProfile(event.getEmployeeid());
 			}
 		});
+		
+		
 		
 	}
 	
@@ -103,6 +155,10 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	      else if (token.equals(eventFire.Profile.toString())) {
 	        presenter = new ProfilePresenter(rpcService, eventBus, new ProfileView());
 	      }
+	      else if(token.equals(eventFire.Leave.toString())) {
+	    	 
+		    presenter = new LeavePresenter(rpcService, eventBus, new LeaveView(),m_loginPlus.getM_loginInfo());
+		  }
 	      
 	      if (presenter != null) {
 	        presenter.go(container);
@@ -120,6 +176,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			@Override
 			public void onSuccess(LoginInfo result) {
 				// TODO Auto-generated method stub
+				//System.out.println("email : " + result.getEmailAddress());
 				m_loginPlus.processLoginSucess(result, rpcService);
 			}
 			

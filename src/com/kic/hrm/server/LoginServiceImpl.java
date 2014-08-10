@@ -5,18 +5,36 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonToken;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.JsonParseException;
+import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.EmployeeService;
 import com.kic.hrm.shared.LoginInfo;
 
 public class LoginServiceImpl {
+	enum field {
+		id,
+		email,
+		verified_email,
+		name,
+		given_name,
+		family_name,
+		link,
+		picture,
+		gender,
+		locale,
+		hd
+		// Domain Name
+	}
 	
 	private static final Logger log = Logger.getLogger(LoginServiceImpl.class.getName());
 	
@@ -32,7 +50,6 @@ public class LoginServiceImpl {
 	
 	public static LoginInfo login(String requestUri) {
 		
-		System.out.println("Test");
 		final UserService userService = UserServiceFactory.getUserService();
 		final User user = userService.getCurrentUser();
 		final LoginInfo loginInfo = new LoginInfo();
@@ -40,9 +57,15 @@ public class LoginServiceImpl {
 			loginInfo.setLoggedIn(true);
 			loginInfo.setName(user.getEmail());
 			loginInfo.setLogoutUrl(userService.createLogoutURL(requestUri));
+			if(loginInfo.getEmailAddress() != null) {
+				loginInfo.setEmployeeID(setEmployeeIDbyEmail(loginInfo.getEmailAddress()));
+				System.out.println("Employee ID : " + loginInfo.getEmployeeID());
+			}
+				
 		} else {
 			loginInfo.setLoggedIn(false);
 			loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
+			loginInfo.setEmployeeID(-1);
 		}
 		return loginInfo;
 	}
@@ -84,11 +107,11 @@ public class LoginServiceImpl {
 		}
 
 		final LoginInfo loginInfo = new LoginInfo();
-		
+		//System.out.println("New LoginInfo");
 		try {
 			JsonFactory f = new JsonFactory();
 			com.fasterxml.jackson.core.JsonParser jp;
-			
+			System.out.println(r);
 			jp = f.createJsonParser(r.toString());
 			
 			//jp = f.createJsonParser(r.toString());
@@ -97,13 +120,17 @@ public class LoginServiceImpl {
 			//JsonToken.
 			while (jp.nextToken() != JsonToken.END_OBJECT) {
 				final String fieldname = jp.getCurrentName();
+				//System.out.println("field :" + fieldname);
 				jp.nextToken();
-				if ("picture".equals(fieldname)) {
-					loginInfo.setPictureUrl(jp.getText());
-				} else if ("name".equals(fieldname)) {
-					loginInfo.setName(jp.getText());
-				} else if ("email".equals(fieldname)) {
+				//"picture".equals(fieldname)
+				if (field.email.toString().equals(fieldname)) {
 					loginInfo.setEmailAddress(jp.getText());
+					//System.out.println("email : " + loginInfo.getEmailAddress());
+					//loginInfo.setEmployeeID(setEmployeeIDbyEmail(loginInfo.getEmailAddress()));
+				} else if (field.name.toString().equals(fieldname)) {
+					loginInfo.setName(jp.getText());
+				} else if (field.picture.toString().equals(fieldname)) {
+					loginInfo.setPictureUrl(jp.getText());
 				}
 			}
 			
@@ -116,6 +143,24 @@ public class LoginServiceImpl {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		loginInfo.setEmployeeID(setEmployeeIDbyEmail(loginInfo.getEmailAddress()));
+		
 		return loginInfo;
+	}
+	
+	private static int setEmployeeIDbyEmail(String emailAddress) {
+		System.out.println("email : " + emailAddress);
+		int employeeId = -1;
+		List<Employee> m_employeeS = EmployeeService.Clone(DataStoreControl.Query(Employee.class 
+				, SortDirection.DESCENDING
+				,EmployeeService.findEmployeeByEmail(emailAddress)));
+		
+		System.out.println("Login Detecte User in list : " + m_employeeS.size());
+		
+		if(m_employeeS.size() == 1)
+			employeeId = m_employeeS.get(0).getM_employeeID();
+		
+		return employeeId;
 	}
 }

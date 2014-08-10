@@ -67,24 +67,6 @@ public class AdministratorPresenter implements Presenter{
 		// TODO Auto-generated method stub
 		DisplayHandler();
 		
-		eventBus.addHandler(gotoProfileEvent.TYPE, new gotoProfileEventHandler() {
-			
-			@Override
-			public void gotoProfile(gotoProfileEvent event) {
-				// TODO Auto-generated method stub
-				History.newItem(AppController.eventFire.Profile.toString());
-			}
-		});
-		
-		eventBus.addHandler(gotoDashBoardEvent.TYPE,new gotoDashBoardEventHandler() {
-			
-			@Override
-			public void gotoDashBoard(gotoDashBoardEvent event) {
-				// TODO Auto-generated method stub
-				History.newItem(AppController.eventFire.Main.toString());
-			}
-		});
-		
 		display.getBackButton().addClickHandler(new ClickHandler() {
 			
 			@Override

@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.presenter.AdministratorPresenter;
 
 public class AdministratorView extends Composite implements AdministratorPresenter.Display{
@@ -191,6 +192,14 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		deleteProfileButton = button_8;
 		
 		backButton = btnNewButton_1;
+	}
+	
+	@Override
+	public Widget asWidget() {
+		// TODO Auto-generated method stub
+		
+		//System.out.println("return Widget : " +this	);
+		return this;
 	}
 
 	@Override

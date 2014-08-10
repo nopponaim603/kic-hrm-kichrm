@@ -17,12 +17,14 @@ import com.google.appengine.api.urlfetch.HTTPRequest;
 import com.google.appengine.api.urlfetch.HTTPResponse;
 import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
+/*
 import com.google.gdata.client.authn.oauth.GoogleOAuthHelper;
 import com.google.gdata.client.authn.oauth.GoogleOAuthParameters;
 import com.google.gdata.client.authn.oauth.OAuthException;
 import com.google.gdata.client.authn.oauth.OAuthHmacSha1Signer;
 import com.google.gdata.client.authn.oauth.OAuthRsaSha1Signer;
 import com.google.gdata.client.authn.oauth.OAuthSigner;
+*/
 import com.google.gwt.http.client.URL;
 
 public class GoogleJsonWebToken {
@@ -56,6 +58,7 @@ public class GoogleJsonWebToken {
 		return token;
 	}
 	
+	/*
 	String OAuthOne() throws OAuthException {
 		String token = "";
 		GoogleOAuthParameters oauthParameters = new GoogleOAuthParameters();
@@ -79,6 +82,7 @@ public class GoogleJsonWebToken {
       
    	 	return token;
 	}
+	*/
 	
 	public static String CreateJsonToken() {
 		 String header = "{\"alg\":\"RS256\"}";
