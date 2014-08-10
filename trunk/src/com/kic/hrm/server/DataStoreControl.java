@@ -12,6 +12,11 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+
 import com.kic.hrm.data.model.Employee;
 
 public class DataStoreControl {
@@ -39,7 +44,7 @@ public class DataStoreControl {
 		//datastore.
 		datastore.put(entity);
 	}
-
+	
 	public static List<Entity> Query(Class<?> entiryClassName,SortDirection sortdirection) {
 		
 		Query query = new Query(entiryClassName.getSimpleName());
@@ -67,6 +72,16 @@ public class DataStoreControl {
 			e.printStackTrace();
 		}*/
 	    
+	    return temp;
+	}
+	
+	public static List<Entity> Query(Class<?> entiryClassName,SortDirection sortdirection,Filter filter) {
+		
+		Query query = new Query(entiryClassName.getSimpleName());
+		query.setFilter(filter);
+	    query.addSort(Entity.KEY_RESERVED_PROPERTY, sortdirection);
+	    List<Entity> temp = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
+
 	    return temp;
 	}
 				

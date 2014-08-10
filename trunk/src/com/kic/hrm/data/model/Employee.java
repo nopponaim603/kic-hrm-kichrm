@@ -1,17 +1,6 @@
 package com.kic.hrm.data.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-
-
-
-
-
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.Key;
-import com.kic.hrm.server.DataStoreControl;
 
 //import org.slim3.datastore.Attribute;
 //import com.kic.hrm.data.model.Sync;

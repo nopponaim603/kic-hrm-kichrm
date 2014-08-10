@@ -3,6 +3,8 @@ package com.kic.hrm.server;
 import com.kic.hrm.client.GreetingService;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.EmployeeQuota;
+import com.kic.hrm.data.model.EmployeeQuotaService;
 import com.kic.hrm.data.model.EmployeeService;
 import com.kic.hrm.data.model.Employee.property;
 import com.kic.hrm.server.businesslogic.RecordLog;
@@ -97,14 +99,21 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public Employee addProfile(Employee userEmployee, state registerMode) {
+	public Employee addProfile(Employee userEmployee, EmployeeQuota userQuota, state registerMode) {
 		// TODO Auto-generated method stub
 		Entity d_employee = null;
-		if(registerMode == state.add)
+		Entity d_quota = null;
+		if(registerMode == state.add){
 			d_employee = DataStoreControl.CreateEntity(Employee.class);
+			
+			
+			d_quota = DataStoreControl.CreateEntity(EmployeeQuota.class);
+			
+		}	
 		else if(registerMode == state.edit) {
 			try {
 				d_employee = DataStoreControl.EditEntity(userEmployee.getKind(), userEmployee.getKeyID());
+				d_quota = DataStoreControl.EditEntity(userQuota.getKind() , userQuota.getKeyID());
 			} catch (EntityNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -115,7 +124,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		 
 		d_employee = EmployeeService.FlashData(d_employee, userEmployee);  
 		DataStoreControl.SaveEntity(d_employee);
-		 
+		d_quota = EmployeeQuotaService.FlashData(d_quota, userQuota);  
+		DataStoreControl.SaveEntity(d_quota);
 		return userEmployee;
 	}
 
@@ -157,7 +167,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public boolean deleteProfile(Integer targetEmployee) {
 		// TODO Auto-generated method stub
 		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING);
+		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING,EmployeeService.findEmployeeByEmployeeID(targetEmployee));
 		results = EmployeeService.Clone(entities);
 		Employee temp_employee = null;
 		for(Employee em : results) {
@@ -169,6 +179,20 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 		
 		DataStoreControl.DeleteEntity(temp_employee.getKind(), temp_employee.getKeyID());
+		
+		
+		entities = DataStoreControl.Query(EmployeeQuota.class, SortDirection.ASCENDING,EmployeeQuotaService.findEmployeeByEmployeeID(targetEmployee));
+		List<EmployeeQuota> resultsQuota = EmployeeQuotaService.Clone(entities);
+		
+		EmployeeQuota temp_employeeQuota = null;
+		for(EmployeeQuota emQT : resultsQuota) {
+			if(emQT.getM_employeeID() == targetEmployee)
+			{
+				temp_employeeQuota = emQT;
+				break;
+			}
+		}
+		DataStoreControl.DeleteEntity(temp_employeeQuota.getKind(), temp_employeeQuota.getKeyID());
 		
 		return false;
 	}
@@ -222,6 +246,24 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		// TODO Auto-generated method stub
 		//DataStoreControllingServiceImpl.Process();
 		return testParametor;
+	}
+
+	@Override
+	public EmployeeQuota getEmployeeQuota(int employeeID) {
+		// TODO Auto-generated method stub
+		EmployeeQuota m_employeeQuota = new EmployeeQuota();
+		
+		List<EmployeeQuota> m_employeeQuotas = EmployeeQuotaService.Clone(DataStoreControl.Query(EmployeeQuota.class 
+				, SortDirection.DESCENDING
+				,EmployeeQuotaService.findEmployeeByEmployeeID(employeeID)));
+		System.out.println("EmployeeQuota :" + m_employeeQuotas.size());
+		
+		if(m_employeeQuotas.size() == 1)
+			for(EmployeeQuota temp : m_employeeQuotas)
+				m_employeeQuota = temp;
+		
+		//System.out.println("IS : " + m_employeeQuota + " : " + m_employeeQuota.getM_leave());
+		return m_employeeQuota;
 	}
 
 

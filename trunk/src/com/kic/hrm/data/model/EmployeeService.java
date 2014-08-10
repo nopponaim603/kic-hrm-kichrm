@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.kic.hrm.data.model.Employee.property;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.Employee.segment;
@@ -22,10 +26,10 @@ public class EmployeeService {
 		Employee m_employee = new Employee();
 		m_employee.setKind(entity.getKind());
 		m_employee.setKeyID(entity.getKey().getId());
-		String tempLong = Long.toString((Long)entity.getProperty(property.employeeID.toString()));
-		//System.out.println(tempLong);
 		
+		String tempLong = Long.toString((Long)entity.getProperty(property.employeeID.toString()));
 		m_employee.setM_employeeID(Integer.parseInt(tempLong));		
+		
 		m_employee.setM_sex(sex.valueOf(entity.getProperty(property.sex.toString()).toString()));
 		m_employee.setM_name((String)entity.getProperty(property.name.toString()));
 		m_employee.setM_surname((String)entity.getProperty(property.surname.toString()));
@@ -39,14 +43,7 @@ public class EmployeeService {
 		
 		return m_employee;
 	}
-	
-	/*
-	public static Entity EditData(Employee m_employee) {
-		Entity temp = new Entity(Employee.class.getSimpleName(),m_employee.);
-		return FlashData(temp , m_employee);
-	}
-	*/
-	
+		
 	public static Entity FlashData(Entity entity , Employee m_employee) {
 		
 		//entity.getProperty("test")
@@ -69,10 +66,24 @@ public class EmployeeService {
 		List<Employee> results = new ArrayList<Employee>();
 		for (Entity entity : entities) 		
 			results.add(AddDataEmployee(entity));
-		
-				
-				
+	
 		return results;
+	}
+	
+	public static Filter findEmployeeByEmail(String email) {
+		Filter m_emailFilter =
+				  new FilterPredicate(Employee.property.email.toString(),
+				                      FilterOperator.EQUAL,
+				                      email);
+		return m_emailFilter;
+	}
+	
+	public static Filter findEmployeeByEmployeeID(int employeeID) {
+		Filter m_emailFilter =
+				  new FilterPredicate(Employee.property.employeeID.toString(),
+				                      FilterOperator.EQUAL,
+				                      employeeID);
+		return m_emailFilter;
 	}
 	
 	public static List<Employee> Filter(List<Entity> entities ,property type,String target) {
@@ -85,4 +96,13 @@ public class EmployeeService {
 		
 		return results;
 	}
+	
+	
+	
+	/*
+	public static Entity EditData(Employee m_employee) {
+		Entity temp = new Entity(Employee.class.getSimpleName(),m_employee.);
+		return FlashData(temp , m_employee);
+	}
+	*/
 }

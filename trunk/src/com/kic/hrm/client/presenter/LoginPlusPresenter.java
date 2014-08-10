@@ -1,9 +1,11 @@
 package com.kic.hrm.client.presenter;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.LoadEvent;
@@ -16,6 +18,9 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.CloudHRM;
+import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.EmployeeService;
+import com.kic.hrm.server.DataStoreControl;
 import com.kic.hrm.shared.LoginInfo;
 
 public class LoginPlusPresenter {
@@ -35,9 +40,8 @@ public class LoginPlusPresenter {
     private final StringBuilder userEmail;
     // TODO #06:> end
     
-    @SuppressWarnings("unused")
 	private LoginInfo m_loginInfo;
-	
+
     public LoginPlusPresenter() {
 		// TODO Auto-generated constructor stub
     	// TODO #08: create login controls
@@ -49,12 +53,14 @@ public class LoginPlusPresenter {
     	loginPanel.add(signInLink);
     	RootPanel.get(LOGINPANEL).add(loginPanel);
     	userEmail = new StringBuilder();
+    	m_loginInfo = new LoginInfo();
     }
     // TODO #07: add helper methods for Login, Logout and AuthRequest
     public void loadLogin(final LoginInfo loginInfo) {
 			signInLink.setHref(loginInfo.getLoginUrl());
 			signInLink.setText("Please, sign in with your Google Account");
 			signInLink.setTitle("Sign in");
+			m_loginInfo = new LoginInfo();
 	}
 
 	public void loadLogout(final LoginInfo loginInfo) {
@@ -74,7 +80,7 @@ public class LoginPlusPresenter {
 			public void onSuccess(String result) {
 				// TODO Auto-generated method stub
 				if (!result.isEmpty()) {
-					
+					//System.out.println("result : " + result);
 					
 						rpcService.loginDetails(result, new AsyncCallback<LoginInfo>() {
 						
@@ -86,8 +92,9 @@ public class LoginPlusPresenter {
 
 						@Override
 						public void onSuccess(final LoginInfo loginInfo) {
-							System.out.println("C:LP| Google H : on Success");
-							m_loginInfo = loginInfo;
+							System.out.println("C:LP| Google H : on Success. ");
+							//System.out.println("email : " + loginInfo.getEmailAddress());
+							setM_loginInfo(loginInfo);
 							signInLink.setText(loginInfo.getName());
 							nameField.setText(loginInfo.getName());
 							signInLink.setStyleName("login-area");
@@ -112,6 +119,8 @@ public class LoginPlusPresenter {
 									}
 								}
 							});
+							
+							//userEmail.append(result.getEmailAddress());
 						}
 					});
 					
@@ -130,9 +139,11 @@ public class LoginPlusPresenter {
 }
 
 	public void processLoginSucess(LoginInfo result , final GreetingServiceAsync rpcService) {
-		System.out.println("C| Login Success : " + result);
+		System.out.println("C| Login Success : ");
+		
 			if (result.getName() != null && !result.getName().isEmpty()) {
-
+				//setM_loginInfo(result);
+				//System.out.println("result Login : " + this.m_loginInfo.getEmployeeID());
 				//System.out.println("on Success");
 				addGoogleAuthHelper(rpcService);
 				//System.out.println("result have name and is not Empty.");
@@ -144,5 +155,19 @@ public class LoginPlusPresenter {
 				loadLogin(result);
 			}
 			userEmail.append(result.getEmailAddress());
+			
+			//System.out.println("userEmail : " + userEmail.toString());
+	}
+	/**
+	 * @return the m_loginInfo
+	 */
+	public LoginInfo getM_loginInfo() {
+		return m_loginInfo;
+	}
+	/**
+	 * @param m_loginInfo the m_loginInfo to set
+	 */
+	private void setM_loginInfo(LoginInfo m_loginInfo) {
+		this.m_loginInfo = m_loginInfo;
 	}
 }

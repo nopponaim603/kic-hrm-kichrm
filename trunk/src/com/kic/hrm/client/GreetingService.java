@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.shared.LoginInfo;
 
 /**
@@ -37,10 +38,13 @@ public interface GreetingService extends RemoteService {
 
 	Employee getProfile(Integer targetEmployee);
 
-	Employee addProfile(Employee userEmployee, state registerMode);
+	Employee addProfile(Employee userEmployee, EmployeeQuota m_employeeQuota,
+			state registerMode);
 
 	boolean deleteProfile(Integer targetEmployee);
-
+	
+	EmployeeQuota getEmployeeQuota(int employeeID);
+	
 	String getFileFormGoogleDrive(String token, String idFile);
 
 	String saveCSVtoDrive(String token, String FolderID);

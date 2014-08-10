@@ -42,9 +42,10 @@ public class CloudHRM  implements EntryPoint{
 	
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.
-	private static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.login";
-	//private static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.login";
-	public static String getPLUS_ME_SCOPE() {
+	private static final String[] PLUS_ME_SCOPE = { "https://www.googleapis.com/auth/plus.login"
+												, "https://www.googleapis.com/auth/userinfo.email"  };
+	//private static final String PLUS_ME_SCOPE = ;
+	public static String[] getPLUS_ME_SCOPE() {
 		return PLUS_ME_SCOPE;
 	}
 

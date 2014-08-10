@@ -9,9 +9,10 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.AppController;
 import com.kic.hrm.client.GreetingServiceAsync;
-
 import com.kic.hrm.client.event.gotoAdministratorEvent;
 import com.kic.hrm.client.event.gotoAdministratorEventHandler;
+import com.kic.hrm.client.event.gotoLeaveEvent;
+import com.kic.hrm.client.event.gotoLeaveEventHandler;
 
 
 public class DashBoardPresenter implements Presenter{
@@ -40,14 +41,7 @@ public class DashBoardPresenter implements Presenter{
 	
 	private void bind() {
 		// TODO Auto-generated method stub
-		eventBus.addHandler(gotoAdministratorEvent.TYPE,new gotoAdministratorEventHandler() {
-			
-			@Override
-			public void gotoAdministrator(gotoAdministratorEvent event) {
-				// TODO Auto-generated method stub
-				History.newItem(AppController.eventFire.Administrator.toString());
-			}
-		});
+	
 		
 		display.getAdminButton().addClickHandler(new ClickHandler() {
 			
@@ -55,6 +49,17 @@ public class DashBoardPresenter implements Presenter{
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				eventBus.fireEvent(new gotoAdministratorEvent());
+			}
+		});
+		
+		
+		
+		display.getLeaveButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				eventBus.fireEvent(new gotoLeaveEvent());
 			}
 		});
 	}

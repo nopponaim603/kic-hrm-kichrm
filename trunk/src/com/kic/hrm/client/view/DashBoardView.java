@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.presenter.DashBoardPresenter;
 
 public class DashBoardView extends Composite implements DashBoardPresenter.Display{
@@ -44,6 +45,14 @@ public class DashBoardView extends Composite implements DashBoardPresenter.Displ
 		btnReport = btnNewButton_2;
 		btnAdmin = btnNewButton_3;
 		
+	}
+	
+	@Override
+	public Widget asWidget() {
+		// TODO Auto-generated method stub
+		
+		//System.out.println("return Widget : " +this	);
+		return this;
 	}
 
 	@Override

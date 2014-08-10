@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.TokenResponse;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+//import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+//import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -87,7 +87,7 @@ public class OAuthGoogleService {
 	    }
 	  }
 
-	  
+	  // THIS Code is bug.
 	  /** Authorizes the installed application to access user's protected data. */
 	  private static Credential authorize() throws Exception {
 	
@@ -107,8 +107,10 @@ public class OAuthGoogleService {
 	        new GoogleAuthorizationCodeFlow.Builder(httpTransport, JSON_FACTORY, clientSecrets,
 	            Collections.singleton(DriveScopes.DRIVE_FILE)).setDataStoreFactory(dataStoreFactory)
 	            .build();
+	    
 	    // authorize
-	    return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
+	    return null;
+	    		//new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
 	  }
 	  
 	  /**

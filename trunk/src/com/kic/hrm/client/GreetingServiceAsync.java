@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.shared.*;
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -31,9 +32,10 @@ public interface GreetingServiceAsync {
 	
 	void Register(String userID, AsyncCallback<String> callback);
 	
-	void addProfile(Employee userEmployee , state registerMode, AsyncCallback<Employee> callback);
+	void addProfile(Employee userEmployee , EmployeeQuota m_employeeQuota, state registerMode, AsyncCallback<Employee> callback);
 	
 	void getProfile(Integer targetEmployee, AsyncCallback<Employee> callback);
+	void getEmployeeQuota(int employeeID, AsyncCallback<EmployeeQuota> callback);
 	
 	void deleteProfile(Integer targetEmployee, AsyncCallback<Boolean> callback);
 	
@@ -44,4 +46,6 @@ public interface GreetingServiceAsync {
 	
 	void saveCSVtoDrive(String token, String FolderID,
 			AsyncCallback<String> callback);
+
+	
 }

@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.client.ui.DecoratedStackPanel;
 import com.google.gwt.user.client.ui.StackPanel;
@@ -269,5 +270,13 @@ public class LeaveFormView extends Composite{
 		stackLayoutPanel.add(btnNewButton_8, new HTML("New Widget"), 2.0);
 		tabPanel.add(stackLayoutPanel, "New tab", false);
 		stackLayoutPanel.setSize("5cm", "3cm");
+	}
+	
+	@Override
+	public Widget asWidget() {
+		// TODO Auto-generated method stub
+		
+		//System.out.println("return Widget : " +this	);
+		return this;
 	}
 }
