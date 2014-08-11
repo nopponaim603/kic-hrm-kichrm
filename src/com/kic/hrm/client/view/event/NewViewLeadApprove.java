@@ -17,11 +17,12 @@ public class NewViewLeadApprove  implements ClickHandler{
 		this.rpcService = rpcService;
 		this.m_leavetask = m_leavetask;
 	}
+	
 	@Override
 	public void onClick(ClickEvent event) {
 		// TODO Auto-generated method stub
-		if(m_leavetask.getM_leaveprogress() == progress.LeaderApprove) {
-			m_leavetask.setM_leaveprogress(progress.HRApprove);
+		if(m_leavetask.getM_leaveprogress() == progress.LeaderApprove || m_leavetask.getM_leaveprogress() == progress.HRApprove) {
+			this.m_leavetask = updateProgress(this.m_leavetask);
 			this.rpcService.approveLeaveTask(this.m_leavetask, new AsyncCallback<Boolean>() {
 				
 				@Override
@@ -40,5 +41,13 @@ public class NewViewLeadApprove  implements ClickHandler{
 			});
 		}
 	}
-
+	
+	LeaveTask updateProgress(LeaveTask input_leavetask) {
+		if(input_leavetask.getM_leaveprogress() == progress.LeaderApprove)
+			input_leavetask.setM_leaveprogress(progress.HRApprove);
+		else if(input_leavetask.getM_leaveprogress() == progress.HRApprove)
+			input_leavetask.setM_leaveprogress(progress.Complete);
+		
+		return input_leavetask;
+	}
 }

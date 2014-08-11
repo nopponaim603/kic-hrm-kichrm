@@ -68,8 +68,8 @@ public class LeavePresenter implements Presenter{
 		this.m_loginInfo = m_loginInfo;
 		
 		m_userQuota = new EmployeeQuota();
-		m_userQuota.setM_leave(10);
-		m_userQuota.setM_holiday(10);
+		//m_userQuota.setM_leave(10);
+		//m_userQuota.setM_holiday(10);
 		
 		m_startDate = m_endDate = new Date();
 		display.getStartDateLeave().setValue(m_startDate);
@@ -177,6 +177,7 @@ public class LeavePresenter implements Presenter{
 				
 				m_leavetask.setM_employeeID(m_loginInfo.getEmployeeID());
 				
+				//FixLeader
 				m_leavetask.setM_leaderID(55000);
 				
 				m_leavetask.setM_leavetype(StartTimeLog.type.valueOf(

@@ -56,6 +56,8 @@ public interface GreetingService extends RemoteService {
 
 	boolean approveLeaveTask(LeaveTask leavetask);
 
-	List<LeaveTask> getLeaveTaskByID(progress InProgress, int targetID);
+	List<LeaveTask> getLeaveTask(progress InProgress, int targetID);
+
+	boolean deleteLeaveTask(LeaveTask leavetask);
 
 }

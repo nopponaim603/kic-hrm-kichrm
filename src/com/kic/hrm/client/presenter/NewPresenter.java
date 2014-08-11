@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
+import com.kic.hrm.client.businesslogic.ConditionHR;
+import com.kic.hrm.client.businesslogic.ConditionLeader;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
@@ -18,9 +20,15 @@ import com.kic.hrm.shared.LoginInfo;
 
 public class NewPresenter implements Presenter{
 	
+	public enum taskRole {
+		Leader,
+		HR,
+		worker
+	}
+	
 	public interface Display {
 		HasClickHandlers getBackButton();
-		void createTake(GreetingServiceAsync rpcService ,LeaveTask leavetask);
+		void createTake(GreetingServiceAsync rpcService ,LeaveTask leavetask,taskRole Owner);
 		Widget asWidget();
 	}
 	
@@ -50,13 +58,17 @@ public class NewPresenter implements Presenter{
 			}
 		});
 		
-		rpcService.getLeaveTaskByID(LeaveTask.progress.None, 55000, new AsyncCallback<List<LeaveTask>>() {
+		//Leader Load
+		if(ConditionLeader.isIMLeader(m_loginInfo.getEmployeeRole()))
+		rpcService.getLeaveTask(LeaveTask.progress.LeaderApprove, m_loginInfo.getEmployeeID() , new AsyncCallback<List<LeaveTask>>() {
 			
 			@Override
 			public void onSuccess(List<LeaveTask> result) {
 				// TODO Auto-generated method stub
 				for(LeaveTask temp : result)
-					display.createTake(rpcService, temp );
+					//if(ConditionLeader.isFollower(m_loginInfo.getEmployeeRole(), temp.getM_employeeID()))
+					if(temp.getM_leaveprogress() == progress.LeaderApprove)
+						display.createTake(rpcService, temp , taskRole.Leader);
 			}
 			
 			@Override
@@ -65,11 +77,51 @@ public class NewPresenter implements Presenter{
 				
 			}
 		});
+		
+		//HR
+		if(ConditionHR.isHR(m_loginInfo.getEmployeeRole())) {
+			rpcService.getLeaveTask(LeaveTask.progress.HRApprove, m_loginInfo.getEmployeeID() , new AsyncCallback<List<LeaveTask>>() {
+				
+				@Override
+				public void onSuccess(List<LeaveTask> result) {
+					// TODO Auto-generated method stub
+					for(LeaveTask temp : result)
+						if(temp.getM_leaveprogress() == progress.HRApprove)
+							display.createTake(rpcService, temp , taskRole.HR);
+				}
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
+			//System.out.println("My is HR.");
+		}
+		
+		//Worker
+		rpcService.getLeaveTask(LeaveTask.progress.None, m_loginInfo.getEmployeeID() , new AsyncCallback<List<LeaveTask>>() {
+			
+			@Override
+			public void onSuccess(List<LeaveTask> result) {
+				// TODO Auto-generated method stub
+				for(LeaveTask temp : result)
+					display.createTake(rpcService, temp , taskRole.worker);
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		//LeaveTask temp = new LeaveTask();
 		
 		
 	}
-
+	
 	@Override
 	public void go(HasWidgets container) {
 		// TODO Auto-generated method stub
