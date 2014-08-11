@@ -169,6 +169,7 @@ public class LeavePresenter implements Presenter{
 	
 		display.getLeaveButton().addClickHandler(new ClickHandler() {
 			
+			@SuppressWarnings("deprecation")
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
