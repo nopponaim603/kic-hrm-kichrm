@@ -20,9 +20,7 @@ import com.kic.hrm.shared.LoginInfo;
 public interface GreetingService extends RemoteService {
 	String greetServer(String name) throws IllegalArgumentException;
 
-	boolean ApplyLeaving(String input) throws IOException;
 
-	boolean EnableOauth(Boolean input);
 
 	// TODO #09: start create login helper methods in service interface
 	String getUserEmail(String token);
@@ -31,33 +29,21 @@ public interface GreetingService extends RemoteService {
 
 	LoginInfo loginDetails(String token);
 
-	String googleDrive(String token);
-
 	String QuickTest(String testParametor);
 
-	String Register(String userID);
-
 	ArrayList<String> UpdateList(String targetEntity);
-
 	Employee getProfile(Integer targetEmployee);
-
 	Employee addProfile(Employee userEmployee, EmployeeQuota m_employeeQuota,
 			state registerMode);
-
 	boolean deleteProfile(Integer targetEmployee);
-	
 	EmployeeQuota getEmployeeQuota(int employeeID);
 	
 	String getFileFormGoogleDrive(String token, String idFile);
-
 	String saveCSVtoDrive(String token, String FolderID);
 
 	boolean createLeaveTask(LeaveTask leavetask);
-
 	boolean approveLeaveTask(LeaveTask leavetask);
-
 	List<LeaveTask> getLeaveTask(progress InProgress, int targetID);
-
 	boolean deleteLeaveTask(LeaveTask leavetask);
 
 }

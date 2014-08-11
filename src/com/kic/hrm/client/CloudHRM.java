@@ -178,22 +178,7 @@ public class CloudHRM  implements EntryPoint{
 	           // Window.alert("Got an OAuth token:\n" + token + "\n"
 	           //     + "Token expires in " + AUTH.expiresIn(req) + " ms\n");
 	           
-	            
-	        	rpcService.googleDrive(token, new AsyncCallback<String>() {
-					
-					@Override
-					public void onSuccess(String result) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-				} );
-	        		
+	  
 	        	
 	          }
 

@@ -6,8 +6,10 @@ import java.util.Date;
 public class StartTimeLog implements Serializable {
 	
 	public enum type {
+		None,
 		Absence,
 		Onsite,
+		OnTime,
 		Late,
 		Leave,
 		Holiday
@@ -24,7 +26,9 @@ public class StartTimeLog implements Serializable {
 		date,
 		timetable,
 		clockin,
-		clockout
+		clockout,
+		clocklate,
+		type
 	}
 	
 	//@Attribute(primaryKey = true)
@@ -42,9 +46,10 @@ public class StartTimeLog implements Serializable {
     private Date		m_clockOut;
     
     
-    private Date		m_coockLate;
+    private Date		m_clockLate;
     private type		m_type;
    
+	
 	/**
 	 * @return the kind
 	 */
@@ -57,6 +62,20 @@ public class StartTimeLog implements Serializable {
 	public void setKind(String kind) {
 		Kind = kind;
 	}
+	
+	/**
+	 * @return the keyID
+	 */
+	public Long getKeyID() {
+		return keyID;
+	}
+	/**
+	 * @param keyID the keyID to set
+	 */
+	public void setKeyID(Long keyID) {
+		this.keyID = keyID;
+	}
+	
 	/**
 	 * @return the m_employeeID
 	 */
@@ -69,6 +88,7 @@ public class StartTimeLog implements Serializable {
 	public void setM_employeeID(int m_employeeID) {
 		this.m_employeeID = m_employeeID;
 	}
+	
 	/**
 	 * @return the m_name
 	 */
@@ -141,18 +161,21 @@ public class StartTimeLog implements Serializable {
 	public void setM_type(type m_type) {
 		this.m_type = m_type;
 	}
+
 	/**
-	 * @return the m_coockLate
+	 * @return the m_clockLate
 	 */
-	public Date getM_coockLate() {
-		return m_coockLate;
+	public Date getM_clockLate() {
+		return m_clockLate;
 	}
 	/**
-	 * @param m_coockLate the m_coockLate to set
+	 * @param m_clockLate the m_clockLate to set
 	 */
-	public void setM_coockLate(Date m_coockLate) {
-		this.m_coockLate = m_coockLate;
+	public void setM_clockLate(Date m_clockLate) {
+		this.m_clockLate = m_clockLate;
 	}
+
+
     
     //private 
     

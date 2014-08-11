@@ -97,23 +97,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 					@Override
 					public void onSuccess(String result) {
 						// TODO Auto-generated method stub
-						rpcService.ApplyLeaving(result, new AsyncCallback<Boolean>() {
-							
-							@Override
-							public void onSuccess(Boolean result) {
-								// TODO Auto-generated method stub
-								// eventBus.fireEvent(new ApplyLeavingEvent());
-					    	 System.out.println("HRM_P| After call eventBus fireEvent");
-					    	  //History.fireCurrentHistoryState();
-					    	  //ApplyLeaving();
-							}
-							
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								
-							}
-						});
+						
 					}
 					
 					@Override
@@ -267,42 +251,10 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		});
 	}
 	
-	private void ApplyLeaving(){
-		System.out.println("HRM Presenter Before call rpcService");
-		
-		rpcService.ApplyLeaving("test", new AsyncCallback<Boolean>() {
-			@Override
-			public void onSuccess(Boolean result) {
-				// TODO Auto-generated method stub
-				System.out.println("HRM Presenter on Click onSuccess");
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				System.out.println("HRM Presenter on Click onFailure");
-			}
-		});
-	}
-	
+
 	private void ToggleOauth() {
 		System.out.println("HRM Presenter in ToggleOauth : Before call rpcService : By press True Only");
-		rpcService.EnableOauth(true, new AsyncCallback<Boolean>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				System.out.println("HRM Presenter on Click onFailure");
-			}
-
-			@Override
-			public void onSuccess(Boolean result) {
-				// TODO Auto-generated method stub
-				System.out.println("HRM Presenter on Click onSuccess");
-				//eventBus.fireEvent(new RegisterEvent());
-				//eventBus.
-			}
-		});
+		
 	}
 	
 	

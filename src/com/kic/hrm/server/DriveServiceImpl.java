@@ -36,19 +36,8 @@ public class DriveServiceImpl {
 	/** Email of the Service Account */
 	//public static final String SERVICE_ACCOUNT_EMAIL = "392232398516-7nei78mpn8rl47pknpofrv4rtmt0id96@developer.gserviceaccount.com";
 
-	  private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
-	  
-	public static void RUN(String token){
-		System.out.println("RUNNN");
-		//System.out.println("Path : " + DriveServiceImpl.class.getResourceAsStream("/client_secret.json").toString() );
-		//_logger.severe("Token is : " + token);
-		//getDriveService("noppon.w@vr.camt.info");
-		Drive service = BuildDriveAPIbyTOKEN(token);
+	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
 
-		System.out.println("End InsertFile");
-	}
-
-	
  	public static String getFile(String token ,String FileID) {
 		System.out.println("Come to Drive Service. \nToken is :" + token + " \nFile ID is : " + FileID);
 		String problem = "None";

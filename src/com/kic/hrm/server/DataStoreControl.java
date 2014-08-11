@@ -84,6 +84,18 @@ public class DataStoreControl {
 
 	    return temp;
 	}
+	
+	public static List<Entity> Query(Class<?> entiryClassName,SortDirection sortdirection,List<Filter> filters) {
+		
+		Query query = new Query(entiryClassName.getSimpleName());
+		for(Filter filter : filters)
+			query.setFilter(filter);
+		
+	    query.addSort(Entity.KEY_RESERVED_PROPERTY, sortdirection);
+	    List<Entity> temp = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
+
+	    return temp;
+	}
 				
 	public static void EditProperty(Entity entity,String propertyName,int value) {
 		entity.setProperty(propertyName, value);

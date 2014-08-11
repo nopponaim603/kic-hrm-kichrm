@@ -5,13 +5,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Date;
+import java.util.Dictionary;
 import java.util.List;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query.SortDirection;
-
+import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.FileIDStartTimeLog;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLogService;
@@ -21,6 +22,8 @@ import com.kic.hrm.server.DriveServiceImpl;
 
 public class RecordLog {
 	
+	private static Dictionary<String,Employee> m_employeeAbsence;
+
 	//"0BxCzuY_jk0HhQlNNRXJEdVJmRVU"
 	public static String SaveStartTime(String token,String folderID) {
 		String problem = "None";
@@ -103,6 +106,12 @@ public class RecordLog {
 	}
 	
 	static void pushLeaveLogToDataStore(Drive service,File thisFile,Boolean isAlready){
+		
+		//Load Employee Data form Data Store
+		//m_employeeAbsence = null;
+		
+		
+		
 		InputStream fileInput = DriveServiceImpl.downloadFile(service, thisFile);
 		if(fileInput != null) {
 			Reader reader = new InputStreamReader(fileInput);
@@ -114,7 +123,12 @@ public class RecordLog {
 				d_starttimelog = DataStoreControl.CreateEntity(StartTimeLog.class);
 				d_starttimelog = StartTimeLogService.FlashData(d_starttimelog, StartTimeLogService.AddCVSData(datalog));
 				DataStoreControl.SaveEntity(d_starttimelog);
+				
+				//m_employeeAbsence.remove(StartTimeLogService.getEmployeeID(datalog));
+				//m_employeeAbsence.
 			}
+			
+			
 			
 			if(isAlready)
 				System.out.println("New Logic to clean duplicate data.");

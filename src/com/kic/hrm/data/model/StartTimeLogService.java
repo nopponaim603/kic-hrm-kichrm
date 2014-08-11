@@ -1,12 +1,17 @@
 package com.kic.hrm.data.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
-
-
-
+import java.util.List;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.kic.hrm.data.model.StartTimeLog.property;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
+import com.kic.hrm.data.model.StartTimeLog.type;
 
 public class StartTimeLogService {
 	private final static int MAPWORKID = 0;
@@ -15,6 +20,7 @@ public class StartTimeLogService {
 	private final static int MAPTIMETABLE = 3;
 	private final static int MAPCLOCKIN = 6;
 	private final static int MAPCLOCKOUT = 7;
+	private final static int MAPCLOCKLATE = 10;
 	
 	@SuppressWarnings("deprecation")
 	public static StartTimeLog AddCVSData(String[] inputLog) {
@@ -66,10 +72,56 @@ public class StartTimeLogService {
 			
 		}else System.out.println("this field MAPCLOCKOUT is out of Bournd.");
 			
+		if(TestData(inputLog,MAPCLOCKLATE)){
+			if(!inputLog[MAPCLOCKLATE].isEmpty()) {
+				String[] splitDate = inputLog[MAPCLOCKLATE].split(":");
+				Date temp_clockin = new Date(0,0,0,Integer.parseInt(splitDate[0]),Integer.parseInt(splitDate[1]));
+				m_startTimeLog.setM_clockLate(temp_clockin);
+				System.out.println("Clock in | " + m_startTimeLog.getM_clockLate());
+			}else System.out.println("this field MAPCLOCKLATE is Empty.");
+			
+			
+		}else System.out.println("this field MAPCLOCKLATE is out of Bournd.");
+		
+		ConditionOnTime(m_startTimeLog);
 		//if(TestData(inputLog,MAPDATE))
 			//m_startTimeLog.setM_date(new Date);
 		
 		return m_startTimeLog;
+	}
+	
+	
+	/*
+	public static String getEmployeeID(String[] inputLog) {
+		String m_id = "NONE";
+		
+		return m_id;
+	}
+	*/
+	
+	public static void ConditionOnTime(StartTimeLog m_startTimeLog) {
+		m_startTimeLog.setM_type(type.OnTime);
+		
+	}
+	
+	public static StartTimeLog AddDataStartTimeLog(Entity entity) {
+		StartTimeLog startTime = new StartTimeLog();
+		
+		startTime.setKind(entity.getKind());
+		startTime.setKeyID(entity.getKey().getId());
+		
+		String tempLong = Long.toString((Long)entity.getProperty(property.employeeID.toString()));
+		startTime.setM_employeeID(Integer.parseInt(tempLong));		
+		
+		startTime.setM_name((String)entity.getProperty(property.name.toString()));
+		startTime.setM_date((Date)entity.getProperty(property.date.toString()));
+		startTime.setM_timeTable(timetable.valueOf(entity.getProperty(property.date.toString()).toString()));
+		startTime.setM_clockIn((Date)entity.getProperty(property.clockin.toString()));
+		startTime.setM_clockOut((Date)entity.getProperty(property.clockout.toString()));
+		startTime.setM_clockLate((Date)entity.getProperty(property.clocklate.toString()));
+		startTime.setM_type(type.valueOf(entity.getProperty(property.type.toString()).toString()));
+		
+		return startTime;
 	}
 	
 	private static boolean TestData(String[] inputLog,int slotdata) {
@@ -88,7 +140,32 @@ public class StartTimeLogService {
 		entity.setProperty(StartTimeLog.property.date.toString(), start.getM_date());
 		entity.setProperty(StartTimeLog.property.clockin.toString(), start.getM_clockIn());
 		entity.setProperty(StartTimeLog.property.clockout.toString(), start.getM_clockOut());
+		entity.setProperty(StartTimeLog.property.clocklate.toString(), start.getM_clockLate());
+		entity.setProperty(StartTimeLog.property.type.toString(), start.getM_type());
 		
 		return entity;
 	}
+	
+	public static List<StartTimeLog> Clone(List<Entity> entities) {
+		List<StartTimeLog> results = new ArrayList<StartTimeLog>();
+		for (Entity entity : entities) 		
+			results.add(AddDataStartTimeLog(entity));
+	
+		return results;
+	}
+	
+	public static Filter CompositeAndFilter(Collection<Filter> subFilters) {
+		return CompositeFilterOperator.and(subFilters);
+	}
+	
+	public static Filter CompositeAndFilter(Filter... subFilters) {
+		return CompositeFilterOperator.and(Arrays.asList(subFilters));
+	}
+	
+	public static Filter CompositeOrFilter(Collection<Filter> subFilters) {
+		//Filter test = CompositeFilterOperator.and(subFilters)
+		return CompositeFilterOperator.or(subFilters);
+	}
+	
+	
 }

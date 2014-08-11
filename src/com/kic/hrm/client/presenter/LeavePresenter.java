@@ -183,6 +183,12 @@ public class LeavePresenter implements Presenter{
 				m_leavetask.setM_leavetype(StartTimeLog.type.valueOf(
 					display.getTypeLeaveListBox().getValue(
 							display.getTypeLeaveListBox().getSelectedIndex())));
+				
+				m_startDate.setHours(0);
+				m_startDate.setMinutes(0);
+				m_endDate.setHours(23);
+				m_endDate.setMinutes(59);
+				
 				m_leavetask.setM_start(m_startDate);
 				m_leavetask.setM_end(m_endDate);
 				
