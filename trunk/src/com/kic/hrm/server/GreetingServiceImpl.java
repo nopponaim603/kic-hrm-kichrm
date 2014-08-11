@@ -10,6 +10,7 @@ import com.kic.hrm.data.model.Employee.property;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.LeaveTaskService;
+import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.businesslogic.RecordLog;
 import com.kic.hrm.shared.*;
 
@@ -18,6 +19,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -291,6 +293,31 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			d_LeaveTask = LeaveTaskService.FlashData(d_LeaveTask, leavetask);
 			DataStoreControl.SaveEntity(d_LeaveTask);
 			
+			if(leavetask.getM_leaveprogress() == progress.Complete) {
+				List<EmployeeQuota> temp_Em = null;
+				List<Entity> temp_E;
+				temp_E = DataStoreControl.Query(EmployeeQuota.class, SortDirection.ASCENDING, EmployeeQuotaService.findEmployeeByEmployeeID(leavetask.getM_employeeID()));
+				temp_Em = EmployeeQuotaService.Clone(temp_E);
+				
+				if(temp_Em.size() == 1) {
+					Long deltaTime = leavetask.getM_end().getTime() - leavetask.getM_start().getTime();
+					Date tempTime = new Date(deltaTime);
+					int DeltaDay = tempTime.getDate();
+					
+					if(leavetask.getM_leavetype() == type.Leave)
+						temp_Em.get(0).setM_leave(temp_Em.get(0).getM_leave() - DeltaDay);
+					else if(leavetask.getM_leavetype() == type.Holiday)
+						temp_Em.get(0).setM_holiday(temp_Em.get(0).getM_holiday() - DeltaDay);
+					
+					Entity newDumpData = DataStoreControl.EditEntity(temp_Em.get(0).getKind(), temp_Em.get(0).getKeyID());
+					
+					newDumpData = EmployeeQuotaService.FlashData(newDumpData, temp_Em.get(0));
+					
+					DataStoreControl.SaveEntity(newDumpData);
+					//if()
+				}
+			}
+			
 			return true;
 		} catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -301,7 +328,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public List<LeaveTask> getLeaveTaskByID(progress InProgress ,int targetID) {
+	public List<LeaveTask> getLeaveTask(progress InProgress ,int targetID) {
 		// TODO Auto-generated method stub
 		List<LeaveTask> results;// = new ArrayList<Employee>();
 		
@@ -320,6 +347,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		results = LeaveTaskService.Clone(entities);
 		
 		return results;
+	}
+
+	@Override
+	public boolean deleteLeaveTask(LeaveTask leavetask) {
+		// TODO Auto-generated method stub
+		System.out.println("delete Leave Task id : " + leavetask.getKeyID());
+		DataStoreControl.DeleteEntity(leavetask.getKind(), leavetask.getKeyID());
+		return true;
 	}
 
 

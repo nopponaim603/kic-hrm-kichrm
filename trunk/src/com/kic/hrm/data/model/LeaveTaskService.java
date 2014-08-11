@@ -82,7 +82,7 @@ public class LeaveTaskService {
 		Filter m_emailFilter =
 				  new FilterPredicate(LeaveTask.property.leaveprogress.toString(),
 				                      FilterOperator.EQUAL,
-				                      LeaveTask.progress.HRApprove);
+				                      LeaveTask.progress.HRApprove.toString());
 		return m_emailFilter;
 	}
 }

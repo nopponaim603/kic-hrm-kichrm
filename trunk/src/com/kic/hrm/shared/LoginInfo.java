@@ -2,6 +2,8 @@ package com.kic.hrm.shared;
 
 import java.io.Serializable;
 
+import com.kic.hrm.data.model.Employee;
+
 @SuppressWarnings("serial")
 public class LoginInfo  implements Serializable {
 
@@ -18,6 +20,8 @@ public class LoginInfo  implements Serializable {
 	private String pictureUrl;
 	
 	private int employeeID;
+	
+	private Employee.role employeeRole;
 
 	public boolean isLoggedIn() {
 		return loggedIn;
@@ -80,6 +84,20 @@ public class LoginInfo  implements Serializable {
 	 */
 	public void setEmployeeID(int employeeID) {
 		this.employeeID = employeeID;
+	}
+
+	/**
+	 * @return the employeeRole
+	 */
+	public Employee.role getEmployeeRole() {
+		return employeeRole;
+	}
+
+	/**
+	 * @param employeeRole the employeeRole to set
+	 */
+	public void setEmployeeRole(Employee.role employeeRole) {
+		this.employeeRole = employeeRole;
 	}
 
 }

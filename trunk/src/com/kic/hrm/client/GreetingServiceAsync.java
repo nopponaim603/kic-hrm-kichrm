@@ -51,5 +51,6 @@ public interface GreetingServiceAsync {
 
 	void createLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
 	void approveLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
-	void getLeaveTaskByID(LeaveTask.progress InProgress,int targetID , AsyncCallback<List<LeaveTask>> callback);
+	void getLeaveTask(LeaveTask.progress InProgress,int targetID , AsyncCallback<List<LeaveTask>> callback);
+	void deleteLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
 }

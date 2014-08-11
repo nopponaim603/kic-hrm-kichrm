@@ -144,9 +144,26 @@ public class LoginServiceImpl {
 			e.printStackTrace();
 		}
 		
-		loginInfo.setEmployeeID(setEmployeeIDbyEmail(loginInfo.getEmailAddress()));
+		setupEmployeeData(loginInfo);
+		//loginInfo.setEmployeeID(setEmployeeIDbyEmail(loginInfo.getEmailAddress()));
+		System.out.println(" Role : " + loginInfo.getEmployeeRole().toString());
 		
 		return loginInfo;
+	}
+	
+	private static void setupEmployeeData(LoginInfo loginInfo) {
+		System.out.println("email : " + loginInfo.getEmailAddress());
+		//int employeeId = -1;
+		List<Employee> m_employeeS = EmployeeService.Clone(DataStoreControl.Query(Employee.class 
+				, SortDirection.DESCENDING
+				,EmployeeService.findEmployeeByEmail(loginInfo.getEmailAddress())));
+		
+		System.out.println("Login Detecte User in list : " + m_employeeS.size());
+		
+		if(m_employeeS.size() == 1) {
+			loginInfo.setEmployeeID( m_employeeS.get(0).getM_employeeID());
+			loginInfo.setEmployeeRole(m_employeeS.get(0).getM_role());
+		}
 	}
 	
 	private static int setEmployeeIDbyEmail(String emailAddress) {

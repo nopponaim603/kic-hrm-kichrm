@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.presenter.NewPresenter.Display;
+import com.kic.hrm.client.presenter.NewPresenter.taskRole;
 import com.kic.hrm.client.view.event.NewViewLeadApprove;
 import com.kic.hrm.client.view.event.NewViewLeadEject;
 import com.kic.hrm.data.model.LeaveTask;
@@ -86,33 +87,39 @@ public class NewView extends Composite implements Display{
 		return backButton;
 	}
 	
-	public void createTake(FlexTable root,GreetingServiceAsync rpcService ,LeaveTask leavetask,progress InProgress) {
-		
-		
-	}
-
 	@Override
-	public void createTake(GreetingServiceAsync rpcService, LeaveTask leavetask) {
+	public void createTake(GreetingServiceAsync rpcService,
+			LeaveTask leavetask, taskRole Owner) {
 		// TODO Auto-generated method stub
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
-		Label lblLeave = new Label(leavetask.getM_leavetype().toString());
+		Label lblLeave = new Label(leavetask.getM_leavetype().toString() + " : Owner" + Owner.toString());
 		verticalPanel_1.add(lblLeave);
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		verticalPanel_1.add(horizontalPanel);
 		
 		Label lblNameDate = new Label("Start : " + leavetask.getM_start().toString() + " to " + leavetask.getM_end().toString()
-							+ " \n Message : " + leavetask.getM_sendmessage());
+							+ " \n Message : " + leavetask.getM_sendmessage()
+							+ " \n Progress : " + leavetask.getM_leaveprogress().toString());
 		horizontalPanel.add(lblNameDate);
+			
+		if(Owner == taskRole.Leader || Owner == taskRole.HR) {
+			Button ApproveButton = new Button("Approve");
+			horizontalPanel.add(ApproveButton);
+			ApproveButton.addClickHandler(new NewViewLeadApprove(rpcService,leavetask));
+		}
 		
-		Button ApproveButton = new Button("Approve");
-		horizontalPanel.add(ApproveButton);
+		if(leavetask.getM_leaveprogress() != progress.Complete) {
+			Button EjectButton = new Button("Eject");
+			horizontalPanel.add(EjectButton);
+			EjectButton.addClickHandler(new NewViewLeadEject(rpcService,leavetask));
+		}
 		
-		Button EjectButton = new Button("Eject");
-		horizontalPanel.add(EjectButton);
 		
-		ApproveButton.addClickHandler(new NewViewLeadApprove(rpcService,leavetask));
-		EjectButton.addClickHandler(new NewViewLeadEject());
+		
+		
+		
+		
 		
 		this.flexTable.setWidget(this.flexTable.getRowCount(), 0, verticalPanel_1);
 	}
