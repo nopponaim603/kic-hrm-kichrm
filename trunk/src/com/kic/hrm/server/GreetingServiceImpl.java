@@ -10,7 +10,10 @@ import com.kic.hrm.data.model.Employee.property;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.LeaveTaskService;
+import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLog.type;
+import com.kic.hrm.data.model.StartTimeLogService;
+import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
 import com.kic.hrm.server.businesslogic.RecordLog;
 import com.kic.hrm.shared.*;
 
@@ -29,6 +32,10 @@ import java.net.URLConnection;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
@@ -78,7 +85,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				.replaceAll(">", "&gt;");
 	}
 
-	// TODO #11: implement login helper methods in service implementation	
+	// #11: implement login helper methods in service implementation	
 	@Override
 	public String getUserEmail(final String token) {
 		return LoginServiceImpl.getUserEmail(token);	
@@ -93,152 +100,37 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public LoginInfo loginDetails(String token) {
 		return LoginServiceImpl.loginDetails(token);
 	}
-	// TODO #11:> end	
+	// #11:> end	
 	
 	// Add Edit Delete Profile
 	@Override
-	public String Register(String userID) {
-		// TODO Auto-generated method stub
-		
-		return userID;
-	}
-
-	@Override
 	public Employee addProfile(Employee userEmployee, EmployeeQuota userQuota, state registerMode) {
-		// TODO Auto-generated method stub
-		Entity d_employee = null;
-		Entity d_quota = null;
-		if(registerMode == state.add){
-			d_employee = DataStoreControl.CreateEntity(Employee.class);
-			
-			
-			d_quota = DataStoreControl.CreateEntity(EmployeeQuota.class);
-			
-		}	
-		else if(registerMode == state.edit) {
-			try {
-				d_employee = DataStoreControl.EditEntity(userEmployee.getKind(), userEmployee.getKeyID());
-				d_quota = DataStoreControl.EditEntity(userQuota.getKind() , userQuota.getKeyID());
-			} catch (EntityNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-			
-		//System.out.println(d_employee.toString() + " : " + d_employee.getProperty(property.employeeID.toString()));
-		 
-		d_employee = EmployeeService.FlashData(d_employee, userEmployee);  
-		DataStoreControl.SaveEntity(d_employee);
-		
-		d_quota = EmployeeQuotaService.FlashData(d_quota, userQuota);  
-		DataStoreControl.SaveEntity(d_quota);
-		return userEmployee;
+		return ProfileServiceImpl.addProfile(userEmployee, userQuota, registerMode);
 	}
 
 	@Override
 	public ArrayList<String> UpdateList(String targetEntity) {
-		// TODO Auto-generated method stub
-		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING);
-		results = EmployeeService.Clone(entities);
-		ArrayList<String> EmployeeID = new ArrayList<String>();
-		
-		
-		for(Employee em : results) {
-			EmployeeID.add(String.valueOf(em.getM_employeeID()));
-		}
-		
-		
-		return EmployeeID;
+		return ProfileServiceImpl.UpdateList(targetEntity);
 	}
 
 	@Override
 	public Employee getProfile(Integer targetEmployee) {
-		// TODO Auto-generated method stub
-		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING);
-		results = EmployeeService.Clone(entities);
-		Employee temp_employee = null;
-		for(Employee em : results) {
-			if(em.getM_employeeID() == targetEmployee)
-			{
-				temp_employee = em;
-				break;
-			}
-		}
-		return temp_employee;
+		return ProfileServiceImpl.getProfile(targetEmployee);
 	}
 
 	@Override
 	public boolean deleteProfile(Integer targetEmployee) {
-		// TODO Auto-generated method stub
-		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING,EmployeeService.findEmployeeByEmployeeID(targetEmployee));
-		results = EmployeeService.Clone(entities);
-		Employee temp_employee = null;
-		for(Employee em : results) {
-			if(em.getM_employeeID() == targetEmployee)
-			{
-				temp_employee = em;
-				break;
-			}
-		}
-		
-		DataStoreControl.DeleteEntity(temp_employee.getKind(), temp_employee.getKeyID());
-		
-		
-		entities = DataStoreControl.Query(EmployeeQuota.class, SortDirection.ASCENDING,EmployeeQuotaService.findEmployeeByEmployeeID(targetEmployee));
-		List<EmployeeQuota> resultsQuota = EmployeeQuotaService.Clone(entities);
-		
-		EmployeeQuota temp_employeeQuota = null;
-		for(EmployeeQuota emQT : resultsQuota) {
-			if(emQT.getM_employeeID() == targetEmployee)
-			{
-				temp_employeeQuota = emQT;
-				break;
-			}
-		}
-		DataStoreControl.DeleteEntity(temp_employeeQuota.getKind(), temp_employeeQuota.getKeyID());
-		
-		return false;
+		return ProfileServiceImpl.deleteProfile(targetEmployee);
 	}
 	// Add Edit Delete Profile > end
 	
 	// SaveCSV
 	@Override
 	public String saveCSVtoDrive(String token, String FolderID) {
-		// TODO Auto-generated method stub
 		String getresouce = RecordLog.SaveStartTime(token, FolderID);
 		return getresouce;
 	}
 	// SaveCSV > end
-
-	
-	@Override
-	public boolean ApplyLeaving(String input) throws IOException {
-		// TODO Auto-generated method stub
-		DriveServiceImpl.RUN(input);	
-		return false;
-	}
-		
-	@Override
-	public boolean EnableOauth(Boolean input) {
-		// TODO Auto-generated method stub
-		System.out.println("S| EnableOauth Mathod. : " + input);
-		
-		
-		//OauthServiceImpl.TestOAth2();
-		
-		return true;
-	}
-
-	@Override
-	public String googleDrive(String token) {
-		// TODO Auto-generated method stub
-		DriveServiceImpl.RUN(token);
-		
-		return "Test Pass";
-	}
 	
 	@Override
 	public String getFileFormGoogleDrive(String token, String idFile) {
@@ -310,10 +202,10 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 						temp_Em.get(0).setM_holiday(temp_Em.get(0).getM_holiday() - DeltaDay);
 					
 					Entity newDumpData = DataStoreControl.EditEntity(temp_Em.get(0).getKind(), temp_Em.get(0).getKeyID());
-					
 					newDumpData = EmployeeQuotaService.FlashData(newDumpData, temp_Em.get(0));
-					
 					DataStoreControl.SaveEntity(newDumpData);
+					
+					UpdateStartLog(leavetask);
 					//if()
 				}
 			}
@@ -325,6 +217,47 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 				
 		return false;
+	}
+	
+	private void UpdateStartLog(LeaveTask leavetask) {
+	
+		Filter startDate = new FilterPredicate(LeaveTask.property.start.toString(),
+		                      FilterOperator.GREATER_THAN_OR_EQUAL,
+		                      leavetask.getM_start());
+		
+		Filter endDate = new FilterPredicate(LeaveTask.property.end.toString(),
+                FilterOperator.LESS_THAN_OR_EQUAL,
+                leavetask.getM_end());
+		
+		Filter currentUser = new FilterPredicate(LeaveTask.property.employeeID.toString(),
+                FilterOperator.EQUAL,
+                leavetask.getM_employeeID());
+				
+		Filter m_composite = StartTimeLogService.CompositeAndFilter(startDate,endDate,currentUser);
+		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class, SortDirection.DESCENDING, m_composite);
+		List<StartTimeLog> m_starttimelog = StartTimeLogService.Clone(temp_entity);
+		for(StartTimeLog log : m_starttimelog) {
+			if(leavetask.getM_leavetype() == type.Leave)
+				log.setM_type(StartTimeLog.type.Leave);
+			else if(leavetask.getM_leavetype() == type.Holiday)
+				log.setM_type(StartTimeLog.type.Holiday);
+			
+			try {
+				Entity newDumpData = DataStoreControl.EditEntity(log.getKind(), log.getKeyID());
+				newDumpData = StartTimeLogService.FlashData(newDumpData, log);
+				DataStoreControl.SaveEntity(newDumpData);
+			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		//temp_entity = null;
+		//for(StartTimeLog log : m_starttimelog) {
+		//	temp_entity = StartTimeLogService.FlashData(temp_entity, log);
+		//}
+		
+		//StartTimeLogService
 	}
 
 	@Override
