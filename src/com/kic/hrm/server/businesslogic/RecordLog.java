@@ -6,7 +6,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Date;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.lang.Iterable;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
@@ -16,14 +19,17 @@ import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.FileIDStartTimeLog;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLogService;
+import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.CSVServiceImpl;
 import com.kic.hrm.server.DataStoreControl;
 import com.kic.hrm.server.DriveServiceImpl;
 
 public class RecordLog {
 	
-	private static Dictionary<String,Employee> m_employeeAbsence;
-
+	@SuppressWarnings("unused")
+	
+	//private static Dictionary<Integer,Integer> m_employeeAbsence;
+	
 	//"0BxCzuY_jk0HhQlNNRXJEdVJmRVU"
 	public static String SaveStartTime(String token,String folderID) {
 		String problem = "None";
@@ -107,8 +113,10 @@ public class RecordLog {
 	
 	static void pushLeaveLogToDataStore(Drive service,File thisFile,Boolean isAlready){
 		
-		//Load Employee Data form Data Store
-		//m_employeeAbsence = null;
+		Date keepDate = null;
+		Map<Integer, Integer> m_employeeAbsence = new HashMap<Integer, Integer>();
+		//Load Data Employee key : ID and Value : ID
+		//m_employeeAbsence
 		
 		
 		
@@ -121,14 +129,26 @@ public class RecordLog {
 			for(String[] datalog : LeaveLog) {
 				Entity d_starttimelog = null;
 				d_starttimelog = DataStoreControl.CreateEntity(StartTimeLog.class);
-				d_starttimelog = StartTimeLogService.FlashData(d_starttimelog, StartTimeLogService.AddCVSData(datalog));
+				
+				StartTimeLog startTime = StartTimeLogService.AddCVSData(datalog);
+				
+				ConditionOnTime(startTime);
+				
+				d_starttimelog = StartTimeLogService.FlashData(d_starttimelog, startTime);
 				DataStoreControl.SaveEntity(d_starttimelog);
 				
-				//m_employeeAbsence.remove(StartTimeLogService.getEmployeeID(datalog));
-				//m_employeeAbsence.
+				m_employeeAbsence.remove(startTime.getM_employeeID());
+				keepDate = startTime.getM_date();
 			}
 			
-			
+			for(Integer employeeID : m_employeeAbsence.keySet()) {
+				StartTimeLog startTime = new StartTimeLog();
+				
+				startTime.setM_date(keepDate);
+				startTime.setM_employeeID(employeeID);
+				startTime.setM_type(type.Absence);
+				//
+			}
 			
 			if(isAlready)
 				System.out.println("New Logic to clean duplicate data.");
@@ -136,5 +156,11 @@ public class RecordLog {
 		
 		System.out.println("Save is Done.");
 	}
+	
+	public static void ConditionOnTime(StartTimeLog m_startTimeLog) {
+		m_startTimeLog.setM_type(type.OnTime);
+		
+	}
+	
 	
 }

@@ -82,26 +82,9 @@ public class StartTimeLogService {
 			
 			
 		}else System.out.println("this field MAPCLOCKLATE is out of Bournd.");
-		
-		ConditionOnTime(m_startTimeLog);
-		//if(TestData(inputLog,MAPDATE))
-			//m_startTimeLog.setM_date(new Date);
+
 		
 		return m_startTimeLog;
-	}
-	
-	
-	/*
-	public static String getEmployeeID(String[] inputLog) {
-		String m_id = "NONE";
-		
-		return m_id;
-	}
-	*/
-	
-	public static void ConditionOnTime(StartTimeLog m_startTimeLog) {
-		m_startTimeLog.setM_type(type.OnTime);
-		
 	}
 	
 	public static StartTimeLog AddDataStartTimeLog(Entity entity) {
