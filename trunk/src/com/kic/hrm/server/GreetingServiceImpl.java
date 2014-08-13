@@ -221,21 +221,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	
 	private void UpdateStartLog(LeaveTask leavetask) {
 	
-		Filter startDate = new FilterPredicate(LeaveTask.property.start.toString(),
+		Filter startDate = new FilterPredicate(StartTimeLog.property.date.toString(),
 		                      FilterOperator.GREATER_THAN_OR_EQUAL,
 		                      leavetask.getM_start());
 		
-		Filter endDate = new FilterPredicate(LeaveTask.property.end.toString(),
+		Filter endDate = new FilterPredicate(StartTimeLog.property.date.toString(),
                 FilterOperator.LESS_THAN_OR_EQUAL,
                 leavetask.getM_end());
 		
-		Filter currentUser = new FilterPredicate(LeaveTask.property.employeeID.toString(),
+		Filter currentUser = new FilterPredicate(StartTimeLog.property.employeeID.toString(),
                 FilterOperator.EQUAL,
                 leavetask.getM_employeeID());
+		
+		Filter isAbsence = new FilterPredicate(StartTimeLog.property.type.toString(),
+                FilterOperator.EQUAL,
+                StartTimeLog.type.Absence.toString());
 				
-		Filter m_composite = StartTimeLogService.CompositeAndFilter(startDate,endDate,currentUser);
+		Filter m_composite = StartTimeLogService.CompositeAndFilter(startDate,endDate,currentUser,isAbsence);
 		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class, SortDirection.DESCENDING, m_composite);
 		List<StartTimeLog> m_starttimelog = StartTimeLogService.Clone(temp_entity);
+		
+		
+		
 		for(StartTimeLog log : m_starttimelog) {
 			if(leavetask.getM_leavetype() == type.Leave)
 				log.setM_type(StartTimeLog.type.Leave);

@@ -14,9 +14,14 @@ import java.lang.Iterable;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.FileIDStartTimeLog;
+import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LeaveTaskService;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLogService;
 import com.kic.hrm.data.model.StartTimeLog.type;
@@ -141,11 +146,32 @@ public class RecordLog {
 				keepDate = startTime.getM_date();
 			}
 			
+			//Filter LeaveTaskService.findEmployeeByEmployeeID(employeeID)
+			
+			Filter startDate = new FilterPredicate(LeaveTask.property.start.toString(),
+                    FilterOperator.LESS_THAN_OR_EQUAL,
+                    keepDate);
+			
+			Filter endDate = new FilterPredicate(LeaveTask.property.end.toString(),
+			      FilterOperator.GREATER_THAN_OR_EQUAL,
+			      keepDate);
+			
+			Filter m_composite = LeaveTaskService.CompositeAndFilter(startDate,endDate);
+			List<Entity> listLeaveTaskOnDay = DataStoreControl.Query(LeaveTask.class, SortDirection.ASCENDING, m_composite);
+			
+			// Other State
 			for(Integer employeeID : m_employeeAbsence.keySet()) {
-				StartTimeLog startTime = new StartTimeLog();
 				
+				StartTimeLog startTime = new StartTimeLog();
 				startTime.setM_date(keepDate);
 				startTime.setM_employeeID(employeeID);
+				
+				
+				//Leave , Holiday
+				
+				//On Site
+				
+				
 				startTime.setM_type(type.Absence);
 				//
 			}

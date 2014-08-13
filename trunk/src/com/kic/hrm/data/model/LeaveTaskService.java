@@ -1,10 +1,12 @@
 package com.kic.hrm.data.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -84,5 +86,9 @@ public class LeaveTaskService {
 				                      FilterOperator.EQUAL,
 				                      LeaveTask.progress.HRApprove.toString());
 		return m_emailFilter;
+	}
+	
+	public static Filter CompositeAndFilter(Filter... subFilters) {
+		return CompositeFilterOperator.and(Arrays.asList(subFilters));
 	}
 }
