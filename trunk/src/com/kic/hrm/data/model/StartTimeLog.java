@@ -3,6 +3,7 @@ package com.kic.hrm.data.model;
 import java.io.Serializable;
 import java.util.Date;
 
+@SuppressWarnings("serial")
 public class StartTimeLog implements Serializable {
 	
 	public enum type {

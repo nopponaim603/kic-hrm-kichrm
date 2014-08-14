@@ -5,8 +5,6 @@ import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.EmployeeQuotaService;
-import com.kic.hrm.data.model.EmployeeService;
-import com.kic.hrm.data.model.Employee.property;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.LeaveTaskService;
@@ -17,37 +15,27 @@ import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
 import com.kic.hrm.server.businesslogic.RecordLog;
 import com.kic.hrm.shared.*;
 
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.net.URL;
-import java.net.URLConnection;
+
+
+
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gson.JsonParseException;
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonToken;
 
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
 
+	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(GreetingServiceImpl.class.getName());
 
 	public String greetServer(String input) throws IllegalArgumentException {
@@ -194,6 +182,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				if(temp_Em.size() == 1) {
 					Long deltaTime = leavetask.getM_end().getTime() - leavetask.getM_start().getTime();
 					Date tempTime = new Date(deltaTime);
+					@SuppressWarnings("deprecation")
 					int DeltaDay = tempTime.getDate();
 					
 					if(leavetask.getM_leavetype() == type.Leave)

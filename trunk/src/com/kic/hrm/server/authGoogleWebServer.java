@@ -3,7 +3,6 @@ package com.kic.hrm.server;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeRequestUrl;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -16,10 +15,8 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.Oauth2.Userinfo;
 //import com.google.api.services.oauth2.model.Userinfoplus;
 
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +30,8 @@ public class authGoogleWebServer {
 	  //       "token_uri": "https://accounts.google.com/o/oauth2/token"
 	  //     }
 	  //   }
-	  private static final String CLIENTSECRETS_LOCATION = "client_secret_392232398516-0kkqbokr4hkp3ou3s6spr9u78r1ens93.apps.googleusercontent.com.json";
+	  @SuppressWarnings("unused")
+	private static final String CLIENTSECRETS_LOCATION = "client_secret_392232398516-0kkqbokr4hkp3ou3s6spr9u78r1ens93.apps.googleusercontent.com.json";
 	  private static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 	  
 	  private static final List<String> SCOPES = Arrays.asList(

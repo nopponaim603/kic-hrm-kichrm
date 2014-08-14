@@ -4,15 +4,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
-import com.kic.hrm.client.AppController;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.gotoAdministratorEvent;
-import com.kic.hrm.client.event.gotoAdministratorEventHandler;
 import com.kic.hrm.client.event.gotoLeaveEvent;
-import com.kic.hrm.client.event.gotoLeaveEventHandler;
 import com.kic.hrm.client.event.gotoNewEvent;
 
 
@@ -27,6 +23,7 @@ public class DashBoardPresenter implements Presenter{
 		Widget asWidget();
 	}
 	
+	@SuppressWarnings("unused")
 	private final GreetingServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;

@@ -5,11 +5,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.lang.Iterable;
+
+
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
@@ -18,7 +18,6 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.FileIDStartTimeLog;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTaskService;
@@ -31,7 +30,7 @@ import com.kic.hrm.server.DriveServiceImpl;
 
 public class RecordLog {
 	
-	@SuppressWarnings("unused")
+	
 	
 	//private static Dictionary<Integer,Integer> m_employeeAbsence;
 	
@@ -157,6 +156,7 @@ public class RecordLog {
 			      keepDate);
 			
 			Filter m_composite = LeaveTaskService.CompositeAndFilter(startDate,endDate);
+			@SuppressWarnings("unused")
 			List<Entity> listLeaveTaskOnDay = DataStoreControl.Query(LeaveTask.class, SortDirection.ASCENDING, m_composite);
 			
 			// Other State

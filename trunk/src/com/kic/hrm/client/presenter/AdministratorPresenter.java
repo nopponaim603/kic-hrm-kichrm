@@ -1,6 +1,7 @@
 package com.kic.hrm.client.presenter;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
@@ -9,23 +10,19 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.kic.hrm.client.AppController;
 import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.client.GreetingServiceAsync;
-
 import com.kic.hrm.client.event.gotoDashBoardEvent;
-import com.kic.hrm.client.event.gotoDashBoardEventHandler;
 import com.kic.hrm.client.event.gotoProfileAndEditEvent;
 import com.kic.hrm.client.event.gotoProfileEvent;
-import com.kic.hrm.client.event.gotoProfileEventHandler;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.shared.TimeStartConfig;
 
 
 public class AdministratorPresenter implements Presenter{
@@ -44,6 +41,18 @@ public class AdministratorPresenter implements Presenter{
 		HasClickHandlers getEditProfileButton();
 		
 		HasClickHandlers getBackButton();
+		
+		ListBox AdminOnDutyHoure();
+		ListBox AdminOnDutyMinutes();
+		ListBox AdminOffDutyHoure();
+		ListBox AdminOffDutyMinutes();
+		ListBox AdminEarlyMinutes();
+		
+		ListBox ProjectOnDutyHoure();
+		ListBox ProjectOnDutyMinutes();
+		ListBox ProjectOffDutyHoure();
+		ListBox ProjectOffDutyMinutes();
+		ListBox ProjectEarlyMinutes();
 		
 		Widget asWidget();
 	}
@@ -75,6 +84,44 @@ public class AdministratorPresenter implements Presenter{
 				eventBus.fireEvent(new gotoDashBoardEvent());
 			}
 		});
+		
+		//If Data have not on Data store
+		//setupDefultTime();
+		
+	}
+	
+	void setupDefultTime() {
+		TimeStartConfig.setDefult();
+		
+		SetupTimeHoureAndMinutes(TimeStartConfig.getAdminOndutyTime(),display.AdminOnDutyHoure() , display.AdminOnDutyMinutes());
+		SetupTimeHoureAndMinutes(TimeStartConfig.getAdminOffdutyTime(),display.AdminOffDutyHoure() , display.AdminOffDutyMinutes());
+		SetupEarlyMinutes(TimeStartConfig.getAdminEarly(),display.AdminEarlyMinutes());
+		
+		SetupTimeHoureAndMinutes(TimeStartConfig.getProjectOndutyTime(),display.ProjectOnDutyHoure() , display.ProjectOnDutyMinutes());
+		SetupTimeHoureAndMinutes(TimeStartConfig.getProjectOffdutyTime(),display.ProjectOffDutyHoure() , display.ProjectOffDutyMinutes());
+		SetupEarlyMinutes(TimeStartConfig.getProjectEarly(),display.ProjectEarlyMinutes());
+	}
+	
+	void SetupTimeHoureAndMinutes(Date Time,ListBox m_listboxHoure ,ListBox m_listboxMinutes ) {
+		m_listboxHoure.setItemSelected(Time.getHours(), true);
+		m_listboxMinutes.setItemSelected(Time.getMinutes(), true);			
+	}
+	
+	void SetupEarlyMinutes(Date Time,ListBox m_listbox) {
+		m_listbox.setItemSelected(converterEarlyMinutes(Time.getMinutes()), true);
+	}
+	
+	int converterEarlyMinutes(int input_minutes) {
+		switch(input_minutes) {
+		case 5: return 0;
+		case 10: return 1;
+		case 15: return 2;
+		case 30: return 3;
+		case 45: return 4;
+		case 60: return 5;
+		}
+		
+		return 0;
 	}
 
 	@Override

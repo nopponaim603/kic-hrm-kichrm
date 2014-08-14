@@ -8,15 +8,7 @@ import java.security.Signature;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 
-import com.google.api.client.json.webtoken.JsonWebToken;
 import com.google.api.client.util.Base64;
-import com.google.appengine.api.urlfetch.FetchOptions;
-import com.google.appengine.api.urlfetch.HTTPHeader;
-import com.google.appengine.api.urlfetch.HTTPMethod;
-import com.google.appengine.api.urlfetch.HTTPRequest;
-import com.google.appengine.api.urlfetch.HTTPResponse;
-import com.google.appengine.api.urlfetch.URLFetchService;
-import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 /*
 import com.google.gdata.client.authn.oauth.GoogleOAuthHelper;
 import com.google.gdata.client.authn.oauth.GoogleOAuthParameters;
@@ -25,12 +17,13 @@ import com.google.gdata.client.authn.oauth.OAuthHmacSha1Signer;
 import com.google.gdata.client.authn.oauth.OAuthRsaSha1Signer;
 import com.google.gdata.client.authn.oauth.OAuthSigner;
 */
-import com.google.gwt.http.client.URL;
+
 
 public class GoogleJsonWebToken {
 	
 	private static final Logger _logger = Logger.getLogger(DriveServiceImpl.class.getName());
 	
+	@SuppressWarnings("unused")
 	private String doTokenExchange(String jwt) throws IOException {
 		String token = "";
 		/*

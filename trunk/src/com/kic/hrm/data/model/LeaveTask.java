@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.kic.hrm.data.model.StartTimeLog.type;
 
+@SuppressWarnings("serial")
 public class LeaveTask implements Serializable{
 	
 	public enum progress {

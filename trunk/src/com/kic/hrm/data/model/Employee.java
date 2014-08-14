@@ -5,6 +5,7 @@ import java.io.Serializable;
 //import org.slim3.datastore.Attribute;
 //import com.kic.hrm.data.model.Sync;
 
+@SuppressWarnings("serial")
 public class Employee implements Serializable {
 	public enum sex {
 		Mr,

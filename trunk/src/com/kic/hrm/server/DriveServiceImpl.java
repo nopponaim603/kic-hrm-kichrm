@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -18,7 +17,6 @@ import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
-
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.Drive.Children;
 import com.google.api.services.drive.Drive.Files;
@@ -47,6 +45,7 @@ public class DriveServiceImpl {
 		if(m_file != null) {
 			InputStream fileInput = downloadFile(service, m_file);
 			if(fileInput != null) {
+				@SuppressWarnings("unused")
 				Reader reader = new InputStreamReader(fileInput);
 				//List<String[]> DataLog = ReadCSVFile(reader);
 				//printDataListinArry(DataLog);

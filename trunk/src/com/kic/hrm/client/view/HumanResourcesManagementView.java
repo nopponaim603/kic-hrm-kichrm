@@ -16,8 +16,7 @@ import com.google.gwt.user.datepicker.client.DatePicker;
 import com.kic.hrm.client.presenter.HumanResourcesManagementPresenter;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+
 import com.google.gwt.user.client.ui.TextBox;
 
 
