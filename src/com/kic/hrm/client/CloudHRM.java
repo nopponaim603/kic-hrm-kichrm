@@ -23,6 +23,7 @@ public class CloudHRM  implements EntryPoint{
 	/**
 	 * This is the entry point method.
 	 */
+	@SuppressWarnings("unused")
 	private static final Logger log = Logger.getLogger(CloudHRM.class.getName());
 	
 	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
@@ -62,9 +63,12 @@ public class CloudHRM  implements EntryPoint{
 		return DRIVE_SCOPESArry;
 	}
 	
+	@SuppressWarnings("unused")
 	private static String CLIENT_ID = "392232398516-0kkqbokr4hkp3ou3s6spr9u78r1ens93.apps.googleusercontent.com";
+	@SuppressWarnings("unused")
 	private static String CLIENT_SECRET = "ZGNTRofblwZ3TTnlgJ6N7eyE";
 
+	@SuppressWarnings("unused")
 	private static String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
 	//private static final String REDIRECT_URI = "http://xz-plasma-weft-8.appspot.com/oauth2callback";
 	//private static final String APP_CLIENT_URL = "http://royalbear42.appspot.com/";
@@ -212,7 +216,8 @@ public class CloudHRM  implements EntryPoint{
 	  private static final String INSTAGRAM_LIKES_SCOPE = "likes";
 
 	  // Adds a button to the page that asks for authentication from Instagram.
-	  private void addInstagramAuth() {
+	  @SuppressWarnings("unused")
+	private void addInstagramAuth() {
 	    // Since the auth flow requires opening a popup window, it must be started
 	    // as a direct result of a user action, such as clicking a button or link.
 	    // Otherwise, a browser's popup blocker may block the popup.
@@ -254,7 +259,8 @@ public class CloudHRM  implements EntryPoint{
 	  // demonstrates that it's possible at least.
 	  // See the other sample app for a demonstration of how to use this library in
 	  // pure JS.
-	  private void addGoogleAuthNative() {
+	  @SuppressWarnings("unused")
+	private void addGoogleAuthNative() {
 	    Button button = new Button("Authenticate with Google (using native JS)");
 	    button.addClickHandler(new ClickHandler() {
 	      @Override
@@ -283,7 +289,8 @@ public class CloudHRM  implements EntryPoint{
 	  // Clears all tokens stored in the browser by this library. Subsequent calls
 	  // to login() will result in the popup being shown, though it may immediately
 	  // disappear if the token has not expired.
-	  private void addClearTokens() {
+	  @SuppressWarnings("unused")
+	private void addClearTokens() {
 	    Button button = new Button("Clear stored tokens");
 	    button.addClickHandler(new ClickHandler() {
 	      @Override

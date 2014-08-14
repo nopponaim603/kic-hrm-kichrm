@@ -9,6 +9,7 @@ import com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener;
 
 public class FileUploadProgressListener implements MediaHttpUploaderProgressListener{
 
+	@SuppressWarnings("incomplete-switch")
 	@Override
 	public void progressChanged(MediaHttpUploader uploader) throws IOException {
 		// TODO Auto-generated method stub

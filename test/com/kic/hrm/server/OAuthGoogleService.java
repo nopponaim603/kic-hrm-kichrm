@@ -89,7 +89,8 @@ public class OAuthGoogleService {
 
 	  // THIS Code is bug.
 	  /** Authorizes the installed application to access user's protected data. */
-	  private static Credential authorize() throws Exception {
+	  @SuppressWarnings("unused")
+	private static Credential authorize() throws Exception {
 	
 	    // load client secrets
 	    GoogleClientSecrets clientSecrets =
@@ -209,7 +210,8 @@ public class OAuthGoogleService {
 	        SCOPES.add("https://www.googleapis.com/auth/admin.directory.user");
 
 
-	        GoogleCredential credential =  new GoogleCredential.Builder()
+	        @SuppressWarnings("unused")
+			GoogleCredential credential =  new GoogleCredential.Builder()
 	            .setTransport(httpTransport)
 	            .setJsonFactory(jsonFactory)
 	            .setServiceAccountId("244204474315-l08ah6g350oofeosi7p8pqmotlrmgion.apps.googleusercontent.com")

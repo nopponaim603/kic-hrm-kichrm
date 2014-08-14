@@ -1,10 +1,9 @@
 package com.kic.hrm.client.view;
-import com.google.gwt.event.dom.client.HasChangeHandlers;
+
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.resources.css.ast.HasSelectors;
+
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasName;
+
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -14,8 +13,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.presenter.ProfilePresenter;
-import com.google.gwt.user.client.ui.LongBox;
-import com.google.gwt.user.client.ui.IntegerBox;
+
 
 public class ProfileView  extends Composite implements ProfilePresenter.Display{
 	

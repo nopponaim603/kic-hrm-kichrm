@@ -2,6 +2,7 @@ package com.kic.hrm.data.model;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class EmployeeQuota implements Serializable{
 	
 	public enum property {

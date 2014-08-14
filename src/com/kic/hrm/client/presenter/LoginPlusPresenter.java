@@ -1,11 +1,10 @@
 package com.kic.hrm.client.presenter;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
-import com.google.appengine.api.datastore.Query.SortDirection;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.LoadEvent;
@@ -18,9 +17,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.CloudHRM;
-import com.kic.hrm.data.model.Employee;
-import com.kic.hrm.data.model.EmployeeService;
-import com.kic.hrm.server.DataStoreControl;
+
 import com.kic.hrm.shared.LoginInfo;
 
 public class LoginPlusPresenter {

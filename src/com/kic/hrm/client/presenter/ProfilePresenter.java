@@ -6,18 +6,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.kic.hrm.client.AppController;
 import com.kic.hrm.client.GreetingServiceAsync;
 
 
 import com.kic.hrm.client.event.gotoAdministratorEvent;
-import com.kic.hrm.client.event.gotoAdministratorEventHandler;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.SystemConfig;
@@ -163,6 +160,7 @@ public class ProfilePresenter implements Presenter{
 			container.add(display.asWidget());
 	}
 	
+	@SuppressWarnings("static-access")
 	private void doSave() {
 		
 		m_employee.setM_employeeID(Integer.parseInt(display.getWorkID().getValue()));

@@ -4,7 +4,6 @@ package com.kic.hrm.server;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -22,7 +21,6 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.plus.Plus;
 import com.google.api.services.plus.PlusScopes;
 import com.google.api.services.plus.model.Activity;
-
 import com.kic.hrm.shared.Views;
 
 @SuppressWarnings("serial")
@@ -58,6 +56,7 @@ public class GAEJCronServlet extends HttpServlet   {
 		PrintWriter out = res.getWriter();
 		res.setContentType("text/plain");
 
+		@SuppressWarnings("unchecked")
 		Enumeration<String> parameterNames = req.getParameterNames();
 
 		while (parameterNames.hasMoreElements()) {

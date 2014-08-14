@@ -237,6 +237,7 @@ public class LeavePresenter implements Presenter{
 			System.out.println("Codition S - E is : True to Leave |Start Before End");
 			Long deltaTime = m_endDate.getTime() - m_startDate.getTime();
 			Date tempTime = new Date(deltaTime);
+			@SuppressWarnings("deprecation")
 			int DeltaDay = tempTime.getDate();
 			System.out.println("Time : " + DeltaDay);
 			

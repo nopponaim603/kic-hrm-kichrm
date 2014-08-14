@@ -55,6 +55,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	}
 	
 	private final GreetingServiceAsync rpcService;
+	@SuppressWarnings("unused")
 	private final HandlerManager eventBus;
 	private final Display display;
 	
@@ -252,6 +253,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 	}
 	
 
+	@SuppressWarnings("unused")
 	private void ToggleOauth() {
 		System.out.println("HRM Presenter in ToggleOauth : Before call rpcService : By press True Only");
 		

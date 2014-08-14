@@ -1,19 +1,8 @@
 package com.kic.hrm.server;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.datanucleus.store.mapped.DatastoreContainerObject;
-
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeService;
@@ -38,6 +27,7 @@ public class DataStoreControllingServiceImpl {
 		LoadDatastore();
 	}
 	
+	@SuppressWarnings("unused")
 	private static void CreateData() {
 		
 		System.out.println("Save Datastore");
