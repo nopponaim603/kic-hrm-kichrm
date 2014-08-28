@@ -11,5 +11,6 @@
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/App Engine"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.6.1"/>
 	<classpathentry kind="lib" path="lib/gwt-oauth2-0.2-alpha.jar"/>
+	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/mapsengine-v1r29lv1.18.0-rc"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

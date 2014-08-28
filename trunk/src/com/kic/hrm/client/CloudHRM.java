@@ -14,7 +14,17 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.services.mapsengine.MapsEngine;
+import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
+import com.google.api.services.mapsengine.model.Feature;
+import com.google.api.services.mapsengine.model.FeaturesListResponse;
+import com.google.api.services.mapsengine.model.GeoJsonPoint;
 
+import java.io.IOException;
 
 public class CloudHRM  implements EntryPoint{
 
@@ -58,11 +68,12 @@ public class CloudHRM  implements EntryPoint{
 	      "https://www.googleapis.com/auth/userinfo.email",
 	      "https://www.googleapis.com/auth/userinfo.profile" };
 	
-
+	
 	public static final String[] getDRIVE_SCOPESArry() {
 		return DRIVE_SCOPESArry;
 	}
 	
+	private static final String MapsEngine_SCOPES = "https://www.googleapis.com/auth/mapsengine";
 	@SuppressWarnings("unused")
 	private static String CLIENT_ID = "392232398516-0kkqbokr4hkp3ou3s6spr9u78r1ens93.apps.googleusercontent.com";
 	@SuppressWarnings("unused")
@@ -104,7 +115,7 @@ public class CloudHRM  implements EntryPoint{
 	    
 	    // test  
 	    //Register(eventBus);
-	    //QuickTest(rpcService);
+	    QuickTest(rpcService);
 	    //addGoogleAuth(rpcService);
 
 	}
@@ -117,25 +128,48 @@ public class CloudHRM  implements EntryPoint{
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				rpcService.QuickTest("Test", new AsyncCallback<String>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
+				
+				final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(), CloudHRM.getGOOGLE_CLIENT_ID())
+	            .withScopes(MapsEngine_SCOPES);
+				
+				AUTH.login(req,new Callback<String, Throwable>() {
+					
 					@Override
 					public void onSuccess(String result) {
+						// TODO Auto-generated method stub
+						rpcService.QuickTest(result, new AsyncCallback<String>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								System.out.println("Failure Test Map");
+							}
+
+							@Override
+							public void onSuccess(String result) {
+								// TODO Auto-generated method stub
+								System.out.println("Success Test Map");
+							}
+						});
+					}
+					
+					@Override
+					public void onFailure(Throwable reason) {
 						// TODO Auto-generated method stub
 						
 					}
 				});
+				
+				
 			}
 		});
 		 
 		RootPanel.get().add(button);
 	}
+	
+
+	  
+
 	
 	@SuppressWarnings("unused")
 	private void Register(final HandlerManager eventBus) {
