@@ -1,6 +1,5 @@
 package com.kic.hrm.server;
 
-import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.client.GreetingService;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
@@ -22,23 +21,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-
-
-
-
-
-
-
-
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.drive.Drive;
 import com.google.api.services.mapsengine.MapsEngine;
 import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
 import com.google.api.services.mapsengine.model.Feature;
@@ -50,6 +37,7 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
+
 
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
@@ -152,7 +140,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		// TODO Auto-generated method stub
 
 		    MapsEngine engine = BuildMapAPIbyTOKEN(testParametor);
-
+		    
 		    try {
 				readFeaturesFromTable(engine);
 			} catch (IOException e) {
@@ -366,8 +354,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		      }
 		    }
 	}
-
-	
 
 }
 
