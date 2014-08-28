@@ -1,5 +1,6 @@
 package com.kic.hrm.server;
 
+import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.client.GreetingService;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
@@ -15,6 +16,7 @@ import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
 import com.kic.hrm.server.businesslogic.RecordLog;
 import com.kic.hrm.shared.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +25,25 @@ import java.util.logging.Logger;
 
 
 
+
+
+
+
+
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.mapsengine.MapsEngine;
+import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
+import com.google.api.services.mapsengine.model.Feature;
+import com.google.api.services.mapsengine.model.FeaturesListResponse;
+import com.google.api.services.mapsengine.model.GeoJsonPoint;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -130,9 +150,40 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String QuickTest(String testParametor) {
 		// TODO Auto-generated method stub
-		//DataStoreControllingServiceImpl.Process();
+
+		    MapsEngine engine = BuildMapAPIbyTOKEN(testParametor);
+
+		    try {
+				readFeaturesFromTable(engine);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    
+		
 		return testParametor;
 	}
+	
+	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
+	
+	public static MapsEngine BuildMapAPIbyTOKEN(String token)  {
+		
+		  	HttpTransport httpTransport = new NetHttpTransport();
+			JacksonFactory jsonFactory = new JacksonFactory();
+			
+			 // This request initializer will ensure the API key is sent with every HTTP request.
+		    MapsEngineRequestInitializer apiKeyInitializer =
+		        new MapsEngineRequestInitializer(PUBLIC_API_KEY);
+		    
+			GoogleCredential credential = new GoogleCredential().setAccessToken(token);
+			MapsEngine service = new MapsEngine.Builder(httpTransport, jsonFactory, credential)
+					.setMapsEngineRequestInitializer(apiKeyInitializer)
+					.setApplicationName(APPLICATION_NAME)
+					.build();
+			
+			return service;
+	  }
 
 	@Override
 	public EmployeeQuota getEmployeeQuota(int employeeID) {
@@ -286,9 +337,35 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return true;
 	}
 
+	
+	
+	 static final String SAMPLE_TABLE_ID = "12421761926155747447-06672618218968397709";
+	 static final String PUBLIC_API_KEY = "4f36c102c352bcec6c8ee5b40028dc8b6f6602a3";
 
+	  public  static void readFeaturesFromTable(MapsEngine me) throws IOException {
+		    // Query the table for offices in WA that are within 100km of Perth.
+		    FeaturesListResponse featResp =  me.tables().features().list(SAMPLE_TABLE_ID)
+		        .setVersion("published")
+		        .setWhere("State='WA' AND ST_DISTANCE(geometry,ST_POINT(115.8589,-31.9522)) < 100000")
+		        .execute();
 
+		    for (Feature feat : featResp.getFeatures()) {
+		      System.out.println(
+		          "Properties: " + feat.getProperties().toString() + "\n\t" +
+		          "Name: " + feat.getProperties().get("Fcilty_nam") + "\n\t" +
+		          "Geometry Type: " + feat.getGeometry().getType());
 
+		      if (feat.getGeometry() instanceof GeoJsonPoint)  {
+		        GeoJsonPoint point = (GeoJsonPoint) feat.getGeometry();
+		        System.out.println("\t" +
+		            "Longitude: " + point.getCoordinates().get(0) + ", " +
+		            "Latitude: " +  point.getCoordinates().get(1));
+		      } else {
+		        System.out.println("Only points are expected in this table!");
+		        return;
+		      }
+		    }
+	}
 
 	
 

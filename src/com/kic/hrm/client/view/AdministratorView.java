@@ -520,6 +520,7 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		
 		Label lblReportEmail = new Label("Report E-mail");
 		grid_5.setWidget(1, 0, lblReportEmail);
+		lblReportEmail.setWidth("81px");
 		
 		TextBox textBox_3 = new TextBox();
 		grid_5.setWidget(1, 1, textBox_3);
