@@ -62,7 +62,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		this.eventBus = eventBus;
 		bind();
 		
-		m_loginPlus = new LoginPlusPresenter();
+		m_loginPlus = new LoginPlusPresenter(this.eventBus);
 		
 		System.out.println("AppController Complete!!");
 	}
