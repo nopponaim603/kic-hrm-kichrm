@@ -21,6 +21,7 @@ import com.kic.hrm.data.model.EmployeeService;
 import com.kic.hrm.shared.LoginInfo;
 
 public class LoginServiceImpl {
+	
 	enum field {
 		id,
 		email,
@@ -65,6 +66,7 @@ public class LoginServiceImpl {
 		} else {
 			loginInfo.setLoggedIn(false);
 			loginInfo.setLoginUrl(userService.createLoginURL(requestUri));
+			
 			loginInfo.setEmployeeID(-1);
 		}
 		return loginInfo;

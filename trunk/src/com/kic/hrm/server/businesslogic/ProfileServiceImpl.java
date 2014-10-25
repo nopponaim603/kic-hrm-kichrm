@@ -15,33 +15,35 @@ import com.kic.hrm.server.DataStoreControl;
 
 public class ProfileServiceImpl {
 
-	public static Employee addProfile(Employee userEmployee, EmployeeQuota userQuota, state registerMode) {
+	public static Employee addProfile(Employee userEmployee,
+			EmployeeQuota userQuota, state registerMode) {
 		// TODO Auto-generated method stub
 		Entity d_employee = null;
 		Entity d_quota = null;
-		if(registerMode == state.add){
+		if (registerMode == state.add) {
 			d_employee = DataStoreControl.CreateEntity(Employee.class);
-			
-			
+
 			d_quota = DataStoreControl.CreateEntity(EmployeeQuota.class);
-			
-		}	
-		else if(registerMode == state.edit) {
+
+		} else if (registerMode == state.edit) {
 			try {
-				d_employee = DataStoreControl.EditEntity(userEmployee.getKind(), userEmployee.getKeyID());
-				d_quota = DataStoreControl.EditEntity(userQuota.getKind() , userQuota.getKeyID());
+				d_employee = DataStoreControl.EditEntity(
+						userEmployee.getKind(), userEmployee.getKeyID());
+				d_quota = DataStoreControl.EditEntity(userQuota.getKind(),
+						userQuota.getKeyID());
 			} catch (EntityNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-			
-		//System.out.println(d_employee.toString() + " : " + d_employee.getProperty(property.employeeID.toString()));
-		 
-		d_employee = EmployeeService.FlashData(d_employee, userEmployee);  
+
+		// System.out.println(d_employee.toString() + " : " +
+		// d_employee.getProperty(property.employeeID.toString()));
+
+		d_employee = EmployeeService.FlashData(d_employee, userEmployee);
 		DataStoreControl.SaveEntity(d_employee);
-		
-		d_quota = EmployeeQuotaService.FlashData(d_quota, userQuota);  
+
+		d_quota = EmployeeQuotaService.FlashData(d_quota, userQuota);
 		DataStoreControl.SaveEntity(d_quota);
 		return userEmployee;
 	}
@@ -49,28 +51,27 @@ public class ProfileServiceImpl {
 	public static ArrayList<String> UpdateList(String targetEntity) {
 		// TODO Auto-generated method stub
 		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING);
+		List<Entity> entities = DataStoreControl.Query(Employee.class,
+				SortDirection.ASCENDING);
 		results = EmployeeService.Clone(entities);
 		ArrayList<String> EmployeeID = new ArrayList<String>();
-		
-		
-		for(Employee em : results) {
+
+		for (Employee em : results) {
 			EmployeeID.add(String.valueOf(em.getM_employeeID()));
 		}
-		
-		
+
 		return EmployeeID;
 	}
 
 	public static Employee getProfile(Integer targetEmployee) {
 		// TODO Auto-generated method stub
 		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING);
+		List<Entity> entities = DataStoreControl.Query(Employee.class,
+				SortDirection.ASCENDING);
 		results = EmployeeService.Clone(entities);
 		Employee temp_employee = null;
-		for(Employee em : results) {
-			if(em.getM_employeeID() == targetEmployee)
-			{
+		for (Employee em : results) {
+			if (em.getM_employeeID() == targetEmployee) {
 				temp_employee = em;
 				break;
 			}
@@ -78,39 +79,57 @@ public class ProfileServiceImpl {
 		return temp_employee;
 	}
 
+	public static boolean isMember(String email) {
+		List<Employee> results;// = new ArrayList<Employee>();
+		List<Entity> entities = DataStoreControl.Query(Employee.class,
+				SortDirection.ASCENDING);
+		results = EmployeeService.Clone(entities);
+		// System.out.println("Rusults Size " +results.size());
+		for (Employee em : results) {
+			// System.out.println("Email : " + em.getM_email());
+			if (em.getM_email().equalsIgnoreCase(email)) {
+				// System.out.println("This's email :" + email + " Member.");
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public static boolean deleteProfile(Integer targetEmployee) {
 		// TODO Auto-generated method stub
 		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class, SortDirection.ASCENDING,EmployeeService.findEmployeeByEmployeeID(targetEmployee));
+		List<Entity> entities = DataStoreControl.Query(Employee.class,
+				SortDirection.ASCENDING,
+				EmployeeService.findEmployeeByEmployeeID(targetEmployee));
 		results = EmployeeService.Clone(entities);
 		Employee temp_employee = null;
-		for(Employee em : results) {
-			if(em.getM_employeeID() == targetEmployee)
-			{
+		for (Employee em : results) {
+			if (em.getM_employeeID() == targetEmployee) {
 				temp_employee = em;
 				break;
 			}
 		}
-		
-		DataStoreControl.DeleteEntity(temp_employee.getKind(), temp_employee.getKeyID());
-		
-		
-		entities = DataStoreControl.Query(EmployeeQuota.class, SortDirection.ASCENDING,EmployeeQuotaService.findEmployeeByEmployeeID(targetEmployee));
+
+		DataStoreControl.DeleteEntity(temp_employee.getKind(),
+				temp_employee.getKeyID());
+
+		entities = DataStoreControl.Query(EmployeeQuota.class,
+				SortDirection.ASCENDING,
+				EmployeeQuotaService.findEmployeeByEmployeeID(targetEmployee));
 		List<EmployeeQuota> resultsQuota = EmployeeQuotaService.Clone(entities);
-		
+
 		EmployeeQuota temp_employeeQuota = null;
-		for(EmployeeQuota emQT : resultsQuota) {
-			if(emQT.getM_employeeID() == targetEmployee)
-			{
+		for (EmployeeQuota emQT : resultsQuota) {
+			if (emQT.getM_employeeID() == targetEmployee) {
 				temp_employeeQuota = emQT;
 				break;
 			}
 		}
-		DataStoreControl.DeleteEntity(temp_employeeQuota.getKind(), temp_employeeQuota.getKeyID());
-		
+		DataStoreControl.DeleteEntity(temp_employeeQuota.getKind(),
+				temp_employeeQuota.getKeyID());
+
 		return false;
 	}
 	// Add Edit Delete Profile > end
-	
+
 }

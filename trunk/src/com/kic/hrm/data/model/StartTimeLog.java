@@ -29,7 +29,8 @@ public class StartTimeLog implements Serializable {
 		clockin,
 		clockout,
 		clocklate,
-		type
+		type,
+		Note
 	}
 	
 	//@Attribute(primaryKey = true)
@@ -49,7 +50,7 @@ public class StartTimeLog implements Serializable {
     
     private Date		m_clockLate;
     private type		m_type;
-   
+    private String		m_Note;
 	
 	/**
 	 * @return the kind
@@ -174,6 +175,12 @@ public class StartTimeLog implements Serializable {
 	 */
 	public void setM_clockLate(Date m_clockLate) {
 		this.m_clockLate = m_clockLate;
+	}
+	public String getM_Note() {
+		return m_Note;
+	}
+	public void setM_Note(String m_Note) {
+		this.m_Note = m_Note;
 	}
 
 

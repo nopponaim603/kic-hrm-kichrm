@@ -14,6 +14,7 @@ public class Employee implements Serializable {
 	}
 	
 	public enum role {
+		Guest,
 		Director,
 		ProjectManager,
 		Secretary,

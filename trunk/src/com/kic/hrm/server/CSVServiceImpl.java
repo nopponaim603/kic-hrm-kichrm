@@ -26,6 +26,7 @@ public class CSVServiceImpl {
 			};
 			
 			System.out.println("Skip header : " + listData.get(0)[0].toString());
+			//Remove AC-No. Colum.
 			if(listData.get(0)[0].contentEquals("AC-No.")){
 				listData.remove(0);
 				System.out.println("Skiped Header AC-No.");
