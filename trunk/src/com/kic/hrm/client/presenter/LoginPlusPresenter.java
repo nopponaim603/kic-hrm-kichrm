@@ -18,6 +18,9 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.kic.hrm.client.AppController.eventFire;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.CloudHRM;
+import com.kic.hrm.client.event.guiGuestEvent;
+import com.kic.hrm.client.event.guiMemberEvent;
+import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.shared.LoginInfo;
 import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
 
@@ -42,6 +45,7 @@ public class LoginPlusPresenter {
 
 	private LoginInfo m_loginInfo;
 	private final HandlerManager eventBus;
+
 	public LoginPlusPresenter(HandlerManager eventBus) {
 		// TODO Auto-generated constructor stub
 		this.eventBus = eventBus;
@@ -63,6 +67,8 @@ public class LoginPlusPresenter {
 		signInLink.setText("Please, sign in with your Google Account");
 		signInLink.setTitle("Sign in");
 		m_loginInfo = new LoginInfo();
+		System.out.println("State Member : Sign in.");
+		eventBus.fireEvent(new guiGuestEvent());
 	}
 
 	public void loadLogout(final LoginInfo loginInfo) {
@@ -99,9 +105,6 @@ public class LoginPlusPresenter {
 								public void onSuccess(final LoginInfo loginInfo) {
 									System.out
 											.println("C:LP| Google H : on Success. ");
-
-									// System.out.println("Private Member : " +
-									// loginInfo.getEmailAddress());
 
 									// System.out.println("email : " +
 									// loginInfo.getEmailAddress());
@@ -140,9 +143,13 @@ public class LoginPlusPresenter {
 													}
 												}
 											});
-
-									
 									// userEmail.append(result.getEmailAddress());
+									
+									System.out.println(loginInfo.getEmailAddress());
+									if(loginInfo.getEmployeeRole()== role.Guest)
+										eventBus.fireEvent(new guiGuestEvent());
+									else eventBus.fireEvent(new guiMemberEvent());
+									
 								}
 							});
 

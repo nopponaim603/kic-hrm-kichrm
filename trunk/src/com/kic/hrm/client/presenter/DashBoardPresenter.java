@@ -12,6 +12,7 @@ import com.google.gwt.geolocation.client.Position;
 import com.google.gwt.geolocation.client.PositionError;
 import com.google.gwt.geolocation.client.Position.Coordinates;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -21,6 +22,10 @@ import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.gotoAdministratorEvent;
 import com.kic.hrm.client.event.gotoLeaveEvent;
 import com.kic.hrm.client.event.gotoNewEvent;
+import com.kic.hrm.client.event.guiGuestEvent;
+import com.kic.hrm.client.event.guiGuestEventHandler;
+import com.kic.hrm.client.event.guiMemberEvent;
+import com.kic.hrm.client.event.guiMemberEventHandler;
 
 public class DashBoardPresenter implements Presenter {
 
@@ -36,7 +41,16 @@ public class DashBoardPresenter implements Presenter {
 		HasClickHandlers getCheckInButton();
 
 		HasClickHandlers getOnSiteButton();
-
+		
+		Button getButtonNew();
+		Button getButtonLeave();
+		Button getButtonReport();
+		Button getButtonAdmin();
+		Button getButtonCheckIn();
+		Button getButtonOnSite();
+		
+		
+		
 		Widget asWidget();
 	}
 
@@ -103,6 +117,39 @@ public class DashBoardPresenter implements Presenter {
 				System.out.println("Check In On Site with AppEngine.");
 				OnSite();
 				// eventBus.fireEvent(new gotoNewEvent());
+			}
+		});
+		
+		eventBus.addHandler(guiGuestEvent.TYPE, new guiGuestEventHandler() {
+
+			@Override
+			public void guiGuest(guiGuestEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("Setup GUI to Guest.");
+				display.getButtonNew().setEnabled(false);
+				display.getButtonLeave().setEnabled(false);
+				display.getButtonReport().setEnabled(false);
+				display.getButtonAdmin().setEnabled(false);
+				display.getButtonCheckIn().setEnabled(false);
+				display.getButtonOnSite().setEnabled(false);
+			}
+		});
+
+		eventBus.addHandler(guiMemberEvent.TYPE, new guiMemberEventHandler() {
+
+			@Override
+			public void guiMember(guiMemberEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("Setup GUI to Member.");
+				display.getButtonNew().setEnabled(true);
+				display.getButtonLeave().setEnabled(true);
+				display.getButtonReport().setEnabled(true);
+				
+				display.getButtonCheckIn().setEnabled(true);
+				display.getButtonOnSite().setEnabled(true);
+				
+				//Admin
+				display.getButtonAdmin().setEnabled(true);
 			}
 		});
 	}

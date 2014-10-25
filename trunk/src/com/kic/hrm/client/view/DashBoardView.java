@@ -103,4 +103,40 @@ public class DashBoardView extends Composite implements DashBoardPresenter.Displ
 		// TODO Auto-generated method stub
 		return btnOnSite;
 	}
+
+	@Override
+	public Button getButtonCheckIn() {
+		// TODO Auto-generated method stub
+		return btnCheckIN;
+	}
+
+	@Override
+	public Button getButtonOnSite() {
+		// TODO Auto-generated method stub
+		return btnOnSite;
+	}
+
+	@Override
+	public Button getButtonNew() {
+		// TODO Auto-generated method stub
+		return btnNaws;
+	}
+
+	@Override
+	public Button getButtonLeave() {
+		// TODO Auto-generated method stub
+		return btnLeave;
+	}
+
+	@Override
+	public Button getButtonReport() {
+		// TODO Auto-generated method stub
+		return btnReport;
+	}
+
+	@Override
+	public Button getButtonAdmin() {
+		// TODO Auto-generated method stub
+		return btnAdmin;
+	}
 }
