@@ -159,7 +159,8 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		System.out.println("Token Event : " + token);
 		if (token != null) {
 			Presenter presenter = null;
-
+			
+			//Main Could not requires LoginInfor.
 			if (token.equals(eventFire.Main.toString())) {
 				presenter = new DashBoardPresenter(rpcService, eventBus,
 						new DashBoardView());

@@ -17,7 +17,9 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.JsonParseException;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.EmployeeService;
+import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.shared.LoginInfo;
 
 public class LoginServiceImpl {
@@ -71,8 +73,7 @@ public class LoginServiceImpl {
 		}
 		return loginInfo;
 	}
-		
-	
+
 	public static LoginInfo loginDetails(String token) {
 		//System.out.print(token);
 		String url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" + token;
@@ -153,6 +154,17 @@ public class LoginServiceImpl {
 		return loginInfo;
 	}
 	
+	public static timetable convertRoleToTimeTable(role userRole) {
+		timetable m_timetable = timetable.None;
+		
+		if(userRole == role.Administration) {
+			m_timetable = timetable.Admin;
+		}else {
+			m_timetable = timetable.Project;
+		}
+		
+		return m_timetable;
+	}
 	private static void setupEmployeeData(LoginInfo loginInfo) {
 		System.out.println("email : " + loginInfo.getEmailAddress());
 		//int employeeId = -1;
@@ -182,4 +194,6 @@ public class LoginServiceImpl {
 		
 		return employeeId;
 	}
+	
+	
 }

@@ -9,6 +9,7 @@ public class StartTimeLog implements Serializable {
 	public enum type {
 		None,
 		Absence,
+		Office,
 		Onsite,
 		OnTime,
 		Late,
@@ -17,6 +18,7 @@ public class StartTimeLog implements Serializable {
 	}
 	
 	public enum timetable {
+		None,
 		Admin,
 		Project
 	}

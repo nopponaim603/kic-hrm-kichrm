@@ -2,6 +2,7 @@ package com.kic.hrm.shared;
 
 import java.io.Serializable;
 
+import com.google.gwt.geolocation.client.Position.Coordinates;
 import com.kic.hrm.data.model.Employee;
 
 @SuppressWarnings("serial")
@@ -22,7 +23,14 @@ public class LoginInfo  implements Serializable {
 	private int employeeID;
 	
 	private Employee.role employeeRole;
-
+	
+	private GeoPosition currentPosition;
+	
+	public LoginInfo() {
+		// TODO Auto-generated constructor stub
+		currentPosition = new GeoPosition();
+	}
+	
 	public boolean isLoggedIn() {
 		return loggedIn;
 	}
@@ -98,6 +106,14 @@ public class LoginInfo  implements Serializable {
 	 */
 	public void setEmployeeRole(Employee.role employeeRole) {
 		this.employeeRole = employeeRole;
+	}
+
+	public GeoPosition getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public void setCurrentPosition(GeoPosition currentPosition) {
+		this.currentPosition = currentPosition;
 	}
 
 }

@@ -3,11 +3,13 @@ package com.kic.hrm.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.geolocation.client.Position.Coordinates;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.shared.*;
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -47,4 +49,12 @@ public interface GreetingServiceAsync {
 	void approveLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
 	void getLeaveTask(LeaveTask.progress InProgress,int targetID , AsyncCallback<List<LeaveTask>> callback);
 	void deleteLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
+
+	void LoginAttendance(LoginInfo userInfo, type leaveType,
+			String address,
+			AsyncCallback<Boolean> callback);
+
+	void getAddressWithLatLong(String latLong, AsyncCallback<String> callback);
+	
+	
 }

@@ -21,6 +21,10 @@ import com.kic.hrm.data.model.LeaveTask.progress;
 public class NewView extends Composite implements Display{
 	
 	private final Button backButton;
+	
+	private final Button btnCheckIN;
+	private final Button btnOnSite;
+	
 	private final FlexTable flexTable;
 	public NewView() {
 		// TODO Auto-generated constructor stub
@@ -43,8 +47,16 @@ public class NewView extends Composite implements Display{
 		flexTable.setWidget(1, 0, btnBack);
 		btnBack.setWidth("100%");
 		
+		Button btnNewButton_CheckIN = new Button("Check in");
+		flexTable.setWidget(2, 0, btnNewButton_CheckIN);
+		btnNewButton_CheckIN.setWidth("100%");
+		
+		Button btnNewButton_OnSite = new Button("On Site");
+		flexTable.setWidget(3, 0, btnNewButton_OnSite);
+		btnNewButton_OnSite.setWidth("100%");
+		
 		Label lblTaskList = new Label("Task List :");
-		flexTable.setWidget(2, 0, lblTaskList);
+		flexTable.setWidget(4, 0, lblTaskList);
 		
 		
 		/*
@@ -70,6 +82,9 @@ public class NewView extends Composite implements Display{
 		*/
 		
 		backButton = btnBack;
+		btnCheckIN = btnNewButton_CheckIN;
+		btnOnSite = btnNewButton_OnSite;
+		
 		this.flexTable = flexTable;
 	}
 	
@@ -122,6 +137,18 @@ public class NewView extends Composite implements Display{
 		
 		
 		this.flexTable.setWidget(this.flexTable.getRowCount(), 0, verticalPanel_1);
+	}
+
+	@Override
+	public HasClickHandlers getCheckInButton() {
+		// TODO Auto-generated method stub
+		return btnCheckIN;
+	}
+
+	@Override
+	public HasClickHandlers getOnSiteButton() {
+		// TODO Auto-generated method stub
+		return btnOnSite;
 	}
 	
 }

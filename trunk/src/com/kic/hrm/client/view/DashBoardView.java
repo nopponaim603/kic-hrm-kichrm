@@ -14,10 +14,7 @@ public class DashBoardView extends Composite implements DashBoardPresenter.Displ
 	private final Button btnLeave;
 	private final Button btnReport;
 	private final Button btnAdmin;
-	
-	private final Button btnCheckIN;
-	private final Button btnOnSite;
-	
+		
 	public DashBoardView() {
 		// TODO Auto-generated constructor stub
 		VerticalPanel verticalPanel = new VerticalPanel();
@@ -26,15 +23,7 @@ public class DashBoardView extends Composite implements DashBoardPresenter.Displ
 		
 		Label lblNewLabel = new Label("DashBoard");
 		verticalPanel.add(lblNewLabel);
-		
-		Button btnNewButton_CheckIN = new Button("Check in");
-		verticalPanel.add(btnNewButton_CheckIN);
-		btnNewButton_CheckIN.setWidth("100%");
-		
-		Button btnNewButton_OnSite = new Button("On Site");
-		verticalPanel.add(btnNewButton_OnSite);
-		btnNewButton_OnSite.setWidth("100%");
-		
+				
 		Button btnNewButton = new Button("News");
 		verticalPanel.add(btnNewButton);
 		btnNewButton.setWidth("100%");
@@ -56,8 +45,7 @@ public class DashBoardView extends Composite implements DashBoardPresenter.Displ
 		btnReport = btnNewButton_2;
 		btnAdmin = btnNewButton_3;
 		
-		btnCheckIN = btnNewButton_CheckIN;
-		btnOnSite = btnNewButton_OnSite;
+
 	}
 	
 	@Override
@@ -90,30 +78,6 @@ public class DashBoardView extends Composite implements DashBoardPresenter.Displ
 	public HasClickHandlers getAdminButton() {
 		// TODO Auto-generated method stub
 		return btnAdmin;
-	}
-
-	@Override
-	public HasClickHandlers getCheckInButton() {
-		// TODO Auto-generated method stub
-		return btnCheckIN;
-	}
-
-	@Override
-	public HasClickHandlers getOnSiteButton() {
-		// TODO Auto-generated method stub
-		return btnOnSite;
-	}
-
-	@Override
-	public Button getButtonCheckIn() {
-		// TODO Auto-generated method stub
-		return btnCheckIN;
-	}
-
-	@Override
-	public Button getButtonOnSite() {
-		// TODO Auto-generated method stub
-		return btnOnSite;
 	}
 
 	@Override

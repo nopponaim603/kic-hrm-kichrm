@@ -78,6 +78,22 @@ public class ProfileServiceImpl {
 		}
 		return temp_employee;
 	}
+	
+	public static Employee getProfile(String email) {
+		// TODO Auto-generated method stub
+		List<Employee> results;// = new ArrayList<Employee>();
+		List<Entity> entities = DataStoreControl.Query(Employee.class,
+				SortDirection.ASCENDING);
+		results = EmployeeService.Clone(entities);
+		Employee temp_employee = null;
+		for (Employee em : results) {
+			if (em.getM_email().equalsIgnoreCase(email)) {
+				temp_employee = em;
+				break;
+			}
+		}
+		return temp_employee;
+	}
 
 	public static boolean isMember(String email) {
 		List<Employee> results;// = new ArrayList<Employee>();
