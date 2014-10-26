@@ -8318,3 +8318,686 @@ Rebinding com.google.gwt.user.cellview.client.AbstractCellTable.Template
       Compiling...
          Compilation completed in 0.03 seconds
       Removing invalidated units
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2737 units from cache.
+Compiling...
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   50% complete (ETR: 6 seconds)
+   60% complete (ETR: 4 seconds)
+   70% complete (ETR: 3 seconds)
+   80% complete (ETR: 2 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 11.67 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2737 units from cache.
+Compiling...
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   50% complete (ETR: 6 seconds)
+   60% complete (ETR: 4 seconds)
+   70% complete (ETR: 3 seconds)
+   80% complete (ETR: 2 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 11.50 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2737 units from cache.
+Compiling...
+   50% complete (ETR: 5 seconds)
+   50% complete (ETR: 5 seconds)
+   50% complete (ETR: 5 seconds)
+   50% complete (ETR: 5 seconds)
+   50% complete (ETR: 5 seconds)
+   50% complete (ETR: 5 seconds)
+   60% complete (ETR: 4 seconds)
+   70% complete (ETR: 2 seconds)
+   80% complete (ETR: 2 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 10.99 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2800 units from cache.
+Compiling...
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 7.81 seconds
+Validating units:
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/EmployeeQuotaService.java'
+      Line 6: The import com.google.appengine.api.datastore cannot be resolved
+      Line 7: The import com.google.appengine.api.datastore cannot be resolved
+      Line 8: The import com.google.appengine.api.datastore cannot be resolved
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 14: Entity cannot be resolved to a type
+      Line 35: Entity cannot be resolved to a type
+      Line 35: Entity cannot be resolved to a type
+      Line 52: Entity cannot be resolved to a type
+      Line 54: Entity cannot be resolved to a type
+      Line 60: Filter cannot be resolved to a type
+      Line 61: Filter cannot be resolved to a type
+      Line 62: FilterPredicate cannot be resolved to a type
+      Line 63: FilterOperator cannot be resolved to a variable
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/EmployeeService.java'
+      Line 8: The import com.google.appengine.api.datastore cannot be resolved
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 10: The import com.google.appengine.api.datastore cannot be resolved
+      Line 11: The import com.google.appengine.api.datastore cannot be resolved
+      Line 19: Entity cannot be resolved to a type
+      Line 47: Entity cannot be resolved to a type
+      Line 47: Entity cannot be resolved to a type
+      Line 65: Entity cannot be resolved to a type
+      Line 67: Entity cannot be resolved to a type
+      Line 73: Filter cannot be resolved to a type
+      Line 74: Filter cannot be resolved to a type
+      Line 75: FilterPredicate cannot be resolved to a type
+      Line 76: FilterOperator cannot be resolved to a variable
+      Line 81: Filter cannot be resolved to a type
+      Line 82: Filter cannot be resolved to a type
+      Line 83: FilterPredicate cannot be resolved to a type
+      Line 84: FilterOperator cannot be resolved to a variable
+      Line 89: Entity cannot be resolved to a type
+      Line 92: Entity cannot be resolved to a type
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/LeaveTaskService.java'
+      Line 8: The import com.google.appengine.api.datastore cannot be resolved
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 10: The import com.google.appengine.api.datastore cannot be resolved
+      Line 11: The import com.google.appengine.api.datastore cannot be resolved
+      Line 12: The import com.google.appengine.api.datastore cannot be resolved
+      Line 17: Entity cannot be resolved to a type
+      Line 43: Entity cannot be resolved to a type
+      Line 43: Entity cannot be resolved to a type
+      Line 59: Entity cannot be resolved to a type
+      Line 61: Entity cannot be resolved to a type
+      Line 67: Filter cannot be resolved to a type
+      Line 68: Filter cannot be resolved to a type
+      Line 69: FilterPredicate cannot be resolved to a type
+      Line 70: FilterOperator cannot be resolved to a variable
+      Line 75: Filter cannot be resolved to a type
+      Line 76: Filter cannot be resolved to a type
+      Line 77: FilterPredicate cannot be resolved to a type
+      Line 78: FilterOperator cannot be resolved to a variable
+      Line 83: Filter cannot be resolved to a type
+      Line 84: Filter cannot be resolved to a type
+      Line 85: FilterPredicate cannot be resolved to a type
+      Line 86: FilterOperator cannot be resolved to a variable
+      Line 91: Filter cannot be resolved to a type
+      Line 91: Filter cannot be resolved to a type
+      Line 92: CompositeFilterOperator cannot be resolved
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/StartTimeLogService.java'
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 10: The import com.google.appengine.api.datastore cannot be resolved
+      Line 11: The import com.google.appengine.api.datastore cannot be resolved
+      Line 90: Entity cannot be resolved to a type
+      Line 118: Entity cannot be resolved to a type
+      Line 118: Entity cannot be resolved to a type
+      Line 132: Entity cannot be resolved to a type
+      Line 134: Entity cannot be resolved to a type
+      Line 140: Filter cannot be resolved to a type
+      Line 140: Filter cannot be resolved to a type
+      Line 141: CompositeFilterOperator cannot be resolved
+      Line 144: Filter cannot be resolved to a type
+      Line 144: Filter cannot be resolved to a type
+      Line 145: CompositeFilterOperator cannot be resolved
+      Line 148: Filter cannot be resolved to a type
+      Line 148: Filter cannot be resolved to a type
+      Line 150: CompositeFilterOperator cannot be resolved
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/FileDownloadProgressListener.java'
+      Line 9: No source code is available for type com.google.api.client.googleapis.media.MediaHttpDownloaderProgressListener; did you forget to inherit a required module?
+      Line 13: No source code is available for type com.google.api.client.googleapis.media.MediaHttpDownloader; did you forget to inherit a required module?
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/FileUploadProgressListener.java'
+      Line 10: No source code is available for type com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener; did you forget to inherit a required module?
+      Line 14: No source code is available for type com.google.api.client.googleapis.media.MediaHttpUploader; did you forget to inherit a required module?
+      Line 25: No source code is available for type java.text.NumberFormat; did you forget to inherit a required module?
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/State.java'
+      Line 42: No source code is available for type com.google.gson.GsonBuilder; did you forget to inherit a required module?
+      Line 43: No source code is available for type com.google.gson.Gson; did you forget to inherit a required module?
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/Utils.java'
+      Line 19: The import com.google.api.services.plus cannot be resolved
+      Line 20: The import com.google.appengine.api.users cannot be resolved
+      Line 21: The import com.google.appengine.api.users cannot be resolved
+      Line 22: The import com.google.appengine.api.users cannot be resolved
+      Line 27: PlusScopes cannot be resolved to a variable
+      Line 36: The method getResourceAsStream(String) is undefined for the type Class<Utils>
+      Line 58: UserService cannot be resolved to a type
+      Line 58: UserServiceFactory cannot be resolved
+      Line 59: User cannot be resolved to a type
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/Views.java'
+      Line 5: The import com.google.api.services.plus cannot be resolved
+      Line 29: Activity cannot be resolved to a type
+Removing invalidated units
+Finding entry point classes
+Rebinding com.google.gwt.i18n.client.impl.LocaleInfoImpl
+   Invoking generator com.google.gwt.i18n.rebind.LocaleInfoGenerator
+      Processing interface com.google.gwt.i18n.client.constants.NumberConstantsImpl
+         Generating method body for notANumber()
+         Generating method body for currencyPattern()
+         Generating method body for decimalPattern()
+         Generating method body for decimalSeparator()
+         Generating method body for defCurrencyCode()
+         Generating method body for exponentialSymbol()
+         Generating method body for globalCurrencyPattern()
+         Generating method body for groupingSeparator()
+         Generating method body for infinity()
+         Generating method body for minusSign()
+         Generating method body for monetaryGroupingSeparator()
+         Generating method body for monetarySeparator()
+         Generating method body for percent()
+         Generating method body for percentPattern()
+         Generating method body for perMill()
+         Generating method body for plusSign()
+         Generating method body for scientificPattern()
+         Generating method body for simpleCurrencyPattern()
+         Generating method body for zeroDigit()
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0.05 seconds
+      Removing invalidated units
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2737 units from cache.
+Compiling...
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   60% complete (ETR: 3 seconds)
+   70% complete (ETR: 2 seconds)
+   80% complete (ETR: 2 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 10.49 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2737 units from cache.
+Compiling...
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   60% complete (ETR: 3 seconds)
+   70% complete (ETR: 2 seconds)
+   80% complete (ETR: 1 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 29.02 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2737 units from cache.
+Compiling...
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   40% complete (ETR: 7 seconds)
+   50% complete (ETR: 5 seconds)
+   60% complete (ETR: 4 seconds)
+   70% complete (ETR: 3 seconds)
+   80% complete (ETR: 2 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 10.91 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2737 units from cache.
+Compiling...
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   50% complete (ETR: 4 seconds)
+   60% complete (ETR: 4 seconds)
+   70% complete (ETR: 2 seconds)
+   80% complete (ETR: 2 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 10.57 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2737 units from cache.
+Compiling...
+   40% complete (ETR: 6 seconds)
+   40% complete (ETR: 6 seconds)
+   40% complete (ETR: 6 seconds)
+   40% complete (ETR: 6 seconds)
+   40% complete (ETR: 6 seconds)
+   50% complete (ETR: 6 seconds)
+   60% complete (ETR: 4 seconds)
+   70% complete (ETR: 3 seconds)
+   80% complete (ETR: 2 seconds)
+   90% complete (ETR: 1 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 41.60 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 2737 cached/archived units.  Used 2737 / 2737 units from cache.
+Compiling...
+   Compilation completed in 0.00 seconds
+Removing invalidated units
+Finding entry point classes
+Public resources found in...
+Translatable source found in...
+Found 0 cached/archived units.  Used 0 / 2807 units from cache.
+Compiling...
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   90% complete (ETR: 0 seconds)
+   100% complete (ETR: 0 seconds)
+   Compilation completed in 8.05 seconds
+Validating units:
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/EmployeeQuotaService.java'
+      Line 6: The import com.google.appengine.api.datastore cannot be resolved
+      Line 7: The import com.google.appengine.api.datastore cannot be resolved
+      Line 8: The import com.google.appengine.api.datastore cannot be resolved
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 14: Entity cannot be resolved to a type
+      Line 35: Entity cannot be resolved to a type
+      Line 35: Entity cannot be resolved to a type
+      Line 52: Entity cannot be resolved to a type
+      Line 54: Entity cannot be resolved to a type
+      Line 60: Filter cannot be resolved to a type
+      Line 61: Filter cannot be resolved to a type
+      Line 62: FilterPredicate cannot be resolved to a type
+      Line 63: FilterOperator cannot be resolved to a variable
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/EmployeeService.java'
+      Line 8: The import com.google.appengine.api.datastore cannot be resolved
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 10: The import com.google.appengine.api.datastore cannot be resolved
+      Line 11: The import com.google.appengine.api.datastore cannot be resolved
+      Line 19: Entity cannot be resolved to a type
+      Line 47: Entity cannot be resolved to a type
+      Line 47: Entity cannot be resolved to a type
+      Line 65: Entity cannot be resolved to a type
+      Line 67: Entity cannot be resolved to a type
+      Line 73: Filter cannot be resolved to a type
+      Line 74: Filter cannot be resolved to a type
+      Line 75: FilterPredicate cannot be resolved to a type
+      Line 76: FilterOperator cannot be resolved to a variable
+      Line 81: Filter cannot be resolved to a type
+      Line 82: Filter cannot be resolved to a type
+      Line 83: FilterPredicate cannot be resolved to a type
+      Line 84: FilterOperator cannot be resolved to a variable
+      Line 89: Entity cannot be resolved to a type
+      Line 92: Entity cannot be resolved to a type
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/LeaveTaskService.java'
+      Line 8: The import com.google.appengine.api.datastore cannot be resolved
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 10: The import com.google.appengine.api.datastore cannot be resolved
+      Line 11: The import com.google.appengine.api.datastore cannot be resolved
+      Line 12: The import com.google.appengine.api.datastore cannot be resolved
+      Line 17: Entity cannot be resolved to a type
+      Line 43: Entity cannot be resolved to a type
+      Line 43: Entity cannot be resolved to a type
+      Line 59: Entity cannot be resolved to a type
+      Line 61: Entity cannot be resolved to a type
+      Line 67: Filter cannot be resolved to a type
+      Line 68: Filter cannot be resolved to a type
+      Line 69: FilterPredicate cannot be resolved to a type
+      Line 70: FilterOperator cannot be resolved to a variable
+      Line 75: Filter cannot be resolved to a type
+      Line 76: Filter cannot be resolved to a type
+      Line 77: FilterPredicate cannot be resolved to a type
+      Line 78: FilterOperator cannot be resolved to a variable
+      Line 83: Filter cannot be resolved to a type
+      Line 84: Filter cannot be resolved to a type
+      Line 85: FilterPredicate cannot be resolved to a type
+      Line 86: FilterOperator cannot be resolved to a variable
+      Line 91: Filter cannot be resolved to a type
+      Line 91: Filter cannot be resolved to a type
+      Line 92: CompositeFilterOperator cannot be resolved
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/StartTimeLogService.java'
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 10: The import com.google.appengine.api.datastore cannot be resolved
+      Line 11: The import com.google.appengine.api.datastore cannot be resolved
+      Line 103: Entity cannot be resolved to a type
+      Line 141: Entity cannot be resolved to a type
+      Line 141: Entity cannot be resolved to a type
+      Line 198: Entity cannot be resolved to a type
+      Line 200: Entity cannot be resolved to a type
+      Line 206: Filter cannot be resolved to a type
+      Line 206: Filter cannot be resolved to a type
+      Line 207: CompositeFilterOperator cannot be resolved
+      Line 210: Filter cannot be resolved to a type
+      Line 210: Filter cannot be resolved to a type
+      Line 211: CompositeFilterOperator cannot be resolved
+      Line 214: Filter cannot be resolved to a type
+      Line 214: Filter cannot be resolved to a type
+      Line 216: CompositeFilterOperator cannot be resolved
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/FileDownloadProgressListener.java'
+      Line 9: No source code is available for type com.google.api.client.googleapis.media.MediaHttpDownloaderProgressListener; did you forget to inherit a required module?
+      Line 13: No source code is available for type com.google.api.client.googleapis.media.MediaHttpDownloader; did you forget to inherit a required module?
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/FileUploadProgressListener.java'
+      Line 10: No source code is available for type com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener; did you forget to inherit a required module?
+      Line 14: No source code is available for type com.google.api.client.googleapis.media.MediaHttpUploader; did you forget to inherit a required module?
+      Line 25: No source code is available for type java.text.NumberFormat; did you forget to inherit a required module?
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/State.java'
+      Line 42: No source code is available for type com.google.gson.GsonBuilder; did you forget to inherit a required module?
+      Line 43: No source code is available for type com.google.gson.Gson; did you forget to inherit a required module?
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/Utils.java'
+      Line 19: The import com.google.api.services.plus.PlusScopes cannot be resolved
+      Line 20: The import com.google.appengine.api.users cannot be resolved
+      Line 21: The import com.google.appengine.api.users cannot be resolved
+      Line 22: The import com.google.appengine.api.users cannot be resolved
+      Line 27: PlusScopes cannot be resolved to a variable
+      Line 36: The method getResourceAsStream(String) is undefined for the type Class<Utils>
+      Line 58: UserService cannot be resolved to a type
+      Line 58: UserServiceFactory cannot be resolved
+      Line 59: User cannot be resolved to a type
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/Views.java'
+      Line 5: The import com.google.api.services.plus cannot be resolved
+      Line 29: Activity cannot be resolved to a type
+Removing invalidated units
+Finding entry point classes
+Rebinding com.google.gwt.i18n.client.impl.LocaleInfoImpl
+   Invoking generator com.google.gwt.i18n.rebind.LocaleInfoGenerator
+      Processing interface com.google.gwt.i18n.client.constants.NumberConstantsImpl
+         Generating method body for notANumber()
+         Generating method body for currencyPattern()
+         Generating method body for decimalPattern()
+         Generating method body for decimalSeparator()
+         Generating method body for defCurrencyCode()
+         Generating method body for exponentialSymbol()
+         Generating method body for globalCurrencyPattern()
+         Generating method body for groupingSeparator()
+         Generating method body for infinity()
+         Generating method body for minusSign()
+         Generating method body for monetaryGroupingSeparator()
+         Generating method body for monetarySeparator()
+         Generating method body for percent()
+         Generating method body for percentPattern()
+         Generating method body for perMill()
+         Generating method body for plusSign()
+         Generating method body for scientificPattern()
+         Generating method body for simpleCurrencyPattern()
+         Generating method body for zeroDigit()
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0.02 seconds
+      Removing invalidated units
+Public resources found in...
+Translatable source found in...
+Found 2806 cached/archived units.  Used 2806 / 2807 units from cache.
+Compiling...
+   Compilation completed in 0.03 seconds
+Validating units:
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/EmployeeQuotaService.java'
+      Line 6: The import com.google.appengine.api.datastore cannot be resolved
+      Line 7: The import com.google.appengine.api.datastore cannot be resolved
+      Line 8: The import com.google.appengine.api.datastore cannot be resolved
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 14: Entity cannot be resolved to a type
+      Line 35: Entity cannot be resolved to a type
+      Line 35: Entity cannot be resolved to a type
+      Line 52: Entity cannot be resolved to a type
+      Line 54: Entity cannot be resolved to a type
+      Line 60: Filter cannot be resolved to a type
+      Line 61: Filter cannot be resolved to a type
+      Line 62: FilterPredicate cannot be resolved to a type
+      Line 63: FilterOperator cannot be resolved to a variable
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/EmployeeService.java'
+      Line 8: The import com.google.appengine.api.datastore cannot be resolved
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 10: The import com.google.appengine.api.datastore cannot be resolved
+      Line 11: The import com.google.appengine.api.datastore cannot be resolved
+      Line 19: Entity cannot be resolved to a type
+      Line 47: Entity cannot be resolved to a type
+      Line 47: Entity cannot be resolved to a type
+      Line 65: Entity cannot be resolved to a type
+      Line 67: Entity cannot be resolved to a type
+      Line 73: Filter cannot be resolved to a type
+      Line 74: Filter cannot be resolved to a type
+      Line 75: FilterPredicate cannot be resolved to a type
+      Line 76: FilterOperator cannot be resolved to a variable
+      Line 81: Filter cannot be resolved to a type
+      Line 82: Filter cannot be resolved to a type
+      Line 83: FilterPredicate cannot be resolved to a type
+      Line 84: FilterOperator cannot be resolved to a variable
+      Line 89: Entity cannot be resolved to a type
+      Line 92: Entity cannot be resolved to a type
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/LeaveTaskService.java'
+      Line 8: The import com.google.appengine.api.datastore cannot be resolved
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 10: The import com.google.appengine.api.datastore cannot be resolved
+      Line 11: The import com.google.appengine.api.datastore cannot be resolved
+      Line 12: The import com.google.appengine.api.datastore cannot be resolved
+      Line 17: Entity cannot be resolved to a type
+      Line 43: Entity cannot be resolved to a type
+      Line 43: Entity cannot be resolved to a type
+      Line 59: Entity cannot be resolved to a type
+      Line 61: Entity cannot be resolved to a type
+      Line 67: Filter cannot be resolved to a type
+      Line 68: Filter cannot be resolved to a type
+      Line 69: FilterPredicate cannot be resolved to a type
+      Line 70: FilterOperator cannot be resolved to a variable
+      Line 75: Filter cannot be resolved to a type
+      Line 76: Filter cannot be resolved to a type
+      Line 77: FilterPredicate cannot be resolved to a type
+      Line 78: FilterOperator cannot be resolved to a variable
+      Line 83: Filter cannot be resolved to a type
+      Line 84: Filter cannot be resolved to a type
+      Line 85: FilterPredicate cannot be resolved to a type
+      Line 86: FilterOperator cannot be resolved to a variable
+      Line 91: Filter cannot be resolved to a type
+      Line 91: Filter cannot be resolved to a type
+      Line 92: CompositeFilterOperator cannot be resolved
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/data/model/StartTimeLogService.java'
+      Line 9: The import com.google.appengine.api.datastore cannot be resolved
+      Line 10: The import com.google.appengine.api.datastore cannot be resolved
+      Line 11: The import com.google.appengine.api.datastore cannot be resolved
+      Line 103: Entity cannot be resolved to a type
+      Line 141: Entity cannot be resolved to a type
+      Line 141: Entity cannot be resolved to a type
+      Line 198: Entity cannot be resolved to a type
+      Line 200: Entity cannot be resolved to a type
+      Line 206: Filter cannot be resolved to a type
+      Line 206: Filter cannot be resolved to a type
+      Line 207: CompositeFilterOperator cannot be resolved
+      Line 210: Filter cannot be resolved to a type
+      Line 210: Filter cannot be resolved to a type
+      Line 211: CompositeFilterOperator cannot be resolved
+      Line 214: Filter cannot be resolved to a type
+      Line 214: Filter cannot be resolved to a type
+      Line 216: CompositeFilterOperator cannot be resolved
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/FileDownloadProgressListener.java'
+      Line 9: No source code is available for type com.google.api.client.googleapis.media.MediaHttpDownloaderProgressListener; did you forget to inherit a required module?
+      Line 13: No source code is available for type com.google.api.client.googleapis.media.MediaHttpDownloader; did you forget to inherit a required module?
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/FileUploadProgressListener.java'
+      Line 10: No source code is available for type com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener; did you forget to inherit a required module?
+      Line 14: No source code is available for type com.google.api.client.googleapis.media.MediaHttpUploader; did you forget to inherit a required module?
+      Line 25: No source code is available for type java.text.NumberFormat; did you forget to inherit a required module?
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/State.java'
+      Line 42: No source code is available for type com.google.gson.GsonBuilder; did you forget to inherit a required module?
+      Line 43: No source code is available for type com.google.gson.Gson; did you forget to inherit a required module?
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/Utils.java'
+      Line 19: The import com.google.api.services.plus.PlusScopes cannot be resolved
+      Line 20: The import com.google.appengine.api.users cannot be resolved
+      Line 21: The import com.google.appengine.api.users cannot be resolved
+      Line 22: The import com.google.appengine.api.users cannot be resolved
+      Line 27: PlusScopes cannot be resolved to a variable
+      Line 36: The method getResourceAsStream(String) is undefined for the type Class<Utils>
+      Line 58: UserService cannot be resolved to a type
+      Line 58: UserServiceFactory cannot be resolved
+      Line 59: User cannot be resolved to a type
+   Errors in 'file:/D:/Developer/workspace/CloudHRM/src/com/kic/hrm/shared/Views.java'
+      Line 5: The import com.google.api.services.plus cannot be resolved
+      Line 29: Activity cannot be resolved to a type
+Removing invalidated units
+Finding entry point classes
+Rebinding com.google.gwt.i18n.client.impl.LocaleInfoImpl
+   Invoking generator com.google.gwt.i18n.rebind.LocaleInfoGenerator
+      Processing interface com.google.gwt.i18n.client.constants.NumberConstantsImpl
+         Generating method body for notANumber()
+         Generating method body for currencyPattern()
+         Generating method body for decimalPattern()
+         Generating method body for decimalSeparator()
+         Generating method body for defCurrencyCode()
+         Generating method body for exponentialSymbol()
+         Generating method body for globalCurrencyPattern()
+         Generating method body for groupingSeparator()
+         Generating method body for infinity()
+         Generating method body for minusSign()
+         Generating method body for monetaryGroupingSeparator()
+         Generating method body for monetarySeparator()
+         Generating method body for percent()
+         Generating method body for percentPattern()
+         Generating method body for perMill()
+         Generating method body for plusSign()
+         Generating method body for scientificPattern()
+         Generating method body for simpleCurrencyPattern()
+         Generating method body for zeroDigit()
+   Adding '3' new generated units
+      Compiling...
+         Compilation completed in 0.00 seconds
+      Removing invalidated units

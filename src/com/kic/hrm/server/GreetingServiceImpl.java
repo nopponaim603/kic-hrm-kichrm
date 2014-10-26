@@ -10,6 +10,7 @@ import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.LeaveTaskService;
 import com.kic.hrm.data.model.StartTimeLog;
+import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.data.model.StartTimeLogService;
 import com.kic.hrm.server.LoginServiceImpl.field;
@@ -39,6 +40,7 @@ import org.w3c.dom.NodeList;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonToken;
 import com.google.gson.JsonParseException;
+import com.google.gwt.geolocation.client.Position.Coordinates;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
@@ -177,8 +179,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		// MapsEngine engine = BuildMapAPIbyTOKEN(testParametor);
 		// TestgetLocation(testParametor);
 
-		testParametor = getAddress(testParametor);
-		System.out.println("Pass getAddress : " + testParametor);
+		//testParametor = getAddress(testParametor);
+		//System.out.println("Pass getAddress : " + testParametor);
 		/*
 		 * try { //readFeaturesFromTable(engine); } catch (IOException e) { //
 		 * TODO Auto-generated catch block e.printStackTrace(); }
@@ -407,11 +409,76 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	@Override
+	public boolean LoginAttendance(LoginInfo userInfo,type leaveType,String address) {
+		// TODO Auto-generated method stub
+		System.out.println("Employee email: " + userInfo.getEmailAddress());
+		Employee m_employee = ProfileServiceImpl.getProfile(userInfo.getEmailAddress());
+		System.out.println("Employee : " + m_employee + " : " + userInfo.getEmailAddress());
+		if(m_employee != null) {
+			timetable m_timetable = LoginServiceImpl.convertRoleToTimeTable(userInfo.getEmployeeRole());
+			type m_leaveType = leaveType;
+			
+			//Check Area
+			if(leaveType == leaveType.Office) {
+				// CAMT Lat Long : 18.8005192,98.9507971
+				// Home to camt =  7.378121432299594 : 7.3 KM
+				double[] CAMTPosition = {(double) 18.8005192 , (double) 98.9507971};
+				double[] currentPosition = { userInfo.getCurrentPosition().getLatitude() , userInfo.getCurrentPosition().getLongitude()};
+				
+				double[] gps1 = { 13.7569891624617, 100.6189513206482};
+				double[] gps2 = { 13.7569991624617, 100.6189613206482};
+				
+				//double
+				double Distance = findDistance(CAMTPosition,currentPosition);
+				System.out.println("Distance : " + Distance);
+				
+				//Distance lass than 70 Meter
+				if(Distance <= 0.07) {
+					
+					// On Office
+					StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee, m_timetable, m_leaveType,address);
+					
+					//Add DataStartTimeLogService
+					Entity d_OnWebStartTimeLog = null;
+					d_OnWebStartTimeLog = DataStoreControl.CreateEntity(StartTimeLog.class);
+					d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, OnWebStartTimeLog);
+					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
+					
+					return true;
+				}else {
+					return false;					
+				}	
+			}else {
+				// On Site
+				StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee, m_timetable, m_leaveType,address);
+				
+				//Add DataStartTimeLogService
+				Entity d_OnWebStartTimeLog = null;
+				d_OnWebStartTimeLog = DataStoreControl.CreateEntity(StartTimeLog.class);
+				d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, OnWebStartTimeLog);
+				DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	void SaveStartTimeLogToDataStore() {
+		
+	}
+
+	@Override
+	public String getAddressWithLatLong(String latLong) {
+		// TODO Auto-generated method stub
+		return getAddress(latLong);
+	}
+	
 	String getAddress(String latLong) {
 		try {
 			String combile = "http://maps.googleapis.com/maps/api/geocode/xml?latlng="
 					+ latLong + "&sensor=true";
-			System.out.println("Address COmbile : " + combile);
+			//System.out.println("Address COmbile : " + combile);
 			URL mapsUrl = new URL(combile);
 			InputStream openStream = mapsUrl.openStream();
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -420,7 +487,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 			NodeList formattedAddress = doc
 					.getElementsByTagName("formatted_address");
-			System.out.println("Formatted : " + formattedAddress.getLength());
+			//System.out.println("Formatted : " + formattedAddress.getLength());
 
 			Element formattedAddressElement = (Element) formattedAddress
 					.item(0);
@@ -430,4 +497,26 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			return null;
 		}
 	}
+	
+	double findDistance(double[] gps1,double[] gps2){
+		double R = 6371;
+		double latitudeDistance1 = gps1[0]; //a1
+		double latitudeDistance2 = gps2[0]; //a2
+		  
+		double longitudeDistance1 = gps1[1]; //b1
+		double longitudeDistance2 = gps2[1]; //b2
+		
+		double latitudeDistanceRad = Math.toRadians(latitudeDistance1 - latitudeDistance2);
+		double longitudeDistanceRad = Math.toRadians(longitudeDistance1 - longitudeDistance2);
+		
+		double a = Math.sin(latitudeDistanceRad/2) * Math.sin(latitudeDistanceRad/2) +
+			      Math.cos(Math.toRadians(latitudeDistance1)) * Math.cos(Math.toRadians(latitudeDistance2)) *
+			      Math.sin(longitudeDistanceRad/2) * Math.sin(longitudeDistanceRad/2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		double d = R * c;
+		
+		return d;
+	}
+		 
+
 }
