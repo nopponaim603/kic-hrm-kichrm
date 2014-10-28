@@ -1,10 +1,15 @@
 package com.kic.hrm.data.model;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
@@ -12,8 +17,13 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.kic.hrm.data.model.StartTimeLog.property;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.data.model.StartTimeLog.type;
+import com.kic.hrm.server.GreetingServiceImpl;
 
 public class StartTimeLogService {
+	
+	private static final Logger log = Logger
+			.getLogger(StartTimeLogService.class.getName());
+	
 	private final static int MAPWORKID = 0;
 	private final static int MAPNAME = 1;
 	private final static int MAPDATE = 2;
@@ -112,10 +122,9 @@ public class StartTimeLogService {
 
 		startTime.setM_name((String) entity.getProperty(property.name
 				.toString()));
-		startTime
-				.setM_date((Date) entity.getProperty(property.date.toString()));
+		startTime.setM_date((Date) entity.getProperty(property.date.toString()));
 		startTime.setM_timeTable(timetable.valueOf(entity.getProperty(
-				property.date.toString()).toString()));
+				property.timetable.toString()).toString()));
 		startTime.setM_clockIn((Date) entity.getProperty(property.clockin
 				.toString()));
 		startTime.setM_clockOut((Date) entity.getProperty(property.clockout
@@ -166,17 +175,33 @@ public class StartTimeLogService {
 		StartTimeLog m_startTimelog = new StartTimeLog();
 		m_startTimelog.setM_employeeID(employee.getM_employeeID());
 		Date time = new Date();
+		// + 07.00 
+		log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset());
+		//(timeZone = 0) | Thai = -420
+		if(time.getTimezoneOffset() == 0)
+			time.setHours(time.getHours() + 7);
 		
-		time.setTime((time.getTime() - Date.UTC(time.getYear(),
-                       time.getMonth(),
-                       time.getDate(),
-                       time.getHours(),
-                       time.getMinutes(),
-                       time.getSeconds())) / (60 * 1000));
-		
-		System.out.println(time);
-		
+		//SimpleDateFormat curFormater = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+	   // curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
+	    
+	    /*
+	    time.setHours(0);
+		time.setMinutes(0);
+		time.setSeconds(0);*/
+		/*
+	    try {
+			Date timeInZone = (Date)curFormater.parse(curFormater.format(time));
+			
+			System.out.println(timeInZone + " : " + curFormater.format(timeInZone));
+			log.log(Level.SEVERE,"Time : " + time.toString() + " | TimeZone " + timeInZone.toString() + " : currentFormater " + curFormater.format(timeInZone));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
+				
 		m_startTimelog.setM_name(employee.getM_name());
+		
 		m_startTimelog.setM_date(time);
 		m_startTimelog.setM_timeTable(m_timetable);
 		m_startTimelog.setM_clockIn(time);
@@ -198,6 +223,7 @@ public class StartTimeLogService {
 		Date LateTime = new Date();
 		LateTime.setTime(deltaTime);
 		//time.get
+		m_startTimelog.setM_clockLate(LateTime);
 		m_startTimelog.setM_type(m_type);
 		m_startTimelog.setM_Note(address);
 
