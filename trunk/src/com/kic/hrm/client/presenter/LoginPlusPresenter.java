@@ -102,9 +102,8 @@ public class LoginPlusPresenter {
 								}
 
 								@Override
-								public void onSuccess(final LoginInfo loginInfo) {
-									System.out
-											.println("C:LP| Google H : on Success. ");
+								public void onSuccess(LoginInfo loginInfo) {
+									System.out.println("C:LP| Google H : on Success. ");
 
 									// System.out.println("email : " +
 									// loginInfo.getEmailAddress());
@@ -146,6 +145,7 @@ public class LoginPlusPresenter {
 									// userEmail.append(result.getEmailAddress());
 									
 									System.out.println(loginInfo.getEmailAddress());
+									
 									if(loginInfo.getEmployeeRole()== role.Guest)
 										eventBus.fireEvent(new guiGuestEvent());
 									else eventBus.fireEvent(new guiMemberEvent());

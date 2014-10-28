@@ -1,6 +1,8 @@
 package com.kic.hrm.client.presenter;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
@@ -19,6 +21,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.kic.hrm.client.AppController;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.businesslogic.ConditionHR;
 import com.kic.hrm.client.businesslogic.ConditionLeader;
@@ -26,6 +29,7 @@ import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.StartTimeLog.type;
+import com.kic.hrm.server.GreetingServiceImpl;
 import com.kic.hrm.shared.GeoPosition;
 import com.kic.hrm.shared.LoginInfo;
 
@@ -47,19 +51,27 @@ public class NewPresenter implements Presenter {
 
 		Widget asWidget();
 	}
-
+	
+	private static final Logger log = Logger
+			.getLogger(NewPresenter.class.getName());
+	
+	
 	private final GreetingServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;
 	private LoginInfo m_loginInfo;
-
+	//private AppController m_manager;
+	
 	public NewPresenter(GreetingServiceAsync rpcService,
-			HandlerManager eventBus, Display view, LoginInfo m_loginInfo) {
+			HandlerManager eventBus, Display view,LoginInfo m_loginInfo) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
+		
 		this.m_loginInfo = m_loginInfo;
+		//this.m_manager = m_manager;
+		
 		bind();
 
 	}
@@ -81,6 +93,8 @@ public class NewPresenter implements Presenter {
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				System.out.println("Check In with AppEngine.");
+				log.log(Level.SEVERE, "Client : " + m_loginInfo.getEmailAddress());
+				//log. ("Client : " + m_manager.getLoginPlus().getM_loginInfo().getEmailAddress().toString());
 				GetAddressGeoLocation(type.Office,m_loginInfo);
 				// eventBus.fireEvent(new gotoNewEvent());
 			}

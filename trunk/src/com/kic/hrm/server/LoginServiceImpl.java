@@ -109,7 +109,7 @@ public class LoginServiceImpl {
 			log.log(Level.SEVERE, e.getMessage());
 		}
 
-		final LoginInfo loginInfo = new LoginInfo();
+		LoginInfo loginInfo = new LoginInfo();
 		//System.out.println("New LoginInfo");
 		try {
 			JsonFactory f = new JsonFactory();
@@ -147,9 +147,9 @@ public class LoginServiceImpl {
 			e.printStackTrace();
 		}
 		
-		setupEmployeeData(loginInfo);
+		loginInfo = setupEmployeeData(loginInfo);
 		//loginInfo.setEmployeeID(setEmployeeIDbyEmail(loginInfo.getEmailAddress()));
-		System.out.println(" Role : " + loginInfo.getEmployeeRole().toString());
+		//System.out.println(" Role : " + loginInfo.getEmployeeRole().toString());
 		
 		return loginInfo;
 	}
@@ -165,7 +165,7 @@ public class LoginServiceImpl {
 		
 		return m_timetable;
 	}
-	private static void setupEmployeeData(LoginInfo loginInfo) {
+	private static LoginInfo setupEmployeeData(LoginInfo loginInfo) {
 		System.out.println("email : " + loginInfo.getEmailAddress());
 		//int employeeId = -1;
 		List<Employee> m_employeeS = EmployeeService.Clone(DataStoreControl.Query(Employee.class 
@@ -178,6 +178,8 @@ public class LoginServiceImpl {
 			loginInfo.setEmployeeID( m_employeeS.get(0).getM_employeeID());
 			loginInfo.setEmployeeRole(m_employeeS.get(0).getM_role());
 		}
+		
+		return loginInfo;
 	}
 	
 	private static int setEmployeeIDbyEmail(String emailAddress) {

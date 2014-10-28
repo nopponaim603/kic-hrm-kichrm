@@ -166,6 +166,16 @@ public class StartTimeLogService {
 		StartTimeLog m_startTimelog = new StartTimeLog();
 		m_startTimelog.setM_employeeID(employee.getM_employeeID());
 		Date time = new Date();
+		
+		time.setTime((time.getTime() - Date.UTC(time.getYear(),
+                       time.getMonth(),
+                       time.getDate(),
+                       time.getHours(),
+                       time.getMinutes(),
+                       time.getSeconds())) / (60 * 1000));
+		
+		System.out.println(time);
+		
 		m_startTimelog.setM_name(employee.getM_name());
 		m_startTimelog.setM_date(time);
 		m_startTimelog.setM_timeTable(m_timetable);
