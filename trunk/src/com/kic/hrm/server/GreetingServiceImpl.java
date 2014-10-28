@@ -120,12 +120,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		LoginInfo userInfo = LoginServiceImpl.loginDetails(token);
 		log("Login Details see email : " + userInfo.getEmailAddress());
 		if (ProfileServiceImpl.isMember(userInfo.getEmailAddress())) {
-			System.out.println("Email : " + userInfo.getEmailAddress() +" is Member.");
+			System.out.println("Email : " + userInfo.getEmailAddress()
+					+ " is Member.");
 			return userInfo;
 		} else {
 			userInfo.setEmployeeRole(role.Guest);
-			userInfo.setName(role.Guest.toString() +" " + userInfo.getName());
-			System.out.println("Email : " + userInfo.getEmailAddress() +" is Guest!");
+			userInfo.setName(role.Guest.toString() + " " + userInfo.getName());
+			System.out.println("Email : " + userInfo.getEmailAddress()
+					+ " is Guest!");
 			return userInfo;
 		}
 	}
@@ -180,8 +182,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		// MapsEngine engine = BuildMapAPIbyTOKEN(testParametor);
 		// TestgetLocation(testParametor);
 
-		//testParametor = getAddress(testParametor);
-		//System.out.println("Pass getAddress : " + testParametor);
+		// testParametor = getAddress(testParametor);
+		// System.out.println("Pass getAddress : " + testParametor);
 		/*
 		 * try { //readFeaturesFromTable(engine); } catch (IOException e) { //
 		 * TODO Auto-generated catch block e.printStackTrace(); }
@@ -411,81 +413,125 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public boolean LoginAttendance(LoginInfo userInfo,type leaveType,String address) {
+	public boolean LoginAttendance(LoginInfo userInfo, type leaveType,
+			String address) {
 		// TODO Auto-generated method stub
 		System.out.println("Employee email: " + userInfo.getEmailAddress());
 		log("Employee email: " + userInfo.getEmailAddress());
-		Employee m_employee = ProfileServiceImpl.getProfile(userInfo.getEmailAddress());
-		System.out.println("Employee : " + m_employee + " : " + userInfo.getEmailAddress());
+		Employee m_employee = ProfileServiceImpl.getProfile(userInfo
+				.getEmailAddress());
+		System.out.println("Employee : " + m_employee + " : "
+				+ userInfo.getEmailAddress());
 		log("Employee : " + m_employee + " : " + userInfo.getEmailAddress());
-		if(m_employee != null) {
+		if (m_employee != null) {
 			log("Employee is Not NULL!!.");
-			timetable m_timetable = LoginServiceImpl.convertRoleToTimeTable(userInfo.getEmployeeRole());
+			timetable m_timetable = LoginServiceImpl
+					.convertRoleToTimeTable(userInfo.getEmployeeRole());
 			type m_leaveType = leaveType;
-			
-			//Check Area
-			if(leaveType == leaveType.Office) {
+
+			// Check Area
+			if (leaveType == leaveType.Office) {
 				// CAMT Lat Long : 18.8005192,98.9507971
-				// Home to camt =  7.378121432299594 : 7.3 KM
-				double[] CAMTPosition = {(double) 18.8005192 , (double) 98.9507971};
-				double[] currentPosition = { userInfo.getCurrentPosition().getLatitude() , userInfo.getCurrentPosition().getLongitude()};
-				
-				double[] gps1 = { 13.7569891624617, 100.6189513206482};
-				double[] gps2 = { 13.7569991624617, 100.6189613206482};
-				
-				//double
-				double Distance = findDistance(CAMTPosition,currentPosition);
+				// Home to camt = 7.378121432299594 : 7.3 KM
+				double[] CAMTPosition = { (double) 18.8005192,
+						(double) 98.9507971 };
+				double[] currentPosition = {
+						userInfo.getCurrentPosition().getLatitude(),
+						userInfo.getCurrentPosition().getLongitude() };
+
+				double[] gps1 = { 13.7569891624617, 100.6189513206482 };
+				double[] gps2 = { 13.7569991624617, 100.6189613206482 };
+
+				// double
+				double Distance = findDistance(CAMTPosition, currentPosition);
 				System.out.println("Distance : " + Distance);
 				log("Distance : " + Distance);
-				//Distance lass than 70 Meter
-				if(Distance <= 0.07) {
-					
+				// Distance lass than 70 Meter
+				if (Distance <= 0.07) {
+
 					// On Office
-					StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee, m_timetable, m_leaveType,address);
+					StartTimeLog OnWebStartTimeLog = StartTimeLogService
+							.Create(m_employee, m_timetable, m_leaveType,
+									address);
+
+					// One Day Save One Time
+					boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),OnWebStartTimeLog.getM_date());
 					
-					//One Day Save One Time
-					
-					//Add DataStartTimeLogService
+					// Add DataStartTimeLogService
+					if (!isLogin) {
 					Entity d_OnWebStartTimeLog = null;
-					d_OnWebStartTimeLog = DataStoreControl.CreateEntity(StartTimeLog.class);
-					d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, OnWebStartTimeLog);
+					d_OnWebStartTimeLog = DataStoreControl
+							.CreateEntity(StartTimeLog.class);
+					d_OnWebStartTimeLog = StartTimeLogService.FlashData(
+							d_OnWebStartTimeLog, OnWebStartTimeLog);
+					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
+					}
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				// On Site
+				StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(
+						m_employee, m_timetable, m_leaveType, address);
+
+				// One Day Save One Time
+				boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),OnWebStartTimeLog.getM_date());
+				
+				// Add DataStartTimeLogService
+				if (!isLogin) {
+					
+					Entity d_OnWebStartTimeLog = null;
+					d_OnWebStartTimeLog = DataStoreControl
+							.CreateEntity(StartTimeLog.class);
+					d_OnWebStartTimeLog = StartTimeLogService.FlashData(
+							d_OnWebStartTimeLog, OnWebStartTimeLog);
 					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
 					
-					return true;
-				}else {
-					return false;					
-				}	
-			}else {
-				// On Site
-				StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee, m_timetable, m_leaveType,address);
-				
-				//One Day Save One Time
-				/*
-				Filter currentUser = new FilterPredicate(
-						StartTimeLog.property.employeeID.toString(),
-						FilterOperator.EQUAL, m_employee.getM_employeeID());
-				List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
-						SortDirection.DESCENDING, currentUser);
-				List<StartTimeLog> m_starttimelog = StartTimeLogService
-						.Clone(temp_entity);
-				
-				*/
-				
-				//Add DataStartTimeLogService
-				/*
-				Entity d_OnWebStartTimeLog = null;
-				d_OnWebStartTimeLog = DataStoreControl.CreateEntity(StartTimeLog.class);
-				d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, OnWebStartTimeLog);
-				DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
-				*/
+					log.log(Level.SEVERE , "Save Done.");
+				}
+
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	void SaveStartTimeLogToDataStore() {
+	boolean OneTimeLogin(int employeeID,Date TodayLogin) {
+		boolean isLogin = false;
+		log.log(Level.SEVERE, "Employee ID : " + employeeID);
+		Filter currentUser = new FilterPredicate(
+				StartTimeLog.property.employeeID.toString(),
+				FilterOperator.EQUAL, employeeID);
+		List<Entity> temp_entity = DataStoreControl.Query(
+				StartTimeLog.class, SortDirection.DESCENDING,
+				currentUser);
+		List<StartTimeLog> m_starttimelog = StartTimeLogService
+				.Clone(temp_entity);
+
 		
+		for (StartTimeLog m_start : m_starttimelog) {
+			// m_start.getM_date()
+			if (CollisionDate(TodayLogin,m_start.getM_date()))
+				isLogin = true;
+		}
+		log.log(Level.SEVERE,"Is Login : " + isLogin);
+		
+		return isLogin;
+	}
+
+	boolean CollisionDate(Date thisIsToday, Date collisiontDate) {
+		boolean isCollision = false;
+
+		if (thisIsToday.getYear() == collisiontDate.getYear()
+				&& thisIsToday.getMonth() == collisiontDate.getMonth()
+				&& thisIsToday.getDay() == collisiontDate.getDay())
+			isCollision = true;
+
+		return isCollision;
+	}
+
+	void SaveStartTimeLogToDataStore() {
+
 	}
 
 	@Override
@@ -493,12 +539,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		// TODO Auto-generated method stub
 		return getAddress(latLong);
 	}
-	
+
 	String getAddress(String latLong) {
 		try {
 			String combile = "http://maps.googleapis.com/maps/api/geocode/xml?latlng="
 					+ latLong + "&sensor=true";
-			//System.out.println("Address COmbile : " + combile);
+			// System.out.println("Address COmbile : " + combile);
 			URL mapsUrl = new URL(combile);
 			InputStream openStream = mapsUrl.openStream();
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -507,7 +553,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 			NodeList formattedAddress = doc
 					.getElementsByTagName("formatted_address");
-			//System.out.println("Formatted : " + formattedAddress.getLength());
+			// System.out.println("Formatted : " +
+			// formattedAddress.getLength());
 
 			Element formattedAddressElement = (Element) formattedAddress
 					.item(0);
@@ -517,26 +564,30 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			return null;
 		}
 	}
-	
-	double findDistance(double[] gps1,double[] gps2){
+
+	double findDistance(double[] gps1, double[] gps2) {
 		double R = 6371;
-		double latitudeDistance1 = gps1[0]; //a1
-		double latitudeDistance2 = gps2[0]; //a2
-		  
-		double longitudeDistance1 = gps1[1]; //b1
-		double longitudeDistance2 = gps2[1]; //b2
-		
-		double latitudeDistanceRad = Math.toRadians(latitudeDistance1 - latitudeDistance2);
-		double longitudeDistanceRad = Math.toRadians(longitudeDistance1 - longitudeDistance2);
-		
-		double a = Math.sin(latitudeDistanceRad/2) * Math.sin(latitudeDistanceRad/2) +
-			      Math.cos(Math.toRadians(latitudeDistance1)) * Math.cos(Math.toRadians(latitudeDistance2)) *
-			      Math.sin(longitudeDistanceRad/2) * Math.sin(longitudeDistanceRad/2);
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		double latitudeDistance1 = gps1[0]; // a1
+		double latitudeDistance2 = gps2[0]; // a2
+
+		double longitudeDistance1 = gps1[1]; // b1
+		double longitudeDistance2 = gps2[1]; // b2
+
+		double latitudeDistanceRad = Math.toRadians(latitudeDistance1
+				- latitudeDistance2);
+		double longitudeDistanceRad = Math.toRadians(longitudeDistance1
+				- longitudeDistance2);
+
+		double a = Math.sin(latitudeDistanceRad / 2)
+				* Math.sin(latitudeDistanceRad / 2)
+				+ Math.cos(Math.toRadians(latitudeDistance1))
+				* Math.cos(Math.toRadians(latitudeDistance2))
+				* Math.sin(longitudeDistanceRad / 2)
+				* Math.sin(longitudeDistanceRad / 2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		double d = R * c;
-		
+
 		return d;
 	}
-		 
 
 }
