@@ -118,6 +118,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public LoginInfo loginDetails(String token) {
 		LoginInfo userInfo = LoginServiceImpl.loginDetails(token);
+		log("Login Details see email : " + userInfo.getEmailAddress());
 		if (ProfileServiceImpl.isMember(userInfo.getEmailAddress())) {
 			System.out.println("Email : " + userInfo.getEmailAddress() +" is Member.");
 			return userInfo;
@@ -413,9 +414,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public boolean LoginAttendance(LoginInfo userInfo,type leaveType,String address) {
 		// TODO Auto-generated method stub
 		System.out.println("Employee email: " + userInfo.getEmailAddress());
+		log("Employee email: " + userInfo.getEmailAddress());
 		Employee m_employee = ProfileServiceImpl.getProfile(userInfo.getEmailAddress());
 		System.out.println("Employee : " + m_employee + " : " + userInfo.getEmailAddress());
+		log("Employee : " + m_employee + " : " + userInfo.getEmailAddress());
 		if(m_employee != null) {
+			log("Employee is Not NULL!!.");
 			timetable m_timetable = LoginServiceImpl.convertRoleToTimeTable(userInfo.getEmployeeRole());
 			type m_leaveType = leaveType;
 			
@@ -432,12 +436,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				//double
 				double Distance = findDistance(CAMTPosition,currentPosition);
 				System.out.println("Distance : " + Distance);
-				
+				log("Distance : " + Distance);
 				//Distance lass than 70 Meter
 				if(Distance <= 0.07) {
 					
 					// On Office
 					StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee, m_timetable, m_leaveType,address);
+					
+					//One Day Save One Time
 					
 					//Add DataStartTimeLogService
 					Entity d_OnWebStartTimeLog = null;
@@ -453,11 +459,25 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				// On Site
 				StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee, m_timetable, m_leaveType,address);
 				
+				//One Day Save One Time
+				/*
+				Filter currentUser = new FilterPredicate(
+						StartTimeLog.property.employeeID.toString(),
+						FilterOperator.EQUAL, m_employee.getM_employeeID());
+				List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
+						SortDirection.DESCENDING, currentUser);
+				List<StartTimeLog> m_starttimelog = StartTimeLogService
+						.Clone(temp_entity);
+				
+				*/
+				
 				//Add DataStartTimeLogService
+				/*
 				Entity d_OnWebStartTimeLog = null;
 				d_OnWebStartTimeLog = DataStoreControl.CreateEntity(StartTimeLog.class);
 				d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, OnWebStartTimeLog);
 				DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
+				*/
 				return true;
 			}
 		}

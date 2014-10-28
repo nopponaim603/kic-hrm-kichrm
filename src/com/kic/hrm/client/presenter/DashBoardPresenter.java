@@ -46,8 +46,6 @@ public class DashBoardPresenter implements Presenter {
 
 		HasClickHandlers getAdminButton();
 
-
-
 		Button getButtonNew();
 
 		Button getButtonLeave();
@@ -66,7 +64,7 @@ public class DashBoardPresenter implements Presenter {
 	private final HandlerManager eventBus;
 	private final Display display;
 	//Bug This Page is First m_loginInfo is Null.
-	//private LoginInfo m_loginInfo;
+	
 
 	public DashBoardPresenter(GreetingServiceAsync rpcService,
 			HandlerManager eventBus, Display view) {
@@ -131,9 +129,6 @@ public class DashBoardPresenter implements Presenter {
 				display.getButtonNew().setEnabled(true);
 				display.getButtonLeave().setEnabled(true);
 				display.getButtonReport().setEnabled(true);
-
-				
-
 				// Admin
 				display.getButtonAdmin().setEnabled(true);
 			}

@@ -1,2 +1,0 @@
-serviceClass: com.kic.hrm.client.GreetingService
-path: D72026ECAD29D1899FD2A7ECA2EAC9DE.gwt.rpc

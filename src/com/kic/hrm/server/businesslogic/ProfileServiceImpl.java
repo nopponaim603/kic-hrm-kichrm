@@ -2,6 +2,8 @@ package com.kic.hrm.server.businesslogic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
@@ -12,9 +14,13 @@ import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.EmployeeQuotaService;
 import com.kic.hrm.data.model.EmployeeService;
 import com.kic.hrm.server.DataStoreControl;
+import com.kic.hrm.server.GreetingServiceImpl;
 
 public class ProfileServiceImpl {
 
+	private static final Logger log = Logger
+			.getLogger(GreetingServiceImpl.class.getName());
+	
 	public static Employee addProfile(Employee userEmployee,
 			EmployeeQuota userQuota, state registerMode) {
 		// TODO Auto-generated method stub
@@ -103,11 +109,14 @@ public class ProfileServiceImpl {
 		// System.out.println("Rusults Size " +results.size());
 		for (Employee em : results) {
 			// System.out.println("Email : " + em.getM_email());
+			log.log(Level.SEVERE, "Data Email " + em.getM_email() + " : input Email " + email);	
 			if (em.getM_email().equalsIgnoreCase(email)) {
+				log.log(Level.SEVERE, "Finded.");
 				// System.out.println("This's email :" + email + " Member.");
 				return true;
 			}
 		}
+		log.log(Level.SEVERE, "Could not Finded.");
 		return false;
 	}
 

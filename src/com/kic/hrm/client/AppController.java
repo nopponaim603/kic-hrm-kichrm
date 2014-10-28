@@ -49,7 +49,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	private HasWidgets container;
 
 	private final LoginPlusPresenter m_loginPlus;
-
+	public LoginPlusPresenter getLoginPlus() {
+		return m_loginPlus;
+	}
 	public AppController(GreetingServiceAsync rpcService,
 			HandlerManager eventBus) {
 		// TODO Auto-generated constructor stub
