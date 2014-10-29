@@ -1,5 +1,6 @@
 package com.kic.hrm.client;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import com.google.api.gwt.oauth2.client.Auth;
@@ -7,38 +8,31 @@ import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Label;
+
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.mapsengine.MapsEngine;
-import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
-import com.google.api.services.mapsengine.model.Feature;
-import com.google.api.services.mapsengine.model.FeaturesListResponse;
-import com.google.api.services.mapsengine.model.GeoJsonPoint;
 
-import java.io.IOException;
+import com.google.api.gwt.client.GoogleApiRequestTransport;
+import com.google.api.gwt.client.OAuth2Login;
+import com.google.api.gwt.services.calendar.shared.Calendar;
+import com.google.api.gwt.services.calendar.shared.Calendar.CalendarAuthScope;
+import com.google.api.gwt.services.calendar.shared.Calendar.CalendarListContext.ListRequest.MinAccessRole;
+import com.google.api.gwt.services.calendar.shared.Calendar.EventsContext;
+import com.google.api.gwt.services.calendar.shared.model.CalendarList;
+import com.google.api.gwt.services.calendar.shared.model.Event;
+import com.google.api.gwt.services.calendar.shared.model.EventDateTime;
+import com.google.api.gwt.shared.EmptyResponse;
 
+import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.i18n.client.DateTimeFormat;
 
-
-
-//import com.google.gwt.geolocation.client.Coordinates;
-import com.google.gwt.geolocation.client.Geolocation;
-import com.google.gwt.geolocation.client.Geolocation.PositionOptions;
-import com.google.gwt.geolocation.client.Position;
-import com.google.gwt.geolocation.client.Position.Coordinates;
-//import com.google.gwt.geolocation.client.PositionCallback;
-import com.google.gwt.geolocation.client.PositionError;
+import com.google.web.bindery.requestfactory.shared.Receiver;
 
 public class CloudHRM implements EntryPoint {
 
@@ -96,7 +90,8 @@ public class CloudHRM implements EntryPoint {
 
 	private static final String MapsEngine_SCOPES = "https://www.googleapis.com/auth/mapsengine";
 	@SuppressWarnings("unused")
-	private static String CLIENT_ID = "392232398516-0kkqbokr4hkp3ou3s6spr9u78r1ens93.apps.googleusercontent.com";
+	private static String CLIENT_ID = "392232398516-hdd0r2biksrovka8a6v93roambr2b54r.apps.googleusercontent.com";
+	private static String CLIENT_ID_Service_Account = "392232398516-7nei78mpn8rl47pknpofrv4rtmt0id96.apps.googleusercontent.com";
 	@SuppressWarnings("unused")
 	private static String CLIENT_SECRET = "ZGNTRofblwZ3TTnlgJ6N7eyE";
 
@@ -110,6 +105,8 @@ public class CloudHRM implements EntryPoint {
 
 	// TODO #05: add constants for OAuth2 (don't forget to update
 	// GOOGLE_CLIENT_ID)
+	private static final String API_KEY = "AIzaSyAr5ZzZtmqAaAwhqQAgHmnrkzp0tsD7D3g";
+	
 	private static final Auth AUTH = Auth.get();
 	// TODO #05:> end
 
@@ -126,6 +123,9 @@ public class CloudHRM implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
+	
+	private Calendar calendar = GWT.create(Calendar.class);;
+	
 	public void onModuleLoad() {
 
 		System.out.println("Client HRM Start here.");
@@ -139,129 +139,124 @@ public class CloudHRM implements EntryPoint {
 
 		// test
 		// Register(eventBus);
-		//QuickTest(rpcService);
+		QuickTest(rpcService);
 		// addGoogleAuth(rpcService);
 
 	}
 
+	
+	
 	@SuppressWarnings("unused")
 	private void QuickTest(final GreetingServiceAsync rpcService) {
+		calendar.initialize(new SimpleEventBus(),
+		        new GoogleApiRequestTransport(APPLICATION_NAME, API_KEY));
+		
 		Button button = new Button("QuickTest");
+		
 		button.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				 OAuth2Login.get().authorize(GOOGLE_CLIENT_ID, CalendarAuthScope.CALENDAR,
+					        new Callback<Void, Exception>() {
+					          @Override
+					          public void onSuccess(Void v) {
+					            getCalendarId();
+					          }
 
-				GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-					public void onUncaughtException(Throwable e) {
-						RootPanel.get().add(
-								new Label("Uncaught exception: " + e));
-					}
-				});
-				final VerticalPanel main = new VerticalPanel();
-				RootPanel.get().add(main);
-
-				main.add(new Label("Geolocation provider: "
-						+ com.google.gwt.geolocation.client.Geolocation
-								.getIfSupported()));
-				// main.add(new Label("GWT strongname: " +
-				// GWT.getPermutationStrongName())); // GWT2.0!
-
-				Label l1 = new Label("Obtaining Geolocation...");
-				main.add(l1);
-				if (!com.google.gwt.geolocation.client.Geolocation
-						.isSupported()) {
-					l1.setText("Obtaining Geolocation FAILED! Geolocation API is not supported.");
-					return;
-				}
-				
-				final Geolocation geo = Geolocation.getIfSupported();
-				if (geo == null) {
-					l1.setText("Obtaining Geolocation FAILED! Object is null.");
-					return;
-				}
-				l1.setText("Obtaining Geolocation DONE!");
-				 obtainPosition(main, geo , rpcService);
-
+					          @Override
+					          public void onFailure(Exception e) {
+					            GWT.log("Auth failed:", e);
+					          }
+					        });
 			}
 		});
 
 		RootPanel.get().add(button);
 	}
+	
+	/** Gets the calendar ID of some calendar that the user can write to. */
+	  private void getCalendarId() {
+	    // We need to find an ID of a calendar that we have permission to write events to. We'll just
+	    // pick the first one that gets returned, and we will delete the event when we're done.
+	    calendar.calendarList().list().setMinAccessRole(MinAccessRole.OWNER)
+	        .fire(new Receiver<CalendarList>() {
+	          @Override
+	          public void onSuccess(CalendarList list) {
+	            String calendarId = list.getItems().get(0).getId();
 
-	private void obtainPosition(final VerticalPanel main, Geolocation geo,final GreetingServiceAsync rpcService) {
-		final Label l2 = new Label("Obtaining position (timeout: 15 sec)...");
-		main.add(l2);
-		
-		geo.getCurrentPosition(new Callback<Position, PositionError>() {
-			
-			@Override
-			public void onSuccess(Position result) {
-				// TODO Auto-generated method stub
-				l2.setText("Obtaining position DONE - acquired at "
-						+ result.getTimestamp());
-				Coordinates c = result.getCoordinates();
-				main.add(new Label("lat, lon: " + c.getLatitude() + ", "
-						+ c.getLongitude()));
-				main.add(new Label("Accuracy (in meters): " + c.getAccuracy()));
-				main.add(new Label("Altitude: "
-						+ (c.getAltitude() )));
-				main.add(new Label("Altitude accuracy (in meters): "
-						+ (c.getAltitudeAccuracy()
-								)));
-				main.add(new Label("Heading: "
-						+ (c.getHeading()  )));
-				main.add(new Label("Speed: "
-						+ ( c.getSpeed() )));
-				
-				String latlong = c.getLatitude() + "," + c.getLongitude();
-				rpcService.QuickTest(latlong, new AsyncCallback<String>() {
+	            insertEvent(calendarId);
+	          }
+	        });
+	  }
+	
+	  /** Insert a new event for the given calendar ID. */
+	  private void insertEvent(final String calendarId) {
+	    String today = DateTimeFormat.getFormat("yyyy-MM-dd").format(new Date());
+	    EventsContext ctx = calendar.events();
+	    Event event = ctx.create(Event.class)
+	        .setSummary("Learn about the Google API GWT client library")
+	        .setStart(ctx.create(EventDateTime.class).setDateTime(today))
+	        .setEnd(ctx.create(EventDateTime.class).setDateTime(today));
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
+	    // Note that the EventsContext used to insert the Event has to be the same one used to create
+	    // it.
+	    ctx.insert(calendarId, event).fire(new Receiver<Event>() {
+	      @Override
+	      public void onSuccess(Event inserted) {
+	        // The event has been inserted.
 
-					@Override
-					public void onSuccess(String result) {
-						// TODO Auto-generated method stub
-						main.add(new Label("Addess: "
-								+ result ));
-					}
-				});
-			}
-			
-			@Override
-			public void onFailure(PositionError reason) {
-				// TODO Auto-generated method stub
-				String message = "";
-				switch (reason.getCode()) {
-				case PositionError.UNKNOWN_ERROR:
-					message = "Unknown Error";
-					break;
-				case PositionError.PERMISSION_DENIED:
-					message = "Permission Denied";
-					break;
-				case PositionError.POSITION_UNAVAILABLE:
-					message = "Position Unavailable";
-					break;
-				case PositionError.TIMEOUT:
-					message = "Time-out";
-					break;
-				default:
-					message = "Unknown error code.";
-				}
-				l2.setText("Obtaining position FAILED! Message: '"
-						+ reason.getMessage() + "', code: " + reason.getCode()
-						+ " (" + message + ")");
-			}
-		});
-		
-		
-	}
+	        // Now we'll demonstrate retrieving it and updating it.
+	        String eventId = inserted.getId();
+	        getEventForUpdate(calendarId, eventId);
+	      }
+	    });
+	  }
 
+	  /** Get an event for the purposes of updating it. */
+	  private void getEventForUpdate(final String calendarId, final String eventId) {
+	    final EventsContext ctx = calendar.events();
+	    ctx.get(calendarId, eventId).fire(new Receiver<Event>() {
+	      @Override
+	      public void onSuccess(Event event) {
+	        // Note that the EventsContext used to update the event has to be the same one that was
+	        // used to retrieve it.
+	        updateEvent(ctx, event, calendarId, eventId);
+	      }
+	    });
+	  }
+
+	  /** Update an event that was previously retrieved. */
+	  private void updateEvent(EventsContext ctx, Event event, final String calendarId,
+	      final String eventId) {
+	    String newSummary = "";
+	    while (newSummary.isEmpty()) {
+	      newSummary = Window.prompt("Provide a new name for the event", "");
+	    }
+	    Event editableEvent = ctx.edit(event); // Don't forget to call edit()
+	    editableEvent.setSummary(newSummary);
+	    ctx.update(calendarId, eventId, editableEvent).fire(new Receiver<Event> (){
+	      @Override
+	      public void onSuccess(Event updated) {
+	        // The event has been updated. Now we'll delete it.
+
+	        deleteEvent(calendarId, eventId);
+	      }
+	    });
+	  }
+
+	  /** Delete an event by its ID. */
+	  private void deleteEvent(String calendarId, String eventId) {
+	    calendar.events().delete(calendarId, eventId).fire(new Receiver<EmptyResponse>() {
+	      @Override
+	      public void onSuccess(EmptyResponse r) {
+	        // The event has been deleted. And we're done!
+	        Window.alert("Event deleted! Demo complete!");
+	      }
+	    });
+	  }
+	  
 	@SuppressWarnings("unused")
 	private void Register(final HandlerManager eventBus) {
 		Button button = new Button("Register");
@@ -442,6 +437,8 @@ public class CloudHRM implements EntryPoint {
 		RootPanel.get().add(button);
 	}
 
+	
+	
 	//
 	//
 	// // Add the nameField and sendButton to the RootPanel

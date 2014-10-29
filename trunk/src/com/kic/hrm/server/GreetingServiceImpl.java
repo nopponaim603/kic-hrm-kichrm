@@ -37,20 +37,17 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonToken;
-import com.google.gson.JsonParseException;
-import com.google.gwt.geolocation.client.Position.Coordinates;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+
+
+/*
 import com.google.api.services.mapsengine.MapsEngine;
 import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
 import com.google.api.services.mapsengine.model.Feature;
 import com.google.api.services.mapsengine.model.FeaturesListResponse;
 import com.google.api.services.mapsengine.model.GeoJsonPoint;
+*/
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -194,6 +191,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
 
+	/*
 	public static MapsEngine BuildMapAPIbyTOKEN(String token) {
 
 		HttpTransport httpTransport = new NetHttpTransport();
@@ -211,7 +209,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				.setApplicationName(APPLICATION_NAME).build();
 
 		return service;
-	}
+	}*/
 
 	@Override
 	public EmployeeQuota getEmployeeQuota(int employeeID) {
@@ -382,9 +380,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	static final String SAMPLE_TABLE_ID = "12421761926155747447-06672618218968397709";
 	static final String PUBLIC_API_KEY = "4f36c102c352bcec6c8ee5b40028dc8b6f6602a3";
 
-	public static void readFeaturesFromTable(MapsEngine me) throws IOException {
+	//public static void readFeaturesFromTable(MapsEngine me) throws IOException {
 		// Query the table for offices in WA that are within 100km of Perth.
-
+/*
 		FeaturesListResponse featResp = me
 				.tables()
 				.features()
@@ -409,8 +407,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				System.out.println("Only points are expected in this table!");
 				return;
 			}
-		}
-	}
+		}*/
+	//}
 
 	@Override
 	public boolean LoginAttendance(LoginInfo userInfo, type leaveType,
