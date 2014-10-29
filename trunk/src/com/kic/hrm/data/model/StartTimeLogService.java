@@ -176,11 +176,16 @@ public class StartTimeLogService {
 		m_startTimelog.setM_employeeID(employee.getM_employeeID());
 		Date time = new Date();
 		// + 07.00 
-		log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset());
+		log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() + " : hours :" + time.getHours());
 		//(timeZone = 0) | Thai = -420
-		if(time.getTimezoneOffset() == 0)
+		if(time.getTimezoneOffset() == 0) {
 			time.setHours(time.getHours() + 7);
-		
+			log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() + " : hours :" + time.getHours());
+		}
+		else {
+			log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() + " : hours :" + time.getHours());
+			
+		}
 		//SimpleDateFormat curFormater = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
 	   // curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
 	    

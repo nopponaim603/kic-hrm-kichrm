@@ -417,6 +417,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			String address) {
 		// TODO Auto-generated method stub
 		System.out.println("Employee email: " + userInfo.getEmailAddress());
+
 		log("Employee email: " + userInfo.getEmailAddress());
 		Employee m_employee = ProfileServiceImpl.getProfile(userInfo
 				.getEmailAddress());
@@ -427,6 +428,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 			log("Employee is Not NULL!!.");
 			timetable m_timetable = LoginServiceImpl
 					.convertRoleToTimeTable(userInfo.getEmployeeRole());
+
 			type m_leaveType = leaveType;
 
 			// Check Area
@@ -444,8 +446,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 				// double
 				double Distance = findDistance(CAMTPosition, currentPosition);
-				System.out.println("Distance : " + Distance);
-				log("Distance : " + Distance);
+				System.out.println("current Position : " + currentPosition[0] + " : " + currentPosition[1] + " | Distance : " + Distance);
+				log("current Position : " + currentPosition[0] + " : " + currentPosition[1] + " | Distance : " + Distance);
 				// Distance lass than 70 Meter
 				if (Distance <= 0.07) {
 
