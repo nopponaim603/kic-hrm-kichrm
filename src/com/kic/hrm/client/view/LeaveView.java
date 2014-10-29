@@ -19,6 +19,7 @@ import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.kic.hrm.client.presenter.LeavePresenter;
+import com.google.gwt.user.client.ui.TextBox;
 
 public class LeaveView extends Composite implements LeavePresenter.Display{
 	
@@ -89,6 +90,13 @@ public class LeaveView extends Composite implements LeavePresenter.Display{
 		DateBox dateBox_1 = new DateBox();
 		horizontalPanel.add(dateBox_1);
 		dateBox_1.setWidth("95%");
+		
+		Label lblNewLabel = new Label("Discription");
+		verticalPanel_1.add(lblNewLabel);
+		
+		TextBox textBox = new TextBox();
+		verticalPanel_1.add(textBox);
+		textBox.setWidth("98%");
 		
 		
 	    //  DateBox dateBox = new DateBox();

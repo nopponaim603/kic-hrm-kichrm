@@ -237,39 +237,7 @@ public class LeaveFormView extends Composite{
 		horizontalPanel_6.add(btnNewButton_6);
 		btnNewButton_6.setWidth("70px");
 		
-		DecoratedStackPanel decoratedStackPanel = new DecoratedStackPanel();
-		tabPanel.add(decoratedStackPanel, "New tab", true);
-		decoratedStackPanel.setSize("5cm", "3cm");
-		
-		Button btnNewButton = new Button("New button");
-		decoratedStackPanel.add(btnNewButton, "New widget", false);
-		btnNewButton.setSize("100%", "100%");
-		
-		Button btnNewButton_1 = new Button("New button");
-		decoratedStackPanel.add(btnNewButton_1, "New widget", false);
-		btnNewButton_1.setSize("100%", "100%");
-		
-		StackPanel stackPanel = new StackPanel();
-		tabPanel.add(stackPanel, "New tab", false);
-		stackPanel.setSize("5cm", "3cm");
-		
-		Button btnNewButton_2 = new Button("New button");
-		stackPanel.add(btnNewButton_2, "New widget", false);
-		btnNewButton_2.setSize("100%", "100%");
-		
-		Button btnNewButton_3 = new Button("New button");
-		stackPanel.add(btnNewButton_3, "New widget", false);
-		btnNewButton_3.setSize("100%", "100%");
-		
-		StackLayoutPanel stackLayoutPanel = new StackLayoutPanel(Unit.EM);
-		
-		Button btnNewButton_7 = new Button("New button");
-		stackLayoutPanel.add(btnNewButton_7, new HTML("New Widget"), 2.0);
-		
-		Button btnNewButton_8 = new Button("New button");
-		stackLayoutPanel.add(btnNewButton_8, new HTML("New Widget"), 2.0);
-		tabPanel.add(stackLayoutPanel, "New tab", false);
-		stackLayoutPanel.setSize("5cm", "3cm");
+
 	}
 	
 	@Override
