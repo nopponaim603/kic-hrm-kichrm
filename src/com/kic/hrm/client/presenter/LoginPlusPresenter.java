@@ -2,13 +2,17 @@ package com.kic.hrm.client.presenter;
 
 import java.util.logging.Logger;
 
+import com.google.api.gwt.client.GoogleApiRequestTransport;
+import com.google.api.gwt.client.OAuth2Login;
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -23,6 +27,15 @@ import com.kic.hrm.client.event.guiMemberEvent;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.shared.LoginInfo;
 import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
+
+import com.google.api.gwt.services.plus.shared.Plus;
+import com.google.api.gwt.services.plus.shared.Plus.ActivitiesContext.ListRequest.Collection;
+import com.google.api.gwt.services.plus.shared.Plus.PlusAuthScope;
+import com.google.api.gwt.services.plus.shared.model.Activity;
+import com.google.api.gwt.services.plus.shared.model.ActivityFeed;
+import com.google.api.gwt.services.plus.shared.model.Person;
+
+import com.google.web.bindery.requestfactory.shared.Receiver;
 
 public class LoginPlusPresenter {
 	private static final Logger log = Logger.getLogger(LoginPlusPresenter.class
@@ -59,6 +72,10 @@ public class LoginPlusPresenter {
 		RootPanel.get(LOGINPANEL).add(loginPanel);
 		userEmail = new StringBuilder();
 		m_loginInfo = new LoginInfo();
+
+		plus.initialize(new SimpleEventBus(), new GoogleApiRequestTransport(
+				CloudHRM.getAPPLICATION_NAME(), CloudHRM.getAPI_KEY()));
+
 	}
 
 	// TODO #07: add helper methods for Login, Logout and AuthRequest
@@ -77,93 +94,121 @@ public class LoginPlusPresenter {
 		signInLink.setTitle("Sign out");
 	}
 
+	private static final Plus plus = GWT.create(Plus.class);
+
+	/**
+	 * @param rpcService
+	 */
 	public void addGoogleAuthHelper(final GreetingServiceAsync rpcService) {
 
-		final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(),
-				CloudHRM.getGOOGLE_CLIENT_ID()).withScopes(CloudHRM
-				.getPLUS_ME_SCOPE());
+		/*
+		OAuth2Login.get().authorize(CloudHRM.getCLIENT_ID(),
+				PlusAuthScope.PLUS_ME, new Callback<Void, Exception>() {
+					@Override
+					public void onSuccess(Void v) {
+						getMe();
+					}
 
-		AUTH.login(req, new Callback<String, Throwable>() {
+					@Override
+					public void onFailure(Exception e) {
+						System.out.println(e.getMessage());
+					}
+				});
+		*/
+		
+		
+		  
+		  final AuthRequest req = new
+		  AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(),
+		  CloudHRM.getCLIENT_ID()).withScopes(CloudHRM
+		  .getPLUS_ME_SCOPE());
+		  
+		  AUTH.login(req, new Callback<String, Throwable>() {
+		  
+		  @Override public void onSuccess(String result) { // TODO
+		  //Auto-generated method stub if (!result.isEmpty()) { //
+		  System.out.println("result : " + result);
+		  
+		  rpcService.loginDetails(result, new AsyncCallback<LoginInfo>() {
+		  
+		  @Override public void onFailure(final Throwable caught) {
+		  GWT.log("loginDetails -> onFailure : " + caught.getMessage()); //
+		  log.severe(caught.getMessage()); }
+		  
+		  @Override public void onSuccess(LoginInfo loginInfo) {
+		  System.out.println("C:LP| Google H : on Success. ");
+		  
+		  // System.out.println("email : " + // loginInfo.getEmailAddress());
+		  setM_loginInfo(loginInfo); signInLink.setText(loginInfo.getName());
+		  nameField.setText(loginInfo.getName());
+		  signInLink.setStyleName("login-area");
+		  loginImage.setUrl(loginInfo.getPictureUrl());
+		  loginImage.setVisible(false); loginPanel.add(loginImage); loginImage
+		  .addLoadHandler(new LoadHandler() {
+		  
+		  @Override 
+		  public void onLoad( final LoadEvent event) { 
+			  final int newWidth = 24; 
+			  final com.google.gwt.dom.client.Element element = event .getRelativeElement(); 
+			  if (element.equals(loginImage.getElement())) { 
+				  final int originalHeight = loginImage.getOffsetHeight(); 
+				  final int originalWidth = loginImage.getOffsetWidth(); 
+				  if (originalHeight > originalWidth) { 
+					  loginImage.setHeight(newWidth + "px"); 
+				  } 
+				  else { loginImage .setWidth(newWidth + "px"); 
+				  } 
+				  loginImage .setVisible(true); 
+				 } 
+			  } }); 
+		  //userEmail.append(result.getEmailAddress());
+		  
+		  System.out.println(loginInfo.getEmailAddress());
+		  
+		  if(loginInfo.getEmployeeRole()== role.Guest) eventBus.fireEvent(new
+		  guiGuestEvent()); else eventBus.fireEvent(new guiMemberEvent());
+		  
+		  } });
+		  
+		  } 
+		  
+		  @Override 
+		  public void onFailure(Throwable reason) { // TODO
+		  //Auto-generated method stub 
+			  GWT.log("Error -> loginDetails\n" +  reason.getMessage()); 
+		  log.severe("Error -> loginDetails\n" +
+		  reason.getMessage()); } 
+		  });
+		 
+	}
 
+	private void getMe() {
+		plus.people().get("me").to(new Receiver<Person>() {
 			@Override
-			public void onSuccess(String result) {
-				// TODO Auto-generated method stub
-				if (!result.isEmpty()) {
-					// System.out.println("result : " + result);
-
-					rpcService.loginDetails(result,
-							new AsyncCallback<LoginInfo>() {
-
-								@Override
-								public void onFailure(final Throwable caught) {
-									GWT.log("loginDetails -> onFailure : "
-											+ caught.getMessage());
-									// log.severe(caught.getMessage());
-								}
-
-								@Override
-								public void onSuccess(LoginInfo loginInfo) {
-									System.out.println("C:LP| Google H : on Success. ");
-
-									// System.out.println("email : " +
-									// loginInfo.getEmailAddress());
-									setM_loginInfo(loginInfo);
-									signInLink.setText(loginInfo.getName());
-									nameField.setText(loginInfo.getName());
-									signInLink.setStyleName("login-area");
-									loginImage.setUrl(loginInfo.getPictureUrl());
-									loginImage.setVisible(false);
-									loginPanel.add(loginImage);
-									loginImage
-											.addLoadHandler(new LoadHandler() {
-												@Override
-												public void onLoad(
-														final LoadEvent event) {
-													final int newWidth = 24;
-													final com.google.gwt.dom.client.Element element = event
-															.getRelativeElement();
-													if (element.equals(loginImage
-															.getElement())) {
-														final int originalHeight = loginImage
-																.getOffsetHeight();
-														final int originalWidth = loginImage
-																.getOffsetWidth();
-														if (originalHeight > originalWidth) {
-															loginImage
-																	.setHeight(newWidth
-																			+ "px");
-														} else {
-															loginImage
-																	.setWidth(newWidth
-																			+ "px");
-														}
-														loginImage
-																.setVisible(true);
-													}
-												}
-											});
-									// userEmail.append(result.getEmailAddress());
-									
-									System.out.println(loginInfo.getEmailAddress());
-									
-									if(loginInfo.getEmployeeRole()== role.Guest)
-										eventBus.fireEvent(new guiGuestEvent());
-									else eventBus.fireEvent(new guiMemberEvent());
-									
-								}
-							});
-
-				}
+			public void onSuccess(Person person) {
+				System.out.println("Hello " + person.getDisplayName());
+				
+				getMyActivities();
 			}
+		}).fire();
+	}
 
-			@Override
-			public void onFailure(Throwable reason) {
-				// TODO Auto-generated method stub
-				GWT.log("Error -> loginDetails\n" + reason.getMessage());
-				log.severe("Error -> loginDetails\n" + reason.getMessage());
-			}
-		});
-
+	private void getMyActivities() {
+		plus.activities().list("me", Collection.PUBLIC)
+				.to(new Receiver<ActivityFeed>() {
+					@Override
+					public void onSuccess(ActivityFeed feed) {
+						System.out.println("===== PUBLIC ACTIVITIES =====");
+						if (feed.getItems() == null
+								|| feed.getItems().isEmpty()) {
+							System.out.println("You have no public activities");
+						} else {
+							for (Activity a : feed.getItems()) {
+								System.out.println(a.getTitle());
+							}
+						}
+					}
+				}).fire();
 	}
 
 	public void processLoginSucess(LoginInfo result,

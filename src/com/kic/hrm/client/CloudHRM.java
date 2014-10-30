@@ -8,16 +8,12 @@ import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
-
 import com.google.gwt.user.client.ui.Button;
-
 import com.google.gwt.user.client.ui.RootPanel;
-
 import com.google.api.gwt.client.GoogleApiRequestTransport;
 import com.google.api.gwt.client.OAuth2Login;
 import com.google.api.gwt.services.calendar.shared.Calendar;
@@ -28,11 +24,10 @@ import com.google.api.gwt.services.calendar.shared.model.CalendarList;
 import com.google.api.gwt.services.calendar.shared.model.Event;
 import com.google.api.gwt.services.calendar.shared.model.EventDateTime;
 import com.google.api.gwt.shared.EmptyResponse;
-
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.i18n.client.DateTimeFormat;
-
 import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class CloudHRM implements EntryPoint {
 
@@ -59,10 +54,10 @@ public class CloudHRM implements EntryPoint {
 
 	// This app's personal client ID assigned by the Google APIs Console
 	// (http://code.google.com/apis/console).
-	private static final String GOOGLE_CLIENT_ID = "392232398516-hdd0r2biksrovka8a6v93roambr2b54r.apps.googleusercontent.com";
+	private static final String CLIENT_ID = "392232398516-hdd0r2biksrovka8a6v93roambr2b54r.apps.googleusercontent.com";
 
-	public static String getGOOGLE_CLIENT_ID() {
-		return GOOGLE_CLIENT_ID;
+	public static String getCLIENT_ID() {
+		return CLIENT_ID;
 	}
 
 	// The auth scope being requested. This scope will allow the application to
@@ -90,7 +85,6 @@ public class CloudHRM implements EntryPoint {
 
 	private static final String MapsEngine_SCOPES = "https://www.googleapis.com/auth/mapsengine";
 	@SuppressWarnings("unused")
-	private static String CLIENT_ID = "392232398516-hdd0r2biksrovka8a6v93roambr2b54r.apps.googleusercontent.com";
 	private static String CLIENT_ID_Service_Account = "392232398516-7nei78mpn8rl47pknpofrv4rtmt0id96.apps.googleusercontent.com";
 	@SuppressWarnings("unused")
 	private static String CLIENT_SECRET = "ZGNTRofblwZ3TTnlgJ6N7eyE";
@@ -106,7 +100,11 @@ public class CloudHRM implements EntryPoint {
 	// TODO #05: add constants for OAuth2 (don't forget to update
 	// GOOGLE_CLIENT_ID)
 	private static final String API_KEY = "AIzaSyAr5ZzZtmqAaAwhqQAgHmnrkzp0tsD7D3g";
-	
+
+	public static String getAPI_KEY() {
+		return API_KEY;
+	}
+
 	private static final Auth AUTH = Auth.get();
 	// TODO #05:> end
 
@@ -123,9 +121,9 @@ public class CloudHRM implements EntryPoint {
 	 * Create a remote service proxy to talk to the server-side Greeting
 	 * service.
 	 */
-	
+
 	private Calendar calendar = GWT.create(Calendar.class);;
-	
+
 	public void onModuleLoad() {
 
 		System.out.println("Client HRM Start here.");
@@ -144,119 +142,130 @@ public class CloudHRM implements EntryPoint {
 
 	}
 
-	
-	
 	@SuppressWarnings("unused")
 	private void QuickTest(final GreetingServiceAsync rpcService) {
 		calendar.initialize(new SimpleEventBus(),
-		        new GoogleApiRequestTransport(APPLICATION_NAME, API_KEY));
-		
+				new GoogleApiRequestTransport(APPLICATION_NAME, API_KEY));
+
 		Button button = new Button("QuickTest");
-		
+
 		button.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				 OAuth2Login.get().authorize(GOOGLE_CLIENT_ID, CalendarAuthScope.CALENDAR,
-					        new Callback<Void, Exception>() {
-					          @Override
-					          public void onSuccess(Void v) {
-					            getCalendarId();
-					          }
+				// OAuth2Login.get().
+				OAuth2Login.get().authorize(CLIENT_ID,
+						CalendarAuthScope.CALENDAR,
+						new Callback<Void, Exception>() {
+							@Override
+							public void onSuccess(Void v) {
 
-					          @Override
-					          public void onFailure(Exception e) {
-					            GWT.log("Auth failed:", e);
-					          }
-					        });
+								Window.alert("Call Server Success To Send Email : Result is "
+										+ v.toString());
+								getCalendarId();
+							}
+
+							@Override
+							public void onFailure(Exception e) {
+								Window.alert("Auth failed: " + e);
+								GWT.log("Auth failed:", e);
+							}
+						});
 			}
 		});
 
 		RootPanel.get().add(button);
 	}
-	
+
 	/** Gets the calendar ID of some calendar that the user can write to. */
-	  private void getCalendarId() {
-	    // We need to find an ID of a calendar that we have permission to write events to. We'll just
-	    // pick the first one that gets returned, and we will delete the event when we're done.
-	    calendar.calendarList().list().setMinAccessRole(MinAccessRole.OWNER)
-	        .fire(new Receiver<CalendarList>() {
-	          @Override
-	          public void onSuccess(CalendarList list) {
-	            String calendarId = list.getItems().get(0).getId();
+	private void getCalendarId() {
+		// We need to find an ID of a calendar that we have permission to write
+		// events to. We'll just
+		// pick the first one that gets returned, and we will delete the event
+		// when we're done.
+		calendar.calendarList().list().setMinAccessRole(MinAccessRole.OWNER)
+				.fire(new Receiver<CalendarList>() {
+					@Override
+					public void onSuccess(CalendarList list) {
+						String calendarId = list.getItems().get(0).getId();
 
-	            insertEvent(calendarId);
-	          }
-	        });
-	  }
-	
-	  /** Insert a new event for the given calendar ID. */
-	  private void insertEvent(final String calendarId) {
-	    String today = DateTimeFormat.getFormat("yyyy-MM-dd").format(new Date());
-	    EventsContext ctx = calendar.events();
-	    Event event = ctx.create(Event.class)
-	        .setSummary("Learn about the Google API GWT client library")
-	        .setStart(ctx.create(EventDateTime.class).setDateTime(today))
-	        .setEnd(ctx.create(EventDateTime.class).setDateTime(today));
+						insertEvent(calendarId);
+					}
+				});
+	}
 
-	    // Note that the EventsContext used to insert the Event has to be the same one used to create
-	    // it.
-	    ctx.insert(calendarId, event).fire(new Receiver<Event>() {
-	      @Override
-	      public void onSuccess(Event inserted) {
-	        // The event has been inserted.
+	/** Insert a new event for the given calendar ID. */
+	private void insertEvent(final String calendarId) {
+		String today = DateTimeFormat.getFormat("yyyy-MM-dd")
+				.format(new Date());
+		EventsContext ctx = calendar.events();
+		Event event = ctx.create(Event.class)
+				.setSummary("Learn about the Google API GWT client library")
+				.setStart(ctx.create(EventDateTime.class).setDateTime(today))
+				.setEnd(ctx.create(EventDateTime.class).setDateTime(today));
 
-	        // Now we'll demonstrate retrieving it and updating it.
-	        String eventId = inserted.getId();
-	        getEventForUpdate(calendarId, eventId);
-	      }
-	    });
-	  }
+		// Note that the EventsContext used to insert the Event has to be the
+		// same one used to create
+		// it.
+		ctx.insert(calendarId, event).fire(new Receiver<Event>() {
+			@Override
+			public void onSuccess(Event inserted) {
+				// The event has been inserted.
 
-	  /** Get an event for the purposes of updating it. */
-	  private void getEventForUpdate(final String calendarId, final String eventId) {
-	    final EventsContext ctx = calendar.events();
-	    ctx.get(calendarId, eventId).fire(new Receiver<Event>() {
-	      @Override
-	      public void onSuccess(Event event) {
-	        // Note that the EventsContext used to update the event has to be the same one that was
-	        // used to retrieve it.
-	        updateEvent(ctx, event, calendarId, eventId);
-	      }
-	    });
-	  }
+				// Now we'll demonstrate retrieving it and updating it.
+				String eventId = inserted.getId();
+				getEventForUpdate(calendarId, eventId);
+			}
+		});
+	}
 
-	  /** Update an event that was previously retrieved. */
-	  private void updateEvent(EventsContext ctx, Event event, final String calendarId,
-	      final String eventId) {
-	    String newSummary = "";
-	    while (newSummary.isEmpty()) {
-	      newSummary = Window.prompt("Provide a new name for the event", "");
-	    }
-	    Event editableEvent = ctx.edit(event); // Don't forget to call edit()
-	    editableEvent.setSummary(newSummary);
-	    ctx.update(calendarId, eventId, editableEvent).fire(new Receiver<Event> (){
-	      @Override
-	      public void onSuccess(Event updated) {
-	        // The event has been updated. Now we'll delete it.
+	/** Get an event for the purposes of updating it. */
+	private void getEventForUpdate(final String calendarId, final String eventId) {
+		final EventsContext ctx = calendar.events();
+		ctx.get(calendarId, eventId).fire(new Receiver<Event>() {
+			@Override
+			public void onSuccess(Event event) {
+				// Note that the EventsContext used to update the event has to
+				// be the same one that was
+				// used to retrieve it.
+				updateEvent(ctx, event, calendarId, eventId);
+			}
+		});
+	}
 
-	        deleteEvent(calendarId, eventId);
-	      }
-	    });
-	  }
+	/** Update an event that was previously retrieved. */
+	private void updateEvent(EventsContext ctx, Event event,
+			final String calendarId, final String eventId) {
+		String newSummary = "";
+		while (newSummary.isEmpty()) {
+			newSummary = Window.prompt("Provide a new name for the event", "");
+		}
+		Event editableEvent = ctx.edit(event); // Don't forget to call edit()
+		editableEvent.setSummary(newSummary);
+		ctx.update(calendarId, eventId, editableEvent).fire(
+				new Receiver<Event>() {
+					@Override
+					public void onSuccess(Event updated) {
+						// The event has been updated. Now we'll delete it.
 
-	  /** Delete an event by its ID. */
-	  private void deleteEvent(String calendarId, String eventId) {
-	    calendar.events().delete(calendarId, eventId).fire(new Receiver<EmptyResponse>() {
-	      @Override
-	      public void onSuccess(EmptyResponse r) {
-	        // The event has been deleted. And we're done!
-	        Window.alert("Event deleted! Demo complete!");
-	      }
-	    });
-	  }
-	  
+						deleteEvent(calendarId, eventId);
+					}
+				});
+	}
+
+	/** Delete an event by its ID. */
+	private void deleteEvent(String calendarId, String eventId) {
+		calendar.events().delete(calendarId, eventId)
+				.fire(new Receiver<EmptyResponse>() {
+					@Override
+					public void onSuccess(EmptyResponse r) {
+						// The event has been deleted. And we're done!
+						Window.alert("Event deleted! Demo complete!");
+					}
+				});
+	}
+
 	@SuppressWarnings("unused")
 	private void Register(final HandlerManager eventBus) {
 		Button button = new Button("Register");
@@ -291,7 +300,7 @@ public class CloudHRM implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL,
-						GOOGLE_CLIENT_ID).withScopes(DRIVE_SCOPESArry);
+						CLIENT_ID).withScopes(DRIVE_SCOPESArry);
 
 				// AUTH.
 				// Calling login() will display a popup to the user the first
@@ -437,8 +446,6 @@ public class CloudHRM implements EntryPoint {
 		RootPanel.get().add(button);
 	}
 
-	
-	
 	//
 	//
 	// // Add the nameField and sendButton to the RootPanel
