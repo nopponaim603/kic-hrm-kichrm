@@ -90,7 +90,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 		       System.out.println("HRM_P| " + event.toDebugString() + " is on Click");
 		        //eventBus.fireEvent(new ApplyLeavingEvent());
 		       //eventBus
-		       final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(), CloudHRM.getGOOGLE_CLIENT_ID())
+		       final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(), CloudHRM.getCLIENT_ID())
 	            .withScopes(CloudHRM.getDRIVE_SCOPESArry());
 		       
 		       AUTH.login(req, new Callback<String, Throwable>() {
@@ -195,7 +195,7 @@ public class HumanResourcesManagementPresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(), CloudHRM.getGOOGLE_CLIENT_ID())
+				final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(), CloudHRM.getCLIENT_ID())
 	            .withScopes(CloudHRM.getDRIVE_SCOPESArry());
 				
 				AUTH.login(req, new Callback<String, Throwable>() {

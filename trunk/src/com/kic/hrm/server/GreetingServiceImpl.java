@@ -604,7 +604,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		StringBuilder contentBuilder = new StringBuilder();
 		try {
-		    BufferedReader in = new BufferedReader(new FileReader("emailBody.html"));
+		    BufferedReader in = new BufferedReader(new FileReader("email/emailBody.html"));
 		    String str;
 		    while ((str = in.readLine()) != null) {
 		        contentBuilder.append(str);
