@@ -55,6 +55,8 @@ public interface GreetingServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	void getAddressWithLatLong(String latLong, AsyncCallback<String> callback);
+
+	void sendReportDairyToEmail(String email, AsyncCallback<Boolean> callback);
 	
 	
 }

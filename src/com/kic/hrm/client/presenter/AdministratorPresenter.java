@@ -32,6 +32,7 @@ public class AdministratorPresenter implements Presenter{
 		HasClickHandlers getSaveCSVtoDriveButton();
 		HasClickHandlers getFlashDataStoreButton();
 		
+		HasClickHandlers getSendEmailButton();
 		HasValue<String> getEmailReceiver();
 		
 		ListBox getUsersListBox();
@@ -81,13 +82,46 @@ public class AdministratorPresenter implements Presenter{
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				System.out.println("test Back to Dashboard.");
 				eventBus.fireEvent(new gotoDashBoardEvent());
+			}
+		});
+		
+		display.getSendEmailButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("Send Report Dairy to Email.");
+				String emailSendTo = "noppon_aim@hotmail.com";
+				rpcService.sendReportDairyToEmail(emailSendTo, new AsyncCallback<Boolean>() {
+					
+					@Override
+					public void onSuccess(Boolean result) {
+						// TODO Auto-generated method stub
+						System.out.println("Success Send Email : " + result);
+						Window.alert("Call Server Success To Send Email : Result is " + result);
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 			}
 		});
 		
 		//If Data have not on Data store
 		//setupDefultTime();
 		
+	}
+	
+	@Override
+	public void go(HasWidgets container) {
+		// TODO Auto-generated method stub
+		 container.clear();
+		 container.add(display.asWidget());
 	}
 	
 	void setupDefultTime() {
@@ -122,13 +156,6 @@ public class AdministratorPresenter implements Presenter{
 		}
 		
 		return 0;
-	}
-
-	@Override
-	public void go(HasWidgets container) {
-		// TODO Auto-generated method stub
-		 container.clear();
-		 container.add(display.asWidget());
 	}
 	
 	private void UpdateList() {

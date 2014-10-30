@@ -20,34 +20,37 @@ import com.kic.hrm.shared.LoginInfo;
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
 	String greetServer(String name) throws IllegalArgumentException;
-
-
+	String QuickTest(String testParametor);
 
 	// TODO #09: start create login helper methods in service interface
 	String getUserEmail(String token);
-
 	LoginInfo login(String requestUri);
-
 	LoginInfo loginDetails(String token);
-
-	String QuickTest(String testParametor);
-
+	////////////////////
+	
+	// Addmintator Function
 	ArrayList<String> UpdateList(String targetEntity);
 	Employee getProfile(Integer targetEmployee);
-	Employee addProfile(Employee userEmployee, EmployeeQuota m_employeeQuota,
-			state registerMode);
+	Employee addProfile(Employee userEmployee, EmployeeQuota m_employeeQuota,state registerMode);
 	boolean deleteProfile(Integer targetEmployee);
 	EmployeeQuota getEmployeeQuota(int employeeID);
+	boolean sendReportDairyToEmail(String email);
+	////////////////
 	
-	String getFileFormGoogleDrive(String token, String idFile);
-	String saveCSVtoDrive(String token, String FolderID);
-
+	//Leave Function
 	boolean createLeaveTask(LeaveTask leavetask);
 	boolean approveLeaveTask(LeaveTask leavetask);
 	List<LeaveTask> getLeaveTask(progress InProgress, int targetID);
 	boolean deleteLeaveTask(LeaveTask leavetask);
+	////////////////
 	
-
+	// Login Attendance
 	boolean LoginAttendance(LoginInfo userInfo, type leaveType, String address);
 	String getAddressWithLatLong(String latLong);
+	///////////////
+	
+	// Save File CSV to Google Drive
+	String getFileFormGoogleDrive(String token, String idFile);
+	String saveCSVtoDrive(String token, String FolderID);
+	///////////////
 }
