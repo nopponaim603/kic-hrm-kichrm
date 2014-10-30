@@ -1,9 +1,9 @@
-package com.kic.hrm.server;
+package com.kic.hrm.server.businesslogic;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -13,11 +13,10 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class SendMail {
-	private static final Logger log = Logger.getLogger(SendMail.class.getName());
+public class SendEmailServiceImpl {
+	private static final Logger log = Logger.getLogger(SendEmailServiceImpl.class.getName());
 
-	  public SendMail() {
-		  
+	  public SendEmailServiceImpl() {
 	  }
 
 	  public boolean sendMail(String to, String from, String subject, String html) {

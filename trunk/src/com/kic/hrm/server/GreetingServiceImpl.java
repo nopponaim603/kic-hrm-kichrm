@@ -16,9 +16,11 @@ import com.kic.hrm.data.model.StartTimeLogService;
 import com.kic.hrm.server.LoginServiceImpl.field;
 import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
 import com.kic.hrm.server.businesslogic.RecordLog;
+import com.kic.hrm.server.businesslogic.SendEmailServiceImpl;
 import com.kic.hrm.shared.*;
 
 import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,10 +40,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 
 /*
+import com.google.api.client.util.Charsets;
 import com.google.api.services.mapsengine.MapsEngine;
 import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
 import com.google.api.services.mapsengine.model.Feature;
@@ -588,6 +592,32 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		double d = R * c;
 
 		return d;
+	}
+
+	@Override
+	public boolean sendReportDairyToEmail(String email) {
+		// TODO Auto-generated method stub
+		SendEmailServiceImpl sender = new SendEmailServiceImpl();
+		String emailTo = email;
+		String emailForm = "noppon.w@vr.camt.info";
+		String subject = "Send Report Daliy";
+		
+		StringBuilder contentBuilder = new StringBuilder();
+		try {
+		    BufferedReader in = new BufferedReader(new FileReader("emailBody.html"));
+		    String str;
+		    while ((str = in.readLine()) != null) {
+		        contentBuilder.append(str);
+		    }
+		    in.close();
+		} catch (IOException e) {
+		}
+		String content = contentBuilder.toString();
+		System.out.println("content : " + content);
+		String htmlBody = content;
+				//Files.toString(new File("/path/to/file", Charsets.UTF_8);
+		boolean isSuccessSend = sender.sendMail(emailTo, emailForm, subject, htmlBody);
+		return isSuccessSend;
 	}
 
 }

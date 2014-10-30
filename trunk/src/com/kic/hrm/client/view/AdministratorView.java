@@ -21,6 +21,7 @@ public class AdministratorView extends Composite implements AdministratorPresent
 	private final Button saveToDriveButton;
 	private final Button flashDataStoreButton;
 	private final TextBox emailReceiverTextBox;
+	private final Button sendEmailButton;
 
 	private final ListBox listProfileListBox;
 	private final Button refreshListProfileButton;
@@ -530,6 +531,7 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		Button btnNewButton = new Button("Send Report");
 		grid_5.setWidget(1, 2, btnNewButton);
 		
+		sendEmailButton = btnNewButton;
 		addProfileButton = button_5;
 		listProfileListBox = listBox_ProfileEmployee;
 		refreshListProfileButton = button_6;
@@ -677,6 +679,12 @@ public class AdministratorView extends Composite implements AdministratorPresent
 	public ListBox ProjectEarlyMinutes() {
 		// TODO Auto-generated method stub
 		return ProjectEarlyduty_M;
+	}
+
+	@Override
+	public HasClickHandlers getSendEmailButton() {
+		// TODO Auto-generated method stub
+		return sendEmailButton;
 	}
 
 	
