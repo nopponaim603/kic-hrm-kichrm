@@ -1,16 +1,10 @@
-<!-- Indices written at Mon, 3 Nov 2014 21:30:29 ICT -->
+<!-- Indices written at Mon, 3 Nov 2014 23:07:44 ICT -->
 
 <datastore-indexes>
 
     <!-- Used 1 time in query history -->
     <datastore-index kind="Employee" ancestor="false" source="auto">
         <property name="email" direction="asc"/>
-        <property name="__key__" direction="desc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="EmployeeQuota" ancestor="false" source="auto">
-        <property name="employeeID" direction="asc"/>
         <property name="__key__" direction="desc"/>
     </datastore-index>
 

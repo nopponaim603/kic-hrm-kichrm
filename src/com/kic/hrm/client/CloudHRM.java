@@ -1,6 +1,7 @@
 package com.kic.hrm.client;
 
 import java.util.Date;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.api.gwt.oauth2.client.Auth;
@@ -155,6 +156,8 @@ public class CloudHRM implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				// OAuth2Login.get().
+				log.log(Level.SEVERE,"Click");
+				
 				OAuth2Login.get().authorize(CLIENT_ID,
 						CalendarAuthScope.CALENDAR,
 						new Callback<Void, Exception>() {
