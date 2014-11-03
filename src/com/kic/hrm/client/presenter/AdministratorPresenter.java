@@ -225,11 +225,8 @@ public class AdministratorPresenter implements Presenter{
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				System.out.println("HRM_P| " + event.toDebugString() + " is on Click");
+				System.out.println("AddProfile");
 				eventBus.fireEvent(new gotoProfileEvent());
-				System.out.println("HRM_P| After call eventBus fireEvent");
-				//this.e
-				
 			}
 		});
 		
@@ -238,7 +235,7 @@ public class AdministratorPresenter implements Presenter{
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				System.out.println("code is go to AppController.java.");
+				System.out.println("EditProfile.");
 				eventBus.fireEvent(new gotoProfileAndEditEvent(Integer.parseInt(display.getUsersListBox().getItemText(display.getUsersListBox().getSelectedIndex()))));
 			}
 		});
@@ -248,6 +245,7 @@ public class AdministratorPresenter implements Presenter{
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				Window.alert("Refresh Complete.");
 				UpdateList();
 			}
 		});
@@ -269,6 +267,7 @@ public class AdministratorPresenter implements Presenter{
 					public void onSuccess(Boolean result) {
 						// TODO Auto-generated method stub
 						System.out.println("Delete Complete.");
+						Window.alert("Delete Complete.");
 						UpdateList();
 					}
 					
