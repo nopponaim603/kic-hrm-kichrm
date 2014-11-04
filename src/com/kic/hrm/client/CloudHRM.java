@@ -13,10 +13,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.api.gwt.client.GoogleApiRequestTransport;
 import com.google.api.gwt.client.OAuth2Login;
+import com.google.api.gwt.services.plus.shared.Plus;
+import com.google.api.gwt.services.plus.shared.Plus.PlusAuthScope;
 import com.google.api.gwt.services.calendar.shared.Calendar;
 import com.google.api.gwt.services.calendar.shared.Calendar.CalendarAuthScope;
 import com.google.api.gwt.services.calendar.shared.Calendar.CalendarListContext.ListRequest.MinAccessRole;
@@ -143,11 +146,13 @@ public class CloudHRM implements EntryPoint {
 
 	}
 
+	
 	@SuppressWarnings("unused")
 	private void QuickTest(final GreetingServiceAsync rpcService) {
+	/*	
 		calendar.initialize(new SimpleEventBus(),
-				new GoogleApiRequestTransport(APPLICATION_NAME, API_KEY));
-
+				new GoogleApiRequestTransport(APPLICATION_NAME, "AIzaSyAr5ZzZtmqAaAwhqQAgHmnrkzp0tsD7D3g"));
+*/
 		Button button = new Button("QuickTest");
 
 		button.addClickHandler(new ClickHandler() {
@@ -158,15 +163,47 @@ public class CloudHRM implements EntryPoint {
 				// OAuth2Login.get().
 				log.log(Level.SEVERE,"Click");
 				
-				OAuth2Login.get().authorize(CLIENT_ID,
-						CalendarAuthScope.CALENDAR,
+				final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL,
+						CLIENT_ID).withScopes("https://www.googleapis.com/auth/calendar");
+				
+				AUTH.login(req, new Callback<String, Throwable>() {
+					@Override
+					public void onSuccess(String token) {
+						// Window.alert("Got an OAuth token:\n" + token + "\n"
+						// + "Token expires in " + AUTH.expiresIn(req) +
+						// " ms\n");
+						
+						rpcService.QuickTest(token, new AsyncCallback<String>() {
+							
+							@Override
+							public void onSuccess(String result) {
+								// TODO Auto-generated method stub
+								System.out.println("Test.");
+							}
+							
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+						});
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// Window.alert("Error:\n" + caught.getMessage());
+					}
+				});
+				/*
+				OAuth2Login.get().authorize("392232398516-hdd0r2biksrovka8a6v93roambr2b54r.apps.googleusercontent.com",
+						PlusAuthScope.PLUS_ME,
 						new Callback<Void, Exception>() {
 							@Override
 							public void onSuccess(Void v) {
 
 								Window.alert("Call Server Success To Send Email : Result is "
 										+ v.toString());
-								getCalendarId();
+								//getCalendarId();
 							}
 
 							@Override
@@ -175,98 +212,11 @@ public class CloudHRM implements EntryPoint {
 								GWT.log("Auth failed:", e);
 							}
 						});
+				*/
 			}
 		});
 
 		RootPanel.get().add(button);
-	}
-
-	/** Gets the calendar ID of some calendar that the user can write to. */
-	private void getCalendarId() {
-		// We need to find an ID of a calendar that we have permission to write
-		// events to. We'll just
-		// pick the first one that gets returned, and we will delete the event
-		// when we're done.
-		calendar.calendarList().list().setMinAccessRole(MinAccessRole.OWNER)
-				.fire(new Receiver<CalendarList>() {
-					@Override
-					public void onSuccess(CalendarList list) {
-						String calendarId = list.getItems().get(0).getId();
-
-						insertEvent(calendarId);
-					}
-				});
-	}
-
-	/** Insert a new event for the given calendar ID. */
-	private void insertEvent(final String calendarId) {
-		String today = DateTimeFormat.getFormat("yyyy-MM-dd")
-				.format(new Date());
-		EventsContext ctx = calendar.events();
-		Event event = ctx.create(Event.class)
-				.setSummary("Learn about the Google API GWT client library")
-				.setStart(ctx.create(EventDateTime.class).setDateTime(today))
-				.setEnd(ctx.create(EventDateTime.class).setDateTime(today));
-
-		// Note that the EventsContext used to insert the Event has to be the
-		// same one used to create
-		// it.
-		ctx.insert(calendarId, event).fire(new Receiver<Event>() {
-			@Override
-			public void onSuccess(Event inserted) {
-				// The event has been inserted.
-
-				// Now we'll demonstrate retrieving it and updating it.
-				String eventId = inserted.getId();
-				getEventForUpdate(calendarId, eventId);
-			}
-		});
-	}
-
-	/** Get an event for the purposes of updating it. */
-	private void getEventForUpdate(final String calendarId, final String eventId) {
-		final EventsContext ctx = calendar.events();
-		ctx.get(calendarId, eventId).fire(new Receiver<Event>() {
-			@Override
-			public void onSuccess(Event event) {
-				// Note that the EventsContext used to update the event has to
-				// be the same one that was
-				// used to retrieve it.
-				updateEvent(ctx, event, calendarId, eventId);
-			}
-		});
-	}
-
-	/** Update an event that was previously retrieved. */
-	private void updateEvent(EventsContext ctx, Event event,
-			final String calendarId, final String eventId) {
-		String newSummary = "";
-		while (newSummary.isEmpty()) {
-			newSummary = Window.prompt("Provide a new name for the event", "");
-		}
-		Event editableEvent = ctx.edit(event); // Don't forget to call edit()
-		editableEvent.setSummary(newSummary);
-		ctx.update(calendarId, eventId, editableEvent).fire(
-				new Receiver<Event>() {
-					@Override
-					public void onSuccess(Event updated) {
-						// The event has been updated. Now we'll delete it.
-
-						deleteEvent(calendarId, eventId);
-					}
-				});
-	}
-
-	/** Delete an event by its ID. */
-	private void deleteEvent(String calendarId, String eventId) {
-		calendar.events().delete(calendarId, eventId)
-				.fire(new Receiver<EmptyResponse>() {
-					@Override
-					public void onSuccess(EmptyResponse r) {
-						// The event has been deleted. And we're done!
-						Window.alert("Event deleted! Demo complete!");
-					}
-				});
 	}
 
 	@SuppressWarnings("unused")

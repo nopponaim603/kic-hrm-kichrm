@@ -13,7 +13,6 @@ import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.data.model.StartTimeLogService;
-import com.kic.hrm.server.LoginServiceImpl.field;
 import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
 import com.kic.hrm.server.businesslogic.RecordLog;
 import com.kic.hrm.server.businesslogic.SendEmailServiceImpl;
@@ -23,9 +22,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,29 +36,43 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-
-
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
-
+import com.google.web.bindery.requestfactory.shared.Receiver;
 /*
-import com.google.api.client.util.Charsets;
-import com.google.api.services.mapsengine.MapsEngine;
-import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
-import com.google.api.services.mapsengine.model.Feature;
-import com.google.api.services.mapsengine.model.FeaturesListResponse;
-import com.google.api.services.mapsengine.model.GeoJsonPoint;
-*/
+ import com.google.api.client.util.Charsets;
+ import com.google.api.services.mapsengine.MapsEngine;
+ import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
+ import com.google.api.services.mapsengine.model.Feature;
+ import com.google.api.services.mapsengine.model.FeaturesListResponse;
+ import com.google.api.services.mapsengine.model.GeoJsonPoint;
+ */
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.gwt.services.calendar.shared.Calendar.EventsContext;
+import com.google.api.gwt.services.calendar.shared.Calendar.CalendarListContext.ListRequest.MinAccessRole;
+import com.google.api.gwt.services.calendar.shared.model.CalendarList;
+import com.google.api.gwt.services.calendar.shared.model.Event;
+import com.google.api.gwt.services.calendar.shared.model.EventDateTime;
+import com.google.api.gwt.shared.EmptyResponse;
+import com.google.api.services.calendar.*;
+import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.drive.Drive;
 
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
+
+	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger
@@ -135,6 +146,118 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 	// #11:> end
 
+	public void getcalender(String token) {
+		Calendar calender = BuildCalendarAPIbyTOKEN(token);
+		String pageToken = null;
+		
+		com.google.api.services.calendar.model.CalendarList calendarList;
+		try {
+			calendarList = calender.calendarList().list()
+					.setPageToken(pageToken).execute();
+			for (CalendarListEntry calendarListEntry : calendarList.getItems()) {
+				System.out.println(calendarListEntry.getId());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// List<CalendarListEntry> items = calendarList.getItems();
+
+		// calender.calendarList().
+	}
+
+	public static Calendar BuildCalendarAPIbyTOKEN(String token) {
+		HttpTransport httpTransport = new NetHttpTransport();
+		JacksonFactory jsonFactory = new JacksonFactory();
+		GoogleCredential credential = new GoogleCredential()
+				.setAccessToken(token);
+		Calendar service = new Calendar.Builder(httpTransport, jsonFactory,
+				credential).setApplicationName(APPLICATION_NAME).build();
+		return service;
+	}
+
+	/** Gets the calendar ID of some calendar that the user can write to. */
+	private void getCalendarId(Calendar calender) {
+		// We need to find an ID of a calendar that we have permission to write
+		// events to. We'll just
+		// pick the first one that gets returned, and we will delete the event
+		// when we're done.
+		/*
+		 * calendar.calendarList().list().setMinAccessRole(MinAccessRole.OWNER)
+		 * .fire(new Receiver<CalendarList>() {
+		 * 
+		 * @Override public void onSuccess(CalendarList list) { String
+		 * calendarId = list.getItems().get(0).getId();
+		 * 
+		 * insertEvent(calendarId); } });
+		 */
+		try {
+			com.google.api.services.calendar.Calendar.CalendarList.List m_list = calender
+					.calendarList().list()
+					.setMinAccessRole(MinAccessRole.OWNER.toString());
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/** Insert a new event for the given calendar ID. */
+	/*
+	 * private void insertEvent(Calendar calender, final String calendarId) {
+	 * String today = DateTimeFormat.getFormat("yyyy-MM-dd") .format(new
+	 * Date()); EventsContext ctx = calendar.events(); Event event =
+	 * ctx.create(Event.class)
+	 * .setSummary("Learn about the Google API GWT client library")
+	 * .setStart(ctx.create(EventDateTime.class).setDateTime(today))
+	 * .setEnd(ctx.create(EventDateTime.class).setDateTime(today));
+	 * 
+	 * // Note that the EventsContext used to insert the Event has to be the //
+	 * same one used to create // it. ctx.insert(calendarId, event).fire(new
+	 * Receiver<Event>() {
+	 * 
+	 * @Override public void onSuccess(Event inserted) { // The event has been
+	 * inserted.
+	 * 
+	 * // Now we'll demonstrate retrieving it and updating it. String eventId =
+	 * inserted.getId(); getEventForUpdate(calendarId, eventId); } }); }
+	 */
+	/** Get an event for the purposes of updating it. */
+	/*
+	 * private void getEventForUpdate(Calendar calender,final String calendarId,
+	 * final String eventId) { final EventsContext ctx = calendar.events();
+	 * ctx.get(calendarId, eventId).fire(new Receiver<Event>() {
+	 * 
+	 * @Override public void onSuccess(Event event) { // Note that the
+	 * EventsContext used to update the event has to // be the same one that was
+	 * // used to retrieve it. updateEvent(ctx, event, calendarId, eventId); }
+	 * }); }
+	 */
+	/** Update an event that was previously retrieved. */
+	/*
+	 * private void updateEvent(Calendar calender,EventsContext ctx, Event
+	 * event, final String calendarId, final String eventId) { String newSummary
+	 * = ""; while (newSummary.isEmpty()) { newSummary =
+	 * Window.prompt("Provide a new name for the event", ""); } Event
+	 * editableEvent = ctx.edit(event); // Don't forget to call edit()
+	 * editableEvent.setSummary(newSummary); ctx.update(calendarId, eventId,
+	 * editableEvent).fire( new Receiver<Event>() {
+	 * 
+	 * @Override public void onSuccess(Event updated) { // The event has been
+	 * updated. Now we'll delete it.
+	 * 
+	 * deleteEvent(calender,calendarId, eventId); } }); }
+	 */
+	/** Delete an event by its ID. */
+	/*
+	 * private void deleteEvent(Calendar calender,String calendarId, String
+	 * eventId) { calendar.events().delete(calendarId, eventId) .fire(new
+	 * Receiver<EmptyResponse>() {
+	 * 
+	 * @Override public void onSuccess(EmptyResponse r) { // The event has been
+	 * deleted. And we're done! Window.alert("Event deleted! Demo complete!"); }
+	 * }); }
+	 */
 	// Add Edit Delete Profile
 	@Override
 	public Employee addProfile(Employee userEmployee, EmployeeQuota userQuota,
@@ -189,31 +312,30 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		 * try { //readFeaturesFromTable(engine); } catch (IOException e) { //
 		 * TODO Auto-generated catch block e.printStackTrace(); }
 		 */
-
+		getcalender(testParametor);
+		
+		
 		return testParametor;
 	}
 
-	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
-
 	/*
-	public static MapsEngine BuildMapAPIbyTOKEN(String token) {
-
-		HttpTransport httpTransport = new NetHttpTransport();
-		JacksonFactory jsonFactory = new JacksonFactory();
-
-		// This request initializer will ensure the API key is sent with every
-		// HTTP request.
-		MapsEngineRequestInitializer apiKeyInitializer = new MapsEngineRequestInitializer(
-				PUBLIC_API_KEY);
-
-		GoogleCredential credential = new GoogleCredential()
-				.setAccessToken(token);
-		MapsEngine service = new MapsEngine.Builder(httpTransport, jsonFactory,
-				credential).setMapsEngineRequestInitializer(apiKeyInitializer)
-				.setApplicationName(APPLICATION_NAME).build();
-
-		return service;
-	}*/
+	 * public static MapsEngine BuildMapAPIbyTOKEN(String token) {
+	 * 
+	 * HttpTransport httpTransport = new NetHttpTransport(); JacksonFactory
+	 * jsonFactory = new JacksonFactory();
+	 * 
+	 * // This request initializer will ensure the API key is sent with every //
+	 * HTTP request. MapsEngineRequestInitializer apiKeyInitializer = new
+	 * MapsEngineRequestInitializer( PUBLIC_API_KEY);
+	 * 
+	 * GoogleCredential credential = new GoogleCredential()
+	 * .setAccessToken(token); MapsEngine service = new
+	 * MapsEngine.Builder(httpTransport, jsonFactory,
+	 * credential).setMapsEngineRequestInitializer(apiKeyInitializer)
+	 * .setApplicationName(APPLICATION_NAME).build();
+	 * 
+	 * return service; }
+	 */
 
 	@Override
 	public EmployeeQuota getEmployeeQuota(int employeeID) {
@@ -384,35 +506,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	static final String SAMPLE_TABLE_ID = "12421761926155747447-06672618218968397709";
 	static final String PUBLIC_API_KEY = "4f36c102c352bcec6c8ee5b40028dc8b6f6602a3";
 
-	//public static void readFeaturesFromTable(MapsEngine me) throws IOException {
-		// Query the table for offices in WA that are within 100km of Perth.
-/*
-		FeaturesListResponse featResp = me
-				.tables()
-				.features()
-				.list(SAMPLE_TABLE_ID)
-				.setVersion("published")
-				.setWhere(
-						"State='WA' AND ST_DISTANCE(geometry,ST_POINT(115.8589,-31.9522)) < 100000")
-				.execute();
-
-		for (Feature feat : featResp.getFeatures()) {
-			System.out.println("Properties: " + feat.getProperties().toString()
-					+ "\n\t" + "Name: "
-					+ feat.getProperties().get("Fcilty_nam") + "\n\t"
-					+ "Geometry Type: " + feat.getGeometry().getType());
-
-			if (feat.getGeometry() instanceof GeoJsonPoint) {
-				GeoJsonPoint point = (GeoJsonPoint) feat.getGeometry();
-				System.out.println("\t" + "Longitude: "
-						+ point.getCoordinates().get(0) + ", " + "Latitude: "
-						+ point.getCoordinates().get(1));
-			} else {
-				System.out.println("Only points are expected in this table!");
-				return;
-			}
-		}*/
-	//}
+	// public static void readFeaturesFromTable(MapsEngine me) throws
+	// IOException {
+	// Query the table for offices in WA that are within 100km of Perth.
+	/*
+	 * FeaturesListResponse featResp = me .tables() .features()
+	 * .list(SAMPLE_TABLE_ID) .setVersion("published") .setWhere(
+	 * "State='WA' AND ST_DISTANCE(geometry,ST_POINT(115.8589,-31.9522)) < 100000"
+	 * ) .execute();
+	 * 
+	 * for (Feature feat : featResp.getFeatures()) {
+	 * System.out.println("Properties: " + feat.getProperties().toString() +
+	 * "\n\t" + "Name: " + feat.getProperties().get("Fcilty_nam") + "\n\t" +
+	 * "Geometry Type: " + feat.getGeometry().getType());
+	 * 
+	 * if (feat.getGeometry() instanceof GeoJsonPoint) { GeoJsonPoint point =
+	 * (GeoJsonPoint) feat.getGeometry(); System.out.println("\t" +
+	 * "Longitude: " + point.getCoordinates().get(0) + ", " + "Latitude: " +
+	 * point.getCoordinates().get(1)); } else {
+	 * System.out.println("Only points are expected in this table!"); return; }
+	 * }
+	 */
+	// }
 
 	@Override
 	public boolean LoginAttendance(LoginInfo userInfo, type leaveType,
@@ -448,8 +563,11 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 				// double
 				double Distance = findDistance(CAMTPosition, currentPosition);
-				System.out.println("current Position : " + currentPosition[0] + " : " + currentPosition[1] + " | Distance : " + Distance);
-				log("current Position : " + currentPosition[0] + " : " + currentPosition[1] + " | Distance : " + Distance);
+				System.out.println("current Position : " + currentPosition[0]
+						+ " : " + currentPosition[1] + " | Distance : "
+						+ Distance);
+				log("current Position : " + currentPosition[0] + " : "
+						+ currentPosition[1] + " | Distance : " + Distance);
 				// Distance lass than 70 Meter
 				if (Distance <= 0.07) {
 
@@ -459,16 +577,18 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 									address);
 
 					// One Day Save One Time
-					boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),OnWebStartTimeLog.getM_date());
-					
+					boolean isLogin = OneTimeLogin(
+							m_employee.getM_employeeID(),
+							OnWebStartTimeLog.getM_date());
+
 					// Add DataStartTimeLogService
 					if (!isLogin) {
-					Entity d_OnWebStartTimeLog = null;
-					d_OnWebStartTimeLog = DataStoreControl
-							.CreateEntity(StartTimeLog.class);
-					d_OnWebStartTimeLog = StartTimeLogService.FlashData(
-							d_OnWebStartTimeLog, OnWebStartTimeLog);
-					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
+						Entity d_OnWebStartTimeLog = null;
+						d_OnWebStartTimeLog = DataStoreControl
+								.CreateEntity(StartTimeLog.class);
+						d_OnWebStartTimeLog = StartTimeLogService.FlashData(
+								d_OnWebStartTimeLog, OnWebStartTimeLog);
+						DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
 					}
 					return true;
 				} else {
@@ -480,19 +600,20 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 						m_employee, m_timetable, m_leaveType, address);
 
 				// One Day Save One Time
-				boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),OnWebStartTimeLog.getM_date());
-				
+				boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),
+						OnWebStartTimeLog.getM_date());
+
 				// Add DataStartTimeLogService
 				if (!isLogin) {
-					
+
 					Entity d_OnWebStartTimeLog = null;
 					d_OnWebStartTimeLog = DataStoreControl
 							.CreateEntity(StartTimeLog.class);
 					d_OnWebStartTimeLog = StartTimeLogService.FlashData(
 							d_OnWebStartTimeLog, OnWebStartTimeLog);
 					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
-					
-					log.log(Level.SEVERE , "Save Done.");
+
+					log.log(Level.SEVERE, "Save Done.");
 				}
 
 				return true;
@@ -500,26 +621,25 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 		return false;
 	}
-	boolean OneTimeLogin(int employeeID,Date TodayLogin) {
+
+	boolean OneTimeLogin(int employeeID, Date TodayLogin) {
 		boolean isLogin = false;
 		log.log(Level.SEVERE, "Employee ID : " + employeeID);
 		Filter currentUser = new FilterPredicate(
 				StartTimeLog.property.employeeID.toString(),
 				FilterOperator.EQUAL, employeeID);
-		List<Entity> temp_entity = DataStoreControl.Query(
-				StartTimeLog.class, SortDirection.DESCENDING,
-				currentUser);
+		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
+				SortDirection.DESCENDING, currentUser);
 		List<StartTimeLog> m_starttimelog = StartTimeLogService
 				.Clone(temp_entity);
 
-		
 		for (StartTimeLog m_start : m_starttimelog) {
 			// m_start.getM_date()
-			if (CollisionDate(TodayLogin,m_start.getM_date()))
+			if (CollisionDate(TodayLogin, m_start.getM_date()))
 				isLogin = true;
 		}
-		log.log(Level.SEVERE,"Is Login : " + isLogin);
-		
+		log.log(Level.SEVERE, "Is Login : " + isLogin);
+
 		return isLogin;
 	}
 
@@ -601,22 +721,24 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		String emailTo = email;
 		String emailForm = "noppon.w@vr.camt.info";
 		String subject = "Send Report Daliy";
-		
+
 		StringBuilder contentBuilder = new StringBuilder();
 		try {
-		    BufferedReader in = new BufferedReader(new FileReader("email/emailBody.html"));
-		    String str;
-		    while ((str = in.readLine()) != null) {
-		        contentBuilder.append(str);
-		    }
-		    in.close();
+			BufferedReader in = new BufferedReader(new FileReader(
+					"email/emailBody.html"));
+			String str;
+			while ((str = in.readLine()) != null) {
+				contentBuilder.append(str);
+			}
+			in.close();
 		} catch (IOException e) {
 		}
 		String content = contentBuilder.toString();
 		System.out.println("content : " + content);
 		String htmlBody = content;
-				//Files.toString(new File("/path/to/file", Charsets.UTF_8);
-		boolean isSuccessSend = sender.sendMail(emailTo, emailForm, subject, htmlBody);
+		// Files.toString(new File("/path/to/file", Charsets.UTF_8);
+		boolean isSuccessSend = sender.sendMail(emailTo, emailForm, subject,
+				htmlBody);
 		return isSuccessSend;
 	}
 
