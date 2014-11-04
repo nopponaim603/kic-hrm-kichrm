@@ -23,9 +23,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,14 +61,22 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.DateTime;
 import com.google.api.gwt.services.calendar.shared.Calendar.EventsContext;
 import com.google.api.gwt.services.calendar.shared.Calendar.CalendarListContext.ListRequest.MinAccessRole;
-import com.google.api.gwt.services.calendar.shared.model.CalendarList;
-import com.google.api.gwt.services.calendar.shared.model.Event;
-import com.google.api.gwt.services.calendar.shared.model.EventDateTime;
+//import com.google.api.gwt.services.calendar.shared.model.CalendarList;
+/*
+ import com.google.api.gwt.services.calendar.shared.model.Event;
+ import com.google.api.gwt.services.calendar.shared.model.EventDateTime;
+ */
 import com.google.api.gwt.shared.EmptyResponse;
 import com.google.api.services.calendar.*;
+import com.google.api.services.calendar.Calendar.Events.Insert;
+import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.CalendarListEntry;
+import com.google.api.services.calendar.model.Event.Reminders;
+import com.google.api.services.calendar.model.EventAttendee;
+import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.drive.Drive;
 
 @SuppressWarnings("serial")
@@ -145,27 +156,51 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	// #11:> end
+	String m_calenderID = "camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com";
 
 	public void getcalender(String token) {
 		Calendar calender = BuildCalendarAPIbyTOKEN(token);
 		String pageToken = null;
-		
-		com.google.api.services.calendar.model.CalendarList calendarList;
+
 		try {
-			calendarList = calender.calendarList().list()
-					.setPageToken(pageToken).execute();
-			for (CalendarListEntry calendarListEntry : calendarList.getItems()) {
-				System.out.println(calendarListEntry.getId());
-			}
+			System.out.println("First Test to Create Event.");
+			
+			Event createdEvent = calender.events().insert(m_calenderID, createEvent("Appointment","Description"))
+					.execute();
+
+			// System.out.println(createdEvent.getId());
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		/*
+		 * com.google.api.services.calendar.model.CalendarList calendarList; try
+		 * { calendarList = calender.calendarList().list()
+		 * .setPageToken(pageToken).execute(); for (CalendarListEntry
+		 * calendarListEntry : calendarList.getItems()) {
+		 * 
+		 * System.out.println("Test : " + calendarListEntry.getId());
+		 * System.out.println("Test : " + calendarListEntry.getSummary());
+		 * //System.out.println("Test : " + calendarListEntry.);
+		 * 
+		 * }
+		 * 
+		 * //calender.calendarList().get(calender) } catch (IOException e) { //
+		 * TODO Auto-generated catch block System.out.println("Bug.");
+		 * e.printStackTrace(); }
+		 */
+		// calender.get
+		// calender.calendars().
 		// List<CalendarListEntry> items = calendarList.getItems();
 
 		// calender.calendarList().
 	}
 
+	// https://www.google.com/calendar/feeds/camtedu.net_ffupfdej93dc7td5rop26gvp1s%40group.calendar.google.com/public/basic
+
+	// camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com
 	public static Calendar BuildCalendarAPIbyTOKEN(String token) {
 		HttpTransport httpTransport = new NetHttpTransport();
 		JacksonFactory jsonFactory = new JacksonFactory();
@@ -202,6 +237,39 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 	}
 
+	private Event createEvent(String titleEvent,String description) {
+		Event event = new Event();
+		// event.setColorId("red");
+		event.setSummary(titleEvent);
+		//event.setLocation("Somewhere");
+		Reminders test = new Reminders();
+		test.setUseDefault(false);
+		event.setReminders(test);
+		event.setDescription(description);
+
+		Date startDate = new Date();
+		Date endDate = new Date(startDate.getTime() + 86400000);
+
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String startDateStr = dateFormat.format(startDate);
+		String endDateStr = dateFormat.format(endDate);
+
+		// Out of the 6 methods for creating a DateTime object with no time
+		// element, only the String version works
+		DateTime startDateTime = new DateTime(startDateStr);
+		DateTime endDateTime = new DateTime(endDateStr);
+
+		// Must use the setDate() method for an all-day event (setDateTime()
+		// is used for timed events)
+		EventDateTime startEventDateTime = new EventDateTime()
+				.setDate(startDateTime);
+		EventDateTime endEventDateTime = new EventDateTime()
+				.setDate(endDateTime);
+
+		event.setStart(startEventDateTime);
+		event.setEnd(endEventDateTime);
+		return event;
+	}
 	/** Insert a new event for the given calendar ID. */
 	/*
 	 * private void insertEvent(Calendar calender, final String calendarId) {
@@ -313,8 +381,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		 * TODO Auto-generated catch block e.printStackTrace(); }
 		 */
 		getcalender(testParametor);
-		
-		
+
 		return testParametor;
 	}
 

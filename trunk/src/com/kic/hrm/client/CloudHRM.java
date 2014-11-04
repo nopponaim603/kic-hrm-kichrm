@@ -161,8 +161,8 @@ public class CloudHRM implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				// OAuth2Login.get().
-				log.log(Level.SEVERE,"Click");
-				
+				log.log(Level.SEVERE, "Click");
+
 				final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL,
 						CLIENT_ID).withScopes("https://www.googleapis.com/auth/calendar");
 				
