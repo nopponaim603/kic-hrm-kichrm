@@ -1,89 +1,42 @@
 package com.kic.hrm.server;
 
+import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.client.GreetingService;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.EmployeeQuotaService;
 import com.kic.hrm.data.model.LeaveTask;
-import com.kic.hrm.data.model.Employee.role;
+
 import com.kic.hrm.data.model.LeaveTask.progress;
-import com.kic.hrm.data.model.LeaveTaskService;
-import com.kic.hrm.data.model.StartTimeLog;
-import com.kic.hrm.data.model.StartTimeLog.timetable;
+
 import com.kic.hrm.data.model.StartTimeLog.type;
-import com.kic.hrm.data.model.StartTimeLogService;
+
+import com.kic.hrm.server.businesslogic.AttendanceServiceImpl;
+import com.kic.hrm.server.businesslogic.LeaveTaskServiceImpl;
 import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
 import com.kic.hrm.server.businesslogic.RecordLog;
-import com.kic.hrm.server.businesslogic.SendEmailServiceImpl;
+import com.kic.hrm.server.businesslogic.ReportServiceImpl;
+
 import com.kic.hrm.shared.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.logging.Level;
+
 import java.util.logging.Logger;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.google.web.bindery.requestfactory.shared.Receiver;
-/*
- import com.google.api.client.util.Charsets;
- import com.google.api.services.mapsengine.MapsEngine;
- import com.google.api.services.mapsengine.MapsEngineRequestInitializer;
- import com.google.api.services.mapsengine.model.Feature;
- import com.google.api.services.mapsengine.model.FeaturesListResponse;
- import com.google.api.services.mapsengine.model.GeoJsonPoint;
- */
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Query.Filter;
-import com.google.appengine.api.datastore.Query.FilterOperator;
-import com.google.appengine.api.datastore.Query.FilterPredicate;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.DateTime;
-import com.google.api.gwt.services.calendar.shared.Calendar.EventsContext;
-import com.google.api.gwt.services.calendar.shared.Calendar.CalendarListContext.ListRequest.MinAccessRole;
-//import com.google.api.gwt.services.calendar.shared.model.CalendarList;
-/*
- import com.google.api.gwt.services.calendar.shared.model.Event;
- import com.google.api.gwt.services.calendar.shared.model.EventDateTime;
- */
-import com.google.api.gwt.shared.EmptyResponse;
+
 import com.google.api.services.calendar.*;
-import com.google.api.services.calendar.Calendar.Events.Insert;
+
 import com.google.api.services.calendar.model.Event;
-import com.google.api.services.calendar.model.CalendarListEntry;
-import com.google.api.services.calendar.model.Event.Reminders;
-import com.google.api.services.calendar.model.EventAttendee;
-import com.google.api.services.calendar.model.EventDateTime;
-import com.google.api.services.drive.Drive;
 
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
-
-	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
 
 	@SuppressWarnings("unused")
 	private static final Logger log = Logger
@@ -142,33 +95,35 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public LoginInfo loginDetails(String token) {
 		LoginInfo userInfo = LoginServiceImpl.loginDetails(token);
 		log("Login Details see email : " + userInfo.getEmailAddress());
-		if (ProfileServiceImpl.isMember(userInfo.getEmailAddress())) {
-			System.out.println("Email : " + userInfo.getEmailAddress()
-					+ " is Member.");
-			return userInfo;
-		} else {
-			userInfo.setEmployeeRole(role.Guest);
-			userInfo.setName(role.Guest.toString() + " " + userInfo.getName());
-			System.out.println("Email : " + userInfo.getEmailAddress()
-					+ " is Guest!");
-			return userInfo;
-		}
+		return LoginServiceImpl.MemberOrGuest(userInfo);
 	}
 
 	// #11:> end
+
+	// https://www.google.com/calendar/feeds/camtedu.net_ffupfdej93dc7td5rop26gvp1s%40group.calendar.google.com/public/basic
+
+	// camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com
 	String m_calenderID = "camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com";
 
 	public void getcalender(String token) {
-		Calendar calender = BuildCalendarAPIbyTOKEN(token);
-		String pageToken = null;
+
+		// Find m_calenderID
+		String HR_calenderID = m_calenderID;
+
+		Calendar calender = CalendarServiceImpl.BuildCalendarAPIbyTOKEN(token,
+				CloudHRM.getAPPLICATION_NAME());
 
 		try {
 			System.out.println("First Test to Create Event.");
-			
-			Event createdEvent = calender.events().insert(m_calenderID, createEvent("Appointment","Description"))
-					.execute();
 
-			// System.out.println(createdEvent.getId());
+			Date startDate = new Date();
+			Date endDate = new Date(startDate.getTime() + 86400000);
+
+			Event tempevent = CalendarServiceImpl.createEvent("Appointment",
+					"Description", startDate, endDate);
+			Event createdEvent = calender.events()
+					.insert(HR_calenderID, tempevent).execute();
+			System.out.println(createdEvent.getId());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -198,134 +153,6 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		// calender.calendarList().
 	}
 
-	// https://www.google.com/calendar/feeds/camtedu.net_ffupfdej93dc7td5rop26gvp1s%40group.calendar.google.com/public/basic
-
-	// camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com
-	public static Calendar BuildCalendarAPIbyTOKEN(String token) {
-		HttpTransport httpTransport = new NetHttpTransport();
-		JacksonFactory jsonFactory = new JacksonFactory();
-		GoogleCredential credential = new GoogleCredential()
-				.setAccessToken(token);
-		Calendar service = new Calendar.Builder(httpTransport, jsonFactory,
-				credential).setApplicationName(APPLICATION_NAME).build();
-		return service;
-	}
-
-	/** Gets the calendar ID of some calendar that the user can write to. */
-	private void getCalendarId(Calendar calender) {
-		// We need to find an ID of a calendar that we have permission to write
-		// events to. We'll just
-		// pick the first one that gets returned, and we will delete the event
-		// when we're done.
-		/*
-		 * calendar.calendarList().list().setMinAccessRole(MinAccessRole.OWNER)
-		 * .fire(new Receiver<CalendarList>() {
-		 * 
-		 * @Override public void onSuccess(CalendarList list) { String
-		 * calendarId = list.getItems().get(0).getId();
-		 * 
-		 * insertEvent(calendarId); } });
-		 */
-		try {
-			com.google.api.services.calendar.Calendar.CalendarList.List m_list = calender
-					.calendarList().list()
-					.setMinAccessRole(MinAccessRole.OWNER.toString());
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	private Event createEvent(String titleEvent,String description) {
-		Event event = new Event();
-		// event.setColorId("red");
-		event.setSummary(titleEvent);
-		//event.setLocation("Somewhere");
-		Reminders test = new Reminders();
-		test.setUseDefault(false);
-		event.setReminders(test);
-		event.setDescription(description);
-
-		Date startDate = new Date();
-		Date endDate = new Date(startDate.getTime() + 86400000);
-
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String startDateStr = dateFormat.format(startDate);
-		String endDateStr = dateFormat.format(endDate);
-
-		// Out of the 6 methods for creating a DateTime object with no time
-		// element, only the String version works
-		DateTime startDateTime = new DateTime(startDateStr);
-		DateTime endDateTime = new DateTime(endDateStr);
-
-		// Must use the setDate() method for an all-day event (setDateTime()
-		// is used for timed events)
-		EventDateTime startEventDateTime = new EventDateTime()
-				.setDate(startDateTime);
-		EventDateTime endEventDateTime = new EventDateTime()
-				.setDate(endDateTime);
-
-		event.setStart(startEventDateTime);
-		event.setEnd(endEventDateTime);
-		return event;
-	}
-	/** Insert a new event for the given calendar ID. */
-	/*
-	 * private void insertEvent(Calendar calender, final String calendarId) {
-	 * String today = DateTimeFormat.getFormat("yyyy-MM-dd") .format(new
-	 * Date()); EventsContext ctx = calendar.events(); Event event =
-	 * ctx.create(Event.class)
-	 * .setSummary("Learn about the Google API GWT client library")
-	 * .setStart(ctx.create(EventDateTime.class).setDateTime(today))
-	 * .setEnd(ctx.create(EventDateTime.class).setDateTime(today));
-	 * 
-	 * // Note that the EventsContext used to insert the Event has to be the //
-	 * same one used to create // it. ctx.insert(calendarId, event).fire(new
-	 * Receiver<Event>() {
-	 * 
-	 * @Override public void onSuccess(Event inserted) { // The event has been
-	 * inserted.
-	 * 
-	 * // Now we'll demonstrate retrieving it and updating it. String eventId =
-	 * inserted.getId(); getEventForUpdate(calendarId, eventId); } }); }
-	 */
-	/** Get an event for the purposes of updating it. */
-	/*
-	 * private void getEventForUpdate(Calendar calender,final String calendarId,
-	 * final String eventId) { final EventsContext ctx = calendar.events();
-	 * ctx.get(calendarId, eventId).fire(new Receiver<Event>() {
-	 * 
-	 * @Override public void onSuccess(Event event) { // Note that the
-	 * EventsContext used to update the event has to // be the same one that was
-	 * // used to retrieve it. updateEvent(ctx, event, calendarId, eventId); }
-	 * }); }
-	 */
-	/** Update an event that was previously retrieved. */
-	/*
-	 * private void updateEvent(Calendar calender,EventsContext ctx, Event
-	 * event, final String calendarId, final String eventId) { String newSummary
-	 * = ""; while (newSummary.isEmpty()) { newSummary =
-	 * Window.prompt("Provide a new name for the event", ""); } Event
-	 * editableEvent = ctx.edit(event); // Don't forget to call edit()
-	 * editableEvent.setSummary(newSummary); ctx.update(calendarId, eventId,
-	 * editableEvent).fire( new Receiver<Event>() {
-	 * 
-	 * @Override public void onSuccess(Event updated) { // The event has been
-	 * updated. Now we'll delete it.
-	 * 
-	 * deleteEvent(calender,calendarId, eventId); } }); }
-	 */
-	/** Delete an event by its ID. */
-	/*
-	 * private void deleteEvent(Calendar calender,String calendarId, String
-	 * eventId) { calendar.events().delete(calendarId, eventId) .fire(new
-	 * Receiver<EmptyResponse>() {
-	 * 
-	 * @Override public void onSuccess(EmptyResponse r) { // The event has been
-	 * deleted. And we're done! Window.alert("Event deleted! Demo complete!"); }
-	 * }); }
-	 */
 	// Add Edit Delete Profile
 	@Override
 	public Employee addProfile(Employee userEmployee, EmployeeQuota userQuota,
@@ -407,406 +234,52 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public EmployeeQuota getEmployeeQuota(int employeeID) {
 		// TODO Auto-generated method stub
-		EmployeeQuota m_employeeQuota = new EmployeeQuota();
-
-		List<EmployeeQuota> m_employeeQuotas = EmployeeQuotaService
-				.Clone(DataStoreControl.Query(EmployeeQuota.class,
-						SortDirection.DESCENDING, EmployeeQuotaService
-								.findEmployeeByEmployeeID(employeeID)));
-		System.out.println("EmployeeQuota :" + m_employeeQuotas.size());
-
-		if (m_employeeQuotas.size() == 1)
-			for (EmployeeQuota temp : m_employeeQuotas)
-				m_employeeQuota = temp;
-
-		// System.out.println("IS : " + m_employeeQuota + " : " +
-		// m_employeeQuota.getM_leave());
-		return m_employeeQuota;
+		return EmployeeQuotaService.getEmployeeQuota(employeeID);
 	}
 
 	@Override
 	public boolean createLeaveTask(LeaveTask leavetask) {
 		// TODO Auto-generated method stub
-		Entity d_LeaveTask = null;
-		d_LeaveTask = DataStoreControl.CreateEntity(LeaveTask.class);
-		d_LeaveTask = LeaveTaskService.FlashData(d_LeaveTask, leavetask);
-		DataStoreControl.SaveEntity(d_LeaveTask);
-
-		return true;
+		return LeaveTaskServiceImpl.createLeaveTask(leavetask);
 	}
 
 	@Override
 	public boolean approveLeaveTask(LeaveTask leavetask) {
 		// TODO Auto-generated method stub
-		Entity d_LeaveTask = null;
-		d_LeaveTask = DataStoreControl.CreateEntity(LeaveTask.class);
-		try {
-			d_LeaveTask = DataStoreControl.EditEntity(leavetask.getKind(),
-					leavetask.getKeyID());
-			d_LeaveTask = LeaveTaskService.FlashData(d_LeaveTask, leavetask);
-			DataStoreControl.SaveEntity(d_LeaveTask);
-
-			if (leavetask.getM_leaveprogress() == progress.Complete) {
-				List<EmployeeQuota> temp_Em = null;
-				List<Entity> temp_E;
-				temp_E = DataStoreControl.Query(EmployeeQuota.class,
-						SortDirection.ASCENDING, EmployeeQuotaService
-								.findEmployeeByEmployeeID(leavetask
-										.getM_employeeID()));
-				temp_Em = EmployeeQuotaService.Clone(temp_E);
-
-				if (temp_Em.size() == 1) {
-					Long deltaTime = leavetask.getM_end().getTime()
-							- leavetask.getM_start().getTime();
-					Date tempTime = new Date(deltaTime);
-					@SuppressWarnings("deprecation")
-					int DeltaDay = tempTime.getDate();
-
-					if (leavetask.getM_leavetype() == type.Leave)
-						temp_Em.get(0).setM_leave(
-								temp_Em.get(0).getM_leave() - DeltaDay);
-					else if (leavetask.getM_leavetype() == type.Holiday)
-						temp_Em.get(0).setM_holiday(
-								temp_Em.get(0).getM_holiday() - DeltaDay);
-
-					Entity newDumpData = DataStoreControl.EditEntity(temp_Em
-							.get(0).getKind(), temp_Em.get(0).getKeyID());
-					newDumpData = EmployeeQuotaService.FlashData(newDumpData,
-							temp_Em.get(0));
-					DataStoreControl.SaveEntity(newDumpData);
-
-					UpdateStartLog(leavetask);
-					// if()
-				}
-			}
-
-			return true;
-		} catch (EntityNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return false;
-	}
-
-	private void UpdateStartLog(LeaveTask leavetask) {
-
-		Filter startDate = new FilterPredicate(
-				StartTimeLog.property.date.toString(),
-				FilterOperator.GREATER_THAN_OR_EQUAL, leavetask.getM_start());
-
-		Filter endDate = new FilterPredicate(
-				StartTimeLog.property.date.toString(),
-				FilterOperator.LESS_THAN_OR_EQUAL, leavetask.getM_end());
-
-		Filter currentUser = new FilterPredicate(
-				StartTimeLog.property.employeeID.toString(),
-				FilterOperator.EQUAL, leavetask.getM_employeeID());
-
-		Filter isAbsence = new FilterPredicate(
-				StartTimeLog.property.type.toString(), FilterOperator.EQUAL,
-				StartTimeLog.type.Absence.toString());
-
-		Filter m_composite = StartTimeLogService.CompositeAndFilter(startDate,
-				endDate, currentUser, isAbsence);
-		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
-				SortDirection.DESCENDING, m_composite);
-		List<StartTimeLog> m_starttimelog = StartTimeLogService
-				.Clone(temp_entity);
-
-		for (StartTimeLog log : m_starttimelog) {
-			if (leavetask.getM_leavetype() == type.Leave)
-				log.setM_type(StartTimeLog.type.Leave);
-			else if (leavetask.getM_leavetype() == type.Holiday)
-				log.setM_type(StartTimeLog.type.Holiday);
-
-			try {
-				Entity newDumpData = DataStoreControl.EditEntity(log.getKind(),
-						log.getKeyID());
-				newDumpData = StartTimeLogService.FlashData(newDumpData, log);
-				DataStoreControl.SaveEntity(newDumpData);
-			} catch (EntityNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		// temp_entity = null;
-		// for(StartTimeLog log : m_starttimelog) {
-		// temp_entity = StartTimeLogService.FlashData(temp_entity, log);
-		// }
-
-		// StartTimeLogService
+		return LeaveTaskServiceImpl.approveLeaveTask(leavetask);
 	}
 
 	@Override
 	public List<LeaveTask> getLeaveTask(progress InProgress, int targetID) {
 		// TODO Auto-generated method stub
-		List<LeaveTask> results;// = new ArrayList<Employee>();
-
-		List<Entity> entities = null;
-		if (InProgress == progress.LeaderApprove)
-			entities = DataStoreControl.Query(LeaveTask.class,
-					SortDirection.ASCENDING,
-					LeaveTaskService.findLeaderByLeaderID(targetID));
-		else if (InProgress == progress.HRApprove)
-			entities = DataStoreControl.Query(LeaveTask.class,
-					SortDirection.ASCENDING, LeaveTaskService.findHRApprove());
-		else
-			entities = DataStoreControl.Query(LeaveTask.class,
-					SortDirection.ASCENDING,
-					LeaveTaskService.findEmployeeByEmployeeID(targetID));
-		results = LeaveTaskService.Clone(entities);
-
-		return results;
+		return LeaveTaskServiceImpl.getLeaveTask(InProgress, targetID);
 	}
 
 	@Override
 	public boolean deleteLeaveTask(LeaveTask leavetask) {
 		// TODO Auto-generated method stub
-		System.out.println("delete Leave Task id : " + leavetask.getKeyID());
-		DataStoreControl
-				.DeleteEntity(leavetask.getKind(), leavetask.getKeyID());
-		return true;
+		return LeaveTaskServiceImpl.deleteLeaveTask(leavetask);
 	}
 
-	static final String SAMPLE_TABLE_ID = "12421761926155747447-06672618218968397709";
-	static final String PUBLIC_API_KEY = "4f36c102c352bcec6c8ee5b40028dc8b6f6602a3";
-
-	// public static void readFeaturesFromTable(MapsEngine me) throws
-	// IOException {
-	// Query the table for offices in WA that are within 100km of Perth.
-	/*
-	 * FeaturesListResponse featResp = me .tables() .features()
-	 * .list(SAMPLE_TABLE_ID) .setVersion("published") .setWhere(
-	 * "State='WA' AND ST_DISTANCE(geometry,ST_POINT(115.8589,-31.9522)) < 100000"
-	 * ) .execute();
-	 * 
-	 * for (Feature feat : featResp.getFeatures()) {
-	 * System.out.println("Properties: " + feat.getProperties().toString() +
-	 * "\n\t" + "Name: " + feat.getProperties().get("Fcilty_nam") + "\n\t" +
-	 * "Geometry Type: " + feat.getGeometry().getType());
-	 * 
-	 * if (feat.getGeometry() instanceof GeoJsonPoint) { GeoJsonPoint point =
-	 * (GeoJsonPoint) feat.getGeometry(); System.out.println("\t" +
-	 * "Longitude: " + point.getCoordinates().get(0) + ", " + "Latitude: " +
-	 * point.getCoordinates().get(1)); } else {
-	 * System.out.println("Only points are expected in this table!"); return; }
-	 * }
-	 */
-	// }
 
 	@Override
 	public boolean LoginAttendance(LoginInfo userInfo, type leaveType,
 			String address) {
 		// TODO Auto-generated method stub
-		System.out.println("Employee email: " + userInfo.getEmailAddress());
-
-		log("Employee email: " + userInfo.getEmailAddress());
-		Employee m_employee = ProfileServiceImpl.getProfile(userInfo
-				.getEmailAddress());
-		System.out.println("Employee : " + m_employee + " : "
-				+ userInfo.getEmailAddress());
-		log("Employee : " + m_employee + " : " + userInfo.getEmailAddress());
-		if (m_employee != null) {
-			log("Employee is Not NULL!!.");
-			timetable m_timetable = LoginServiceImpl
-					.convertRoleToTimeTable(userInfo.getEmployeeRole());
-
-			type m_leaveType = leaveType;
-
-			// Check Area
-			if (leaveType == leaveType.Office) {
-				// CAMT Lat Long : 18.8005192,98.9507971
-				// Home to camt = 7.378121432299594 : 7.3 KM
-				double[] CAMTPosition = { (double) 18.8005192,
-						(double) 98.9507971 };
-				double[] currentPosition = {
-						userInfo.getCurrentPosition().getLatitude(),
-						userInfo.getCurrentPosition().getLongitude() };
-
-				double[] gps1 = { 13.7569891624617, 100.6189513206482 };
-				double[] gps2 = { 13.7569991624617, 100.6189613206482 };
-
-				// double
-				double Distance = findDistance(CAMTPosition, currentPosition);
-				System.out.println("current Position : " + currentPosition[0]
-						+ " : " + currentPosition[1] + " | Distance : "
-						+ Distance);
-				log("current Position : " + currentPosition[0] + " : "
-						+ currentPosition[1] + " | Distance : " + Distance);
-				// Distance lass than 70 Meter
-				if (Distance <= 0.07) {
-
-					// On Office
-					StartTimeLog OnWebStartTimeLog = StartTimeLogService
-							.Create(m_employee, m_timetable, m_leaveType,
-									address);
-
-					// One Day Save One Time
-					boolean isLogin = OneTimeLogin(
-							m_employee.getM_employeeID(),
-							OnWebStartTimeLog.getM_date());
-
-					// Add DataStartTimeLogService
-					if (!isLogin) {
-						Entity d_OnWebStartTimeLog = null;
-						d_OnWebStartTimeLog = DataStoreControl
-								.CreateEntity(StartTimeLog.class);
-						d_OnWebStartTimeLog = StartTimeLogService.FlashData(
-								d_OnWebStartTimeLog, OnWebStartTimeLog);
-						DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
-					}
-					return true;
-				} else {
-					return false;
-				}
-			} else {
-				// On Site
-				StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(
-						m_employee, m_timetable, m_leaveType, address);
-
-				// One Day Save One Time
-				boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),
-						OnWebStartTimeLog.getM_date());
-
-				// Add DataStartTimeLogService
-				if (!isLogin) {
-
-					Entity d_OnWebStartTimeLog = null;
-					d_OnWebStartTimeLog = DataStoreControl
-							.CreateEntity(StartTimeLog.class);
-					d_OnWebStartTimeLog = StartTimeLogService.FlashData(
-							d_OnWebStartTimeLog, OnWebStartTimeLog);
-					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
-
-					log.log(Level.SEVERE, "Save Done.");
-				}
-
-				return true;
-			}
-		}
-		return false;
-	}
-
-	boolean OneTimeLogin(int employeeID, Date TodayLogin) {
-		boolean isLogin = false;
-		log.log(Level.SEVERE, "Employee ID : " + employeeID);
-		Filter currentUser = new FilterPredicate(
-				StartTimeLog.property.employeeID.toString(),
-				FilterOperator.EQUAL, employeeID);
-		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
-				SortDirection.DESCENDING, currentUser);
-		List<StartTimeLog> m_starttimelog = StartTimeLogService
-				.Clone(temp_entity);
-
-		for (StartTimeLog m_start : m_starttimelog) {
-			// m_start.getM_date()
-			if (CollisionDate(TodayLogin, m_start.getM_date()))
-				isLogin = true;
-		}
-		log.log(Level.SEVERE, "Is Login : " + isLogin);
-
-		return isLogin;
-	}
-
-	boolean CollisionDate(Date thisIsToday, Date collisiontDate) {
-		boolean isCollision = false;
-
-		if (thisIsToday.getYear() == collisiontDate.getYear()
-				&& thisIsToday.getMonth() == collisiontDate.getMonth()
-				&& thisIsToday.getDay() == collisiontDate.getDay())
-			isCollision = true;
-
-		return isCollision;
-	}
-
-	void SaveStartTimeLogToDataStore() {
-
+		return AttendanceServiceImpl.LoginAttendance(userInfo, leaveType,
+				address);
 	}
 
 	@Override
 	public String getAddressWithLatLong(String latLong) {
 		// TODO Auto-generated method stub
-		return getAddress(latLong);
-	}
-
-	String getAddress(String latLong) {
-		try {
-			String combile = "http://maps.googleapis.com/maps/api/geocode/xml?latlng="
-					+ latLong + "&sensor=true";
-			// System.out.println("Address COmbile : " + combile);
-			URL mapsUrl = new URL(combile);
-			InputStream openStream = mapsUrl.openStream();
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(openStream);
-
-			NodeList formattedAddress = doc
-					.getElementsByTagName("formatted_address");
-			// System.out.println("Formatted : " +
-			// formattedAddress.getLength());
-
-			Element formattedAddressElement = (Element) formattedAddress
-					.item(0);
-			return formattedAddressElement.getTextContent();
-		} catch (Exception e) {
-			System.out.println("Error : " + e);
-			return null;
-		}
-	}
-
-	double findDistance(double[] gps1, double[] gps2) {
-		double R = 6371;
-		double latitudeDistance1 = gps1[0]; // a1
-		double latitudeDistance2 = gps2[0]; // a2
-
-		double longitudeDistance1 = gps1[1]; // b1
-		double longitudeDistance2 = gps2[1]; // b2
-
-		double latitudeDistanceRad = Math.toRadians(latitudeDistance1
-				- latitudeDistance2);
-		double longitudeDistanceRad = Math.toRadians(longitudeDistance1
-				- longitudeDistance2);
-
-		double a = Math.sin(latitudeDistanceRad / 2)
-				* Math.sin(latitudeDistanceRad / 2)
-				+ Math.cos(Math.toRadians(latitudeDistance1))
-				* Math.cos(Math.toRadians(latitudeDistance2))
-				* Math.sin(longitudeDistanceRad / 2)
-				* Math.sin(longitudeDistanceRad / 2);
-		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-		double d = R * c;
-
-		return d;
+		return GeoLocationServiceImpl.getAddressWithLatLong(latLong);
 	}
 
 	@Override
 	public boolean sendReportDairyToEmail(String email) {
 		// TODO Auto-generated method stub
-		SendEmailServiceImpl sender = new SendEmailServiceImpl();
-		String emailTo = email;
-		String emailForm = "noppon.w@vr.camt.info";
-		String subject = "Send Report Daliy";
-
-		StringBuilder contentBuilder = new StringBuilder();
-		try {
-			BufferedReader in = new BufferedReader(new FileReader(
-					"email/emailBody.html"));
-			String str;
-			while ((str = in.readLine()) != null) {
-				contentBuilder.append(str);
-			}
-			in.close();
-		} catch (IOException e) {
-		}
-		String content = contentBuilder.toString();
-		System.out.println("content : " + content);
-		String htmlBody = content;
-		// Files.toString(new File("/path/to/file", Charsets.UTF_8);
-		boolean isSuccessSend = sender.sendMail(emailTo, emailForm, subject,
-				htmlBody);
-		return isSuccessSend;
+		return ReportServiceImpl.sendReportDairyToEmail(email);
 	}
 
 }

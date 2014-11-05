@@ -20,6 +20,7 @@ import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.EmployeeService;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
+import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
 import com.kic.hrm.shared.LoginInfo;
 
 public class LoginServiceImpl {
@@ -154,6 +155,20 @@ public class LoginServiceImpl {
 		return loginInfo;
 	}
 	
+	public static LoginInfo MemberOrGuest(LoginInfo userInfo) {
+		if (ProfileServiceImpl.isMember(userInfo.getEmailAddress())) {
+			System.out.println("Email : " + userInfo.getEmailAddress()
+					+ " is Member.");
+			return userInfo;
+		} else {
+			userInfo.setEmployeeRole(role.Guest);
+			userInfo.setName(role.Guest.toString() + " " + userInfo.getName());
+			System.out.println("Email : " + userInfo.getEmailAddress()
+					+ " is Guest!");
+			return userInfo;
+		}
+	}
+	
 	public static timetable convertRoleToTimeTable(role userRole) {
 		timetable m_timetable = timetable.None;
 		
@@ -165,6 +180,7 @@ public class LoginServiceImpl {
 		
 		return m_timetable;
 	}
+	
 	private static LoginInfo setupEmployeeData(LoginInfo loginInfo) {
 		System.out.println("email : " + loginInfo.getEmailAddress());
 		//int employeeId = -1;
