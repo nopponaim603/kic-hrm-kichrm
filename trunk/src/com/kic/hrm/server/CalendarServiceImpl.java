@@ -15,9 +15,13 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Event.Reminders;
+import com.google.gwt.core.client.GWT;
 
 public class CalendarServiceImpl {
 
+	private Calendar calendar = GWT.create(Calendar.class);
+	
+	
 	public static Calendar BuildCalendarAPIbyTOKEN(String token,String APPLICATION_NAME) {
 		HttpTransport httpTransport = new NetHttpTransport();
 		JacksonFactory jsonFactory = new JacksonFactory();

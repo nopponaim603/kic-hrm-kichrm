@@ -42,6 +42,7 @@ public interface GreetingService extends RemoteService {
 	boolean approveLeaveTask(LeaveTask leavetask);
 	List<LeaveTask> getLeaveTask(progress InProgress, int targetID);
 	boolean deleteLeaveTask(LeaveTask leavetask);
+	boolean addLeaveTaskToCalendar(String token ,LeaveTask leavetask);
 	////////////////
 	
 	// Login Attendance
@@ -52,5 +53,7 @@ public interface GreetingService extends RemoteService {
 	// Save File CSV to Google Drive
 	String getFileFormGoogleDrive(String token, String idFile);
 	String saveCSVtoDrive(String token, String FolderID);
+	
+	
 	///////////////
 }

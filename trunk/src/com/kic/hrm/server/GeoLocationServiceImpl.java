@@ -68,6 +68,25 @@ public class GeoLocationServiceImpl {
 	}
 
 	/*
+	 * public static MapsEngine BuildMapAPIbyTOKEN(String token) {
+	 * 
+	 * HttpTransport httpTransport = new NetHttpTransport(); JacksonFactory
+	 * jsonFactory = new JacksonFactory();
+	 * 
+	 * // This request initializer will ensure the API key is sent with every //
+	 * HTTP request. MapsEngineRequestInitializer apiKeyInitializer = new
+	 * MapsEngineRequestInitializer( PUBLIC_API_KEY);
+	 * 
+	 * GoogleCredential credential = new GoogleCredential()
+	 * .setAccessToken(token); MapsEngine service = new
+	 * MapsEngine.Builder(httpTransport, jsonFactory,
+	 * credential).setMapsEngineRequestInitializer(apiKeyInitializer)
+	 * .setApplicationName(APPLICATION_NAME).build();
+	 * 
+	 * return service; }
+	 */
+	
+	/*
 	 * static final String SAMPLE_TABLE_ID =
 	 * "12421761926155747447-06672618218968397709"; static final String
 	 * PUBLIC_API_KEY = "4f36c102c352bcec6c8ee5b40028dc8b6f6602a3";

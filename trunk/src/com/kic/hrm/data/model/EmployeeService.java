@@ -5,14 +5,17 @@ import java.util.List;
 
 
 
+
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.kic.hrm.data.model.Employee.property;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.Employee.segment;
 import com.kic.hrm.data.model.Employee.sex;
+import com.kic.hrm.server.DataStoreControl;
 
 public class EmployeeService {
 	
@@ -95,6 +98,26 @@ public class EmployeeService {
 		}
 		
 		return results;
+	}
+	
+	public static Employee getEmployee(int employeeID) {
+		// TODO Auto-generated method stub
+		Employee m_employee = new Employee();
+
+		List<Employee> m_employees = Clone(DataStoreControl.Query(Employee.class,
+						SortDirection.DESCENDING, findEmployeeByEmployeeID(employeeID)));
+		System.out.println("EmployeeQuota :" + m_employees.size());
+
+		if (m_employees.size() == 1){
+			for (Employee temp : m_employees)
+				m_employee = temp;
+		
+		return m_employee;
+		}
+			
+		return null;
+		// System.out.println("IS : " + m_employeeQuota + " : " +
+		// m_employeeQuota.getQuota;
 	}
 	
 	

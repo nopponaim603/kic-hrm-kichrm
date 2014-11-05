@@ -1,38 +1,27 @@
 package com.kic.hrm.server;
 
-import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.client.GreetingService;
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.EmployeeQuotaService;
 import com.kic.hrm.data.model.LeaveTask;
-
 import com.kic.hrm.data.model.LeaveTask.progress;
-
 import com.kic.hrm.data.model.StartTimeLog.type;
-
 import com.kic.hrm.server.businesslogic.AttendanceServiceImpl;
 import com.kic.hrm.server.businesslogic.LeaveTaskServiceImpl;
 import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
 import com.kic.hrm.server.businesslogic.RecordLog;
 import com.kic.hrm.server.businesslogic.ReportServiceImpl;
-
 import com.kic.hrm.shared.*;
 
-import java.io.IOException;
-
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import com.google.api.services.calendar.*;
-
-import com.google.api.services.calendar.model.Event;
 
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
@@ -80,6 +69,24 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 				.replaceAll(">", "&gt;");
 	}
 
+	@Override
+	public String QuickTest(String testParametor) {
+		// TODO Auto-generated method stub
+
+		// MapsEngine engine = BuildMapAPIbyTOKEN(testParametor);
+		// TestgetLocation(testParametor);
+
+		// testParametor = getAddress(testParametor);
+		// System.out.println("Pass getAddress : " + testParametor);
+		/*
+		 * try { //readFeaturesFromTable(engine); } catch (IOException e) { //
+		 * TODO Auto-generated catch block e.printStackTrace(); }
+		 */
+		//getcalender(testParametor);
+
+		return testParametor;
+	}
+	
 	// #11: implement login helper methods in service implementation
 	@Override
 	public String getUserEmail(final String token) {
@@ -97,61 +104,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		log("Login Details see email : " + userInfo.getEmailAddress());
 		return LoginServiceImpl.MemberOrGuest(userInfo);
 	}
-
 	// #11:> end
 
-	// https://www.google.com/calendar/feeds/camtedu.net_ffupfdej93dc7td5rop26gvp1s%40group.calendar.google.com/public/basic
-
-	// camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com
-	String m_calenderID = "camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com";
-
-	public void getcalender(String token) {
-
-		// Find m_calenderID
-		String HR_calenderID = m_calenderID;
-
-		Calendar calender = CalendarServiceImpl.BuildCalendarAPIbyTOKEN(token,
-				CloudHRM.getAPPLICATION_NAME());
-
-		try {
-			System.out.println("First Test to Create Event.");
-
-			Date startDate = new Date();
-			Date endDate = new Date(startDate.getTime() + 86400000);
-
-			Event tempevent = CalendarServiceImpl.createEvent("Appointment",
-					"Description", startDate, endDate);
-			Event createdEvent = calender.events()
-					.insert(HR_calenderID, tempevent).execute();
-			System.out.println(createdEvent.getId());
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		/*
-		 * com.google.api.services.calendar.model.CalendarList calendarList; try
-		 * { calendarList = calender.calendarList().list()
-		 * .setPageToken(pageToken).execute(); for (CalendarListEntry
-		 * calendarListEntry : calendarList.getItems()) {
-		 * 
-		 * System.out.println("Test : " + calendarListEntry.getId());
-		 * System.out.println("Test : " + calendarListEntry.getSummary());
-		 * //System.out.println("Test : " + calendarListEntry.);
-		 * 
-		 * }
-		 * 
-		 * //calender.calendarList().get(calender) } catch (IOException e) { //
-		 * TODO Auto-generated catch block System.out.println("Bug.");
-		 * e.printStackTrace(); }
-		 */
-		// calender.get
-		// calender.calendars().
-		// List<CalendarListEntry> items = calendarList.getItems();
-
-		// calender.calendarList().
-	}
 
 	// Add Edit Delete Profile
 	@Override
@@ -175,61 +129,22 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public boolean deleteProfile(Integer targetEmployee) {
 		return ProfileServiceImpl.deleteProfile(targetEmployee);
 	}
-
 	// Add Edit Delete Profile > end
-
+	
 	// SaveCSV
 	@Override
 	public String saveCSVtoDrive(String token, String FolderID) {
-		String getresouce = RecordLog.SaveStartTime(token, FolderID);
-		return getresouce;
+		return RecordLog.SaveStartTime(token, FolderID);
 	}
-
 	// SaveCSV > end
-
+	
+	// Get CSV File form Google Drive
 	@Override
 	public String getFileFormGoogleDrive(String token, String idFile) {
 		// TODO Auto-generated method stub
-		String getresouce = DriveServiceImpl.getFile(token, idFile);
-		return getresouce;
+		return DriveServiceImpl.getFile(token, idFile);
 	}
-
-	@Override
-	public String QuickTest(String testParametor) {
-		// TODO Auto-generated method stub
-
-		// MapsEngine engine = BuildMapAPIbyTOKEN(testParametor);
-		// TestgetLocation(testParametor);
-
-		// testParametor = getAddress(testParametor);
-		// System.out.println("Pass getAddress : " + testParametor);
-		/*
-		 * try { //readFeaturesFromTable(engine); } catch (IOException e) { //
-		 * TODO Auto-generated catch block e.printStackTrace(); }
-		 */
-		getcalender(testParametor);
-
-		return testParametor;
-	}
-
-	/*
-	 * public static MapsEngine BuildMapAPIbyTOKEN(String token) {
-	 * 
-	 * HttpTransport httpTransport = new NetHttpTransport(); JacksonFactory
-	 * jsonFactory = new JacksonFactory();
-	 * 
-	 * // This request initializer will ensure the API key is sent with every //
-	 * HTTP request. MapsEngineRequestInitializer apiKeyInitializer = new
-	 * MapsEngineRequestInitializer( PUBLIC_API_KEY);
-	 * 
-	 * GoogleCredential credential = new GoogleCredential()
-	 * .setAccessToken(token); MapsEngine service = new
-	 * MapsEngine.Builder(httpTransport, jsonFactory,
-	 * credential).setMapsEngineRequestInitializer(apiKeyInitializer)
-	 * .setApplicationName(APPLICATION_NAME).build();
-	 * 
-	 * return service; }
-	 */
+	// Get CSV File form Google Drive > end
 
 	@Override
 	public EmployeeQuota getEmployeeQuota(int employeeID) {
@@ -237,6 +152,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return EmployeeQuotaService.getEmployeeQuota(employeeID);
 	}
 
+	// Leave Task
 	@Override
 	public boolean createLeaveTask(LeaveTask leavetask) {
 		// TODO Auto-generated method stub
@@ -261,7 +177,14 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return LeaveTaskServiceImpl.deleteLeaveTask(leavetask);
 	}
 
-
+	@Override
+	public boolean addLeaveTaskToCalendar(String token, LeaveTask leavetask) {
+		// TODO Auto-generated method stub
+		return LeaveTaskServiceImpl.addLeaveTaskToCalendar(token, leavetask);
+	}
+	// Leave Task > end
+	
+	
 	@Override
 	public boolean LoginAttendance(LoginInfo userInfo, type leaveType,
 			String address) {

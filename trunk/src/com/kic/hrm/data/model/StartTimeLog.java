@@ -185,7 +185,11 @@ public class StartTimeLog implements Serializable {
 		this.m_Note = m_Note;
 	}
 
-
+	public StartTimeLog() {
+		// TODO Auto-generated constructor stub
+		m_type = StartTimeLog.type.OnTime;
+		m_timeTable = StartTimeLog.timetable.None;
+	}
     
     //private 
     
