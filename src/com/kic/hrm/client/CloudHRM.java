@@ -87,7 +87,6 @@ public class CloudHRM implements EntryPoint {
 		return DRIVE_SCOPESArry;
 	}
 
-	private static final String MapsEngine_SCOPES = "https://www.googleapis.com/auth/mapsengine";
 	@SuppressWarnings("unused")
 	private static String CLIENT_ID_Service_Account = "392232398516-7nei78mpn8rl47pknpofrv4rtmt0id96.apps.googleusercontent.com";
 	@SuppressWarnings("unused")
@@ -126,7 +125,7 @@ public class CloudHRM implements EntryPoint {
 	 * service.
 	 */
 
-	private Calendar calendar = GWT.create(Calendar.class);;
+	
 
 	public void onModuleLoad() {
 
@@ -163,56 +162,6 @@ public class CloudHRM implements EntryPoint {
 				// OAuth2Login.get().
 				log.log(Level.SEVERE, "Click");
 
-				final AuthRequest req = new AuthRequest(GOOGLE_AUTH_URL,
-						CLIENT_ID).withScopes("https://www.googleapis.com/auth/calendar");
-				
-				AUTH.login(req, new Callback<String, Throwable>() {
-					@Override
-					public void onSuccess(String token) {
-						// Window.alert("Got an OAuth token:\n" + token + "\n"
-						// + "Token expires in " + AUTH.expiresIn(req) +
-						// " ms\n");
-						
-						rpcService.QuickTest(token, new AsyncCallback<String>() {
-							
-							@Override
-							public void onSuccess(String result) {
-								// TODO Auto-generated method stub
-								System.out.println("Test.");
-							}
-							
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								
-							}
-						});
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// Window.alert("Error:\n" + caught.getMessage());
-					}
-				});
-				/*
-				OAuth2Login.get().authorize("392232398516-hdd0r2biksrovka8a6v93roambr2b54r.apps.googleusercontent.com",
-						PlusAuthScope.PLUS_ME,
-						new Callback<Void, Exception>() {
-							@Override
-							public void onSuccess(Void v) {
-
-								Window.alert("Call Server Success To Send Email : Result is "
-										+ v.toString());
-								//getCalendarId();
-							}
-
-							@Override
-							public void onFailure(Exception e) {
-								Window.alert("Auth failed: " + e);
-								GWT.log("Auth failed:", e);
-							}
-						});
-				*/
 			}
 		});
 
