@@ -119,12 +119,13 @@ public class NewPresenter implements Presenter {
 						@Override
 						public void onSuccess(List<LeaveTask> result) {
 							// TODO Auto-generated method stub
-							for (LeaveTask temp : result)
+							for (LeaveTask temp : result) {
 								// if(ConditionLeader.isFollower(m_loginInfo.getEmployeeRole(),
 								// temp.getM_employeeID()))
 								if (temp.getM_leaveprogress() == progress.LeaderApprove)
 									display.createTake(rpcService, temp,
 											taskRole.Leader);
+							}
 						}
 
 						@Override
