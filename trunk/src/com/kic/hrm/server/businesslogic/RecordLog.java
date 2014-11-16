@@ -122,8 +122,6 @@ public class RecordLog {
 		//Load Data Employee key : ID and Value : ID
 		//m_employeeAbsence
 		
-		
-		
 		InputStream fileInput = DriveServiceImpl.downloadFile(service, thisFile);
 		if(fileInput != null) {
 			Reader reader = new InputStreamReader(fileInput);

@@ -51,8 +51,8 @@ public class ProfileView  extends Composite implements ProfilePresenter.Display{
 		
 		ListBox comboBox = new ListBox();
 		comboBox.addItem("Mr");
+		comboBox.addItem("Miss");
 		comboBox.addItem("Mrs");
-		comboBox.addItem("Ms");
 		grid.setWidget(1, 1, comboBox);
 		
 		Label lblName = new Label("Name");
@@ -110,10 +110,9 @@ public class ProfileView  extends Composite implements ProfilePresenter.Display{
 		
 		ListBox comboBox_2 = new ListBox();
 		comboBox_2.addItem("Director");
+		comboBox_2.addItem("Admin");
 		comboBox_2.addItem("Project");
-		comboBox_2.addItem("Office");
-		comboBox_2.addItem("Researchers");
-		comboBox_2.addItem("Advisor");
+		comboBox_2.addItem("Support");
 		grid.setWidget(8, 1, comboBox_2);
 		
 		Label lblEmail = new Label("E-mail");

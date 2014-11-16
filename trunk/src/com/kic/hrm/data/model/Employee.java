@@ -9,12 +9,13 @@ import java.io.Serializable;
 public class Employee implements Serializable {
 	public enum sex {
 		Mr,
+		Miss,
 		Mrs,
 		Ms
 	}
 	
 	public enum role {
-		Guest,
+		
 		Director,
 		ProjectManager,
 		Secretary,
@@ -28,12 +29,15 @@ public class Employee implements Serializable {
 		Designer,
 		ProjectCoordinator,
 		ResearchAssistant,
-		Researchers
+		Researchers,
+		Guest
 	}
 	
 	public enum segment {
 		Director,
+		Admin,
 		Project,
+		Support,
 		Office,
 		Researchers,
 		Advisor
