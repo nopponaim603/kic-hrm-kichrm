@@ -2,6 +2,8 @@ package com.kic.hrm.client.presenter;
 
 
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -24,10 +26,14 @@ import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.server.GreetingServiceImpl;
 import com.kic.hrm.shared.LoginInfo;
 
 
 public class LeavePresenter implements Presenter{
+	
+	private static final Logger log = Logger
+			.getLogger(LeavePresenter.class.getName());
 	
 	public interface Display {
 		Button getbtnLeaveButton();
@@ -84,11 +90,14 @@ public class LeavePresenter implements Presenter{
 				public void onSuccess(EmployeeQuota result) {
 					// TODO Auto-generated method stub
 					System.out.println("Result : " + result);
-					
+					log.log(Level.SEVERE,"ID : " + result.getM_employeeID() + " Leave : " + result.getM_leave());
 					if(result != null)
 					{
+						m_userQuota = result;
+						/*
 						m_userQuota.setM_leave(result.getM_leave());
 						m_userQuota.setM_holiday(result.getM_holiday());
+						*/
 					}else System.out.println("Result : " + result);
 					
 					checkCodition();
@@ -227,6 +236,7 @@ public class LeavePresenter implements Presenter{
 	
 
 	void checkCodition() {
+		
 		boolean isLeave = false;
 		boolean isFuture = false;
 		Date currentDay = new Date();

@@ -50,14 +50,18 @@ public class ProfilePresenter implements Presenter{
 		HasValue<String> getEmail();
 		HasValue<String> getPhone();
 		
+		HasValue<String> getLeaveQuota();
+		HasValue<String> getHolidayQuota();
 	}
 	
 	private final GreetingServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;
+	
 	public Employee m_employee;
 	private state redisterState;
 	private EmployeeQuota m_employeeQuota;
+	
 	public ProfilePresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
@@ -67,6 +71,8 @@ public class ProfilePresenter implements Presenter{
 		redisterState = state.add;
 		m_employee = new Employee();
 		m_employeeQuota = new EmployeeQuota();
+		
+		System.out.println("ctor : ");
 	}
 
 	public ProfilePresenter(GreetingServiceAsync rpcService,
@@ -78,40 +84,21 @@ public class ProfilePresenter implements Presenter{
 		bind();
 		redisterState = state.edit;
 		
+		System.out.println("Profile : before rpc.");
 		//get employee data form rpc server
 		rpcService.getProfile(employeeID, new AsyncCallback<Employee>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+				System.out.println("error : " + caught);
 			}
 
 			@Override
 			public void onSuccess(Employee result) {
-				m_employee = result;
-				//int test = m_employee.getM_sex().ordinal();
-				
-				//System.out.println("Key :" + m_employee.getKey() + " : " + test);
-				
 				// TODO Auto-generated method stub
-				//Integer.
-				//System.out.println(m_employee.getM_employeeID());
-				
-				display.getWorkID().setValue(String.valueOf(m_employee.getM_employeeID()));
-				
-				//System.out.println(display.getWorkID().getValue());
-				//Integer.				
-				display.setSex().setSelectedIndex(m_employee.getM_sex().ordinal());
-				display.getName().setValue(m_employee.getM_name());
-				display.getSurname().setValue(m_employee.getM_surname());
-				display.getNameT().setValue(m_employee.getM_nameT());
-				display.getSurnameT().setValue(m_employee.getM_surnameT());
-				display.getShortname().setValue(m_employee.getM_shortName());
-				display.setRole().setSelectedIndex(m_employee.getM_role().ordinal());
-				display.setSegment().setSelectedIndex(m_employee.getM_segment().ordinal());
-				display.getEmail().setValue(m_employee.getM_email());
-				display.getPhone().setValue(m_employee.getM_phone());
+				m_employee = result;
+				ProfileDisplaySetting(m_employee);
 			}
 		});
 		
@@ -121,19 +108,22 @@ public class ProfilePresenter implements Presenter{
 			public void onSuccess(EmployeeQuota result) {
 				// TODO Auto-generated method stub
 				m_employeeQuota = result;
+				System.out.println(m_employeeQuota.getM_leave());
+				QuotadisplaySetting(m_employeeQuota);
 			}
 			
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+				System.out.println("Error : " + caught);
 			}
 		});
+		
+		System.out.println("test Pass.");
 	}
 
 	private void bind() {
 		// TODO Auto-generated method stub	
-		
 		
 		display.getSubmit().addClickHandler(new ClickHandler() {   
 		      public void onClick(ClickEvent event) {
@@ -158,6 +148,7 @@ public class ProfilePresenter implements Presenter{
 		// TODO Auto-generated method stub
 			container.clear();
 			container.add(display.asWidget());
+			System.out.println("go on!!!");
 	}
 	
 	@SuppressWarnings("static-access")
@@ -185,6 +176,10 @@ public class ProfilePresenter implements Presenter{
 			
 			m_employeeQuota.setM_leave(SystemConfig.limitQuota_Leave);
 			m_employeeQuota.setM_holiday(SystemConfig.limitQuota_Holiday);
+		}else if(redisterState == redisterState.edit) {
+			m_employeeQuota.setM_employeeID(Integer.parseInt(display.getWorkID().getValue()));
+			m_employeeQuota.setM_leave(Integer.parseInt(display.getLeaveQuota().getValue()));
+			m_employeeQuota.setM_holiday(Integer.parseInt(display.getHolidayQuota().getValue()));
 		}
 
 		
@@ -204,4 +199,22 @@ public class ProfilePresenter implements Presenter{
 		});
 	}
 
+	private void ProfileDisplaySetting(Employee m_employee) {
+		display.getWorkID().setValue(String.valueOf(m_employee.getM_employeeID()));			
+		display.setSex().setSelectedIndex(m_employee.getM_sex().ordinal());
+		display.getName().setValue(m_employee.getM_name());
+		display.getSurname().setValue(m_employee.getM_surname());
+		display.getNameT().setValue(m_employee.getM_nameT());
+		display.getSurnameT().setValue(m_employee.getM_surnameT());
+		display.getShortname().setValue(m_employee.getM_shortName());
+		display.setRole().setSelectedIndex(m_employee.getM_role().ordinal());
+		display.setSegment().setSelectedIndex(m_employee.getM_segment().ordinal());
+		display.getEmail().setValue(m_employee.getM_email());
+		display.getPhone().setValue(m_employee.getM_phone());
+	}
+	
+	private void QuotadisplaySetting(EmployeeQuota m_employeeQuota) {
+		display.getLeaveQuota().setValue(String.valueOf(m_employeeQuota.getM_leave()));
+		display.getHolidayQuota().setValue(String.valueOf(m_employeeQuota.getM_holiday()));
+	}
 }

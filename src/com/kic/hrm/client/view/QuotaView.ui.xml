@@ -1,0 +1,41 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	<ui:style>
+	/* Add CSS here. See the GWT docs on UI Binder for more details */
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel width="100%">
+		<g:VerticalPanel width="100%">
+			<g:Label text="Quota Edit" width="100%"/>
+			<g:Grid width="100%">
+			<g:row>
+				<g:customCell>
+					<g:Label text="Leave Quota" width="50"/>
+				</g:customCell>
+				<g:customCell>
+					<g:TextBox width="97%" ui:field="LeaveQuotaText"/>
+				</g:customCell>
+			</g:row>
+			<g:row>
+				<g:customCell>
+					<g:Label text="Holiday Quota" width="50"/>
+				</g:customCell>
+				<g:customCell>
+					<g:TextBox width="97%" ui:field="HolidayQuotaText"/>
+				</g:customCell>
+			</g:row>
+		</g:Grid>
+			<g:HorizontalPanel width="100%">
+				<g:Button width="100%" ui:field="Backbtn">Back</g:Button>
+				<g:Button width="100%" ui:field="Applybtn" text="Apply"/>
+			</g:HorizontalPanel>
+		</g:VerticalPanel>
+		<!-- Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete 
+			widget names. The ui:field attribute binds an element to a field in the owner 
+			class. See the GWT docs on UI Binder for more details. -->
+		
+	</g:HTMLPanel>
+</ui:UiBinder> 
