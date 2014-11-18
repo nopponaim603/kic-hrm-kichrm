@@ -1,9 +1,7 @@
 package com.kic.hrm.client.view;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
-
 import com.google.gwt.user.client.ui.Composite;
-
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -13,6 +11,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.presenter.ProfilePresenter;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 
 public class ProfileView  extends Composite implements ProfilePresenter.Display{
@@ -31,14 +30,21 @@ public class ProfileView  extends Composite implements ProfilePresenter.Display{
 	private final TextBox EmailTextBox;
 	private final TextBox PhoneTextBox;
 	
+	private final TextBox LeaveQuotaTextBox;
+	private final TextBox HolidayQuotaTextBox;
+	
 	public ProfileView() {
 		// TODO Auto-generated constructor stub
 		VerticalPanel verticalPanel = new VerticalPanel();
 		initWidget(verticalPanel);
 		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		verticalPanel.add(horizontalPanel);
+		
 		Grid grid = new Grid(12, 2);
-		grid.setBorderWidth(0);
-		verticalPanel.add(grid);
+		horizontalPanel.add(grid);
+		grid.setBorderWidth(1);
+		grid.setWidth("294px");
 		
 		Label lblWorkid = new Label("WorkID");
 		grid.setWidget(0, 0, lblWorkid);
@@ -134,6 +140,30 @@ public class ProfileView  extends Composite implements ProfilePresenter.Display{
 		grid.setWidget(11, 1, btnNewButton);
 		//verticalPanelLeavingForm.add(verticalPanel);
 		
+
+		
+		
+		
+		Grid grid_1 = new Grid(3, 3);
+		grid_1.setCellPadding(1);
+		grid_1.setBorderWidth(2);
+		horizontalPanel.add(grid_1);
+		
+		Label lblQuota = new Label("Quota");
+		grid_1.setWidget(0, 0, lblQuota);
+		
+		Label lblLeaveQuota = new Label("Leave Quota");
+		grid_1.setWidget(1, 1, lblLeaveQuota);
+		
+		TextBox LeaveTextBox = new TextBox();
+		grid_1.setWidget(1, 2, LeaveTextBox);
+		
+		Label lblHolidayQuota = new Label("Holiday Quota");
+		grid_1.setWidget(2, 1, lblHolidayQuota);
+		
+		TextBox HolidayTextBox = new TextBox();
+		grid_1.setWidget(2, 2, HolidayTextBox);
+		
 		SubmitButton = btnNewButton;
 		CancelButton = btnBack;
 		WorkIDTextBox = textBox;
@@ -150,6 +180,9 @@ public class ProfileView  extends Composite implements ProfilePresenter.Display{
 		EmailTextBox = textBox_7;
 		PhoneTextBox = textBox_6;
 		
+
+		LeaveQuotaTextBox = LeaveTextBox;
+		HolidayQuotaTextBox = HolidayTextBox;
 		//SegmentTextBox.getS
 	}
 	
@@ -257,6 +290,18 @@ public class ProfileView  extends Composite implements ProfilePresenter.Display{
 	public ListBox setSegment() {
 		// TODO Auto-generated method stub
 		return SegmentTextBox;
+	}
+
+	@Override
+	public HasValue<String> getLeaveQuota() {
+		// TODO Auto-generated method stub
+		return LeaveQuotaTextBox;
+	}
+
+	@Override
+	public HasValue<String> getHolidayQuota() {
+		// TODO Auto-generated method stub
+		return HolidayQuotaTextBox;
 	}
 
 

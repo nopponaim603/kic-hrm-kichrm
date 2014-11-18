@@ -140,7 +140,7 @@ public class CloudHRM implements EntryPoint {
 
 		// test
 		// Register(eventBus);
-		QuickTest(rpcService);
+		//QuickTest(rpcService);
 		// addGoogleAuth(rpcService);
 
 	}
