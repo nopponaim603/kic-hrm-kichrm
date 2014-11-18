@@ -192,7 +192,7 @@ public class NewPresenter implements Presenter {
 	}
 
 	// Get GeoLocation on Client
-		private void GetAddressGeoLocation(type getGeoType,LoginInfo userInfo) {
+	private void GetAddressGeoLocation(type getGeoType,LoginInfo userInfo) {
 
 			GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 				public void onUncaughtException(Throwable e) {
@@ -225,7 +225,7 @@ public class NewPresenter implements Presenter {
 
 		}
 
-		private void obtainPosition(final VerticalPanel main,
+	private void obtainPosition(final VerticalPanel main,
 			final Geolocation geo,final type getGeoType,final LoginInfo userInfo) {
 			final Label l2 = new Label("Obtaining position (timeout: 15 sec)...");
 			main.add(l2);
