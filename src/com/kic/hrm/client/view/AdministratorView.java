@@ -19,7 +19,7 @@ public class AdministratorView extends Composite implements AdministratorPresent
 
 	private final TextBox folderIDTextBox;
 	private final Button saveToDriveButton;
-	private final Button flashDataStoreButton;
+
 	private final TextBox emailReceiverTextBox;
 	private final Button sendEmailButton;
 
@@ -57,7 +57,7 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		decoratedStackPanel.add(verticalPanel_3, "Start Time", false);
 		verticalPanel_3.setSize("100%", "100%");
 		
-		Grid grid_5 = new Grid(2, 4);
+		Grid grid_5 = new Grid(2, 3);
 		verticalPanel_3.add(grid_5);
 		grid_5.setSize("100%", "100%");
 		
@@ -70,9 +70,6 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		
 		Button button_1 = new Button("Save CSV to Drive");
 		grid_5.setWidget(0, 2, button_1);
-		
-		Button button_2 = new Button("Flash Datastore");
-		grid_5.setWidget(0, 3, button_2);
 		
 		HorizontalPanel horizontalPanel_3 = new HorizontalPanel();
 		verticalPanel_3.add(horizontalPanel_3);
@@ -517,7 +514,6 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		
 		folderIDTextBox = textBox_2;
 		saveToDriveButton = button_1;
-		flashDataStoreButton = button_2;
 		
 		Label lblReportEmail = new Label("Report E-mail");
 		grid_5.setWidget(1, 0, lblReportEmail);
@@ -572,12 +568,6 @@ public class AdministratorView extends Composite implements AdministratorPresent
 	public HasClickHandlers getSaveCSVtoDriveButton() {
 		// TODO Auto-generated method stub
 		return saveToDriveButton;
-	}
-
-	@Override
-	public HasClickHandlers getFlashDataStoreButton() {
-		// TODO Auto-generated method stub
-		return flashDataStoreButton;
 	}
 
 	@Override

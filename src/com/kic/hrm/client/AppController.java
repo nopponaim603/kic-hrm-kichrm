@@ -7,7 +7,6 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
-
 import com.kic.hrm.client.event.gotoAdministratorEvent;
 import com.kic.hrm.client.event.gotoAdministratorEventHandler;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
@@ -20,6 +19,8 @@ import com.kic.hrm.client.event.gotoProfileAndEditEvent;
 import com.kic.hrm.client.event.gotoProfileAndEditEventHandler;
 import com.kic.hrm.client.event.gotoProfileEvent;
 import com.kic.hrm.client.event.gotoProfileEventHandler;
+import com.kic.hrm.client.event.gotoReportEvent;
+import com.kic.hrm.client.event.gotoReportEventHandler;
 import com.kic.hrm.client.event.guiGuestEvent;
 import com.kic.hrm.client.event.guiGuestEventHandler;
 import com.kic.hrm.client.event.guiMemberEvent;
@@ -31,11 +32,13 @@ import com.kic.hrm.client.presenter.LoginPlusPresenter;
 import com.kic.hrm.client.presenter.NewPresenter;
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.presenter.ProfilePresenter;
+import com.kic.hrm.client.presenter.QuotaPresenter;
 import com.kic.hrm.client.view.AdministratorView;
 import com.kic.hrm.client.view.DashBoardView;
 import com.kic.hrm.client.view.LeaveView;
 import com.kic.hrm.client.view.NewView;
 import com.kic.hrm.client.view.ProfileView;
+import com.kic.hrm.client.view.QuotaView;
 import com.kic.hrm.shared.LoginInfo;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
@@ -74,8 +77,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					@Override
 					public void gotoAdministrator(gotoAdministratorEvent event) {
 						// TODO Auto-generated method stub
-						History.newItem(AppController.eventFire.Administrator
-								.toString());
+						History.newItem(AppController.eventFire.Administrator.toString());
 					}
 				});
 
@@ -86,7 +88,6 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 					public void gotoDashBoard(gotoDashBoardEvent event) {
 						// TODO Auto-generated method stub
 						History.newItem(AppController.eventFire.Main.toString());
-
 					}
 				});
 
@@ -96,6 +97,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void gotoLeave(gotoLeaveEvent event) {
 				// TODO Auto-generated method stub
 				History.newItem(AppController.eventFire.Leave.toString());
+			}
+		});
+		
+		eventBus.addHandler(gotoReportEvent.TYPE,new gotoReportEventHandler() {
+			
+			@Override
+			public void gotoReport(gotoReportEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem(AppController.eventFire.Report.toString());
 			}
 		});
 
@@ -108,19 +118,16 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			}
 		});
 
-		eventBus.addHandler(gotoProfileEvent.TYPE,
-				new gotoProfileEventHandler() {
+		eventBus.addHandler(gotoProfileEvent.TYPE, new gotoProfileEventHandler() {
 
 					@Override
 					public void gotoProfile(gotoProfileEvent event) {
 						// TODO Auto-generated method stub
-						History.newItem(AppController.eventFire.Profile
-								.toString());
+						History.newItem(AppController.eventFire.Profile.toString());
 					}
 				});
 
-		eventBus.addHandler(gotoProfileAndEditEvent.TYPE,
-				new gotoProfileAndEditEventHandler() {
+		eventBus.addHandler(gotoProfileAndEditEvent.TYPE, new gotoProfileAndEditEventHandler() {
 
 					@Override
 					public void gotoProfileAndEdit(gotoProfileAndEditEvent event) {
@@ -178,7 +185,11 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			} else if (token.equals(eventFire.New.toString())) {
 				presenter = new NewPresenter(rpcService, eventBus,
 						new NewView(), m_loginPlus.getM_loginInfo());
+			} else if (token.equals(eventFire.Report.toString())) {
+				presenter = new QuotaPresenter(rpcService, eventBus,
+						new QuotaView(), m_loginPlus.getM_loginInfo());
 			}
+			
 
 			if (presenter != null) {
 				presenter.go(container);
