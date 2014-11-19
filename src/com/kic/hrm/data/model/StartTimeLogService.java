@@ -244,17 +244,4 @@ public class StartTimeLogService {
 		return results;
 	}
 
-	public static Filter CompositeAndFilter(Collection<Filter> subFilters) {
-		return CompositeFilterOperator.and(subFilters);
-	}
-
-	public static Filter CompositeAndFilter(Filter... subFilters) {
-		return CompositeFilterOperator.and(Arrays.asList(subFilters));
-	}
-
-	public static Filter CompositeOrFilter(Collection<Filter> subFilters) {
-		// Filter test = CompositeFilterOperator.and(subFilters)
-		return CompositeFilterOperator.or(subFilters);
-	}
-
 }

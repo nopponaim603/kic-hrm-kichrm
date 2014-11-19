@@ -71,9 +71,6 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		Button button_1 = new Button("Save CSV to Drive");
 		grid_5.setWidget(0, 2, button_1);
 		
-		HorizontalPanel horizontalPanel_3 = new HorizontalPanel();
-		verticalPanel_3.add(horizontalPanel_3);
-		
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
 		decoratedStackPanel.add(verticalPanel_1, "Time Config", false);
 		verticalPanel_1.setSize("100%", "100%");
