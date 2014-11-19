@@ -12,6 +12,7 @@ import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.StartTimeLog.type;
+import com.kic.hrm.data.model.SystemConfig;
 import com.kic.hrm.shared.LoginInfo;
 
 /**
@@ -56,4 +57,6 @@ public interface GreetingService extends RemoteService {
 	
 	
 	///////////////
+	SystemConfig getSystemConfig();
+	void ApplySystemConfig(SystemConfig sysConfig);
 }

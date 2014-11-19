@@ -8,6 +8,8 @@ import com.kic.hrm.data.model.EmployeeQuotaService;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.StartTimeLog.type;
+import com.kic.hrm.data.model.SystemConfig;
+import com.kic.hrm.data.model.SystemConfigService;
 import com.kic.hrm.server.businesslogic.AttendanceServiceImpl;
 import com.kic.hrm.server.businesslogic.LeaveTaskServiceImpl;
 import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
@@ -16,10 +18,12 @@ import com.kic.hrm.server.businesslogic.ReportServiceImpl;
 import com.kic.hrm.shared.*;
 
 import java.util.ArrayList;
-
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 
@@ -83,6 +87,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		 * TODO Auto-generated catch block e.printStackTrace(); }
 		 */
 		//getcalender(testParametor);
+		
+		//SystemConfig test = SystemConfig.AddData(null);
 
 		return testParametor;
 	}
@@ -203,6 +209,57 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public boolean sendReportDairyToEmail(String email) {
 		// TODO Auto-generated method stub
 		return ReportServiceImpl.sendReportDairyToEmail(email);
+	}
+
+	@Override
+	public SystemConfig getSystemConfig() {
+		// TODO Auto-generated method stub
+		SystemConfig sysconfig;
+		List<Entity> entities = DataStoreControl.Query(SystemConfig.class,
+				SortDirection.ASCENDING);
+		System.out.println("System Config Data . " + entities.size());
+		if(entities.size() > 0 )
+		{
+			System.out.println("Have Data.");
+			sysconfig = SystemConfigService.AddDataSystemConfig(entities.get(0));
+		}else {
+			System.out.println("No Data.");
+			sysconfig = new SystemConfig();
+			Entity m_entity = DataStoreControl.CreateEntity(SystemConfig.class);
+			m_entity = SystemConfigService.FlashData(m_entity, sysconfig);
+			DataStoreControl.SaveEntity(m_entity);
+			//sysconfig = SystemConfigService.AddDataSystemConfig(m_entity);
+		}
+		
+		return sysconfig;
+	}
+
+	@Override
+	public void ApplySystemConfig(SystemConfig sysConfig) {
+		// TODO Auto-generated method stub
+		Entity d_systemConfig = null;
+		
+		try {
+			d_systemConfig = DataStoreControl.EditEntity(
+					sysConfig.getKind(), sysConfig.getKeyID());
+			d_systemConfig = SystemConfigService.FlashData(d_systemConfig, sysConfig);
+			DataStoreControl.SaveEntity(d_systemConfig);
+			
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/*
+		if(entities.size() > 0 )
+		{
+			System.out.println("Save Data.");
+			entities.set(0, SystemConfigService.FlashData(entities.get(0), sysConfig));
+			// = SystemConfigService.AddDataSystemConfig(entities.get(0));
+			DataStoreControl.SaveEntity(entities.get(0));
+		
+		}
+		*/
 	}
 
 }

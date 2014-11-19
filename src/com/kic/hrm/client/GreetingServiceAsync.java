@@ -10,6 +10,7 @@ import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.StartTimeLog.type;
+import com.kic.hrm.data.model.SystemConfig;
 import com.kic.hrm.shared.*;
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -60,6 +61,10 @@ public interface GreetingServiceAsync {
 
 	void addLeaveTaskToCalendar(String token, LeaveTask leavetask,
 			AsyncCallback<Boolean> callback);
+
+	void getSystemConfig(AsyncCallback<SystemConfig> callback);
+
+	void ApplySystemConfig(SystemConfig sysConfig, AsyncCallback<Void> callback);
 	
-	
+	//
 }
