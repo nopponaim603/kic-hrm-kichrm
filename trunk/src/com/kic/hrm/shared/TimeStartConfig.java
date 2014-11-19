@@ -4,63 +4,63 @@ import java.util.Date;
 
 public class TimeStartConfig {
 	
-	private static Date AdminOndutyTime;
-	private static Date AdminOffdutyTime;
-	private static Date AdminEarly;
-	private static Date ProjectOndutyTime;
-	private static Date ProjectOffdutyTime;
-	private static Date ProjectEarly;
+	private  Date AdminOndutyTime;
+	private  Date AdminOffdutyTime;
+	private  Date AdminEarly;
+	private  Date ProjectOndutyTime;
+	private  Date ProjectOffdutyTime;
+	private  Date ProjectEarly;
 	
-	public static Date getAdminOndutyTime() {
+	public  Date getAdminOndutyTime() {
 		return AdminOndutyTime;
 	}
 
-	public static void setAdminOndutyTime(Date adminOndutyTime) {
+	public  void setAdminOndutyTime(Date adminOndutyTime) {
 		AdminOndutyTime = adminOndutyTime;
 	}
 
-	public static Date getAdminOffdutyTime() {
+	public  Date getAdminOffdutyTime() {
 		return AdminOffdutyTime;
 	}
 
-	public static void setAdminOffdutyTime(Date adminOffdutyTime) {
+	public  void setAdminOffdutyTime(Date adminOffdutyTime) {
 		AdminOffdutyTime = adminOffdutyTime;
 	}
 
-	public static Date getAdminEarly() {
+	public  Date getAdminEarly() {
 		return AdminEarly;
 	}
 
-	public static void setAdminEarly(Date adminEarly) {
+	public  void setAdminEarly(Date adminEarly) {
 		AdminEarly = adminEarly;
 	}
 
-	public static Date getProjectOndutyTime() {
+	public  Date getProjectOndutyTime() {
 		return ProjectOndutyTime;
 	}
 
-	public static void setProjectOndutyTime(Date projectOndutyTime) {
+	public  void setProjectOndutyTime(Date projectOndutyTime) {
 		ProjectOndutyTime = projectOndutyTime;
 	}
 
-	public static Date getProjectOffdutyTime() {
+	public  Date getProjectOffdutyTime() {
 		return ProjectOffdutyTime;
 	}
 
-	public static void setProjectOffdutyTime(Date projectOffdutyTime) {
+	public  void setProjectOffdutyTime(Date projectOffdutyTime) {
 		ProjectOffdutyTime = projectOffdutyTime;
 	}
 
-	public static Date getProjectEarly() {
+	public  Date getProjectEarly() {
 		return ProjectEarly;
 	}
 
-	public static void setProjectEarly(Date projectEarly) {
+	public  void setProjectEarly(Date projectEarly) {
 		ProjectEarly = projectEarly;
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void setDefult() {
+	public  void setDefult() {
 		
 		AdminOndutyTime = new Date(0);
 		AdminOndutyTime.setHours(8);

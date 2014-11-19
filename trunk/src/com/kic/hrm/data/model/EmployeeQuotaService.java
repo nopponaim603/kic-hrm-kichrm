@@ -79,6 +79,7 @@ public class EmployeeQuotaService {
 				EmployeeQuota.property.employeeID.toString(),
 				FilterOperator.EQUAL, employeeID);
 		return m_emailFilter;
+		
 	}
 
 	public static EmployeeQuota getEmployeeQuota(int employeeID) {
@@ -89,14 +90,15 @@ public class EmployeeQuotaService {
 				.Clone(DataStoreControl.Query(EmployeeQuota.class,
 						SortDirection.DESCENDING, EmployeeQuotaService
 								.findEmployeeByEmployeeID(employeeID)));
-		
+
 		System.out.println("EmployeeQuota :" + m_employeeQuotas.size());
-		
+
 		if (m_employeeQuotas.size() == 1)
 			for (EmployeeQuota temp : m_employeeQuotas)
 				m_employeeQuota = temp;
 
-		System.out.println("Employee Quota Servicem get leave" + m_employeeQuota.getM_leave());
+		System.out.println("Employee Quota Servicem get leave"
+				+ m_employeeQuota.getM_leave());
 		// System.out.println("IS : " + m_employeeQuota + " : " +
 		// m_employeeQuota.getM_leave());
 		return m_employeeQuota;

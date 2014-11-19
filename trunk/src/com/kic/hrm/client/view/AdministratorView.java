@@ -43,6 +43,8 @@ public class AdministratorView extends Composite implements AdministratorPresent
 	private final ListBox ProjectOffduty_M;
 	private final ListBox ProjectEarlyduty_M;
 	
+	private final Button defaultButton;
+	
 	public AdministratorView() {
 		// TODO Auto-generated constructor stub
 		VerticalPanel verticalPanel = new VerticalPanel();
@@ -65,7 +67,6 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		grid_5.setWidget(0, 0, label_23);
 		
 		TextBox textBox_2 = new TextBox();
-		textBox_2.setText("0BxCzuY_jk0HhQlNNRXJEdVJmRVU");
 		grid_5.setWidget(0, 1, textBox_2);
 		
 		Button button_1 = new Button("Save CSV to Drive");
@@ -465,10 +466,6 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		verticalPanel_1.add(horizontalPanel);
 		horizontalPanel.setWidth("100%");
 		
-		Button btnApply = new Button("Apply");
-		horizontalPanel.add(btnApply);
-		btnApply.setWidth("100%");
-		
 		Button btnDefault = new Button("Default");
 		horizontalPanel.add(btnDefault);
 		btnDefault.setWidth("100%");
@@ -545,6 +542,7 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		ProjectOffduty_M = listBox_9;
 		ProjectEarlyduty_M = listBox_10;
 		
+		defaultButton = btnDefault;
 	}
 
 	@Override
@@ -672,6 +670,12 @@ public class AdministratorView extends Composite implements AdministratorPresent
 	public HasClickHandlers getSendEmailButton() {
 		// TODO Auto-generated method stub
 		return sendEmailButton;
+	}
+
+	@Override
+	public HasClickHandlers getDefaultButton() {
+		// TODO Auto-generated method stub
+		return defaultButton;
 	}
 
 	

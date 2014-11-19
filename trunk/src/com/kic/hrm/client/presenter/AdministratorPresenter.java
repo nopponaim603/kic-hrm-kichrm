@@ -55,14 +55,17 @@ public class AdministratorPresenter implements Presenter{
 		ListBox ProjectOffDutyMinutes();
 		ListBox ProjectEarlyMinutes();
 		
+		HasClickHandlers getDefaultButton();
+		
 		Widget asWidget();
 	}
 	
 	private final GreetingServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;
-	private SystemConfig m_SysConfig;
 	
+	private SystemConfig m_SysConfig;
+
 	final Auth AUTH = Auth.get();
 	
 	public AdministratorPresenter(GreetingServiceAsync rpcService,HandlerManager eventBus, Display view) {
@@ -70,21 +73,38 @@ public class AdministratorPresenter implements Presenter{
 		this.rpcService = rpcService;
 		this.eventBus = eventBus;
 		this.display = view;
+		m_SysConfig = new SystemConfig();
+
 		
 		bind();
 	}
 	
 	private void bind() {
 		// TODO Auto-generated method stub
-		DisplayHandler();
+		DisplayProfileHandler();
 		
 		display.getBackButton().addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				System.out.println("test Back to Dashboard.");
-				eventBus.fireEvent(new gotoDashBoardEvent());
+				ApplyDisplaySystemConfig();
+				rpcService.ApplySystemConfig(m_SysConfig, new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						System.out.println("Back to Dashboard.");
+						eventBus.fireEvent(new gotoDashBoardEvent());
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+				
 			}
 		});
 		
@@ -113,11 +133,40 @@ public class AdministratorPresenter implements Presenter{
 			}
 		});
 		
+		display.getDefaultButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				SystemConfig temp = m_SysConfig;
+				m_SysConfig = new SystemConfig();
+				
+				m_SysConfig.setKind(temp.getKind());
+				m_SysConfig.setKeyID(temp.getKeyID());
+				m_SysConfig.setM_Drive_folderID(temp.getM_Drive_folderID());
+				m_SysConfig.setM_Report_email(temp.getM_Report_email());
+				SetupDisplay(m_SysConfig);
+			}
+		});
 		//Setup Time Config
 		//m_SysConfig
+		rpcService.getSystemConfig(new AsyncCallback<SystemConfig>() {
+			
+			@Override
+			public void onSuccess(SystemConfig result) {
+				// TODO Auto-generated method stub
+				m_SysConfig = result;
+				SetupDisplay(m_SysConfig);
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+			}
+		});
 		
 		//If Data have not on Data store
-		//setupDefultTime();
+		//
 		
 	}
 	
@@ -127,17 +176,22 @@ public class AdministratorPresenter implements Presenter{
 		 container.clear();
 		 container.add(display.asWidget());
 	}
+	private void SetupDisplay(SystemConfig sysConfig) {
+		display.getFolderID().setValue(sysConfig.getM_Drive_folderID());
+		display.getEmailReceiver().setValue(sysConfig.getM_Report_email());
+		setupDefultTime(sysConfig);
+	}
 	
-	void setupDefultTime() {
-		TimeStartConfig.setDefult();
+	void setupDefultTime( SystemConfig sysConfig) {
+		//TimeStartConfig.setDefult();
 		
-		SetupTimeHoureAndMinutes(TimeStartConfig.getAdminOndutyTime(),display.AdminOnDutyHoure() , display.AdminOnDutyMinutes());
-		SetupTimeHoureAndMinutes(TimeStartConfig.getAdminOffdutyTime(),display.AdminOffDutyHoure() , display.AdminOffDutyMinutes());
-		SetupEarlyMinutes(TimeStartConfig.getAdminEarly(),display.AdminEarlyMinutes());
+		SetupTimeHoureAndMinutes(sysConfig.getAdminOndutyTime(),display.AdminOnDutyHoure() , display.AdminOnDutyMinutes());
+		SetupTimeHoureAndMinutes(sysConfig.getAdminOffdutyTime(),display.AdminOffDutyHoure() , display.AdminOffDutyMinutes());
+		SetupEarlyMinutes(sysConfig.getAdminEarly(),display.AdminEarlyMinutes());
 		
-		SetupTimeHoureAndMinutes(TimeStartConfig.getProjectOndutyTime(),display.ProjectOnDutyHoure() , display.ProjectOnDutyMinutes());
-		SetupTimeHoureAndMinutes(TimeStartConfig.getProjectOffdutyTime(),display.ProjectOffDutyHoure() , display.ProjectOffDutyMinutes());
-		SetupEarlyMinutes(TimeStartConfig.getProjectEarly(),display.ProjectEarlyMinutes());
+		SetupTimeHoureAndMinutes(sysConfig.getProjectOndutyTime(),display.ProjectOnDutyHoure() , display.ProjectOnDutyMinutes());
+		SetupTimeHoureAndMinutes(sysConfig.getProjectOffdutyTime(),display.ProjectOffDutyHoure() , display.ProjectOffDutyMinutes());
+		SetupEarlyMinutes(sysConfig.getProjectEarly(),display.ProjectEarlyMinutes());
 	}
 	
 	void SetupTimeHoureAndMinutes(Date Time,ListBox m_listboxHoure ,ListBox m_listboxMinutes ) {
@@ -162,7 +216,53 @@ public class AdministratorPresenter implements Presenter{
 		return 0;
 	}
 
-	private void DisplayHandler() {
+	Date converterToDate(Date OriginDate,ListBox m_listboxHoure ,ListBox m_listboxMinutes) {
+		Date temp = OriginDate;
+		
+		if(m_listboxHoure != null)
+		temp.setHours(Integer.parseInt(m_listboxHoure.getValue(m_listboxHoure.getSelectedIndex())));
+		else temp.setHours(0);
+		
+		temp.setMinutes(Integer.parseInt(m_listboxMinutes.getValue(m_listboxMinutes.getSelectedIndex())));
+		//System.out.println("Print Time : " + temp);
+		return temp;
+	}
+	
+	private void ApplyDisplaySystemConfig() {
+		
+		m_SysConfig.setM_Drive_folderID(display.getFolderID().getValue());
+		m_SysConfig.setM_Report_email(display.getEmailReceiver().getValue());
+		
+		m_SysConfig.setAdminOndutyTime(converterToDate(m_SysConfig.getAdminOndutyTime() 
+														, display.AdminOnDutyHoure()
+														, display.AdminOnDutyMinutes()));
+		
+		m_SysConfig.setAdminOffdutyTime(converterToDate(m_SysConfig.getAdminOffdutyTime() 
+														, display.AdminOffDutyHoure()
+														, display.AdminOffDutyMinutes()));
+		
+		m_SysConfig.setAdminEarly(converterToDate(m_SysConfig.getAdminEarly() 
+														, null
+														, display.AdminEarlyMinutes()));
+		
+		m_SysConfig.setProjectOndutyTime(converterToDate(m_SysConfig.getProjectOndutyTime()
+														, display.ProjectOnDutyHoure()
+														, display.ProjectOnDutyMinutes()));
+
+		m_SysConfig.setProjectOffdutyTime(converterToDate(m_SysConfig.getProjectOffdutyTime()
+														, display.ProjectOffDutyHoure()
+														, display.ProjectOffDutyMinutes()));
+
+		m_SysConfig.setProjectEarly(converterToDate(m_SysConfig.getProjectEarly()
+														, null
+														, display.ProjectEarlyMinutes()));
+		//m_SysConfig.setAdminOndutyTime(adminOndutyTime);
+
+		//;
+	}
+	
+	
+	private void DisplayProfileHandler() {
 		
 		display.getSaveCSVtoDriveButton().addClickHandler(new ClickHandler() {
 			

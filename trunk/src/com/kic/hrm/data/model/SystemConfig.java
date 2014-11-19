@@ -1,8 +1,22 @@
 package com.kic.hrm.data.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SystemConfig {
+@SuppressWarnings("serial")
+public class SystemConfig implements Serializable {
+	
+	public enum property {
+		Drive_folderID,
+		Report_email,
+		AdminOndutyTime,
+		AdminOffdutyTime,
+		AdminEarly,
+		ProjectOndutyTime,
+		ProjectOffdutyTime,
+		ProjectEarly,
+
+	}
 	
 	public static int limitQuota_Leave = 5;
 	public static int limitQuota_Holiday = 10;
@@ -10,12 +24,46 @@ public class SystemConfig {
 	private String m_Drive_folderID;
 	private String m_Report_email;
 	
-	private static Date AdminOndutyTime;
-	private static Date AdminOffdutyTime;
-	private static Date AdminEarly;
-	private static Date ProjectOndutyTime;
-	private static Date ProjectOffdutyTime;
-	private static Date ProjectEarly;
+	private  Date AdminOndutyTime;
+	private  Date AdminOffdutyTime;
+	private  Date AdminEarly;
+	private  Date ProjectOndutyTime;
+	private  Date ProjectOffdutyTime;
+	private  Date ProjectEarly;
+	
+	//@Attribute(primaryKey = true)
+    //@Sync(true)
+    private String Kind;
+    //@Attribute(version = true)
+    private Long keyID;
+    
+	/**
+	 * @return the kind
+	 */
+	public String getKind() {
+		return Kind;
+	}
+
+	/**
+	 * @param kind the kind to set
+	 */
+	public void setKind(String kind) {
+		Kind = kind;
+	}
+	
+	/**
+	 * @return the keyID
+	 */
+	public Long getKeyID() {
+		return keyID;
+	}
+
+	/**
+	 * @param keyID the keyID to set
+	 */
+	public void setKeyID(Long keyID) {
+		this.keyID = keyID;
+	}
 	
 	public String getM_Drive_folderID() {
 		return m_Drive_folderID;
@@ -33,54 +81,83 @@ public class SystemConfig {
 		this.m_Report_email = m_Report_email;
 	}
 	
-	public static Date getAdminOndutyTime() {
+	public  Date getAdminOndutyTime() {
 		return AdminOndutyTime;
 	}
 	
-	public static void setAdminOndutyTime(Date adminOndutyTime) {
+	public  void setAdminOndutyTime(Date adminOndutyTime) {
 		AdminOndutyTime = adminOndutyTime;
 	}
 	
-	public static Date getAdminOffdutyTime() {
+	public  Date getAdminOffdutyTime() {
 		return AdminOffdutyTime;
 	}
 	
-	public static void setAdminOffdutyTime(Date adminOffdutyTime) {
+	public  void setAdminOffdutyTime(Date adminOffdutyTime) {
 		AdminOffdutyTime = adminOffdutyTime;
 	}
 	
-	public static Date getAdminEarly() {
+	public  Date getAdminEarly() {
 		return AdminEarly;
 	}
 	
-	public static void setAdminEarly(Date adminEarly) {
+	public  void setAdminEarly(Date adminEarly) {
 		AdminEarly = adminEarly;
 	}
 
-	public static Date getProjectOndutyTime() {
+	public  Date getProjectOndutyTime() {
 		return ProjectOndutyTime;
 	}
 
-	public static void setProjectOndutyTime(Date projectOndutyTime) {
+	public  void setProjectOndutyTime(Date projectOndutyTime) {
 		ProjectOndutyTime = projectOndutyTime;
 	}
 
-	public static Date getProjectOffdutyTime() {
+	public  Date getProjectOffdutyTime() {
 		return ProjectOffdutyTime;
 	}
 
-	public static void setProjectOffdutyTime(Date projectOffdutyTime) {
+	public  void setProjectOffdutyTime(Date projectOffdutyTime) {
 		ProjectOffdutyTime = projectOffdutyTime;
 	}
 
-	public static Date getProjectEarly() {
+	public  Date getProjectEarly() {
 		return ProjectEarly;
 	}
 
-	public static void setProjectEarly(Date projectEarly) {
+	public  void setProjectEarly(Date projectEarly) {
 		ProjectEarly = projectEarly;
 	}
-	
-	
-	
+
+
+	public SystemConfig() {
+		// TODO Auto-generated constructor stub
+		AdminOndutyTime = new Date(0);
+		AdminOndutyTime.setHours(8);
+		AdminOndutyTime.setMinutes(30);
+		AdminOffdutyTime = new Date(0);
+		AdminOffdutyTime.setHours(16);
+		AdminOffdutyTime.setMinutes(30);
+		AdminEarly = new Date(0);
+		AdminEarly.setHours(0);
+		AdminEarly.setMinutes(15);
+		
+		ProjectOndutyTime = new Date(0);
+		ProjectOndutyTime.setHours(9);
+		ProjectOffdutyTime = new Date(0);
+		ProjectOffdutyTime.setHours(17);
+		ProjectEarly = new Date(0);
+		ProjectEarly.setHours(0);
+		ProjectEarly.setMinutes(15);
+		
+		/*
+		System.out.println(AdminOndutyTime);
+		System.out.println(AdminOffdutyTime);
+		System.out.println(AdminEarly);
+		System.out.println(ProjectOndutyTime);
+		System.out.println(ProjectOffdutyTime);
+		System.out.println(ProjectEarly);*/
+	}
+
+
 }
