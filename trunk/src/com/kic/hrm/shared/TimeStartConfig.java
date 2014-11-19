@@ -3,6 +3,7 @@ package com.kic.hrm.shared;
 import java.util.Date;
 
 public class TimeStartConfig {
+	
 	private static Date AdminOndutyTime;
 	private static Date AdminOffdutyTime;
 	private static Date AdminEarly;
@@ -87,4 +88,6 @@ public class TimeStartConfig {
 		System.out.println(ProjectEarly);
 		
 	}
+
+
 }

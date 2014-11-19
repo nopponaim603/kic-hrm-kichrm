@@ -22,6 +22,7 @@ import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.gotoAdministratorEvent;
 import com.kic.hrm.client.event.gotoLeaveEvent;
 import com.kic.hrm.client.event.gotoNewEvent;
+import com.kic.hrm.client.event.gotoReportEvent;
 import com.kic.hrm.client.event.guiGuestEvent;
 import com.kic.hrm.client.event.guiGuestEventHandler;
 import com.kic.hrm.client.event.guiMemberEvent;
@@ -53,8 +54,6 @@ public class DashBoardPresenter implements Presenter {
 		Button getButtonReport();
 
 		Button getButtonAdmin();
-
-
 
 		Widget asWidget();
 	}
@@ -103,6 +102,16 @@ public class DashBoardPresenter implements Presenter {
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				eventBus.fireEvent(new gotoNewEvent());
+			}
+		});
+		System.out.println("Go to ReportEvent");
+		display.getReportButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				System.out.println("Go to ReportEvent");
+				eventBus.fireEvent(new gotoReportEvent());
 			}
 		});
 

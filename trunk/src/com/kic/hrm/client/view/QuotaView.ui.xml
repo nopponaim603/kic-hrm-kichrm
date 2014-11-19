@@ -9,29 +9,59 @@
 	</ui:style>
 	<g:HTMLPanel width="100%">
 		<g:VerticalPanel width="100%">
-			<g:Label text="Quota Edit" width="100%"/>
-			<g:Grid width="100%">
+			<g:Label text="Working Statistics" width="100%" height="30px"/>
+			<g:Grid width="100%" borderWidth="1" height="150px">
+				<g:row>
+				<g:customCell>
+					<g:Label text="On Time"/>
+				</g:customCell>
+				<g:customCell>
+					<g:Label text="x" ui:field="OnTimeText"/>
+				</g:customCell>
+			</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="On Site"/>
+					</g:customCell>
+					<g:customCell>
+						<g:Label text="x" ui:field="OnSiteText"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Late" width="50"/>
+					</g:customCell>
+					<g:customCell>
+						<g:Label text="x" ui:field="LateText"/>
+					</g:customCell>
+				</g:row>
+				<g:row>
+					<g:customCell>
+						<g:Label text="Absence" width="50"/>
+					</g:customCell>
+					<g:customCell>
+						<g:Label text="x" ui:field="AbsenceText"/>
+					</g:customCell>
+				</g:row>
 			<g:row>
 				<g:customCell>
 					<g:Label text="Leave Quota" width="50"/>
 				</g:customCell>
 				<g:customCell>
-					<g:TextBox width="97%" ui:field="LeaveQuotaText"/>
+					<g:Label text="x" ui:field="LeaveQuotaText"/>
 				</g:customCell>
 			</g:row>
 			<g:row>
 				<g:customCell>
-					<g:Label text="Holiday Quota" width="50"/>
+					<g:Label text="Holiday Quota" width="100%" direction="LTR"/>
 				</g:customCell>
 				<g:customCell>
-					<g:TextBox width="97%" ui:field="HolidayQuotaText"/>
+					<g:Label text="x" width="100%" ui:field="HolidayQuotaText"/>
 				</g:customCell>
 			</g:row>
 		</g:Grid>
-			<g:HorizontalPanel width="100%">
-				<g:Button width="100%" ui:field="Backbtn">Back</g:Button>
-				<g:Button width="100%" ui:field="Applybtn" text="Apply"/>
-			</g:HorizontalPanel>
+			<g:Button text="View Daily Report" width="100%" ui:field="DailyReportbtn"/>
+			<g:Button width="100%" ui:field="Backbtn">Back</g:Button>
 		</g:VerticalPanel>
 		<!-- Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete 
 			widget names. The ui:field attribute binds an element to a field in the owner 

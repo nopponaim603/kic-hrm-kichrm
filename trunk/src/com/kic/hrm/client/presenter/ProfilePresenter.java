@@ -119,7 +119,7 @@ public class ProfilePresenter implements Presenter{
 			}
 		});
 		
-		System.out.println("test Pass.");
+		
 	}
 
 	private void bind() {

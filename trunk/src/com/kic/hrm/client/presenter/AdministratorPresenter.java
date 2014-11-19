@@ -30,7 +30,6 @@ public class AdministratorPresenter implements Presenter{
 	public interface Display {
 		HasValue<String> getFolderID();
 		HasClickHandlers getSaveCSVtoDriveButton();
-		HasClickHandlers getFlashDataStoreButton();
 		
 		HasClickHandlers getSendEmailButton();
 		HasValue<String> getEmailReceiver();
@@ -157,27 +156,6 @@ public class AdministratorPresenter implements Presenter{
 		
 		return 0;
 	}
-	
-	private void UpdateList() {
-		rpcService.UpdateList(Employee.class.getSimpleName(), new AsyncCallback<ArrayList<String>>() {
-
-			@Override
-			public void onSuccess(ArrayList<String> result) {
-				// TODO Auto-generated method stub
-				display.getUsersListBox().clear();
-				for(String nameUser : result) {
-					display.getUsersListBox().addItem(nameUser);
-				}
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-		});
-	}
 
 	private void DisplayHandler() {
 		
@@ -276,4 +254,24 @@ public class AdministratorPresenter implements Presenter{
 		});
 	}
 	
+	private void UpdateList() {
+		rpcService.UpdateList(Employee.class.getSimpleName(), new AsyncCallback<ArrayList<String>>() {
+
+			@Override
+			public void onSuccess(ArrayList<String> result) {
+				// TODO Auto-generated method stub
+				display.getUsersListBox().clear();
+				for(String nameUser : result) {
+					display.getUsersListBox().addItem(nameUser);
+				}
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+		});
+	}
 }

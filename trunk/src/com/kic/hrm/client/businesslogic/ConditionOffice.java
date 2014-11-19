@@ -3,7 +3,7 @@ package com.kic.hrm.client.businesslogic;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.Employee.role;
 
-public class ConditionLeader {
+public class ConditionOffice {
 	
 	public static boolean isIMLeader(Employee.role inputRole) {
 		boolean m_isLeader = false;
@@ -18,6 +18,15 @@ public class ConditionLeader {
 			m_isLeader = true;
 		
 		return m_isLeader;
+	}
+	
+	public static boolean isHR(Employee.role inputRole) {
+		boolean m_isHR = false;
+			
+		if(inputRole == role.Administration)
+			m_isHR = true;
+		
+		return m_isHR;
 	}
 	
 	public static boolean isFollower(Employee.role inputRole,Employee.role Order) {

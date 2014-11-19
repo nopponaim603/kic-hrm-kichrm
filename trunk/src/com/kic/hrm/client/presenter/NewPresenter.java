@@ -23,8 +23,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.AppController;
 import com.kic.hrm.client.GreetingServiceAsync;
-import com.kic.hrm.client.businesslogic.ConditionHR;
-import com.kic.hrm.client.businesslogic.ConditionLeader;
+import com.kic.hrm.client.businesslogic.ConditionOffice;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
@@ -111,7 +110,7 @@ public class NewPresenter implements Presenter {
 		});
 
 		// Leader Load
-		if (ConditionLeader.isIMLeader(m_loginInfo.getEmployeeRole()))
+		if (ConditionOffice.isIMLeader(m_loginInfo.getEmployeeRole()))
 			rpcService.getLeaveTask(LeaveTask.progress.LeaderApprove,
 					m_loginInfo.getEmployeeID(),
 					new AsyncCallback<List<LeaveTask>>() {
@@ -136,7 +135,7 @@ public class NewPresenter implements Presenter {
 					});
 
 		// HR
-		if (ConditionHR.isHR(m_loginInfo.getEmployeeRole())) {
+		if (ConditionOffice.isHR(m_loginInfo.getEmployeeRole())) {
 			rpcService.getLeaveTask(LeaveTask.progress.HRApprove,
 					m_loginInfo.getEmployeeID(),
 					new AsyncCallback<List<LeaveTask>>() {
