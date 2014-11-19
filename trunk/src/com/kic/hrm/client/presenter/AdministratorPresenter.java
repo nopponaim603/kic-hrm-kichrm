@@ -22,6 +22,7 @@ import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.client.event.gotoProfileAndEditEvent;
 import com.kic.hrm.client.event.gotoProfileEvent;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.SystemConfig;
 import com.kic.hrm.shared.TimeStartConfig;
 
 
@@ -60,6 +61,7 @@ public class AdministratorPresenter implements Presenter{
 	private final GreetingServiceAsync rpcService;
 	private final HandlerManager eventBus;
 	private final Display display;
+	private SystemConfig m_SysConfig;
 	
 	final Auth AUTH = Auth.get();
 	
@@ -110,6 +112,9 @@ public class AdministratorPresenter implements Presenter{
 				});
 			}
 		});
+		
+		//Setup Time Config
+		//m_SysConfig
 		
 		//If Data have not on Data store
 		//setupDefultTime();
