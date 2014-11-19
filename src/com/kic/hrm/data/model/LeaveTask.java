@@ -162,6 +162,5 @@ public class LeaveTask implements Serializable{
 	public void setM_commentmessage(String m_commentmessage) {
 		this.m_commentmessage = m_commentmessage;
 	}
-    
-    //private int		
+    	
 }
