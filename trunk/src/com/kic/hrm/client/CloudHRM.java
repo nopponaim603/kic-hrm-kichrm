@@ -35,8 +35,6 @@ import com.sun.java.swing.plaf.windows.resources.windows;
 
 public class CloudHRM implements EntryPoint {
 
-	// OAuth2Login.
-
 	/**
 	 * This is the entry point method.
 	 */
