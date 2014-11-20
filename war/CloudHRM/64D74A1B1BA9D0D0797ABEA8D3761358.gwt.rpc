@@ -12,7 +12,7 @@ com.kic.hrm.data.model.EmployeeQuota, true, true, true, true, com.kic.hrm.data.m
 com.kic.hrm.data.model.LeaveTask, true, true, true, true, com.kic.hrm.data.model.LeaveTask/1188063794, 1188063794
 com.kic.hrm.data.model.LeaveTask$progress, true, true, true, true, com.kic.hrm.data.model.LeaveTask$progress/21487937, 21487937
 [Lcom.kic.hrm.data.model.LeaveTask;, true, true, false, false, [Lcom.kic.hrm.data.model.LeaveTask;/3553903683, 3553903683
-com.kic.hrm.data.model.StartTimeLog$type, true, true, true, true, com.kic.hrm.data.model.StartTimeLog$type/2416081019, 2416081019
+com.kic.hrm.data.model.StartTimeLog$type, true, true, true, true, com.kic.hrm.data.model.StartTimeLog$type/1139687344, 1139687344
 com.kic.hrm.data.model.SystemConfig, true, true, true, true, com.kic.hrm.data.model.SystemConfig/3187220957, 3187220957
 com.kic.hrm.shared.GeoPosition, true, true, true, true, com.kic.hrm.shared.GeoPosition/1929225197, 1929225197
 com.kic.hrm.shared.LoginInfo, true, true, true, true, com.kic.hrm.shared.LoginInfo/603586082, 603586082

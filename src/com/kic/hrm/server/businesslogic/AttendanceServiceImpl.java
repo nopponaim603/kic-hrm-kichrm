@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.logging.Log;
+
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -17,7 +19,6 @@ import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.DataStoreControl;
 import com.kic.hrm.server.GeoLocationServiceImpl;
-
 import com.kic.hrm.server.LoginServiceImpl;
 import com.kic.hrm.shared.LoginInfo;
 
@@ -77,36 +78,75 @@ public class AttendanceServiceImpl {
 		return false;
 	}
 	
-	public static void PreAddData(Employee m_employee) {
-		AttendanceSaveDate(m_employee,timetable.None,type.InProgress,"InProgress");
+	public static void CreateDailyData() {
+		List<Employee> results = ProfileServiceImpl.getProfileList();
+		
+		for (Employee em : results) {
+			System.out.println("Add StartTimeLog for Employee : " + em.getM_name());
+			log.log(Level.SEVERE ,"Add StartTimeLog for Employee : " + em.getM_name() );
+			
+			PreAddData(em,type.InProgress,"InProgress");
+		}
 	}
+	
+	public static void AdsceneDailyDate() {
+		
+		//Leave Update.
+		
+		List<Employee> results = ProfileServiceImpl.getProfileList();
+		
+		for (Employee em : results) {
+			System.out.println("Add StartTimeLog for Employee : " + em.getM_name());
+			log.log(Level.SEVERE ,"Add StartTimeLog for Employee : " + em.getM_name() );
+			
+			//////////////
+			PreAddData(em,type.Absence,"InProgress");
+		}
+	}
+	
+	public static void PreAddData(Employee m_employee ,type m_leaveType ,String address) {
+		AttendanceSaveDate(m_employee
+				,StartTimeLogService.convertRoleToTimeTable(m_employee.getM_role())
+				,m_leaveType
+				,address);
+	}
+	
 	private static boolean AttendanceSaveDate(Employee m_employee,timetable m_timetable,type m_leaveType ,String address) {
 		
 		StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee, m_timetable, m_leaveType, address);
 
 		// One Day Save One Time
-		boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),OnWebStartTimeLog.getM_date());
+		boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),OnWebStartTimeLog);
 
 		// Add DataStartTimeLogService
 		if (!isLogin) {
+			System.out.println("First Time Login");
+			return StartTimeLogService.SaveAS(OnWebStartTimeLog);
+		}else {
+			System.out.println("Progress Update");
 			return StartTimeLogService.SaveAS(OnWebStartTimeLog);
 		}
-		System.out.println("Seved.");
-		return false;
+		//System.out.println("Seved. | " + m_employee.getM_employeeID() +" have state today login is : " + isLogin);
+		
+		//return false;
 	}
 
-	private static boolean OneTimeLogin(int employeeID, Date TodayLogin) {
+	private static boolean OneTimeLogin(int employeeID, StartTimeLog m_startTimelog) {
 		boolean isLogin = false;
-		log.log(Level.SEVERE, "Employee ID : " + employeeID);
-		Filter currentUser = new FilterPredicate(StartTimeLog.property.employeeID.toString(),FilterOperator.EQUAL, employeeID);
-		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,SortDirection.DESCENDING, currentUser);
-		List<StartTimeLog> m_starttimelog = StartTimeLogService.Clone(temp_entity);
+		log.log(Level.SEVERE, "Check One Time Logine | Employee ID : " + employeeID);
+		List<StartTimeLog> m_starttimelogs = StartTimeLogService.getStartTimeLogListOnlyOne(employeeID);
 
-		for (StartTimeLog m_start : m_starttimelog) {
+		for (StartTimeLog m_start : m_starttimelogs) {
 			// m_start.getM_date()
-			if (CollisionDate(TodayLogin, m_start.getM_date()))
+			if (CollisionDate(m_startTimelog.getM_date(), m_start.getM_date())){
 				isLogin = true;
+				m_startTimelog.setKind(m_start.getKind());
+				m_startTimelog.setKeyID(m_start.getKeyID());
+				break;
+			}
+				
 		}
+		
 		log.log(Level.SEVERE, "Is Login : " + isLogin);
 
 		return isLogin;

@@ -39,10 +39,6 @@ public class GAEJCronServlet extends HttpServlet   {
 		_logger.severe("doPost. " + jwt);
 		
 		
-		//req.
-		//https://www.googleapis.com/plus/v1/people/userId?access_token=1/fFBGRNJru1FQd44AzqT3Zg
-		
-		//
 		
 		doGet(req, resp);	
 		

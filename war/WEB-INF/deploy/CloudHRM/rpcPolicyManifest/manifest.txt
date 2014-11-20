@@ -1,3 +1,3 @@
 # Module CloudHRM
 # RPC service class, partial path of RPC policy file
-com.kic.hrm.client.GreetingService, 6889B2F7D970B365B516F34DDFE58E11.gwt.rpc
+com.kic.hrm.client.GreetingService, 64D74A1B1BA9D0D0797ABEA8D3761358.gwt.rpc

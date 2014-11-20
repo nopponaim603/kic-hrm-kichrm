@@ -90,6 +90,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		//SystemConfig test = SystemConfig.AddData(null);
 
+		AttendanceServiceImpl.CreateDailyData();
+		
 		return testParametor;
 	}
 	
