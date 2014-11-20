@@ -15,6 +15,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.StartTimeLog.property;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
@@ -250,21 +253,40 @@ public class StartTimeLogService {
 	public static boolean SaveAS(StartTimeLog StartTimeLog) {
 		boolean saveSuccess = false;
 		Entity d_OnWebStartTimeLog = null;
-		boolean haveData = true;
-		try {
-			d_OnWebStartTimeLog = DataStoreControl.EditEntity(StartTimeLog.getKind(), StartTimeLog.getKeyID());
-		} catch (EntityNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("Don't Have Data.");
+		
+		
+		if(StartTimeLog.getKind() != null && StartTimeLog.getKeyID() != null) {
+			log.log(Level.SEVERE, "Have Data. | " + StartTimeLog.getKind() + " : " + StartTimeLog.getKeyID());
+			try {
+				d_OnWebStartTimeLog = DataStoreControl.EditEntity(StartTimeLog.getKind(), StartTimeLog.getKeyID());
+				
+				if(getTypeEntity(d_OnWebStartTimeLog)==type.InProgress)	{
+					d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, StartTimeLog);
+					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
+					saveSuccess = true;
+				}
+			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				log.log(Level.SEVERE, "Error : " + e.toString());
+			}
+		}else {
+			System.out.println("Don't Have Data. At Start Time : " + StartTimeLog.getM_employeeID() + " : " + StartTimeLog.getM_name() + " : " + StartTimeLog.getM_date());
 			d_OnWebStartTimeLog = DataStoreControl.CreateEntity(StartTimeLog.class);
+			d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, StartTimeLog);
+			DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
+			saveSuccess = true;
 		}
 		
-		d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, StartTimeLog);
-		DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
-		log.log(Level.SEVERE, "Save Done.");
+		
+		
+		log.log(Level.SEVERE, "Save Done. | save is : " + saveSuccess);
 		
 		return saveSuccess;
+	}
+	
+	private static type getTypeEntity(Entity entity) {
+		return type.valueOf(entity.getProperty(property.type.toString()).toString());
 	}
 
 	public static timetable convertRoleToTimeTable(role userRole) {
@@ -280,4 +302,9 @@ public class StartTimeLogService {
 		return m_timetable;
 	}
 	
+	public static List<StartTimeLog> getStartTimeLogListOnlyOne(int employeeID) {
+		Filter currentUser = new FilterPredicate(StartTimeLog.property.employeeID.toString(),FilterOperator.EQUAL, employeeID);
+		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,SortDirection.DESCENDING, currentUser);
+		return StartTimeLogService.Clone(temp_entity);
+	}
 }

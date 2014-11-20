@@ -2,7 +2,17 @@
 <cronentries>
 	<cron>
 		<url>/cron/mycronjob</url>
-		<description>GAEJExperiments Cron Job that simply announces that it got invoked.</description>
-		<schedule>every 10 hours</schedule>
+		<description>GAEJExperiments Cron Job that simply announces that it
+			got invoked.</description>
+		<schedule>every day 00:00</schedule>
 	</cron>
+
+	<cron>
+		<url>/cron/StartTimeLogDailyReport</url>
+		<description>StartTimeLog Daily Report Pre create Date inprogress</description>
+		<schedule>every day 00:00</schedule>
+		<timezone>Asia/Bangkok</timezone>
+	</cron>
+<!-- every day 00:00 -->
+
 </cronentries>

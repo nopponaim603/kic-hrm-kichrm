@@ -20,6 +20,25 @@ public class ProfileServiceImpl {
 
 	private static final Logger log = Logger
 			.getLogger(GreetingServiceImpl.class.getName());
+
+	public static boolean isMember(String email) {
+		List<Employee> results;// = new ArrayList<Employee>();
+		List<Entity> entities = DataStoreControl.Query(Employee.class,
+				SortDirection.ASCENDING);
+		results = EmployeeService.Clone(entities);
+		// System.out.println("Rusults Size " +results.size());
+		for (Employee em : results) {
+			// System.out.println("Email : " + em.getM_email());
+			//log.log(Level.SEVERE, "Data Email " + em.getM_email() + " : input Email " + email);	
+			if (em.getM_email().equalsIgnoreCase(email)) {
+				//log.log(Level.SEVERE, "Finded.");
+				// System.out.println("This's email :" + email + " Member.");
+				return true;
+			}
+		}
+		//log.log(Level.SEVERE, "Could not Finded.");
+		return false;
+	}
 	
 	public static Employee addProfile(Employee userEmployee,EmployeeQuota userQuota, state registerMode) {
 		// TODO Auto-generated method stub
@@ -51,21 +70,6 @@ public class ProfileServiceImpl {
 		d_quota = EmployeeQuotaService.FlashData(d_quota, userQuota);
 		DataStoreControl.SaveEntity(d_quota);
 		return userEmployee;
-	}
-
-	public static ArrayList<String> UpdateList(String targetEntity) {
-		// TODO Auto-generated method stub
-		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class,
-				SortDirection.ASCENDING);
-		results = EmployeeService.Clone(entities);
-		ArrayList<String> EmployeeID = new ArrayList<String>();
-
-		for (Employee em : results) {
-			EmployeeID.add(String.valueOf(em.getM_employeeID()));
-		}
-
-		return EmployeeID;
 	}
 
 	public static Employee getProfile(Integer targetEmployee) {
@@ -100,25 +104,6 @@ public class ProfileServiceImpl {
 		}
 		
 		return temp_employee;
-	}
-
-	public static boolean isMember(String email) {
-		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class,
-				SortDirection.ASCENDING);
-		results = EmployeeService.Clone(entities);
-		// System.out.println("Rusults Size " +results.size());
-		for (Employee em : results) {
-			// System.out.println("Email : " + em.getM_email());
-			log.log(Level.SEVERE, "Data Email " + em.getM_email() + " : input Email " + email);	
-			if (em.getM_email().equalsIgnoreCase(email)) {
-				log.log(Level.SEVERE, "Finded.");
-				// System.out.println("This's email :" + email + " Member.");
-				return true;
-			}
-		}
-		log.log(Level.SEVERE, "Could not Finded.");
-		return false;
 	}
 
 	public static boolean deleteProfile(Integer targetEmployee) {
@@ -158,4 +143,24 @@ public class ProfileServiceImpl {
 	}
 	// Add Edit Delete Profile > end
 
+	public static List<Employee> getProfileList() {
+		List<Employee> results;// = new ArrayList<Employee>();
+		List<Entity> entities = DataStoreControl.Query(Employee.class,
+				SortDirection.ASCENDING);
+		results = EmployeeService.Clone(entities);
+		
+		return results;
+	}
+	
+	public static ArrayList<String> UpdateList(String targetEntity) {
+		// TODO Auto-generated method stub
+		List<Employee> results = getProfileList();// = new ArrayList<Employee>();
+		ArrayList<String> EmployeeID = new ArrayList<String>();
+
+		for (Employee em : results) {
+			EmployeeID.add(String.valueOf(em.getM_employeeID()));
+		}
+
+		return EmployeeID;
+	}
 }
