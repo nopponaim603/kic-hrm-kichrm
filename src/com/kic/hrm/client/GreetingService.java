@@ -59,4 +59,5 @@ public interface GreetingService extends RemoteService {
 	///////////////
 	SystemConfig getSystemConfig();
 	void ApplySystemConfig(SystemConfig sysConfig);
+
 }
