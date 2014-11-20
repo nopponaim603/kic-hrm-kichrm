@@ -21,8 +21,7 @@ public class ProfileServiceImpl {
 	private static final Logger log = Logger
 			.getLogger(GreetingServiceImpl.class.getName());
 	
-	public static Employee addProfile(Employee userEmployee,
-			EmployeeQuota userQuota, state registerMode) {
+	public static Employee addProfile(Employee userEmployee,EmployeeQuota userQuota, state registerMode) {
 		// TODO Auto-generated method stub
 		Entity d_employee = null;
 		Entity d_quota = null;
@@ -71,33 +70,35 @@ public class ProfileServiceImpl {
 
 	public static Employee getProfile(Integer targetEmployee) {
 		// TODO Auto-generated method stub
-		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class,
-				SortDirection.ASCENDING);
+		List<Employee> results;
+		List<Entity> entities = DataStoreControl.Query(Employee.class,SortDirection.ASCENDING);
 		results = EmployeeService.Clone(entities);
 		Employee temp_employee = null;
+		
 		for (Employee em : results) {
 			if (em.getM_employeeID() == targetEmployee) {
 				temp_employee = em;
 				break;
 			}
 		}
+		
 		return temp_employee;
 	}
 	
 	public static Employee getProfile(String email) {
 		// TODO Auto-generated method stub
-		List<Employee> results;// = new ArrayList<Employee>();
-		List<Entity> entities = DataStoreControl.Query(Employee.class,
-				SortDirection.ASCENDING);
+		List<Employee> results;
+		List<Entity> entities = DataStoreControl.Query(Employee.class,SortDirection.ASCENDING);
 		results = EmployeeService.Clone(entities);
 		Employee temp_employee = null;
+		
 		for (Employee em : results) {
 			if (em.getM_email().equalsIgnoreCase(email)) {
 				temp_employee = em;
 				break;
 			}
 		}
+		
 		return temp_employee;
 	}
 

@@ -12,11 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
+import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.StartTimeLog.property;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.data.model.StartTimeLog.type;
+import com.kic.hrm.server.DataStoreControl;
 import com.kic.hrm.server.GreetingServiceImpl;
 
 public class StartTimeLogService {
@@ -171,6 +174,14 @@ public class StartTimeLogService {
 		return entity;
 	}
 
+	public static List<StartTimeLog> Clone(List<Entity> entities) {
+		List<StartTimeLog> results = new ArrayList<StartTimeLog>();
+		for (Entity entity : entities)
+			results.add(AddDataStartTimeLog(entity));
+
+		return results;
+	}
+	
 	public static StartTimeLog Create(Employee employee,timetable m_timetable,type m_type,String address) {
 		StartTimeLog m_startTimelog = new StartTimeLog();
 		m_startTimelog.setM_employeeID(employee.getM_employeeID());
@@ -236,12 +247,37 @@ public class StartTimeLogService {
 		return m_startTimelog;
 	}
 
-	public static List<StartTimeLog> Clone(List<Entity> entities) {
-		List<StartTimeLog> results = new ArrayList<StartTimeLog>();
-		for (Entity entity : entities)
-			results.add(AddDataStartTimeLog(entity));
-
-		return results;
+	public static boolean SaveAS(StartTimeLog StartTimeLog) {
+		boolean saveSuccess = false;
+		Entity d_OnWebStartTimeLog = null;
+		boolean haveData = true;
+		try {
+			d_OnWebStartTimeLog = DataStoreControl.EditEntity(StartTimeLog.getKind(), StartTimeLog.getKeyID());
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Don't Have Data.");
+			d_OnWebStartTimeLog = DataStoreControl.CreateEntity(StartTimeLog.class);
+		}
+		
+		d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, StartTimeLog);
+		DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
+		log.log(Level.SEVERE, "Save Done.");
+		
+		return saveSuccess;
 	}
 
+	public static timetable convertRoleToTimeTable(role userRole) {
+		
+		timetable m_timetable = timetable.None;
+		
+		if(userRole == role.Administration) {
+			m_timetable = timetable.Admin;
+		}else {
+			m_timetable = timetable.Project;
+		}
+		
+		return m_timetable;
+	}
+	
 }

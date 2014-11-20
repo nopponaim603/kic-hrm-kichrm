@@ -26,24 +26,16 @@ public class AttendanceServiceImpl {
 	private static final Logger log = Logger
 			.getLogger(AttendanceServiceImpl.class.getName());
 
-	public static boolean LoginAttendance(LoginInfo userInfo, type leaveType,
-			String address) {
+	public static boolean LoginAttendance(LoginInfo userInfo, type leaveType ,String address) {
 		// TODO Auto-generated method stub
 		System.out.println("Employee email: " + userInfo.getEmailAddress());
-
 		log.log(Level.SEVERE, "Employee email: " + userInfo.getEmailAddress());
-		Employee m_employee = ProfileServiceImpl.getProfile(userInfo
-				.getEmailAddress());
-		System.out.println("Employee : " + m_employee + " : "
-				+ userInfo.getEmailAddress());
-		log.log(Level.SEVERE,
-				"Employee : " + m_employee + " : " + userInfo.getEmailAddress());
+		
+		Employee m_employee = ProfileServiceImpl.getProfile(userInfo.getEmailAddress());
+		
 		if (m_employee != null) {
 			log.log(Level.SEVERE, "Employee is Not NULL!!.");
-			timetable m_timetable = LoginServiceImpl
-					.convertRoleToTimeTable(userInfo.getEmployeeRole());
-
-			type m_leaveType = leaveType;
+			timetable m_timetable = StartTimeLogService.convertRoleToTimeTable(userInfo.getEmployeeRole());
 
 			// Check Area
 			if (leaveType == leaveType.Office) {
@@ -60,78 +52,55 @@ public class AttendanceServiceImpl {
 				double[] gps2 = { 13.7569991624617, 100.6189613206482 };
 				*/
 				// double
-				double Distance = GeoLocationServiceImpl.findDistance(
-						CAMTPosition, currentPosition);
+				
+				double Distance = GeoLocationServiceImpl.findDistance(CAMTPosition, currentPosition);
+				
 				System.out.println("current Position : " + currentPosition[0]
 						+ " : " + currentPosition[1] + " | Distance : "
 						+ Distance);
 				log.log(Level.SEVERE, "current Position : "
 						+ currentPosition[0] + " : " + currentPosition[1]
 						+ " | Distance : " + Distance);
+				
 				// Distance lass than 70 Meter
 				if (Distance <= 0.07) {
-
 					// On Office
-					StartTimeLog OnWebStartTimeLog = StartTimeLogService
-							.Create(m_employee, m_timetable, m_leaveType,
-									address);
-
-					// One Day Save One Time
-					boolean isLogin = OneTimeLogin(
-							m_employee.getM_employeeID(),
-							OnWebStartTimeLog.getM_date());
-
-					// Add DataStartTimeLogService
-					if (!isLogin) {
-						Entity d_OnWebStartTimeLog = null;
-						d_OnWebStartTimeLog = DataStoreControl
-								.CreateEntity(StartTimeLog.class);
-						d_OnWebStartTimeLog = StartTimeLogService.FlashData(
-								d_OnWebStartTimeLog, OnWebStartTimeLog);
-						DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
-					}
-					return true;
+					return AttendanceSaveDate(m_employee, m_timetable, leaveType, address);
 				} else {
 					return false;
 				}
 			} else {
 				// On Site
-				StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(
-						m_employee, m_timetable, m_leaveType, address);
-
-				// One Day Save One Time
-				boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),
-						OnWebStartTimeLog.getM_date());
-
-				// Add DataStartTimeLogService
-				if (!isLogin) {
-
-					Entity d_OnWebStartTimeLog = null;
-					d_OnWebStartTimeLog = DataStoreControl
-							.CreateEntity(StartTimeLog.class);
-					d_OnWebStartTimeLog = StartTimeLogService.FlashData(
-							d_OnWebStartTimeLog, OnWebStartTimeLog);
-					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
-
-					log.log(Level.SEVERE, "Save Done.");
-				}
-
-				return true;
+				return AttendanceSaveDate(m_employee, m_timetable, leaveType, address);
 			}
 		}
 		return false;
 	}
+	
+	public static void PreAddData(Employee m_employee) {
+		AttendanceSaveDate(m_employee,timetable.None,type.InProgress,"InProgress");
+	}
+	private static boolean AttendanceSaveDate(Employee m_employee,timetable m_timetable,type m_leaveType ,String address) {
+		
+		StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee, m_timetable, m_leaveType, address);
 
-	static boolean OneTimeLogin(int employeeID, Date TodayLogin) {
+		// One Day Save One Time
+		boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),OnWebStartTimeLog.getM_date());
+
+		// Add DataStartTimeLogService
+		if (!isLogin) {
+			return StartTimeLogService.SaveAS(OnWebStartTimeLog);
+		}
+		System.out.println("Seved.");
+		return false;
+	}
+
+	private static boolean OneTimeLogin(int employeeID, Date TodayLogin) {
 		boolean isLogin = false;
 		log.log(Level.SEVERE, "Employee ID : " + employeeID);
-		Filter currentUser = new FilterPredicate(
-				StartTimeLog.property.employeeID.toString(),
-				FilterOperator.EQUAL, employeeID);
-		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
-				SortDirection.DESCENDING, currentUser);
-		List<StartTimeLog> m_starttimelog = StartTimeLogService
-				.Clone(temp_entity);
+		Filter currentUser = new FilterPredicate(StartTimeLog.property.employeeID.toString(),FilterOperator.EQUAL, employeeID);
+		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,SortDirection.DESCENDING, currentUser);
+		List<StartTimeLog> m_starttimelog = StartTimeLogService.Clone(temp_entity);
 
 		for (StartTimeLog m_start : m_starttimelog) {
 			// m_start.getM_date()
@@ -143,7 +112,7 @@ public class AttendanceServiceImpl {
 		return isLogin;
 	}
 
-	static boolean CollisionDate(Date thisIsToday, Date collisiontDate) {
+	private static boolean CollisionDate(Date thisIsToday, Date collisiontDate) {
 		boolean isCollision = false;
 
 		if (thisIsToday.getYear() == collisiontDate.getYear()

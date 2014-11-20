@@ -14,9 +14,11 @@ public class StartTimeLog implements Serializable {
 		OnTime,
 		Late,
 		Leave,
-		Holiday
+		Holiday,
+		InProgress
 	}
 	
+	// Look Like Segment @Employee class.
 	public enum timetable {
 		None,
 		Admin,
@@ -187,8 +189,17 @@ public class StartTimeLog implements Serializable {
 
 	public StartTimeLog() {
 		// TODO Auto-generated constructor stub
-		m_type = StartTimeLog.type.OnTime;
+		m_type = StartTimeLog.type.InProgress;
 		m_timeTable = StartTimeLog.timetable.None;
+		
+		m_date = new Date();
+		m_date.setHours(0);
+		m_date.setMinutes(0);
+		m_date.setSeconds(0);
+		
+		m_clockIn = m_date;
+		m_clockLate = m_date;
+		m_clockOut = m_date;
 	}
     
     //private 
