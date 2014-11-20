@@ -16,6 +16,7 @@ public class CreateStartTimeLogCronServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		_logger.log(Level.SEVERE,"TEST.");
+		AttendanceServiceImpl.CreateDailyData();
 		try {
 			_logger.info("CreateStartTimeLogCronServlet doGet.");
 		}catch (Exception e) {
