@@ -240,8 +240,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		Entity d_systemConfig = null;
 		
 		try {
-			d_systemConfig = DataStoreControl.EditEntity(
-					sysConfig.getKind(), sysConfig.getKeyID());
+			d_systemConfig = DataStoreControl.EditEntity(sysConfig.getKind(), sysConfig.getKeyID());
 			d_systemConfig = SystemConfigService.FlashData(d_systemConfig, sysConfig);
 			DataStoreControl.SaveEntity(d_systemConfig);
 			

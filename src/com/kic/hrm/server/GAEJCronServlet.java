@@ -31,9 +31,7 @@ public class GAEJCronServlet extends HttpServlet   {
 		
 		
 	}
-	
-
-	
+		
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		

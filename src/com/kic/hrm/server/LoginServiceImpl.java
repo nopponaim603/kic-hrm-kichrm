@@ -169,17 +169,7 @@ public class LoginServiceImpl {
 		}
 	}
 	
-	public static timetable convertRoleToTimeTable(role userRole) {
-		timetable m_timetable = timetable.None;
-		
-		if(userRole == role.Administration) {
-			m_timetable = timetable.Admin;
-		}else {
-			m_timetable = timetable.Project;
-		}
-		
-		return m_timetable;
-	}
+
 	
 	private static LoginInfo setupEmployeeData(LoginInfo loginInfo) {
 		System.out.println("email : " + loginInfo.getEmailAddress());
