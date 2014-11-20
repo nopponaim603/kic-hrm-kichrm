@@ -56,6 +56,7 @@ public class QuotaPresenter implements Presenter{
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				//Save new value to Quota per user
+				/*
 				rpcService.QuickTest("Test", new AsyncCallback<String>() {
 					
 					@Override
@@ -70,6 +71,7 @@ public class QuotaPresenter implements Presenter{
 						
 					}
 				});
+				*/
 			}
 		});
 		

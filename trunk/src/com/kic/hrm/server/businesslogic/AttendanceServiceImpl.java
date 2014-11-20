@@ -79,6 +79,7 @@ public class AttendanceServiceImpl {
 	}
 	
 	public static void CreateDailyData() {
+		log.log(Level.SEVERE,"CreateDailyData");
 		List<Employee> results = ProfileServiceImpl.getProfileList();
 		
 		for (Employee em : results) {
@@ -90,7 +91,7 @@ public class AttendanceServiceImpl {
 	}
 	
 	public static void AdsceneDailyDate() {
-		
+		log.log(Level.SEVERE,"AdsceneDailyDate");
 		//Leave Update.
 		
 		List<Employee> results = ProfileServiceImpl.getProfileList();
