@@ -216,6 +216,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public SystemConfig getSystemConfig() {
 		// TODO Auto-generated method stub
+		/*
 		SystemConfig sysconfig;
 		List<Entity> entities = DataStoreControl.Query(SystemConfig.class,
 				SortDirection.ASCENDING);
@@ -234,6 +235,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		}
 		
 		return sysconfig;
+		*/
+		return SystemConfigService.getSystemConfig();
 	}
 
 	@Override

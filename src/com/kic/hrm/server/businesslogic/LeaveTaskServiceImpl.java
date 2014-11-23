@@ -22,8 +22,10 @@ import com.kic.hrm.data.model.LeaveTaskService;
 import com.kic.hrm.data.model.ModelService;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLogService;
+import com.kic.hrm.data.model.SystemConfig;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.StartTimeLog.type;
+import com.kic.hrm.data.model.SystemConfigService;
 import com.kic.hrm.server.CalendarServiceImpl;
 import com.kic.hrm.server.DataStoreControl;
 
@@ -184,11 +186,14 @@ public class LeaveTaskServiceImpl {
 	}
 
 	private static final String APPLICATION_NAME = "xz-plasma-weft-8/1.0";
-
+	static String m_calenderID = "camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com";
+	
 	public static boolean addLeaveTaskToCalendar(String token,
 			LeaveTask leavetask) {
 		// TODO Auto-generated method stub
-		String HR_calenderID = m_calenderID;
+		SystemConfig systemConfig = SystemConfigService.getSystemConfig();
+		System.out.println("Print System Config : " + systemConfig.getM_calendarID());
+		String HR_calenderID = systemConfig.getM_calendarID();
 
 		Calendar calender = CalendarServiceImpl.BuildCalendarAPIbyTOKEN(token,
 				APPLICATION_NAME);
@@ -213,7 +218,7 @@ public class LeaveTaskServiceImpl {
 	// https://www.google.com/calendar/feeds/camtedu.net_ffupfdej93dc7td5rop26gvp1s%40group.calendar.google.com/public/basic
 
 	// camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com
-	static String m_calenderID = "camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com";
+	
 
 	public static void addTaskToCalender(Calendar calender,
 			String HR_calenderID, LeaveTask leavetask) throws IOException {

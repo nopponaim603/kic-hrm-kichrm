@@ -9,6 +9,7 @@ public class SystemConfig implements Serializable {
 	public enum property {
 		Drive_folderID,
 		Report_email,
+		calendarID,
 		AdminOndutyTime,
 		AdminOffdutyTime,
 		AdminEarly,
@@ -23,6 +24,7 @@ public class SystemConfig implements Serializable {
 	
 	private String m_Drive_folderID;
 	private String m_Report_email;
+	private String m_calendarID;
 	
 	private  Date AdminOndutyTime;
 	private  Date AdminOffdutyTime;
@@ -130,6 +132,7 @@ public class SystemConfig implements Serializable {
 	}
 
 
+	@SuppressWarnings("deprecation")
 	public SystemConfig() {
 		// TODO Auto-generated constructor stub
 		AdminOndutyTime = new Date(0);
@@ -157,6 +160,20 @@ public class SystemConfig implements Serializable {
 		System.out.println(ProjectOndutyTime);
 		System.out.println(ProjectOffdutyTime);
 		System.out.println(ProjectEarly);*/
+	}
+
+	/**
+	 * @return the m_Drive_calendarID
+	 */
+	public String getM_calendarID() {
+		return m_calendarID;
+	}
+
+	/**
+	 * @param m_Drive_calendarID the m_Drive_calendarID to set
+	 */
+	public void setM_calendarID(String m_Drive_calendarID) {
+		this.m_calendarID = m_Drive_calendarID;
 	}
 
 

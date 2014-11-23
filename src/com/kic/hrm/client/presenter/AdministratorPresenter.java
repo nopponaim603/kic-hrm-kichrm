@@ -35,6 +35,8 @@ public class AdministratorPresenter implements Presenter{
 		HasClickHandlers getSendEmailButton();
 		HasValue<String> getEmailReceiver();
 		
+		HasValue<String> getCalendarID();
+		
 		ListBox getUsersListBox();
 		HasClickHandlers getAddProfileButton();
 		HasClickHandlers getRefreshListsProfileButton();
@@ -179,6 +181,7 @@ public class AdministratorPresenter implements Presenter{
 	private void SetupDisplay(SystemConfig sysConfig) {
 		display.getFolderID().setValue(sysConfig.getM_Drive_folderID());
 		display.getEmailReceiver().setValue(sysConfig.getM_Report_email());
+		display.getCalendarID().setValue(sysConfig.getM_calendarID());
 		setupDefultTime(sysConfig);
 	}
 	
@@ -232,6 +235,7 @@ public class AdministratorPresenter implements Presenter{
 		
 		m_SysConfig.setM_Drive_folderID(display.getFolderID().getValue());
 		m_SysConfig.setM_Report_email(display.getEmailReceiver().getValue());
+		m_SysConfig.setM_calendarID(display.getCalendarID().getValue());
 		
 		m_SysConfig.setAdminOndutyTime(converterToDate(m_SysConfig.getAdminOndutyTime() 
 														, display.AdminOnDutyHoure()

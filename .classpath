@@ -7,13 +7,13 @@
 	<classpathentry exported="true" kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/datastore-v1beta2r18lv1.18.0-rc"/>
 	<classpathentry exported="true" kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/oauth2-v2r74lv1.18.0-rc"/>
 	<classpathentry exported="true" kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/plus-v1r135lv1.18.0-rc"/>
-	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/gmail-v1r4lv1.18.0-rc"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.6.1"/>
-	<classpathentry kind="lib" path="lib/gwt-oauth2-0.2-alpha.jar"/>
-	<classpathentry kind="lib" path="lib/gwt-calendar-v3-0.3-alpha.jar"/>
-	<classpathentry kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/calendar-v3r104lv1.18.0-rc"/>
-	<classpathentry kind="lib" path="lib/guava-gwt-18.0.jar"/>
+	<classpathentry exported="true" kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/gmail-v1r4lv1.18.0-rc"/>
+	<classpathentry exported="true" kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.6.1"/>
+	<classpathentry exported="true" kind="con" path="com.google.gdt.eclipse.managedapis.MANAGED_API_CONTAINER/calendar-v3r104lv1.18.0-rc"/>
+	<classpathentry exported="true" kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="lib/gwt-oauth2-0.2-alpha.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/gwt-calendar-v3-0.3-alpha.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/guava-gwt-18.0.jar"/>
 	<classpathentry kind="lib" path="lib/gwt-plus-v1-0.2-alpha.jar"/>
-	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
