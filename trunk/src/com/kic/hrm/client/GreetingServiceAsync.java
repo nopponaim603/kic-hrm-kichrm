@@ -59,8 +59,8 @@ public interface GreetingServiceAsync {
 
 	void sendReportDairyToEmail(String email, AsyncCallback<Boolean> callback);
 
-	void addLeaveTaskToCalendar(String token, LeaveTask leavetask,
-			AsyncCallback<Boolean> callback);
+	void addLeaveTaskToCalendar(String token,
+			LeaveTask leavetask, AsyncCallback<Boolean> callback);
 
 	void getSystemConfig(AsyncCallback<SystemConfig> callback);
 

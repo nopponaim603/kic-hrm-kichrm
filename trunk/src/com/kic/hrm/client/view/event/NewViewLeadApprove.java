@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.SystemConfig;
 import com.kic.hrm.data.model.LeaveTask.progress;
 
 public class NewViewLeadApprove  implements ClickHandler{
@@ -46,19 +47,19 @@ public class NewViewLeadApprove  implements ClickHandler{
 						@Override
 						public void onSuccess(String token) {
 							rpcService.addLeaveTaskToCalendar(token, m_leavetask , new AsyncCallback<Boolean>() {
-								
-								@Override
-								public void onSuccess(Boolean result) {
-									// TODO Auto-generated method stub
-									
-								}
-								
-								@Override
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
-									
-								}
-							});
+										
+										@Override
+										public void onSuccess(Boolean result) {
+											// TODO Auto-generated method stub
+											
+										}
+										
+										@Override
+										public void onFailure(Throwable caught) {
+											// TODO Auto-generated method stub
+											
+										}
+									});
 						}
 
 						@Override

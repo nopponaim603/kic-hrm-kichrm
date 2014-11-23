@@ -22,6 +22,8 @@ public class AdministratorView extends Composite implements AdministratorPresent
 
 	private final TextBox emailReceiverTextBox;
 	private final Button sendEmailButton;
+	
+	private final TextBox calendarIDTextBox;
 
 	private final ListBox listProfileListBox;
 	private final Button refreshListProfileButton;
@@ -56,15 +58,15 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		decoratedStackPanel.setWidth("100%");
 		
 		VerticalPanel verticalPanel_3 = new VerticalPanel();
-		decoratedStackPanel.add(verticalPanel_3, "Start Time", false);
+		decoratedStackPanel.add(verticalPanel_3, "Import and Sharing Config", false);
 		verticalPanel_3.setSize("100%", "100%");
 		
-		Grid grid_5 = new Grid(2, 3);
+		Grid grid_5 = new Grid(3, 3);
 		verticalPanel_3.add(grid_5);
 		grid_5.setSize("100%", "100%");
 		
-		Label label_23 = new Label("FolderID ");
-		grid_5.setWidget(0, 0, label_23);
+		Label lblFolderId = new Label("Folder ID ");
+		grid_5.setWidget(0, 0, lblFolderId);
 		
 		TextBox textBox_2 = new TextBox();
 		grid_5.setWidget(0, 1, textBox_2);
@@ -522,6 +524,17 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		grid_5.setWidget(1, 2, btnNewButton);
 		
 		sendEmailButton = btnNewButton;
+		
+		Label lblCalendarId = new Label("Calendar ID");
+		grid_5.setWidget(2, 0, lblCalendarId);
+		
+		
+		
+		TextBox textBox = new TextBox();
+		grid_5.setWidget(2, 1, textBox);
+		calendarIDTextBox = textBox;
+		
+		
 		addProfileButton = button_5;
 		listProfileListBox = listBox_ProfileEmployee;
 		refreshListProfileButton = button_6;
@@ -676,6 +689,12 @@ public class AdministratorView extends Composite implements AdministratorPresent
 	public HasClickHandlers getDefaultButton() {
 		// TODO Auto-generated method stub
 		return defaultButton;
+	}
+
+	@Override
+	public HasValue<String> getCalendarID() {
+		// TODO Auto-generated method stub
+		return calendarIDTextBox;
 	}
 
 	
