@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.kic.hrm.data.model.SystemConfig.property;
 import com.kic.hrm.server.DataStoreControl;
@@ -72,6 +73,21 @@ public class SystemConfigService {
 		}
 		
 		return sysconfig;
+	}
+	
+	public static void ApplySystemConfig(SystemConfig sysConfig) {
+		// TODO Auto-generated method stub
+		Entity d_systemConfig = null;
+		
+		try {
+			d_systemConfig = DataStoreControl.EditEntity(sysConfig.getKind(), sysConfig.getKeyID());
+			d_systemConfig = SystemConfigService.FlashData(d_systemConfig, sysConfig);
+			DataStoreControl.SaveEntity(d_systemConfig);
+			
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 }

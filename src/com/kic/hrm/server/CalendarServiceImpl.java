@@ -1,5 +1,6 @@
 package com.kic.hrm.server;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.DateTime;
 import com.google.api.gwt.services.calendar.shared.Calendar.CalendarListContext.ListRequest.MinAccessRole;
 import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.Colors;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Event.Reminders;
@@ -19,6 +21,21 @@ import com.google.gwt.core.client.GWT;
 
 public class CalendarServiceImpl {
 
+	enum ColorID {
+		None,
+		BoldBlue,
+		Blue,
+		Turquoise,
+		Green,
+		BoldGreen,
+		Yellow,
+		Orange,
+		Red,
+		BoldRed,
+		Purple,
+		Gray
+	}
+	
 	private Calendar calendar = GWT.create(Calendar.class);
 	
 	
@@ -61,6 +78,8 @@ public class CalendarServiceImpl {
 	public static Event createEvent(String titleEvent,String description,Date in_startDate,Date in_endDate) {
 		Event event = new Event();
 		// event.setColorId("red");
+		
+		//com.google.api.services.calendar.model.Colors test = new Colors()
 		event.setSummary(titleEvent);
 		//event.setLocation("Somewhere");
 		Reminders test = new Reminders();
@@ -68,6 +87,8 @@ public class CalendarServiceImpl {
 		event.setReminders(test);
 		event.setDescription(description);
 
+		event.setColorId(String.valueOf(ColorID.BoldRed.ordinal()));
+		
 		Date startDate = in_startDate;
 		Date endDate = in_endDate;
 				//new Date(startDate.getTime() + 86400000);

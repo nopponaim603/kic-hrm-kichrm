@@ -90,7 +90,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		
 		//SystemConfig test = SystemConfig.AddData(null);
 
-		AttendanceServiceImpl.CreateDailyData();
+		//AttendanceServiceImpl.CreateDailyData();
 		
 		return testParametor;
 	}
@@ -109,7 +109,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public LoginInfo loginDetails(String token) {
 		LoginInfo userInfo = LoginServiceImpl.loginDetails(token);
-		log("Login Details see email : " + userInfo.getEmailAddress());
+		//log("Login Details see email : " + userInfo.getEmailAddress());
 		return LoginServiceImpl.MemberOrGuest(userInfo);
 	}
 	// #11:> end
@@ -216,54 +216,13 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public SystemConfig getSystemConfig() {
 		// TODO Auto-generated method stub
-		/*
-		SystemConfig sysconfig;
-		List<Entity> entities = DataStoreControl.Query(SystemConfig.class,
-				SortDirection.ASCENDING);
-		System.out.println("System Config Data . " + entities.size());
-		if(entities.size() > 0 )
-		{
-			System.out.println("Have Data.");
-			sysconfig = SystemConfigService.AddDataSystemConfig(entities.get(0));
-		}else {
-			System.out.println("No Data.");
-			sysconfig = new SystemConfig();
-			Entity m_entity = DataStoreControl.CreateEntity(SystemConfig.class);
-			m_entity = SystemConfigService.FlashData(m_entity, sysconfig);
-			DataStoreControl.SaveEntity(m_entity);
-			//sysconfig = SystemConfigService.AddDataSystemConfig(m_entity);
-		}
-		
-		return sysconfig;
-		*/
 		return SystemConfigService.getSystemConfig();
 	}
 
 	@Override
 	public void ApplySystemConfig(SystemConfig sysConfig) {
 		// TODO Auto-generated method stub
-		Entity d_systemConfig = null;
-		
-		try {
-			d_systemConfig = DataStoreControl.EditEntity(sysConfig.getKind(), sysConfig.getKeyID());
-			d_systemConfig = SystemConfigService.FlashData(d_systemConfig, sysConfig);
-			DataStoreControl.SaveEntity(d_systemConfig);
-			
-		} catch (EntityNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		/*
-		if(entities.size() > 0 )
-		{
-			System.out.println("Save Data.");
-			entities.set(0, SystemConfigService.FlashData(entities.get(0), sysConfig));
-			// = SystemConfigService.AddDataSystemConfig(entities.get(0));
-			DataStoreControl.SaveEntity(entities.get(0));
-		
-		}
-		*/
+		SystemConfigService.ApplySystemConfig(sysConfig);
 	}
 
 }
