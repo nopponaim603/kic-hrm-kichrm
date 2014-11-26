@@ -302,6 +302,13 @@ public class StartTimeLogService {
 		return m_timetable;
 	}
 	
+	public static List<StartTimeLog> getStartTimeLogListDaily(Date m_date) {
+		
+		Filter currentUser = new FilterPredicate(StartTimeLog.property.date.toString(),FilterOperator.EQUAL, m_date);
+		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,SortDirection.DESCENDING, currentUser);
+		return StartTimeLogService.Clone(temp_entity);
+	}
+	
 	public static List<StartTimeLog> getStartTimeLogListOnlyOne(int employeeID) {
 		Filter currentUser = new FilterPredicate(StartTimeLog.property.employeeID.toString(),FilterOperator.EQUAL, employeeID);
 		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,SortDirection.DESCENDING, currentUser);
