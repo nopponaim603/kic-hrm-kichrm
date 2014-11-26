@@ -24,6 +24,7 @@ import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.DataStoreControl;
 import com.kic.hrm.server.GreetingServiceImpl;
+import com.kic.hrm.server.businesslogic.AttendanceServiceImpl;
 
 public class StartTimeLogService {
 	
@@ -221,9 +222,10 @@ public class StartTimeLogService {
 				
 		m_startTimelog.setM_name(employee.getM_name());
 		
-		m_startTimelog.setM_date(time);
+		//m_startTimelog.setM_date(time);
 		m_startTimelog.setM_timeTable(m_timetable);
-		m_startTimelog.setM_clockIn(time);
+		
+		//m_startTimelog.setM_clockIn(time);
 		/*
 		m_startTimelog.setM_clockOut((Date) entity.getProperty(property.clockout
 				.toString()));
@@ -239,10 +241,13 @@ public class StartTimeLogService {
 			
 			deltaTime = time.getTime() -  DefultTime.getTime();
 		}
+		
 		Date LateTime = new Date();
 		LateTime.setTime(deltaTime);
 		//time.get
-		m_startTimelog.setM_clockLate(LateTime);
+		
+		//m_startTimelog.setM_clockLate(time);
+		
 		m_startTimelog.setM_type(m_type);
 		m_startTimelog.setM_Note(address);
 
@@ -303,10 +308,48 @@ public class StartTimeLogService {
 	}
 	
 	public static List<StartTimeLog> getStartTimeLogListDaily(Date m_date) {
+		/*
+		Date gDate = m_date;
+		gDate.setHours(0);
+		gDate.setMinutes(0);
+		gDate.setSeconds(0);
+		Date lDate = gDate;
+		lDate.setSeconds(10);
 		
-		Filter currentUser = new FilterPredicate(StartTimeLog.property.date.toString(),FilterOperator.EQUAL, m_date);
-		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,SortDirection.DESCENDING, currentUser);
-		return StartTimeLogService.Clone(temp_entity);
+		SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 // curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
+		
+		  log.log(Level.SEVERE , " simpleDate : " + curFormater.format(gDate).toString());
+		  //Date timeInZone = (Date)curFormater.parse();
+		
+		
+		log.log(Level.SEVERE," gDate : " + gDate.toString() + " : " + gDate.toLocaleString() + " : " + gDate.toGMTString());
+		
+		Filter beginThisday = new FilterPredicate(StartTimeLog.property.employeeID.toString(),FilterOperator.GREATER_THAN_OR_EQUAL, 55000);
+		//Filter endThisday = new FilterPredicate(StartTimeLog.property.clockout.toString(),FilterOperator.LESS_THAN_OR_EQUAL, lDate.getMonth());
+		//Filter Combile = ModelService.CompositeAndFilter(beginThisday,endThisday);
+		
+		*/
+		
+		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,SortDirection.ASCENDING);
+				
+		List<StartTimeLog> tempStartTime = StartTimeLogService.Clone(temp_entity);
+		log.log(Level.SEVERE,"Size : " + tempStartTime.size());
+		List<StartTimeLog> tempST =  StartTimeLogService.Clone(temp_entity);
+		
+		tempST.clear();
+		
+		log.log(Level.SEVERE,"Size : " + tempStartTime.size());
+		
+		for(StartTimeLog timeLog : tempStartTime) {
+			if(AttendanceServiceImpl.CollisionDate(m_date, timeLog.getM_date()))
+			{
+				tempST.add(timeLog);
+			}
+		}
+		log.log(Level.SEVERE,"Size : " + tempST.size());
+		
+		return tempST;
 	}
 	
 	public static List<StartTimeLog> getStartTimeLogListOnlyOne(int employeeID) {

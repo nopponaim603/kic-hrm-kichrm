@@ -153,7 +153,7 @@ public class AttendanceServiceImpl {
 		return isLogin;
 	}
 
-	private static boolean CollisionDate(Date thisIsToday, Date collisiontDate) {
+	public static boolean CollisionDate(Date thisIsToday, Date collisiontDate) {
 		boolean isCollision = false;
 
 		if (thisIsToday.getYear() == collisiontDate.getYear()

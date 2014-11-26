@@ -74,6 +74,9 @@ public class DataStoreControl {
 	public static List<Entity> Query(Class<?> entiryClassName,SortDirection sortdirection,Filter filter) {
 		
 		Query query = new Query(entiryClassName.getSimpleName());
+		
+		Key grpKey = KeyFactory.createKey("SuggestedInterest", 100);
+				
 		query.setFilter(filter);
 	    query.addSort(Entity.KEY_RESERVED_PROPERTY, sortdirection);
 	    List<Entity> temp = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());

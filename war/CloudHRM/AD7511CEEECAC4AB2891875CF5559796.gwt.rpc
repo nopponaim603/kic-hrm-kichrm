@@ -12,8 +12,11 @@ com.kic.hrm.data.model.EmployeeQuota, true, true, true, true, com.kic.hrm.data.m
 com.kic.hrm.data.model.LeaveTask, true, true, true, true, com.kic.hrm.data.model.LeaveTask/1188063794, 1188063794
 com.kic.hrm.data.model.LeaveTask$progress, true, true, true, true, com.kic.hrm.data.model.LeaveTask$progress/21487937, 21487937
 [Lcom.kic.hrm.data.model.LeaveTask;, true, true, false, false, [Lcom.kic.hrm.data.model.LeaveTask;/3553903683, 3553903683
+com.kic.hrm.data.model.StartTimeLog, true, true, false, false, com.kic.hrm.data.model.StartTimeLog/553782346, 553782346
+com.kic.hrm.data.model.StartTimeLog$timetable, true, true, false, false, com.kic.hrm.data.model.StartTimeLog$timetable/4155173860, 4155173860
 com.kic.hrm.data.model.StartTimeLog$type, true, true, true, true, com.kic.hrm.data.model.StartTimeLog$type/1139687344, 1139687344
-com.kic.hrm.data.model.SystemConfig, true, true, true, true, com.kic.hrm.data.model.SystemConfig/3187220957, 3187220957
+[Lcom.kic.hrm.data.model.StartTimeLog;, true, true, false, false, [Lcom.kic.hrm.data.model.StartTimeLog;/2572357991, 2572357991
+com.kic.hrm.data.model.SystemConfig, true, true, true, true, com.kic.hrm.data.model.SystemConfig/3257340245, 3257340245
 com.kic.hrm.shared.GeoPosition, true, true, true, true, com.kic.hrm.shared.GeoPosition/1929225197, 1929225197
 com.kic.hrm.shared.LoginInfo, true, true, true, true, com.kic.hrm.shared.LoginInfo/603586082, 603586082
 java.lang.Double, true, true, true, true, java.lang.Double/858496421, 858496421
