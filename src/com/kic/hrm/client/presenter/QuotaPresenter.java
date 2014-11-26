@@ -15,7 +15,9 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.gotoAdministratorEvent;
+import com.kic.hrm.client.event.gotoDailyReportEvent;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
+import com.kic.hrm.client.event.gotoReportEvent;
 import com.kic.hrm.client.presenter.ProfilePresenter.Display;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.shared.LoginInfo;
@@ -60,23 +62,7 @@ public class QuotaPresenter implements Presenter{
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				//Save new value to Quota per user
-				/*
-				rpcService.QuickTest("Test", new AsyncCallback<String>() {
-					
-					@Override
-					public void onSuccess(String result) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-				*/
+				eventBus.fireEvent(new gotoDailyReportEvent());
 			}
 		});
 		
@@ -90,7 +76,7 @@ public class QuotaPresenter implements Presenter{
 			}
 		});
 		
-		System.out.println("Test");
+		//System.out.println("Test");
 		
 		rpcService.getEmployeeQuota(m_loginInfo.getEmployeeID(), new AsyncCallback<EmployeeQuota>() {
 			

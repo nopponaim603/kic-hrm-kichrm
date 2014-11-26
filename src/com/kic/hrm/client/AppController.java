@@ -9,6 +9,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.kic.hrm.client.event.gotoAdministratorEvent;
 import com.kic.hrm.client.event.gotoAdministratorEventHandler;
+import com.kic.hrm.client.event.gotoDailyReportEvent;
+import com.kic.hrm.client.event.gotoDailyReportEventHandler;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.client.event.gotoDashBoardEventHandler;
 import com.kic.hrm.client.event.gotoLeaveEvent;
@@ -26,6 +28,7 @@ import com.kic.hrm.client.event.guiGuestEventHandler;
 import com.kic.hrm.client.event.guiMemberEvent;
 import com.kic.hrm.client.event.guiMemberEventHandler;
 import com.kic.hrm.client.presenter.AdministratorPresenter;
+import com.kic.hrm.client.presenter.DailyReportPresenter;
 import com.kic.hrm.client.presenter.DashBoardPresenter;
 import com.kic.hrm.client.presenter.LeavePresenter;
 import com.kic.hrm.client.presenter.LoginPlusPresenter;
@@ -34,6 +37,7 @@ import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.presenter.ProfilePresenter;
 import com.kic.hrm.client.presenter.QuotaPresenter;
 import com.kic.hrm.client.view.AdministratorView;
+import com.kic.hrm.client.view.DailyReportView;
 import com.kic.hrm.client.view.DashBoardView;
 import com.kic.hrm.client.view.LeaveView;
 import com.kic.hrm.client.view.NewView;
@@ -44,7 +48,7 @@ import com.kic.hrm.shared.LoginInfo;
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	public enum eventFire {
-		Main, Administrator, Profile, Edit, Leave, LeaveForm, New, Report
+		Main, Administrator, Profile, Edit, Leave, LeaveForm, New, Report , DailyReport
 	}
 
 	private final HandlerManager eventBus;
@@ -106,6 +110,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			public void gotoReport(gotoReportEvent event) {
 				// TODO Auto-generated method stub
 				History.newItem(AppController.eventFire.Report.toString());
+			}
+		});
+		
+		eventBus.addHandler(gotoDailyReportEvent.TYPE,new gotoDailyReportEventHandler() {
+			
+			@Override
+			public void gotoDailyReport(gotoDailyReportEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem(AppController.eventFire.DailyReport.toString());
 			}
 		});
 
@@ -188,6 +201,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			} else if (token.equals(eventFire.Report.toString())) {
 				presenter = new QuotaPresenter(rpcService, eventBus,
 						new QuotaView(), m_loginPlus.getM_loginInfo());
+			} else if (token.equals(eventFire.DailyReport.toString())) {
+				presenter = new DailyReportPresenter(rpcService, eventBus,
+						new DailyReportView());
 			}
 			
 
