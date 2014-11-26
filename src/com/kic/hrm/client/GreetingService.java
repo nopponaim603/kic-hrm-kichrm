@@ -1,6 +1,7 @@
 package com.kic.hrm.client;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.geolocation.client.Position.Coordinates;
@@ -10,6 +11,7 @@ import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.data.model.SystemConfig;
@@ -54,7 +56,7 @@ public interface GreetingService extends RemoteService {
 	// Save File CSV to Google Drive
 	String getFileFormGoogleDrive(String token, String idFile);
 	String saveCSVtoDrive(String token, String FolderID);
-	
+	List<StartTimeLog> getStartTimeLogListDaily(Date m_date);
 	
 	///////////////
 	SystemConfig getSystemConfig();

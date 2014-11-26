@@ -7,7 +7,9 @@ import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.EmployeeQuotaService;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
+import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLog.type;
+import com.kic.hrm.data.model.StartTimeLogService;
 import com.kic.hrm.data.model.SystemConfig;
 import com.kic.hrm.data.model.SystemConfigService;
 import com.kic.hrm.server.businesslogic.AttendanceServiceImpl;
@@ -18,6 +20,7 @@ import com.kic.hrm.server.businesslogic.ReportServiceImpl;
 import com.kic.hrm.shared.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -223,6 +226,12 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	public void ApplySystemConfig(SystemConfig sysConfig) {
 		// TODO Auto-generated method stub
 		SystemConfigService.ApplySystemConfig(sysConfig);
+	}
+
+	@Override
+	public List<StartTimeLog> getStartTimeLogListDaily(Date m_date) {
+		// TODO Auto-generated method stub
+		return StartTimeLogService.getStartTimeLogListDaily(m_date);
 	}
 
 }

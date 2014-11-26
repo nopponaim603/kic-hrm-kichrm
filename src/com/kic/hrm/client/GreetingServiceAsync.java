@@ -1,6 +1,7 @@
 package com.kic.hrm.client;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.google.gwt.geolocation.client.Position.Coordinates;
@@ -9,6 +10,7 @@ import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.data.model.SystemConfig;
 import com.kic.hrm.shared.*;
@@ -65,6 +67,9 @@ public interface GreetingServiceAsync {
 	void getSystemConfig(AsyncCallback<SystemConfig> callback);
 
 	void ApplySystemConfig(SystemConfig sysConfig, AsyncCallback<Void> callback);
+
+	void getStartTimeLogListDaily(Date m_date,
+			AsyncCallback<List<StartTimeLog>> callback);
 	
 	//
 }
