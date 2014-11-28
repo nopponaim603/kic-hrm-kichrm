@@ -80,15 +80,17 @@ public class LoginPlusPresenter {
 
 	// TODO #07: add helper methods for Login, Logout and AuthRequest
 	public void loadLogin(final LoginInfo loginInfo) {
+		System.out.println("User Logout : " + loginInfo.getLoginUrl());
 		signInLink.setHref(loginInfo.getLoginUrl());
 		signInLink.setText("Please, sign in with your Google Account");
-		signInLink.setTitle("Sign in");
 		m_loginInfo = new LoginInfo();
 		System.out.println("State Member : Sign in.");
 		eventBus.fireEvent(new guiGuestEvent());
 	}
 
 	public void loadLogout(final LoginInfo loginInfo) {
+		System.out.println("User Login : " + loginInfo.getLoginUrl() + " : " + loginInfo.getName());
+		
 		signInLink.setHref(loginInfo.getLogoutUrl());
 		signInLink.setText(loginInfo.getName());
 		signInLink.setTitle("Sign out");
@@ -102,84 +104,95 @@ public class LoginPlusPresenter {
 	public void addGoogleAuthHelper(final GreetingServiceAsync rpcService) {
 
 		/*
-		OAuth2Login.get().authorize(CloudHRM.getCLIENT_ID(),
-				PlusAuthScope.PLUS_ME, new Callback<Void, Exception>() {
+		 * OAuth2Login.get().authorize(CloudHRM.getCLIENT_ID(),
+		 * PlusAuthScope.PLUS_ME, new Callback<Void, Exception>() {
+		 * 
+		 * @Override public void onSuccess(Void v) { getMe(); }
+		 * 
+		 * @Override public void onFailure(Exception e) {
+		 * System.out.println(e.getMessage()); } });
+		 */
+
+		final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(),
+				CloudHRM.getCLIENT_ID())
+				.withScopes(CloudHRM.getPLUS_ME_SCOPE());
+
+		AUTH.login(req, new Callback<String, Throwable>() {
+
+			@Override
+			public void onSuccess(String result) { // TODO
+				// Auto-generated method stub if (!result.isEmpty()) { //
+				//!!!!!!!!!!!!!!!!
+				System.out.println("AUTH result : " + result);
+
+				rpcService.loginDetails(result, new AsyncCallback<LoginInfo>() {
+
 					@Override
-					public void onSuccess(Void v) {
-						getMe();
+					public void onFailure(final Throwable caught) {
+						GWT.log("loginDetails -> onFailure : "
+								+ caught.getMessage()); //
+						log.severe(caught.getMessage());
 					}
 
 					@Override
-					public void onFailure(Exception e) {
-						System.out.println(e.getMessage());
+					public void onSuccess(LoginInfo loginInfo) {
+						System.out.println("C:LP| Google H : on Success. ");
+
+						// System.out.println("email : " + //
+						// loginInfo.getEmailAddress());
+						setM_loginInfo(loginInfo);
+						signInLink.setText(loginInfo.getName());
+						nameField.setText(loginInfo.getName());
+						signInLink.setStyleName("login-area");
+						loginImage.setUrl(loginInfo.getPictureUrl());
+						loginImage.setVisible(false);
+						loginPanel.add(loginImage);
+						loginImage.addLoadHandler(new LoadHandler() {
+
+							@Override
+							public void onLoad(final LoadEvent event) {
+								final int newWidth = 24;
+								final com.google.gwt.dom.client.Element element = event
+										.getRelativeElement();
+								if (element.equals(loginImage.getElement())) {
+									final int originalHeight = loginImage
+											.getOffsetHeight();
+									final int originalWidth = loginImage
+											.getOffsetWidth();
+									if (originalHeight > originalWidth) {
+										loginImage.setHeight(newWidth + "px");
+									} else {
+										loginImage.setWidth(newWidth + "px");
+									}
+									loginImage.setVisible(true);
+								}
+							}
+						});
+						// userEmail.append(result.getEmailAddress());
+
+						System.out.println("AUTH User Login : " + loginInfo.getLoginUrl() + " : " + loginInfo.getName());
+						
+
+						if (loginInfo.getEmployeeRole() == role.Guest)
+							eventBus.fireEvent(new guiGuestEvent());
+						else
+							eventBus.fireEvent(new guiMemberEvent());
+						
+						
+
 					}
 				});
-		*/
-		
-		
-		  
-		  final AuthRequest req = new
-		  AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(),
-		  CloudHRM.getCLIENT_ID()).withScopes(CloudHRM
-		  .getPLUS_ME_SCOPE());
-		  
-		  AUTH.login(req, new Callback<String, Throwable>() {
-		  
-		  @Override public void onSuccess(String result) { // TODO
-		  //Auto-generated method stub if (!result.isEmpty()) { //
-		  System.out.println("result : " + result);
-		  
-		  rpcService.loginDetails(result, new AsyncCallback<LoginInfo>() {
-		  
-		  @Override public void onFailure(final Throwable caught) {
-		  GWT.log("loginDetails -> onFailure : " + caught.getMessage()); //
-		  log.severe(caught.getMessage()); }
-		  
-		  @Override public void onSuccess(LoginInfo loginInfo) {
-		  System.out.println("C:LP| Google H : on Success. ");
-		  
-		  // System.out.println("email : " + // loginInfo.getEmailAddress());
-		  setM_loginInfo(loginInfo); signInLink.setText(loginInfo.getName());
-		  nameField.setText(loginInfo.getName());
-		  signInLink.setStyleName("login-area");
-		  loginImage.setUrl(loginInfo.getPictureUrl());
-		  loginImage.setVisible(false); loginPanel.add(loginImage); loginImage
-		  .addLoadHandler(new LoadHandler() {
-		  
-		  @Override 
-		  public void onLoad( final LoadEvent event) { 
-			  final int newWidth = 24; 
-			  final com.google.gwt.dom.client.Element element = event .getRelativeElement(); 
-			  if (element.equals(loginImage.getElement())) { 
-				  final int originalHeight = loginImage.getOffsetHeight(); 
-				  final int originalWidth = loginImage.getOffsetWidth(); 
-				  if (originalHeight > originalWidth) { 
-					  loginImage.setHeight(newWidth + "px"); 
-				  } 
-				  else { loginImage .setWidth(newWidth + "px"); 
-				  } 
-				  loginImage .setVisible(true); 
-				 } 
-			  } }); 
-		  //userEmail.append(result.getEmailAddress());
-		  
-		  System.out.println(loginInfo.getEmailAddress());
-		  
-		  if(loginInfo.getEmployeeRole()== role.Guest) eventBus.fireEvent(new
-		  guiGuestEvent()); else eventBus.fireEvent(new guiMemberEvent());
-		  
-		  } });
-		  
-		  } 
-		  
-		  @Override 
-		  public void onFailure(Throwable reason) { // TODO
-		  //Auto-generated method stub 
-			  GWT.log("Error -> loginDetails\n" +  reason.getMessage()); 
-		  log.severe("Error -> loginDetails\n" +
-		  reason.getMessage()); } 
-		  });
-		 
+
+			}
+
+			@Override
+			public void onFailure(Throwable reason) { // TODO
+				// Auto-generated method stub
+				GWT.log("Error -> loginDetails\n" + reason.getMessage());
+				log.severe("Error -> loginDetails\n" + reason.getMessage());
+			}
+		});
+
 	}
 
 	private void getMe() {
@@ -187,7 +200,7 @@ public class LoginPlusPresenter {
 			@Override
 			public void onSuccess(Person person) {
 				System.out.println("Hello " + person.getDisplayName());
-				
+
 				getMyActivities();
 			}
 		}).fire();
@@ -222,12 +235,13 @@ public class LoginPlusPresenter {
 			// System.out.println("on Success");
 			addGoogleAuthHelper(rpcService);
 			// System.out.println("result have name and is not Empty.");
-
+			System.out.println("User Login : " + result.getLoginUrl() + " : " + result.getName());
+			
 			loadLogout(result);
+			
 			nameField.setEnabled(true);
 		} else {
-			System.out
-					.println("C:LP| result is Else not run addGoogleAuthHelper.");
+			System.out.println("C:LP| result is Else not run addGoogleAuthHelper.");
 			loadLogin(result);
 		}
 		userEmail.append(result.getEmailAddress());

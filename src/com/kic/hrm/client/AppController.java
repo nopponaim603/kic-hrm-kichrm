@@ -59,6 +59,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 	public LoginPlusPresenter getLoginPlus() {
 		return m_loginPlus;
 	}
+	
 	public AppController(GreetingServiceAsync rpcService,
 			HandlerManager eventBus) {
 		// TODO Auto-generated constructor stub
@@ -165,13 +166,13 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		if ("".equals(History.getToken())) {
 			History.newItem(eventFire.Main.toString());
 		} else {
-			System.out.println("Appcontroller fireCurrentHistoryState");
+			//System.out.println("Appcontroller fireCurrentHistoryState");
 			History.fireCurrentHistoryState();
 		}
 
 		LoginGooglePlus(this.rpcService);
 
-		System.out.println("AppController go Complete!!");
+		//System.out.println("AppController go Complete!!");
 	}
 
 	@Override
