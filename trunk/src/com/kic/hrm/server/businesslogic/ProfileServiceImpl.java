@@ -51,10 +51,9 @@ public class ProfileServiceImpl {
 
 		} else if (registerMode == state.edit) {
 			try {
-				d_employee = DataStoreControl.EditEntity(
-						userEmployee.getKind(), userEmployee.getKeyID());
-				d_quota = DataStoreControl.EditEntity(userQuota.getKind(),
-						userQuota.getKeyID());
+				//!!!!!!!!!!!!!!!!!!!!!
+				d_employee = DataStoreControl.EditEntity(userEmployee.getKind(), userEmployee.getKeyID());
+				d_quota = DataStoreControl.EditEntity(userQuota.getKind(),userQuota.getKeyID());
 			} catch (EntityNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
