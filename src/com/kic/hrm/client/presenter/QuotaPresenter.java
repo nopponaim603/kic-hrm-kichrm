@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.gotoAdministratorEvent;
+import com.kic.hrm.client.event.gotoCalendarReportEvent;
 import com.kic.hrm.client.event.gotoDailyReportEvent;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.client.event.gotoReportEvent;
@@ -34,6 +35,7 @@ public class QuotaPresenter implements Presenter{
 		void setLeaveQuota(int leaveQuota);
 		void setHolidayQuota(int holidayQuota);
 		HasClickHandlers getDailyReport();
+		HasClickHandlers getCalendarReport();
 		HasClickHandlers getBack();
 	}
 	
@@ -65,6 +67,16 @@ public class QuotaPresenter implements Presenter{
 				eventBus.fireEvent(new gotoDailyReportEvent());
 			}
 		});
+		
+		display.getCalendarReport().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				eventBus.fireEvent(new gotoCalendarReportEvent());
+			}
+		});
+		
 		
 		display.getBack().addClickHandler(new ClickHandler() {
 			
