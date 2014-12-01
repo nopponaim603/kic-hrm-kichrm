@@ -21,7 +21,7 @@ public class CalendarReportView extends Composite implements HasText, CalendarRe
 			.create(CalendarReportViewUiBinder.class);
 	@UiField Frame uiFrame;
 	@UiField Button uiBack;
-	
+	//https://www.google.com/calendar/embed?src=camtedu.net_ffupfdej93dc7td5rop26gvp1s%40group.calendar.google.com&ctz=Asia/Bangkok
 	String urlCalender = "https://www.google.com/calendar/embed?src=camtedu.net_ffupfdej93dc7td5rop26gvp1s%40group.calendar.google.com&ctz=Asia/Bangkok";
 	
 	interface CalendarReportViewUiBinder extends
@@ -32,7 +32,7 @@ public class CalendarReportView extends Composite implements HasText, CalendarRe
 		initWidget(uiBinder.createAndBindUi(this));
 		//uiHTMLBody.
 		//uiHTMLBody.set
-		uiFrame.setUrl(urlCalender);
+		
 	}
 
 	public CalendarReportView(String firstName) {
@@ -52,6 +52,13 @@ public class CalendarReportView extends Composite implements HasText, CalendarRe
 	public HasClickHandlers getBack() {
 		// TODO Auto-generated method stub
 		return uiBack;
+	}
+
+	@Override
+	public void SetupCalendar(String calendarID) {
+		// TODO Auto-generated method stub
+		String URLCalendar = "https://www.google.com/calendar/embed?src=" + calendarID + "&ctz=Asia/Bangkok";
+		uiFrame.setUrl(URLCalendar);
 	}
 
 }
