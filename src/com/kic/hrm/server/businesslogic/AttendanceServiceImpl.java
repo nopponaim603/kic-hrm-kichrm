@@ -79,12 +79,12 @@ public class AttendanceServiceImpl {
 	}
 	
 	public static void CreateDailyData() {
-		log.log(Level.SEVERE,"CreateDailyData");
+		log.log(Level.SEVERE,"Create Daily StartTimeLog");
 		List<Employee> results = ProfileServiceImpl.getProfileList();
 		
 		for (Employee em : results) {
 			System.out.println("Add StartTimeLog for Employee : " + em.getM_name());
-			log.log(Level.SEVERE ,"Add StartTimeLog for Employee : " + em.getM_name() );
+			//log.log(Level.SEVERE ,"Add StartTimeLog for Employee : " + em.getM_name() );
 			
 			PreAddData(em,type.InProgress,"InProgress");
 		}

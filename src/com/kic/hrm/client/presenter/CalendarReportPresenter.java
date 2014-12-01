@@ -4,17 +4,19 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.client.event.gotoReportEvent;
+import com.kic.hrm.data.model.SystemConfig;
 
 public class CalendarReportPresenter implements Presenter {
 
 	public interface Display {
 		Widget asWidget();
-
+		void SetupCalendar(String calendarID);
 		HasClickHandlers getBack();
 	}
 
@@ -39,8 +41,22 @@ public class CalendarReportPresenter implements Presenter {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				//System.out.println("getCancel  : on Click and back to Admin.");
+				// System.out.println("getCancel  : on Click and back to Admin.");
 				eventBus.fireEvent(new gotoReportEvent());
+			}
+		});
+
+		rpcService.getSystemConfig(new AsyncCallback<SystemConfig>() {
+
+			@Override
+			public void onSuccess(SystemConfig result) {
+				// TODO Auto-generated method stub
+				display.SetupCalendar(result.getM_calendarID());
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
 			}
 		});
 	}

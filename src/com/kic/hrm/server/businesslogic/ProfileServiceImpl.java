@@ -51,7 +51,7 @@ public class ProfileServiceImpl {
 
 		} else if (registerMode == state.edit) {
 			try {
-				//!!!!!!!!!!!!!!!!!!!!!
+				//FIx Bug : Duplicate User Data
 				d_employee = DataStoreControl.EditEntity(userEmployee.getKind(), userEmployee.getKeyID());
 				d_quota = DataStoreControl.EditEntity(userQuota.getKind(),userQuota.getKeyID());
 			} catch (EntityNotFoundException e) {
