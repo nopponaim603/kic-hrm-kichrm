@@ -9,6 +9,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.kic.hrm.client.event.gotoAdministratorEvent;
 import com.kic.hrm.client.event.gotoAdministratorEventHandler;
+import com.kic.hrm.client.event.gotoCalendarReportEvent;
+import com.kic.hrm.client.event.gotoCalendarReportEventHandler;
 import com.kic.hrm.client.event.gotoDailyReportEvent;
 import com.kic.hrm.client.event.gotoDailyReportEventHandler;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
@@ -28,6 +30,7 @@ import com.kic.hrm.client.event.guiGuestEventHandler;
 import com.kic.hrm.client.event.guiMemberEvent;
 import com.kic.hrm.client.event.guiMemberEventHandler;
 import com.kic.hrm.client.presenter.AdministratorPresenter;
+import com.kic.hrm.client.presenter.CalendarReportPresenter;
 import com.kic.hrm.client.presenter.DailyReportPresenter;
 import com.kic.hrm.client.presenter.DashBoardPresenter;
 import com.kic.hrm.client.presenter.LeavePresenter;
@@ -37,6 +40,7 @@ import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.presenter.ProfilePresenter;
 import com.kic.hrm.client.presenter.QuotaPresenter;
 import com.kic.hrm.client.view.AdministratorView;
+import com.kic.hrm.client.view.CalendarReportView;
 import com.kic.hrm.client.view.DailyReportView;
 import com.kic.hrm.client.view.DashBoardView;
 import com.kic.hrm.client.view.LeaveView;
@@ -48,7 +52,7 @@ import com.kic.hrm.shared.LoginInfo;
 public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	public enum eventFire {
-		Main, Administrator, Profile, Edit, Leave, LeaveForm, New, Report , DailyReport
+		Main, Administrator, Profile, Edit, Leave, LeaveForm, New, Report , DailyReport , CalendarReport
 	}
 
 	private final HandlerManager eventBus;
@@ -122,6 +126,15 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				History.newItem(AppController.eventFire.DailyReport.toString());
 			}
 		});
+		
+		eventBus.addHandler(gotoCalendarReportEvent.TYPE, new gotoCalendarReportEventHandler() {
+			
+			@Override
+			public void gotocalendarReport(gotoCalendarReportEvent event) {
+				// TODO Auto-generated method stub
+				History.newItem(AppController.eventFire.CalendarReport.toString());
+			}
+		});	
 
 		eventBus.addHandler(gotoNewEvent.TYPE, new gotoNewEventHandler() {
 
@@ -205,6 +218,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			} else if (token.equals(eventFire.DailyReport.toString())) {
 				presenter = new DailyReportPresenter(rpcService, eventBus,
 						new DailyReportView());
+			} else if (token.equals(eventFire.CalendarReport.toString())) {
+				presenter = new CalendarReportPresenter(rpcService, eventBus,
+						new CalendarReportView());
 			}
 			
 

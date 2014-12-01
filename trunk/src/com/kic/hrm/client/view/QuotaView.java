@@ -36,6 +36,7 @@ public class QuotaView extends Composite implements HasText ,QuotaPresenter.Disp
 	@UiField Label LeaveQuotaText;
 	@UiField Label HolidayQuotaText;
 	@UiField Button DailyReportbtn;
+	@UiField Button CalendarReportbtn;
 
 	interface QuotaViewUiBinder extends UiBinder<Widget, QuotaView> {
 		
@@ -125,6 +126,12 @@ public class QuotaView extends Composite implements HasText ,QuotaPresenter.Disp
 	public void setText(String text) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public HasClickHandlers getCalendarReport() {
+		// TODO Auto-generated method stub
+		return CalendarReportbtn;
 	}
 
 }

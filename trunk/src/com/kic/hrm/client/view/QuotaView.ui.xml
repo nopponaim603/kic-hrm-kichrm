@@ -10,6 +10,9 @@
 	<g:HTMLPanel width="100%">
 		<g:VerticalPanel width="100%">
 			<g:Label text="Working Statistics" width="100%" height="30px"/>
+			<g:Button width="100%" ui:field="Backbtn">Back</g:Button>
+			<g:Button text="View Daily Report" width="100%" ui:field="DailyReportbtn"/>
+			<g:Button text="View Calendar Report" width="100%" ui:field="CalendarReportbtn"/>
 			<g:Grid width="100%" borderWidth="1" height="150px">
 				<g:row>
 				<g:customCell>
@@ -60,8 +63,6 @@
 				</g:customCell>
 			</g:row>
 		</g:Grid>
-			<g:Button text="View Daily Report" width="100%" ui:field="DailyReportbtn"/>
-			<g:Button width="100%" ui:field="Backbtn">Back</g:Button>
 		</g:VerticalPanel>
 		<!-- Add GWT widgets here. Enter < and hit Ctrl-Space to auto-complete 
 			widget names. The ui:field attribute binds an element to a field in the owner 

@@ -109,6 +109,7 @@ public class LeaveView extends Composite implements LeavePresenter.Display{
 		btnNewButton.setWidth("100%");
 		
 		Button btnFullLeaveForm = new Button("Full Leave Form");
+		btnFullLeaveForm.setEnabled(false);
 		grid.setWidget(1, 0, btnFullLeaveForm);
 		btnFullLeaveForm.setWidth("100%");
 		grid.getCellFormatter().setWidth(1, 0, "");
