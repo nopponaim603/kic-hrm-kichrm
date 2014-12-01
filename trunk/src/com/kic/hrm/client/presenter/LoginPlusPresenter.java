@@ -85,6 +85,9 @@ public class LoginPlusPresenter {
 		signInLink.setText("Please, sign in with your Google Account");
 		m_loginInfo = new LoginInfo();
 		System.out.println("State Member : Sign in.");
+		
+		AUTH.clearAllTokens();
+		
 		eventBus.fireEvent(new guiGuestEvent());
 	}
 
@@ -116,7 +119,7 @@ public class LoginPlusPresenter {
 		final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(),
 				CloudHRM.getCLIENT_ID())
 				.withScopes(CloudHRM.getPLUS_ME_SCOPE());
-
+		
 		AUTH.login(req, new Callback<String, Throwable>() {
 
 			@Override
