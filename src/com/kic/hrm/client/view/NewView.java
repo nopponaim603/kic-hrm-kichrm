@@ -66,6 +66,7 @@ public class NewView extends Composite implements Display{
 		lblLoginComplete.setWidth("108px");
 		
 		Button btnNewButton_CheckIN = new Button("Check in");
+		btnNewButton_CheckIN.setText("On Office");
 		verticalPanel_1.add(btnNewButton_CheckIN);
 		btnNewButton_CheckIN.setWidth("100%");
 		btnCheckIN = btnNewButton_CheckIN;
