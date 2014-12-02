@@ -53,6 +53,15 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		initWidget(verticalPanel);
 		verticalPanel.setSize("100%", "100%");
 		
+		Label lblAdministator = new Label("Administator");
+		verticalPanel.add(lblAdministator);
+		
+		Button btnNewButton_1 = new Button("Back");
+		verticalPanel.add(btnNewButton_1);
+		btnNewButton_1.setWidth("100%");
+		
+		backButton = btnNewButton_1;
+		
 		DecoratedStackPanel decoratedStackPanel = new DecoratedStackPanel();
 		verticalPanel.add(decoratedStackPanel);
 		decoratedStackPanel.setWidth("100%");
@@ -504,10 +513,6 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		Button button_8 = new Button("Delete");
 		horizontalPanel_2.add(button_8);
 		
-		Button btnNewButton_1 = new Button("Back");
-		verticalPanel.add(btnNewButton_1);
-		btnNewButton_1.setWidth("100%");
-		
 		folderIDTextBox = textBox_2;
 		saveToDriveButton = button_1;
 		
@@ -540,8 +545,6 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		refreshListProfileButton = button_6;
 		editProfileButton = button_7;
 		deleteProfileButton = button_8;
-		
-		backButton = btnNewButton_1;
 		
 		AdminOnduty_H = listBox_1;
 		AdminOnduty_M = listBox_2;

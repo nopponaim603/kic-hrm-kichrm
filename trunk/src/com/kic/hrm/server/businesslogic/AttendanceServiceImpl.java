@@ -85,7 +85,6 @@ public class AttendanceServiceImpl {
 		for (Employee em : results) {
 			System.out.println("Add StartTimeLog for Employee : " + em.getM_name());
 			//log.log(Level.SEVERE ,"Add StartTimeLog for Employee : " + em.getM_name() );
-			
 			PreAddData(em,type.InProgress,"InProgress");
 		}
 	}
