@@ -42,21 +42,42 @@ public class NewView extends Composite implements Display{
 		
 		Label lblNewLabel = new Label("News");
 		flexTable.setWidget(0, 0, lblNewLabel);
+		lblNewLabel.setWidth("100%");
 		
 		Button btnBack = new Button("Back");
 		flexTable.setWidget(1, 0, btnBack);
 		btnBack.setWidth("100%");
 		
+		VerticalPanel verticalPanel_1 = new VerticalPanel();
+		verticalPanel_1.setBorderWidth(1);
+		verticalPanel_1.setSpacing(2);
+		flexTable.setWidget(2, 0, verticalPanel_1);
+		verticalPanel_1.setWidth("100%");
+		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		verticalPanel_1.add(horizontalPanel);
+		
+		Label lblDailyLogin = new Label("Daily Login :");
+		horizontalPanel.add(lblDailyLogin);
+		lblDailyLogin.setWidth("81px");
+		
+		Label lblLoginComplete = new Label("Login Complete.");
+		horizontalPanel.add(lblLoginComplete);
+		lblLoginComplete.setWidth("108px");
+		
 		Button btnNewButton_CheckIN = new Button("Check in");
-		flexTable.setWidget(2, 0, btnNewButton_CheckIN);
+		verticalPanel_1.add(btnNewButton_CheckIN);
 		btnNewButton_CheckIN.setWidth("100%");
+		btnCheckIN = btnNewButton_CheckIN;
 		
 		Button btnNewButton_OnSite = new Button("On Site");
-		flexTable.setWidget(3, 0, btnNewButton_OnSite);
+		verticalPanel_1.add(btnNewButton_OnSite);
 		btnNewButton_OnSite.setWidth("100%");
+		btnOnSite = btnNewButton_OnSite;
 		
 		Label lblTaskList = new Label("Task List :");
-		flexTable.setWidget(4, 0, lblTaskList);
+		flexTable.setWidget(3, 0, lblTaskList);
+		lblTaskList.setWidth("100%");
 		
 		
 		/*
@@ -82,8 +103,6 @@ public class NewView extends Composite implements Display{
 		*/
 		
 		backButton = btnBack;
-		btnCheckIN = btnNewButton_CheckIN;
-		btnOnSite = btnNewButton_OnSite;
 		
 		this.flexTable = flexTable;
 	}
