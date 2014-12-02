@@ -192,6 +192,7 @@ public class StartTimeLogService {
 		Date time = new Date();
 		// + 07.00 
 		log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() + " : hours :" + time.getHours());
+		log.log(Level.SEVERE, " Date : " + time.getDay() + " : " + time.getDate() + " : " + time.getMonth() + " : " + time.getYear());
 		//(timeZone = 0) | Thai = -420
 		if(time.getTimezoneOffset() == 0) {
 			time.setHours(time.getHours() + 7);

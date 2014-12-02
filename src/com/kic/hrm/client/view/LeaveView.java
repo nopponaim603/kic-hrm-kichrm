@@ -40,6 +40,14 @@ public class LeaveView extends Composite implements LeavePresenter.Display{
 		Label lblLeave = new Label("Leave");
 		verticalPanel.add(lblLeave);
 		
+		Button btnBack = new Button("Back");
+		verticalPanel.add(btnBack);
+		btnBack.setWidth("100%");
+		
+		//startDateBox.a
+		//quotaleaveLabel.
+		backButton = btnBack;
+		
 		Grid grid = new Grid(2, 1);
 		grid.setBorderWidth(2);
 		grid.setCellPadding(1);
@@ -116,10 +124,6 @@ public class LeaveView extends Composite implements LeavePresenter.Display{
 		grid.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_CENTER);
 		grid.getCellFormatter().setVerticalAlignment(1, 0, HasVerticalAlignment.ALIGN_TOP);
 		
-		Button btnBack = new Button("Back");
-		verticalPanel.add(btnBack);
-		btnBack.setWidth("100%");
-		
 		DateTimeFormat dateFormat = DateTimeFormat.getFormat("dd/MM/yyyy");
 
 		dateBox.setFormat(new DateBox.DefaultFormat(dateFormat));
@@ -133,10 +137,6 @@ public class LeaveView extends Composite implements LeavePresenter.Display{
 		endDateBox = dateBox_1;
 		//startDateBox.getDatePicker().getLastDate()
 		fullformleaveButton = btnFullLeaveForm;
-		
-		//startDateBox.a
-		//quotaleaveLabel.
-		backButton = btnBack;
 		
 		//dateBox_1.set
 	}
