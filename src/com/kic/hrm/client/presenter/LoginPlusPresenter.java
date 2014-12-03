@@ -1,12 +1,12 @@
 package com.kic.hrm.client.presenter;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.api.gwt.client.GoogleApiRequestTransport;
 import com.google.api.gwt.client.OAuth2Login;
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
-
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.LoadEvent;
@@ -27,14 +27,12 @@ import com.kic.hrm.client.event.guiMemberEvent;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.shared.LoginInfo;
 import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
-
 import com.google.api.gwt.services.plus.shared.Plus;
 import com.google.api.gwt.services.plus.shared.Plus.ActivitiesContext.ListRequest.Collection;
 import com.google.api.gwt.services.plus.shared.Plus.PlusAuthScope;
 import com.google.api.gwt.services.plus.shared.model.Activity;
 import com.google.api.gwt.services.plus.shared.model.ActivityFeed;
 import com.google.api.gwt.services.plus.shared.model.Person;
-
 import com.google.web.bindery.requestfactory.shared.Receiver;
 
 public class LoginPlusPresenter {
@@ -119,7 +117,8 @@ public class LoginPlusPresenter {
 		final AuthRequest req = new AuthRequest(CloudHRM.getGOOGLE_AUTH_URL(),
 				CloudHRM.getCLIENT_ID())
 				.withScopes(CloudHRM.getPLUS_ME_SCOPE());
-		
+		//AUTH.setOAuthWindowUrl("tesr");
+		//AUTH.
 		AUTH.login(req, new Callback<String, Throwable>() {
 
 			@Override
@@ -245,6 +244,7 @@ public class LoginPlusPresenter {
 			nameField.setEnabled(true);
 		} else {
 			System.out.println("C:LP| result is Else not run addGoogleAuthHelper.");
+			log.log(Level.SEVERE , " Result is Else not run Auth : " + result.getName());
 			loadLogin(result);
 		}
 		userEmail.append(result.getEmailAddress());

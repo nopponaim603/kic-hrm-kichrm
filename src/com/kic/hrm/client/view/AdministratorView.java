@@ -53,7 +53,7 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		initWidget(verticalPanel);
 		verticalPanel.setSize("100%", "100%");
 		
-		Label lblAdministator = new Label("Administator");
+		Label lblAdministator = new Label("Administrator");
 		verticalPanel.add(lblAdministator);
 		
 		Button btnNewButton_1 = new Button("Back");
@@ -80,8 +80,8 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		TextBox textBox_2 = new TextBox();
 		grid_5.setWidget(0, 1, textBox_2);
 		
-		Button button_1 = new Button("Save CSV to Drive");
-		grid_5.setWidget(0, 2, button_1);
+		Button btnCsvImportFrom = new Button("CSV Import  from Drive");
+		grid_5.setWidget(0, 2, btnCsvImportFrom);
 		
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
 		decoratedStackPanel.add(verticalPanel_1, "Time Config", false);
@@ -514,7 +514,7 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		horizontalPanel_2.add(button_8);
 		
 		folderIDTextBox = textBox_2;
-		saveToDriveButton = button_1;
+		saveToDriveButton = btnCsvImportFrom;
 		
 		Label lblReportEmail = new Label("Report E-mail");
 		grid_5.setWidget(1, 0, lblReportEmail);
