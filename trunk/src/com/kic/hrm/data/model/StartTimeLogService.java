@@ -18,6 +18,7 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.ibm.icu.text.DateFormat;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.StartTimeLog.property;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
@@ -27,10 +28,10 @@ import com.kic.hrm.server.GreetingServiceImpl;
 import com.kic.hrm.server.businesslogic.AttendanceServiceImpl;
 
 public class StartTimeLogService {
-	
+
 	private static final Logger log = Logger
 			.getLogger(StartTimeLogService.class.getName());
-	
+
 	private final static int MAPWORKID = 0;
 	private final static int MAPNAME = 1;
 	private final static int MAPDATE = 2;
@@ -129,7 +130,8 @@ public class StartTimeLogService {
 
 		startTime.setM_name((String) entity.getProperty(property.name
 				.toString()));
-		startTime.setM_date((Date) entity.getProperty(property.date.toString()));
+		startTime
+				.setM_date((Date) entity.getProperty(property.date.toString()));
 		startTime.setM_timeTable(timetable.valueOf(entity.getProperty(
 				property.timetable.toString()).toString()));
 		startTime.setM_clockIn((Date) entity.getProperty(property.clockin
@@ -170,8 +172,8 @@ public class StartTimeLogService {
 				start.getM_clockOut());
 		entity.setProperty(StartTimeLog.property.clocklate.toString(),
 				start.getM_clockLate());
-		entity.setProperty(StartTimeLog.property.type.toString(),
-				start.getM_type().toString());
+		entity.setProperty(StartTimeLog.property.type.toString(), start
+				.getM_type().toString());
 		entity.setProperty(StartTimeLog.property.Note.toString(),
 				start.getM_Note());
 
@@ -185,89 +187,98 @@ public class StartTimeLogService {
 
 		return results;
 	}
-	
-	public static StartTimeLog Create(Employee employee,timetable m_timetable,type m_type,String address) {
+
+	public static StartTimeLog Create(Employee employee, Date createTime,
+			timetable m_timetable, type m_type, String address) {
 		StartTimeLog m_startTimelog = new StartTimeLog();
 		m_startTimelog.setM_employeeID(employee.getM_employeeID());
-		Date time = new Date();
-		// + 07.00 
-		log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() + " : hours :" + time.getHours());
-		log.log(Level.SEVERE, " Date : " + time.getDay() + " : " + time.getDate() + " : " + time.getMonth() + " : " + time.getYear());
-		//(timeZone = 0) | Thai = -420
-		if(time.getTimezoneOffset() == 0) {
-			time.setHours(time.getHours() + 7);
-			log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() + " : hours :" + time.getHours());
-		}
-		else {
-			log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() + " : hours :" + time.getHours());
-			
-		}
-		//SimpleDateFormat curFormater = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
-	   // curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
-	    
-	    /*
-	    time.setHours(0);
-		time.setMinutes(0);
-		time.setSeconds(0);*/
+		Date time = createTime;
+		// + 07.00
+		log.log(Level.SEVERE, "Time Zone : " + time.getTimezoneOffset()
+				+ " : hours :" + time.getHours());
+		log.log(Level.SEVERE,
+				" Date : " + time.getDay() + " : " + time.getDate() + " : "
+						+ time.getMonth() + " : " + time.getYear());
+		// (timeZone = 0) | Thai = -420
+
 		/*
-	    try {
-			Date timeInZone = (Date)curFormater.parse(curFormater.format(time));
-			
-			System.out.println(timeInZone + " : " + curFormater.format(timeInZone));
-			log.log(Level.SEVERE,"Time : " + time.toString() + " | TimeZone " + timeInZone.toString() + " : currentFormater " + curFormater.format(timeInZone));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
-				
+		 * if(time.getTimezoneOffset() == 0) { //time.setHours(time.getHours() +
+		 * 7); log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() +
+		 * " : hours :" + time.getHours()); } else {
+		 * log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() +
+		 * " : hours :" + time.getHours());
+		 * 
+		 * }
+		 */
+
+		/*
+		 * time.setHours(0); time.setMinutes(0); time.setSeconds(0);
+		 */
+
+		// SimpleDateFormat curFormater = new
+		// SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+		// curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
+		// Date timeInZone = (Date)curFormater.parse(curFormater.format(time));
+		/*
+		 * try {
+		 * 
+		 * 
+		 * System.out.println(timeInZone + " : " +
+		 * curFormater.format(timeInZone)); log.log(Level.SEVERE,"Time : " +
+		 * time.toString() + " | TimeZone " + timeInZone.toString() +
+		 * " : currentFormater " + curFormater.format(timeInZone)); } catch
+		 * (ParseException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 */
+
 		m_startTimelog.setM_name(employee.getM_name());
-		
-		//m_startTimelog.setM_date(time);
+
+		// m_startTimelog.setM_date(time);
 		m_startTimelog.setM_timeTable(m_timetable);
-		
-		//m_startTimelog.setM_clockIn(time);
+
+		// m_startTimelog.setM_clockIn(time);
 		/*
-		m_startTimelog.setM_clockOut((Date) entity.getProperty(property.clockout
-				.toString()));
-		
-		m_startTimelog.setM_clockLate((Date) entity.getProperty(property.clocklate
-				.toString()));
-		*/
+		 * m_startTimelog.setM_clockOut((Date)
+		 * entity.getProperty(property.clockout .toString()));
+		 * 
+		 * m_startTimelog.setM_clockLate((Date)
+		 * entity.getProperty(property.clocklate .toString()));
+		 */
 		Date DefultTime = new Date();
 		DefultTime.setHours(8);
 		DefultTime.setMinutes(30);
 		Long deltaTime = 0L;
-		if(time.getTime() > DefultTime.getTime()) {
-			
-			deltaTime = time.getTime() -  DefultTime.getTime();
+		if (time.getTime() > DefultTime.getTime()) {
+
+			deltaTime = time.getTime() - DefultTime.getTime();
 		}
-		
+
 		Date LateTime = new Date();
 		LateTime.setTime(deltaTime);
-		//time.get
-		
-		//m_startTimelog.setM_clockLate(time);
-		
+		// time.get
+
+		// m_startTimelog.setM_clockLate(time);
+
 		m_startTimelog.setM_type(m_type);
 		m_startTimelog.setM_Note(address);
 
-		
 		return m_startTimelog;
 	}
 
 	public static boolean SaveAS(StartTimeLog StartTimeLog) {
 		boolean saveSuccess = false;
 		Entity d_OnWebStartTimeLog = null;
-		
-		
-		if(StartTimeLog.getKind() != null && StartTimeLog.getKeyID() != null) {
-			log.log(Level.SEVERE, "Have Data. | " + StartTimeLog.getKind() + " : " + StartTimeLog.getKeyID());
+
+		if (StartTimeLog.getKind() != null && StartTimeLog.getKeyID() != null) {
+			log.log(Level.SEVERE, "Have Data. | " + StartTimeLog.getKind()
+					+ " : " + StartTimeLog.getKeyID());
 			try {
-				d_OnWebStartTimeLog = DataStoreControl.EditEntity(StartTimeLog.getKind(), StartTimeLog.getKeyID());
-				
-				if(getTypeEntity(d_OnWebStartTimeLog)==type.InProgress)	{
-					d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, StartTimeLog);
+				d_OnWebStartTimeLog = DataStoreControl.EditEntity(
+						StartTimeLog.getKind(), StartTimeLog.getKeyID());
+
+				if (getTypeEntity(d_OnWebStartTimeLog) == type.InProgress) {
+					d_OnWebStartTimeLog = StartTimeLogService.FlashData(
+							d_OnWebStartTimeLog, StartTimeLog);
 					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
 					saveSuccess = true;
 				}
@@ -276,86 +287,135 @@ public class StartTimeLogService {
 				e.printStackTrace();
 				log.log(Level.SEVERE, "Error : " + e.toString());
 			}
-		}else {
-			System.out.println("Don't Have Data. At Start Time : " + StartTimeLog.getM_employeeID() + " : " + StartTimeLog.getM_name() + " : " + StartTimeLog.getM_date());
-			d_OnWebStartTimeLog = DataStoreControl.CreateEntity(StartTimeLog.class);
-			d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, StartTimeLog);
+		} else {
+			System.out.println("Don't Have Data. At Start Time : "
+					+ StartTimeLog.getM_employeeID() + " : "
+					+ StartTimeLog.getM_name() + " : "
+					+ StartTimeLog.getM_date());
+			d_OnWebStartTimeLog = DataStoreControl
+					.CreateEntity(StartTimeLog.class);
+			d_OnWebStartTimeLog = StartTimeLogService.FlashData(
+					d_OnWebStartTimeLog, StartTimeLog);
 			DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
 			saveSuccess = true;
 		}
-		
-		
-		
+
 		log.log(Level.SEVERE, "Save Done. | save is : " + saveSuccess);
-		
+
 		return saveSuccess;
 	}
-	
+
 	private static type getTypeEntity(Entity entity) {
-		return type.valueOf(entity.getProperty(property.type.toString()).toString());
+		return type.valueOf(entity.getProperty(property.type.toString())
+				.toString());
 	}
 
 	public static timetable convertRoleToTimeTable(role userRole) {
-		
+
 		timetable m_timetable = timetable.None;
-		
-		if(userRole == role.Administration) {
+
+		if (userRole == role.Administration) {
 			m_timetable = timetable.Admin;
-		}else {
+		} else {
 			m_timetable = timetable.Project;
 		}
-		
+
 		return m_timetable;
 	}
-	
+
+	public static Date convertTimeZoneToBankok(Date inputDate) {
+		Date BankokTimeZone = inputDate;
+		//BankokTimeZone.
+		
+		// Set Offset Time To bangkok
+		if(BankokTimeZone.getTimezoneOffset()==0)
+		{
+			BankokTimeZone.setTime(BankokTimeZone.getTime() + 25200000);
+			log.log(Level.SEVERE,"Convert Date : " + BankokTimeZone.toString());
+		}
+		
+		return BankokTimeZone;
+		/*
+		SimpleDateFormat curFormater = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
+		//log.log(Level.SEVERE,"Time Zone : " + curFormater.getTimeZone().toString());
+		try {
+			//log.log(Level.SEVERE,"Convert Date : " + curFormater.parse(curFormater.format(inputDate).toString() ));
+			BankokTimeZone = (Date) curFormater.parse(curFormater
+					.format(inputDate));
+			log.log(Level.SEVERE,"Convert Date : " + BankokTimeZone.toString());
+			
+			log.log(Level.SEVERE,"Time Zone : " + BankokTimeZone.getTimezoneOffset());
+			
+			
+			
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		log.log(Level.SEVERE , "Can't Convert.");
+		return BankokTimeZone;
+		*/
+	}
+
 	public static List<StartTimeLog> getStartTimeLogListDaily(Date m_date) {
 		/*
-		Date gDate = m_date;
-		gDate.setHours(0);
-		gDate.setMinutes(0);
-		gDate.setSeconds(0);
-		Date lDate = gDate;
-		lDate.setSeconds(10);
-		
-		SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		 // curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
-		
-		  log.log(Level.SEVERE , " simpleDate : " + curFormater.format(gDate).toString());
-		  //Date timeInZone = (Date)curFormater.parse();
-		
-		
-		log.log(Level.SEVERE," gDate : " + gDate.toString() + " : " + gDate.toLocaleString() + " : " + gDate.toGMTString());
-		
-		Filter beginThisday = new FilterPredicate(StartTimeLog.property.employeeID.toString(),FilterOperator.GREATER_THAN_OR_EQUAL, 55000);
-		//Filter endThisday = new FilterPredicate(StartTimeLog.property.clockout.toString(),FilterOperator.LESS_THAN_OR_EQUAL, lDate.getMonth());
-		//Filter Combile = ModelService.CompositeAndFilter(beginThisday,endThisday);
-		
-		*/
-		
-		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,SortDirection.ASCENDING);
-				
-		List<StartTimeLog> tempStartTime = StartTimeLogService.Clone(temp_entity);
-		log.log(Level.SEVERE,"Size : " + tempStartTime.size());
-		List<StartTimeLog> tempST =  StartTimeLogService.Clone(temp_entity);
-		
+		 * Date gDate = m_date; gDate.setHours(0); gDate.setMinutes(0);
+		 * gDate.setSeconds(0); Date lDate = gDate; lDate.setSeconds(10);
+		 * 
+		 * SimpleDateFormat curFormater = new
+		 * SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //
+		 * curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
+		 * 
+		 * log.log(Level.SEVERE , " simpleDate : " +
+		 * curFormater.format(gDate).toString()); //Date timeInZone =
+		 * (Date)curFormater.parse();
+		 * 
+		 * 
+		 * log.log(Level.SEVERE," gDate : " + gDate.toString() + " : " +
+		 * gDate.toLocaleString() + " : " + gDate.toGMTString());
+		 * 
+		 * Filter beginThisday = new
+		 * FilterPredicate(StartTimeLog.property.employeeID
+		 * .toString(),FilterOperator.GREATER_THAN_OR_EQUAL, 55000); //Filter
+		 * endThisday = new
+		 * FilterPredicate(StartTimeLog.property.clockout.toString
+		 * (),FilterOperator.LESS_THAN_OR_EQUAL, lDate.getMonth()); //Filter
+		 * Combile = ModelService.CompositeAndFilter(beginThisday,endThisday);
+		 */
+
+		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
+				SortDirection.ASCENDING);
+
+		List<StartTimeLog> tempStartTime = StartTimeLogService
+				.Clone(temp_entity);
+		log.log(Level.SEVERE, "Size : " + tempStartTime.size());
+		List<StartTimeLog> tempST = StartTimeLogService.Clone(temp_entity);
+
 		tempST.clear();
-		
-		log.log(Level.SEVERE,"Size : " + tempStartTime.size());
-		
-		for(StartTimeLog timeLog : tempStartTime) {
-			if(AttendanceServiceImpl.CollisionDate(m_date, timeLog.getM_date()))
-			{
+
+		log.log(Level.SEVERE, "Size : " + tempStartTime.size());
+
+		for (StartTimeLog timeLog : tempStartTime) {
+			if (AttendanceServiceImpl
+					.CollisionDate(m_date, timeLog.getM_date())) {
 				tempST.add(timeLog);
 			}
 		}
-		log.log(Level.SEVERE,"Size : " + tempST.size());
-		
+		log.log(Level.SEVERE, "Size : " + tempST.size());
+
 		return tempST;
 	}
-	
+
 	public static List<StartTimeLog> getStartTimeLogListOnlyOne(int employeeID) {
-		Filter currentUser = new FilterPredicate(StartTimeLog.property.employeeID.toString(),FilterOperator.EQUAL, employeeID);
-		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,SortDirection.DESCENDING, currentUser);
+		Filter currentUser = new FilterPredicate(
+				StartTimeLog.property.employeeID.toString(),
+				FilterOperator.EQUAL, employeeID);
+		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
+				SortDirection.DESCENDING, currentUser);
 		return StartTimeLogService.Clone(temp_entity);
 	}
 }
