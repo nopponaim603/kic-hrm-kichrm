@@ -95,6 +95,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 
 		//AttendanceServiceImpl.CreateDailyData();
 		
+		//StartTimeLogService.convertTimeZoneToBankok(new Date());
+		
 		return testParametor;
 	}
 	

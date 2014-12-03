@@ -159,7 +159,20 @@ public class CloudHRM implements EntryPoint {
 				// TODO Auto-generated method stub
 				// OAuth2Login.get().
 				log.log(Level.SEVERE, "Click");
-
+				rpcService.QuickTest("Test", new AsyncCallback<String>() {
+					
+					@Override
+					public void onSuccess(String result) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 			}
 		});
 

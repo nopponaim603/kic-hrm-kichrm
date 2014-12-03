@@ -31,7 +31,7 @@ public class AttendanceServiceImpl {
 		// TODO Auto-generated method stub
 		System.out.println("Employee email: " + userInfo.getEmailAddress());
 		log.log(Level.SEVERE, "Employee email: " + userInfo.getEmailAddress());
-		
+		Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
 		Employee m_employee = ProfileServiceImpl.getProfile(userInfo.getEmailAddress());
 		
 		if (m_employee != null) {
@@ -66,13 +66,13 @@ public class AttendanceServiceImpl {
 				// Distance lass than 70 Meter
 				if (Distance <= 0.07) {
 					// On Office
-					return AttendanceSaveDate(m_employee, m_timetable, leaveType, address);
+					return AttendanceSaveDate(m_employee,now, m_timetable, leaveType, address);
 				} else {
 					return false;
 				}
 			} else {
 				// On Site
-				return AttendanceSaveDate(m_employee, m_timetable, leaveType, address);
+				return AttendanceSaveDate(m_employee,now, m_timetable, leaveType, address);
 			}
 		}
 		return false;
@@ -81,18 +81,20 @@ public class AttendanceServiceImpl {
 	public static void CreateDailyData() {
 		log.log(Level.SEVERE,"Create Daily StartTimeLog");
 		List<Employee> results = ProfileServiceImpl.getProfileList();
+		Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
 		
 		for (Employee em : results) {
 			System.out.println("Add StartTimeLog for Employee : " + em.getM_name());
 			//log.log(Level.SEVERE ,"Add StartTimeLog for Employee : " + em.getM_name() );
-			PreAddData(em,type.InProgress,"InProgress");
+			PreAddData(em,now,type.InProgress,"InProgress");
 		}
+		//TimeZone.c
 	}
 	
 	public static void AdsceneDailyDate() {
 		log.log(Level.SEVERE,"AdsceneDailyDate");
 		//Leave Update.
-		
+		Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
 		List<Employee> results = ProfileServiceImpl.getProfileList();
 		
 		for (Employee em : results) {
@@ -100,20 +102,21 @@ public class AttendanceServiceImpl {
 			log.log(Level.SEVERE ,"Add StartTimeLog for Employee : " + em.getM_name() );
 			
 			//////////////
-			PreAddData(em,type.Absence,"InProgress");
+			PreAddData(em,now,type.Absence,"InProgress");
 		}
 	}
 	
-	public static void PreAddData(Employee m_employee ,type m_leaveType ,String address) {
+	public static void PreAddData(Employee m_employee ,Date saveDate,type m_leaveType ,String address) {
 		AttendanceSaveDate(m_employee
+				,saveDate
 				,StartTimeLogService.convertRoleToTimeTable(m_employee.getM_role())
 				,m_leaveType
 				,address);
 	}
 	
-	private static boolean AttendanceSaveDate(Employee m_employee,timetable m_timetable,type m_leaveType ,String address) {
+	private static boolean AttendanceSaveDate(Employee m_employee,Date saveDate,timetable m_timetable,type m_leaveType ,String address) {
 		
-		StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee, m_timetable, m_leaveType, address);
+		StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee,saveDate, m_timetable, m_leaveType, address);
 
 		// One Day Save One Time
 		boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),OnWebStartTimeLog);
