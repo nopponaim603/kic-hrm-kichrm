@@ -159,7 +159,7 @@ public class RecordLog {
 			
 			// Other State
 			for(Integer employeeID : m_employeeAbsence.keySet()) {
-				
+				//Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
 				StartTimeLog startTime = new StartTimeLog();
 				startTime.setM_date(keepDate);
 				startTime.setM_employeeID(employeeID);

@@ -79,13 +79,18 @@ public class AttendanceServiceImpl {
 	}
 	
 	public static void CreateDailyData() {
+		
 		log.log(Level.SEVERE,"Create Daily StartTimeLog");
 		List<Employee> results = ProfileServiceImpl.getProfileList();
-		Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
+		
 		
 		for (Employee em : results) {
-			System.out.println("Add StartTimeLog for Employee : " + em.getM_name());
-			//log.log(Level.SEVERE ,"Add StartTimeLog for Employee : " + em.getM_name() );
+			//System.out.println("Add StartTimeLog for Employee : " + em.getM_name());
+			Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
+			log.log(Level.SEVERE ,"Pre add Date StartTimeLog for Employee : " + em.getM_name() + " : " 
+					+ "CreateTime Date : " + now.getDay() + " : " + now.getDate() + " : "
+					+ now.getMonth() + " : " + now.getYear()
+			);
 			PreAddData(em,now,type.InProgress,"InProgress");
 		}
 		//TimeZone.c
@@ -119,38 +124,45 @@ public class AttendanceServiceImpl {
 		StartTimeLog OnWebStartTimeLog = StartTimeLogService.Create(m_employee,saveDate, m_timetable, m_leaveType, address);
 
 		// One Day Save One Time
-		boolean isLogin = OneTimeLogin(m_employee.getM_employeeID(),OnWebStartTimeLog);
+		boolean isLogin = OneTimeLogin(OnWebStartTimeLog);
 
 		// Add DataStartTimeLogService
 		if (!isLogin) {
 			System.out.println("First Time Login");
-			return StartTimeLogService.SaveAS(OnWebStartTimeLog);
+			return StartTimeLogService.SaveAS(OnWebStartTimeLog,isLogin);
 		}else {
 			System.out.println("Progress Update");
-			return StartTimeLogService.SaveAS(OnWebStartTimeLog);
+			return StartTimeLogService.SaveAS(OnWebStartTimeLog,isLogin);
 		}
 		//System.out.println("Seved. | " + m_employee.getM_employeeID() +" have state today login is : " + isLogin);
 		
 		//return false;
 	}
 
-	private static boolean OneTimeLogin(int employeeID, StartTimeLog m_startTimelog) {
+	private static boolean OneTimeLogin( StartTimeLog m_startTimelog) {
 		boolean isLogin = false;
-		log.log(Level.SEVERE, "Check One Time Logine | Employee ID : " + employeeID);
-		List<StartTimeLog> m_starttimelogs = StartTimeLogService.getStartTimeLogListOnlyOne(employeeID);
+		log.log(Level.SEVERE, "Check One Time Logine | Employee ID : " + m_startTimelog.getM_employeeID());
+		List<StartTimeLog> m_starttimelogs = StartTimeLogService.getStartTimeLogListOnlyOne(m_startTimelog.getM_employeeID());
 
+		log.log(Level.SEVERE,
+				" Date : " + m_startTimelog.getM_date().getDay() + " : " + m_startTimelog.getM_date().getDate() + " : "
+						+ m_startTimelog.getM_date().getMonth() + " : " + m_startTimelog.getM_date().getYear());
+		
 		for (StartTimeLog m_start : m_starttimelogs) {
 			// m_start.getM_date()
-			if (CollisionDate(m_startTimelog.getM_date(), m_start.getM_date())){
+			if (CollisionDate(m_startTimelog.getM_date(), m_start.getM_date()) && m_start.getM_employeeID() == m_startTimelog.getM_employeeID()){
 				isLogin = true;
 				m_startTimelog.setKind(m_start.getKind());
 				m_startTimelog.setKeyID(m_start.getKeyID());
+				log.log(Level.SEVERE, "Kind and KeyIDSeted : Key ID" + m_startTimelog.getKeyID()
+						+ " : Kind :" + m_startTimelog.getKind());
+				//log.log(Level.SEVERE, "m_starttimelogs Count : " + m_starttimelogs.size() + " : Is Login : " + isLogin + " |Kind and KeyIDSeted");
 				break;
 			}
 				
 		}
 		
-		log.log(Level.SEVERE, "Is Login : " + isLogin);
+		log.log(Level.SEVERE, "m_starttimelogs Count : " + m_starttimelogs.size() + " : Is Login : " + isLogin + " |Kind and KeyIDSeted");
 
 		return isLogin;
 	}
@@ -160,8 +172,14 @@ public class AttendanceServiceImpl {
 
 		if (thisIsToday.getYear() == collisiontDate.getYear()
 				&& thisIsToday.getMonth() == collisiontDate.getMonth()
-				&& thisIsToday.getDay() == collisiontDate.getDay())
+				&& thisIsToday.getDay() == collisiontDate.getDay()) {
+
+			log.log(Level.SEVERE, "Yesr :" + thisIsToday.getYear() + " : " + collisiontDate.getYear());
+			log.log(Level.SEVERE, "getMonth :" + thisIsToday.getMonth() + " : " + collisiontDate.getMonth());
+			log.log(Level.SEVERE, "getDay :" + thisIsToday.getDay() + " : " + collisiontDate.getDay());
 			isCollision = true;
+		}
+			
 
 		return isCollision;
 	}
