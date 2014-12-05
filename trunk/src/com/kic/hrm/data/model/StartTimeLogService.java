@@ -42,8 +42,9 @@ public class StartTimeLogService {
 
 	@SuppressWarnings("deprecation")
 	public static StartTimeLog AddCVSData(String[] inputLog) {
+		Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
 		StartTimeLog m_startTimeLog = new StartTimeLog();
-
+		m_startTimeLog.setM_date(now);
 		if (TestData(inputLog, MAPWORKID))
 			m_startTimeLog.setM_employeeID(Integer.parseInt(inputLog[MAPWORKID]
 					.substring(1, inputLog[MAPWORKID].length() - 1)));
@@ -119,8 +120,9 @@ public class StartTimeLogService {
 	}
 
 	public static StartTimeLog AddDataStartTimeLog(Entity entity) {
+		Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
 		StartTimeLog startTime = new StartTimeLog();
-
+		startTime.setM_date(now);
 		startTime.setKind(entity.getKind());
 		startTime.setKeyID(entity.getKey().getId());
 
@@ -191,9 +193,14 @@ public class StartTimeLogService {
 	public static StartTimeLog Create(Employee employee, Date createTime,
 			timetable m_timetable, type m_type, String address) {
 		StartTimeLog m_startTimelog = new StartTimeLog();
+		m_startTimelog.setM_date(createTime);
 		m_startTimelog.setM_employeeID(employee.getM_employeeID());
 		Date time = createTime;
 		// + 07.00
+		log.log(Level.SEVERE, "Key ID" + m_startTimelog.getKeyID()
+				+ " : Kind :" + m_startTimelog.getKind());
+		
+		
 		log.log(Level.SEVERE, "Time Zone : " + time.getTimezoneOffset()
 				+ " : hours :" + time.getHours());
 		log.log(Level.SEVERE,
@@ -201,6 +208,7 @@ public class StartTimeLogService {
 						+ time.getMonth() + " : " + time.getYear());
 		// (timeZone = 0) | Thai = -420
 
+		
 		/*
 		 * if(time.getTimezoneOffset() == 0) { //time.setHours(time.getHours() +
 		 * 7); log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() +
@@ -244,17 +252,20 @@ public class StartTimeLogService {
 		 * m_startTimelog.setM_clockLate((Date)
 		 * entity.getProperty(property.clocklate .toString()));
 		 */
-		Date DefultTime = new Date();
+		/*
+		Date DefultTime = createTime;
 		DefultTime.setHours(8);
 		DefultTime.setMinutes(30);
+		*/
+		/*
 		Long deltaTime = 0L;
 		if (time.getTime() > DefultTime.getTime()) {
 
 			deltaTime = time.getTime() - DefultTime.getTime();
 		}
 
-		Date LateTime = new Date();
-		LateTime.setTime(deltaTime);
+		Date LateTime = createTime;
+		LateTime.setTime(deltaTime);*/
 		// time.get
 
 		// m_startTimelog.setM_clockLate(time);
@@ -265,17 +276,18 @@ public class StartTimeLogService {
 		return m_startTimelog;
 	}
 
-	public static boolean SaveAS(StartTimeLog StartTimeLog) {
+	public static boolean SaveAS(StartTimeLog StartTimeLog,boolean isLogin) {
 		boolean saveSuccess = false;
 		Entity d_OnWebStartTimeLog = null;
-
+		
 		if (StartTimeLog.getKind() != null && StartTimeLog.getKeyID() != null) {
 			log.log(Level.SEVERE, "Have Data. | " + StartTimeLog.getKind()
 					+ " : " + StartTimeLog.getKeyID());
 			try {
 				d_OnWebStartTimeLog = DataStoreControl.EditEntity(
 						StartTimeLog.getKind(), StartTimeLog.getKeyID());
-
+				log.log(Level.SEVERE, "StartTimeLog Edit : " + StartTimeLog.getKeyID() + " : " + getTypeEntity(d_OnWebStartTimeLog).toString());
+				
 				if (getTypeEntity(d_OnWebStartTimeLog) == type.InProgress) {
 					d_OnWebStartTimeLog = StartTimeLogService.FlashData(
 							d_OnWebStartTimeLog, StartTimeLog);
@@ -330,8 +342,8 @@ public class StartTimeLogService {
 		// Set Offset Time To bangkok
 		if(BankokTimeZone.getTimezoneOffset()==0)
 		{
-			BankokTimeZone.setTime(BankokTimeZone.getTime() + 25200000);
-			log.log(Level.SEVERE,"Convert Date : " + BankokTimeZone.toString());
+			BankokTimeZone.setTime(BankokTimeZone.getTime() + 25200000L);
+			//log.log(Level.SEVERE,"Convert Date : " + BankokTimeZone.toString());
 		}
 		
 		return BankokTimeZone;

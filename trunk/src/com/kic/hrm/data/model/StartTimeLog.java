@@ -191,17 +191,18 @@ public class StartTimeLog implements Serializable {
 		// TODO Auto-generated constructor stub
 		m_type = StartTimeLog.type.InProgress;
 		m_timeTable = StartTimeLog.timetable.None;
-		
-		m_date = new Date();
+		Date now = new Date();
+		m_date = now;
 		m_date.setHours(0);
 		m_date.setMinutes(0);
 		m_date.setSeconds(0);
 		
-		m_clockIn = m_date;
-		m_clockLate = m_date;
-		m_clockOut = m_date;
+		m_clockIn = now;
+		m_clockLate = now;
+		m_clockOut = now;
 	}
     
     //private 
-    
 }
+
+
