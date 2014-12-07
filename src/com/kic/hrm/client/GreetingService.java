@@ -37,7 +37,7 @@ public interface GreetingService extends RemoteService {
 	Employee addProfile(Employee userEmployee, EmployeeQuota m_employeeQuota,state registerMode);
 	boolean deleteProfile(Integer targetEmployee);
 	EmployeeQuota getEmployeeQuota(int employeeID);
-	boolean sendReportDairyToEmail(String email);
+	boolean sendReportDailyToEmail(String email);
 	////////////////
 	
 	//Leave Function

@@ -213,9 +213,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public boolean sendReportDairyToEmail(String email) {
+	public boolean sendReportDailyToEmail(String email) {
 		// TODO Auto-generated method stub
-		return ReportServiceImpl.sendReportDairyToEmail(email);
+		return ReportServiceImpl.sendReportDailyToEmail(email);
 	}
 
 	@Override

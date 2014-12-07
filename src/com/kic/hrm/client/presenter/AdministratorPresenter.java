@@ -117,7 +117,7 @@ public class AdministratorPresenter implements Presenter{
 				// TODO Auto-generated method stub
 				System.out.println("Send Report Dairy to Email.");
 				String emailSendTo = "noppon_aim@hotmail.com";
-				rpcService.sendReportDairyToEmail(emailSendTo, new AsyncCallback<Boolean>() {
+				rpcService.sendReportDailyToEmail(emailSendTo, new AsyncCallback<Boolean>() {
 					
 					@Override
 					public void onSuccess(Boolean result) {

@@ -59,7 +59,7 @@ public interface GreetingServiceAsync {
 
 	void getAddressWithLatLong(String latLong, AsyncCallback<String> callback);
 
-	void sendReportDairyToEmail(String email, AsyncCallback<Boolean> callback);
+	void sendReportDailyToEmail(String email, AsyncCallback<Boolean> callback);
 
 	void addLeaveTaskToCalendar(String token,
 			LeaveTask leavetask, AsyncCallback<Boolean> callback);
