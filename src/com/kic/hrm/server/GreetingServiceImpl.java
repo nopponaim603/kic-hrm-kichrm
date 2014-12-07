@@ -106,6 +106,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return LoginServiceImpl.getUserEmail(token);
 	}
 
+	// Not Use it.
 	@Override
 	public LoginInfo login(String requestUri) {
 		return LoginServiceImpl.login(requestUri);
@@ -151,7 +152,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 	// SaveCSV > end
 	
-	// Get CSV File form Google Drive
+	// Get CSV File form Google Drive // Not Use it.
 	@Override
 	public String getFileFormGoogleDrive(String token, String idFile) {
 		// TODO Auto-generated method stub
