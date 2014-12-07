@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class ReportServiceImpl {
 
-	public static boolean sendReportDairyToEmail(String email) {
+	public static boolean sendReportDailyToEmail(String email) {
 		// TODO Auto-generated method stub
 		SendEmailServiceImpl sender = new SendEmailServiceImpl();
 		String emailTo = email;
