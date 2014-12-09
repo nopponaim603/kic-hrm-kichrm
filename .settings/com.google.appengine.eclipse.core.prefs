@@ -6,4 +6,4 @@ gaeHrdEnabled=true
 gaeLaunchAppInBrowser=true
 googleCloudSqlEnabled=false
 localDevMySqlEnabled=true
-validationExclusions=src/com/kic/hrm/server/DriveServiceImpl.java|src/com/kic/hrm/client/CloudHRM.java
+validationExclusions=src/com/kic/hrm/server/DriveServiceImpl.java|src/com/kic/hrm/client/CloudHRM.java|src/com/kic/hrm/client/view/DailyReportView.java

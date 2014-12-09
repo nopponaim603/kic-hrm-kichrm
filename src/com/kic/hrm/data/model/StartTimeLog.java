@@ -117,6 +117,10 @@ public class StartTimeLog implements Serializable {
 	 * @param m_date the m_date to set
 	 */
 	public void setM_date(Date m_date) {
+		m_date.setHours(0);
+		m_date.setMinutes(0);
+		m_date.setSeconds(0);
+		
 		this.m_date = m_date;
 	}
 	/**

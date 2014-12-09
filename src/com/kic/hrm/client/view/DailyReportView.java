@@ -1,5 +1,10 @@
 package com.kic.hrm.client.view;
 
+//import java.text.MessageFormat;
+import sun.util.calendar.BaseCalendar.Date;
+import sun.util.calendar.CalendarDate;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -10,8 +15,12 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.Grid;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.TimeZone;
+import com.kic.hrm.client.businesslogic.ConvertTimeZone;
 import com.kic.hrm.client.presenter.DailyReportPresenter;
 import com.kic.hrm.data.model.StartTimeLog;
+import com.kic.hrm.data.model.StartTimeLogService;
 
 public class DailyReportView extends Composite implements HasText, DailyReportPresenter.Display {
 
@@ -32,14 +41,9 @@ public class DailyReportView extends Composite implements HasText, DailyReportPr
 		
 		Label lbl_employeeName = new Label(m_log.getM_name());
 		Label lbl_employeeState = new Label(m_log.getM_type().toString());
-		
-
-		
-		
-		Label lbl_employeeTime = new Label(
-				"Hour " + m_log.getM_clockIn().getHours() 
-				+ " : " + m_log.getM_clockIn().getMinutes() 
-				+ " : " + m_log.getM_clockIn().getSeconds());
+				
+		//Convert Time
+		Label lbl_employeeTime = new Label(DateTimeFormat.getShortTimeFormat().format(ConvertTimeZone.ClineTimeZoneToBangkok(m_log.getM_clockIn())));
 		
 		Label lbl_employeeAddress = new Label(m_log.getM_Note());
 		

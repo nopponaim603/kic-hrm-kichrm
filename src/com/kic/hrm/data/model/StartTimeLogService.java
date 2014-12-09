@@ -16,13 +16,11 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.ibm.icu.text.DateFormat;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.StartTimeLog.property;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.DataStoreControl;
-import com.kic.hrm.server.GreetingServiceImpl;
 import com.kic.hrm.server.businesslogic.AttendanceServiceImpl;
 
 public class StartTimeLogService {
@@ -198,77 +196,20 @@ public class StartTimeLogService {
 		log.log(Level.SEVERE, "Key ID" + m_startTimelog.getKeyID()
 				+ " : Kind :" + m_startTimelog.getKind());
 		
-		
 		log.log(Level.SEVERE, "Time Zone : " + time.getTimezoneOffset()
 				+ " : hours :" + time.getHours());
 		log.log(Level.SEVERE,
 				" Date : " + time.getDay() + " : " + time.getDate() + " : "
 						+ time.getMonth() + " : " + time.getYear());
-		// (timeZone = 0) | Thai = -420
-
 		
-		/*
-		 * if(time.getTimezoneOffset() == 0) { //time.setHours(time.getHours() +
-		 * 7); log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() +
-		 * " : hours :" + time.getHours()); } else {
-		 * log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() +
-		 * " : hours :" + time.getHours());
-		 * 
-		 * }
-		 */
-
-		/*
-		 * time.setHours(0); time.setMinutes(0); time.setSeconds(0);
-		 */
-
-		// SimpleDateFormat curFormater = new
-		// SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
-		// curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
-		// Date timeInZone = (Date)curFormater.parse(curFormater.format(time));
-		/*
-		 * try {
-		 * 
-		 * 
-		 * System.out.println(timeInZone + " : " +
-		 * curFormater.format(timeInZone)); log.log(Level.SEVERE,"Time : " +
-		 * time.toString() + " | TimeZone " + timeInZone.toString() +
-		 * " : currentFormater " + curFormater.format(timeInZone)); } catch
-		 * (ParseException e) { // TODO Auto-generated catch block
-		 * e.printStackTrace(); }
-		 */
 
 		m_startTimelog.setM_name(employee.getM_name());
-
-		// m_startTimelog.setM_date(time);
 		m_startTimelog.setM_timeTable(m_timetable);
-
-		// m_startTimelog.setM_clockIn(time);
-		/*
-		 * m_startTimelog.setM_clockOut((Date)
-		 * entity.getProperty(property.clockout .toString()));
-		 * 
-		 * m_startTimelog.setM_clockLate((Date)
-		 * entity.getProperty(property.clocklate .toString()));
-		 */
-		/*
-		Date DefultTime = createTime;
-		DefultTime.setHours(8);
-		DefultTime.setMinutes(30);
-		*/
-		/*
-		Long deltaTime = 0L;
-		if (time.getTime() > DefultTime.getTime()) {
-
-			deltaTime = time.getTime() - DefultTime.getTime();
-		}
-
-		Date LateTime = createTime;
-		LateTime.setTime(deltaTime);*/
-		// time.get
-
-		// m_startTimelog.setM_clockLate(time);
-
 		m_startTimelog.setM_type(m_type);
+		
+		if(m_type == type.Office || m_type == type.Onsite)
+			m_startTimelog.setM_clockIn(createTime);
+		
 		m_startTimelog.setM_Note(address);
 
 		return m_startTimelog;
@@ -345,31 +286,7 @@ public class StartTimeLogService {
 		}
 		
 		return BankokTimeZone;
-		/*
-		SimpleDateFormat curFormater = new SimpleDateFormat(
-				"yyyy-MM-dd HH:mm:ss");
-		curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
-		curFormater.format(inputDate).toString();
-		//log.log(Level.SEVERE,"Time Zone : " + curFormater.getTimeZone().toString());
-		try {
-			//log.log(Level.SEVERE,"Convert Date : " + curFormater.parse(curFormater.format(inputDate).toString() ));
-			BankokTimeZone = (Date) curFormater.parse(curFormater
-					.format(inputDate));
-			log.log(Level.SEVERE,"Convert Date : " + BankokTimeZone.toString());
-			
-			log.log(Level.SEVERE,"Time Zone : " + BankokTimeZone.getTimezoneOffset());
-			
-			
-			
-			
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		log.log(Level.SEVERE , "Can't Convert.");
-		return BankokTimeZone;
-		*/
 	}
 
 	public static List<StartTimeLog> getStartTimeLogListDaily(Date m_date) {
@@ -430,3 +347,90 @@ public class StartTimeLogService {
 		return StartTimeLogService.Clone(temp_entity);
 	}
 }
+
+//(timeZone = 0) | Thai = -420
+
+
+		/*
+		 * if(time.getTimezoneOffset() == 0) { //time.setHours(time.getHours() +
+		 * 7); log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() +
+		 * " : hours :" + time.getHours()); } else {
+		 * log.log(Level.SEVERE,"Time Zone : " + time.getTimezoneOffset() +
+		 * " : hours :" + time.getHours());
+		 * 
+		 * }
+		 */
+
+		/*
+		 * time.setHours(0); time.setMinutes(0); time.setSeconds(0);
+		 */
+
+		// SimpleDateFormat curFormater = new
+		// SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z");
+		// curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
+		// Date timeInZone = (Date)curFormater.parse(curFormater.format(time));
+		/*
+		 * try {
+		 * 
+		 * 
+		 * System.out.println(timeInZone + " : " +
+		 * curFormater.format(timeInZone)); log.log(Level.SEVERE,"Time : " +
+		 * time.toString() + " | TimeZone " + timeInZone.toString() +
+		 * " : currentFormater " + curFormater.format(timeInZone)); } catch
+		 * (ParseException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 */
+
+// m_startTimelog.setM_date(time);
+
+// m_startTimelog.setM_clockIn(time);
+/*
+ * m_startTimelog.setM_clockOut((Date)
+ * entity.getProperty(property.clockout .toString()));
+ * 
+ * m_startTimelog.setM_clockLate((Date)
+ * entity.getProperty(property.clocklate .toString()));
+ */
+/*
+Date DefultTime = createTime;
+DefultTime.setHours(8);
+DefultTime.setMinutes(30);
+*/
+/*
+Long deltaTime = 0L;
+if (time.getTime() > DefultTime.getTime()) {
+
+	deltaTime = time.getTime() - DefultTime.getTime();
+}
+
+Date LateTime = createTime;
+LateTime.setTime(deltaTime);*/
+// time.get
+
+// m_startTimelog.setM_clockLate(time);
+
+/*
+SimpleDateFormat curFormater = new SimpleDateFormat(
+		"yyyy-MM-dd HH:mm:ss");
+curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
+curFormater.format(inputDate).toString();
+//log.log(Level.SEVERE,"Time Zone : " + curFormater.getTimeZone().toString());
+try {
+	//log.log(Level.SEVERE,"Convert Date : " + curFormater.parse(curFormater.format(inputDate).toString() ));
+	BankokTimeZone = (Date) curFormater.parse(curFormater
+			.format(inputDate));
+	log.log(Level.SEVERE,"Convert Date : " + BankokTimeZone.toString());
+	
+	log.log(Level.SEVERE,"Time Zone : " + BankokTimeZone.getTimezoneOffset());
+	
+	
+	
+	
+} catch (ParseException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}
+
+log.log(Level.SEVERE , "Can't Convert.");
+return BankokTimeZone;
+*/
