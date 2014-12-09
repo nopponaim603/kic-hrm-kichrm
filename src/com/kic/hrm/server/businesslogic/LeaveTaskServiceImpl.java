@@ -19,7 +19,6 @@ import com.kic.hrm.data.model.EmployeeQuotaService;
 import com.kic.hrm.data.model.EmployeeService;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTaskService;
-import com.kic.hrm.data.model.ModelService;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLogService;
 import com.kic.hrm.data.model.SystemConfig;
@@ -117,7 +116,7 @@ public class LeaveTaskServiceImpl {
 				StartTimeLog.property.type.toString(), FilterOperator.EQUAL,
 				StartTimeLog.type.Absence.toString());
 
-		Filter m_composite = ModelService.CompositeAndFilter(startDate,
+		Filter m_composite = DataStoreControl.CompositeAndFilter(startDate,
 				endDate, currentUser, isAbsence);
 		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
 				SortDirection.DESCENDING, m_composite);
@@ -220,7 +219,7 @@ public class LeaveTaskServiceImpl {
 	// camtedu.net_ffupfdej93dc7td5rop26gvp1s@group.calendar.google.com
 	
 
-	public static void addTaskToCalender(Calendar calender,
+	private static void addTaskToCalender(Calendar calender,
 			String HR_calenderID, LeaveTask leavetask) throws IOException {
 		// Find m_calenderID
 

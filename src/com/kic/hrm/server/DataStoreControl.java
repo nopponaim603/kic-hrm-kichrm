@@ -1,5 +1,7 @@
 package com.kic.hrm.server;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -11,8 +13,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.SortDirection;
-
 import com.google.appengine.api.datastore.Query.Filter;
 
 public class DataStoreControl {
@@ -48,25 +50,6 @@ public class DataStoreControl {
 	    query.addSort(Entity.KEY_RESERVED_PROPERTY, sortdirection);
 	    //query.s
 	    List<Entity> temp = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
-	    /*
-	    com.google.appengine.api.datastore.Key mykey = null ;
-	    
-	    for(Entity em : temp) {
-	    	 mykey = em.getKey();
-	    	 System.out.println(em.getKey().toString());
-	    }
-	    Long mykeyID = mykey.getId();
-	    String mykeyString = mykey.getKind();
-	    
-	    com.google.appengine.api.datastore.Key createNewKey = KeyFactory.createKey(mykeyString, mykeyID);
-	    try {
-			Entity newEntity = datastore.get(createNewKey);
-			System.out.println(newEntity.getKey().toString());
-			
-		} catch (EntityNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 	    
 	    return temp;
 	}
@@ -116,4 +99,38 @@ public class DataStoreControl {
 		entity.removeProperty(propertyName);
 	}
 	
+	public static Filter CompositeAndFilter(Collection<Filter> subFilters) {
+		return CompositeFilterOperator.and(subFilters);
+	}
+
+	public static Filter CompositeAndFilter(Filter... subFilters) {
+		return CompositeFilterOperator.and(Arrays.asList(subFilters));
+	}
+
+	public static Filter CompositeOrFilter(Collection<Filter> subFilters) {
+		// Filter test = CompositeFilterOperator.and(subFilters)
+		return CompositeFilterOperator.or(subFilters);
+	}
+	
 }
+
+
+/*
+com.google.appengine.api.datastore.Key mykey = null ;
+
+for(Entity em : temp) {
+	 mykey = em.getKey();
+	 System.out.println(em.getKey().toString());
+}
+Long mykeyID = mykey.getId();
+String mykeyString = mykey.getKind();
+
+com.google.appengine.api.datastore.Key createNewKey = KeyFactory.createKey(mykeyString, mykeyID);
+try {
+	Entity newEntity = datastore.get(createNewKey);
+	System.out.println(newEntity.getKey().toString());
+	
+} catch (EntityNotFoundException e) {
+	// TODO Auto-generated catch block
+	e.printStackTrace();
+}*/

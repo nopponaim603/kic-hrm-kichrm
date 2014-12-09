@@ -17,7 +17,7 @@ public class GeoLocationServiceImpl {
 		return getAddress(latLong);
 	}
 
-	static String getAddress(String latLong) {
+	private static String getAddress(String latLong) {
 		try {
 			String combile = "http://maps.googleapis.com/maps/api/geocode/xml?latlng="
 					+ latLong + "&sensor=true";

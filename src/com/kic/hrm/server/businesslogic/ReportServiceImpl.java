@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
@@ -27,9 +29,17 @@ import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.CSVServiceImpl;
 import com.kic.hrm.server.DataStoreControl;
 import com.kic.hrm.server.DriveServiceImpl;
+import com.kic.hrm.server.GreetingServiceImpl;
 
 public class ReportServiceImpl {
 
+	private static final Logger log = Logger
+			.getLogger(ReportServiceImpl.class.getName());
+	
+	// private static Dictionary<Integer,Integer> m_employeeAbsence;
+
+	// "0BxCzuY_jk0HhQlNNRXJEdVJmRVU"
+	
 	public static boolean sendReportDailyToEmail(String email) {
 		// TODO Auto-generated method stub
 		SendEmailServiceImpl sender = new SendEmailServiceImpl();
@@ -41,8 +51,15 @@ public class ReportServiceImpl {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(
 					"email/emailBody.html"));
+			
 			String str;
 			while ((str = in.readLine()) != null) {
+			    //log.log()
+				log.log(Level.SEVERE , "HTML : " + str);
+				if(str == "id=100") {
+					contentBuilder.append(DailyReportData());
+				}
+				
 				contentBuilder.append(str);
 			}
 			in.close();
@@ -56,11 +73,14 @@ public class ReportServiceImpl {
 				htmlBody);
 		return isSuccessSend;
 	}
+	
+	private static String DailyReportData() {
+		String report = "";
+		
+		return report;
+	}
 
-	// private static Dictionary<Integer,Integer> m_employeeAbsence;
-
-	// "0BxCzuY_jk0HhQlNNRXJEdVJmRVU"
-	public static String SaveStartTime(String token, String folderID) {
+ 	public static String SaveStartTime(String token, String folderID) {
 		String problem = "None";
 		Drive service = DriveServiceImpl.BuildDriveAPIbyTOKEN(token);
 
@@ -151,7 +171,7 @@ public class ReportServiceImpl {
 		return problem;
 	}
 
-	static void saveFileID(String fileID, Date lastUpdate) {
+	private static void saveFileID(String fileID, Date lastUpdate) {
 		// Date time = new Date(lastUpdate.getValue());
 		Entity d_file = DataStoreControl.CreateEntity(FileIDStartTimeLog.class);
 		d_file.setProperty(FileIDStartTimeLog.property.fileId.toString(),
@@ -163,7 +183,7 @@ public class ReportServiceImpl {
 		DataStoreControl.SaveEntity(d_file);
 	}
 
-	static void pushLeaveLogToDataStore(Drive service, File thisFile,
+	private static void pushLeaveLogToDataStore(Drive service, File thisFile,
 			Boolean isAlready) {
 
 		Date keepDate = null;
@@ -186,7 +206,8 @@ public class ReportServiceImpl {
 				StartTimeLog startTime = StartTimeLogService
 						.AddCVSData(datalog);
 
-				ConditionOnTime(startTime);
+				//ConditionOnTime
+				startTime.setM_type(type.OnTime);
 
 				d_starttimelog = StartTimeLogService.FlashData(d_starttimelog,
 						startTime);
@@ -233,11 +254,6 @@ public class ReportServiceImpl {
 		}
 
 		System.out.println("Save is Done.");
-	}
-
-	public static void ConditionOnTime(StartTimeLog m_startTimeLog) {
-		m_startTimeLog.setM_type(type.OnTime);
-
 	}
 
 }
