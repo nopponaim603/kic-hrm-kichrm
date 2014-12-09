@@ -1,21 +1,24 @@
 package com.kic.hrm.server;
 
 import com.kic.hrm.client.GreetingService;
+
 import com.kic.hrm.client.presenter.ProfilePresenter.state;
+
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.EmployeeQuotaService;
 import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.data.model.StartTimeLogService;
 import com.kic.hrm.data.model.SystemConfig;
 import com.kic.hrm.data.model.SystemConfigService;
+
 import com.kic.hrm.server.businesslogic.AttendanceServiceImpl;
 import com.kic.hrm.server.businesslogic.LeaveTaskServiceImpl;
 import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
-import com.kic.hrm.server.businesslogic.RecordLog;
 import com.kic.hrm.server.businesslogic.ReportServiceImpl;
 import com.kic.hrm.shared.*;
 
@@ -24,11 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-
 
 @SuppressWarnings("serial")
 public class GreetingServiceImpl extends RemoteServiceServlet implements
@@ -130,8 +129,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public ArrayList<String> UpdateList(String targetEntity) {
-		return ProfileServiceImpl.UpdateList(targetEntity);
+	public ArrayList<String> UpdateList(String targetEmployee) {
+		return ProfileServiceImpl.UpdateList(targetEmployee);
 	}
 
 	@Override
@@ -148,7 +147,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	// SaveCSV
 	@Override
 	public String saveCSVtoDrive(String token, String FolderID) {
-		return RecordLog.SaveStartTime(token, FolderID);
+		return ReportServiceImpl.SaveStartTime(token, FolderID);
 	}
 	// SaveCSV > end
 	
@@ -180,9 +179,9 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public List<LeaveTask> getLeaveTask(progress InProgress, int targetID) {
+	public List<LeaveTask> getLeaveTask(progress InProgress, Integer targetEmployee) {
 		// TODO Auto-generated method stub
-		return LeaveTaskServiceImpl.getLeaveTask(InProgress, targetID);
+		return LeaveTaskServiceImpl.getLeaveTask(InProgress, targetEmployee);
 	}
 
 	@Override

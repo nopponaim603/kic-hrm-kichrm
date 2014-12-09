@@ -10,6 +10,7 @@ import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.data.model.SystemConfig;
@@ -50,7 +51,7 @@ public interface GreetingServiceAsync {
 
 	void createLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
 	void approveLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
-	void getLeaveTask(LeaveTask.progress InProgress,int targetID , AsyncCallback<List<LeaveTask>> callback);
+	void getLeaveTask(LeaveTask.progress InProgress,Integer targetEmployee , AsyncCallback<List<LeaveTask>> callback);
 	void deleteLeaveTask(LeaveTask leavetask , AsyncCallback<Boolean> callback);
 
 	void LoginAttendance(LoginInfo userInfo, type leaveType,

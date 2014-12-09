@@ -24,10 +24,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.data.model.EmployeeQuota;
+import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.server.GreetingServiceImpl;
-import com.kic.hrm.shared.LoginInfo;
 
 
 public class LeavePresenter implements Presenter{

@@ -11,11 +11,11 @@ import com.kic.hrm.client.presenter.ProfilePresenter.state;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.EmployeeQuota;
 import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.data.model.SystemConfig;
-import com.kic.hrm.shared.LoginInfo;
 
 /**
  * The client side stub for the RPC service.
@@ -43,7 +43,7 @@ public interface GreetingService extends RemoteService {
 	//Leave Function
 	boolean createLeaveTask(LeaveTask leavetask);
 	boolean approveLeaveTask(LeaveTask leavetask);
-	List<LeaveTask> getLeaveTask(progress InProgress, int targetID);
+	List<LeaveTask> getLeaveTask(progress InProgress, Integer targetEmployee);
 	boolean deleteLeaveTask(LeaveTask leavetask);
 	boolean addLeaveTaskToCalendar(String token ,LeaveTask leavetask);
 	////////////////

@@ -21,7 +21,7 @@ import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.client.event.gotoReportEvent;
 import com.kic.hrm.client.presenter.ProfilePresenter.Display;
 import com.kic.hrm.data.model.EmployeeQuota;
-import com.kic.hrm.shared.LoginInfo;
+import com.kic.hrm.data.model.LoginInfo;
 
 public class QuotaPresenter implements Presenter{
 

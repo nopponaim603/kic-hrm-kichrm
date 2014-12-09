@@ -47,7 +47,7 @@ import com.kic.hrm.client.view.LeaveView;
 import com.kic.hrm.client.view.NewView;
 import com.kic.hrm.client.view.ProfileView;
 import com.kic.hrm.client.view.QuotaView;
-import com.kic.hrm.shared.LoginInfo;
+import com.kic.hrm.data.model.LoginInfo;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
 

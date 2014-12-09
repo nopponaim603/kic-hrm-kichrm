@@ -17,11 +17,11 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.JsonParseException;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.EmployeeService;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.server.businesslogic.ProfileServiceImpl;
-import com.kic.hrm.shared.LoginInfo;
 
 public class LoginServiceImpl {
 	
