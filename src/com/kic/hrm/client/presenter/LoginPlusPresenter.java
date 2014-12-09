@@ -70,10 +70,10 @@ public class LoginPlusPresenter {
 		RootPanel.get(LOGINPANEL).add(loginPanel);
 		userEmail = new StringBuilder();
 		m_loginInfo = new LoginInfo();
-
+/*
 		plus.initialize(new SimpleEventBus(), new GoogleApiRequestTransport(
 				CloudHRM.getAPPLICATION_NAME(), CloudHRM.getAPI_KEY()));
-
+*/
 	}
 
 	// TODO #07: add helper methods for Login, Logout and AuthRequest

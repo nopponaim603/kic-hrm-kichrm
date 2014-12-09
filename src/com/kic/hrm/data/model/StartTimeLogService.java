@@ -346,6 +346,7 @@ public class StartTimeLogService {
 				SortDirection.DESCENDING, currentUser);
 		return StartTimeLogService.Clone(temp_entity);
 	}
+
 }
 
 //(timeZone = 0) | Thai = -420
