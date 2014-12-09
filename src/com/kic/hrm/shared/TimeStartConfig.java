@@ -2,6 +2,7 @@ package com.kic.hrm.shared;
 
 import java.util.Date;
 
+// Don't Use it.
 public class TimeStartConfig {
 	
 	private  Date AdminOndutyTime;

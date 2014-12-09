@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLogService;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
@@ -20,7 +21,6 @@ import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.DataStoreControl;
 import com.kic.hrm.server.GeoLocationServiceImpl;
 import com.kic.hrm.server.LoginServiceImpl;
-import com.kic.hrm.shared.LoginInfo;
 
 public class AttendanceServiceImpl {
 

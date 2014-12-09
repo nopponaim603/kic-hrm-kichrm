@@ -1,4 +1,4 @@
-package com.kic.hrm.shared;
+package com.kic.hrm.data.model;
 import java.io.Serializable;
 
 import com.google.gwt.geolocation.client.Position.Coordinates;

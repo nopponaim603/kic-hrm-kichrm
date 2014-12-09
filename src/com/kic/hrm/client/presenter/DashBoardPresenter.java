@@ -29,12 +29,12 @@ import com.kic.hrm.client.event.guiMemberEvent;
 import com.kic.hrm.client.event.guiMemberEventHandler;
 import com.kic.hrm.client.event.returnGeoLocationEvent;
 import com.kic.hrm.client.event.returnGeoLocationHandler;
+import com.kic.hrm.data.model.GeoPosition;
+import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.Employee.role;
 import com.kic.hrm.data.model.StartTimeLog.timetable;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.LoginServiceImpl;
-import com.kic.hrm.shared.GeoPosition;
-import com.kic.hrm.shared.LoginInfo;
 
 public class DashBoardPresenter implements Presenter {
 

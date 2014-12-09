@@ -23,7 +23,7 @@ import com.kic.hrm.client.event.gotoProfileAndEditEvent;
 import com.kic.hrm.client.event.gotoProfileEvent;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.SystemConfig;
-import com.kic.hrm.shared.TimeStartConfig;
+
 
 
 public class AdministratorPresenter implements Presenter{
@@ -147,6 +147,8 @@ public class AdministratorPresenter implements Presenter{
 				m_SysConfig.setKeyID(temp.getKeyID());
 				m_SysConfig.setM_Drive_folderID(temp.getM_Drive_folderID());
 				m_SysConfig.setM_Report_email(temp.getM_Report_email());
+				m_SysConfig.setM_calendarID(temp.getM_calendarID());
+				
 				SetupDisplay(m_SysConfig);
 			}
 		});

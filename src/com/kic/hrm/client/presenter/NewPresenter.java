@@ -25,12 +25,12 @@ import com.kic.hrm.client.AppController;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.businesslogic.ConditionOffice;
 import com.kic.hrm.client.event.gotoDashBoardEvent;
+import com.kic.hrm.data.model.GeoPosition;
 import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.GreetingServiceImpl;
-import com.kic.hrm.shared.GeoPosition;
-import com.kic.hrm.shared.LoginInfo;
 
 public class NewPresenter implements Presenter {
 

@@ -1,9 +1,8 @@
-package com.kic.hrm.shared;
+package com.kic.hrm.data.model;
 
 import java.io.Serializable;
 
 import com.google.gwt.geolocation.client.Position.Coordinates;
-import com.kic.hrm.data.model.Employee;
 
 @SuppressWarnings("serial")
 public class LoginInfo  implements Serializable {
