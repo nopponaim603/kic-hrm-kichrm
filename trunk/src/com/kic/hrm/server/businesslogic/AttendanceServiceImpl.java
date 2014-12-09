@@ -107,11 +107,11 @@ public class AttendanceServiceImpl {
 			log.log(Level.SEVERE ,"Add StartTimeLog for Employee : " + em.getM_name() );
 			
 			//////////////
-			PreAddData(em,now,type.Absence,"InProgress");
+			PreAddData(em,now,type.Absence,"Absence");
 		}
 	}
 	
-	public static void PreAddData(Employee m_employee ,Date saveDate,type m_leaveType ,String address) {
+	private static void PreAddData(Employee m_employee ,Date saveDate,type m_leaveType ,String address) {
 		AttendanceSaveDate(m_employee
 				,saveDate
 				,StartTimeLogService.convertRoleToTimeTable(m_employee.getM_role())
@@ -183,9 +183,9 @@ public class AttendanceServiceImpl {
 
 		return isCollision;
 	}
-
+/*
 	void SaveStartTimeLogToDataStore() {
 
 	}
-
+*/
 }
