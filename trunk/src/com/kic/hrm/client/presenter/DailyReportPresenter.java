@@ -24,7 +24,7 @@ public class DailyReportPresenter implements Presenter{
 		HasClickHandlers getBack();
 		
 		
-		void LoadState(String m_employeeName,String m_employeeState);
+		void LoadState(StartTimeLog m_log);
 	}
 	
 	private final GreetingServiceAsync rpcService;
@@ -61,7 +61,7 @@ public class DailyReportPresenter implements Presenter{
 				//Setup Display
 				for(StartTimeLog m_log : result) {
 					 
-					display.LoadState(m_log.getM_name(), m_log.getM_type().toString());	
+					display.LoadState(m_log);	
 				}
 			}
 			

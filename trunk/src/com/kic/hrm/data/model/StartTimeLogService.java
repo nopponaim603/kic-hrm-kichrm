@@ -1,10 +1,8 @@
 package com.kic.hrm.data.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -13,7 +11,7 @@ import java.util.logging.Logger;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -351,6 +349,7 @@ public class StartTimeLogService {
 		SimpleDateFormat curFormater = new SimpleDateFormat(
 				"yyyy-MM-dd HH:mm:ss");
 		curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
+		curFormater.format(inputDate).toString();
 		//log.log(Level.SEVERE,"Time Zone : " + curFormater.getTimeZone().toString());
 		try {
 			//log.log(Level.SEVERE,"Convert Date : " + curFormater.parse(curFormater.format(inputDate).toString() ));
