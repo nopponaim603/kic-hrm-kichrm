@@ -105,17 +105,17 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return LoginServiceImpl.getUserEmail(token);
 	}
 
-	// Not Use it.
-	@Override
-	public LoginInfo login(String requestUri) {
-		return LoginServiceImpl.login(requestUri);
-	}
-
 	@Override
 	public LoginInfo loginDetails(String token) {
 		LoginInfo userInfo = LoginServiceImpl.loginDetails(token);
 		//log("Login Details see email : " + userInfo.getEmailAddress());
 		return LoginServiceImpl.MemberOrGuest(userInfo);
+	}
+	
+	// Not Use it.
+	@Override
+	public LoginInfo login(String requestUri) {
+		return LoginServiceImpl.login(requestUri);
 	}
 	// #11:> end
 
