@@ -13,10 +13,16 @@
 			<g:Grid width="100%" ui:field="gGrid">
 				<g:row>
 					<g:customCell>
-						<g:Label text="Employee ID" width="100px"/>
+						<g:Label text="Employee ID" width="79px"/>
 					</g:customCell>
 					<g:customCell>
-						<g:Label text="State" width="311px"/>
+						<g:Label text="State" width="50px"/>
+					</g:customCell>
+					<g:customCell>
+						<g:Label text="Time" width="109px"/>
+					</g:customCell>
+					<g:customCell>
+						<g:Label text="Address" width="194px"/>
 					</g:customCell>
 				</g:row>
 			</g:Grid>
