@@ -60,7 +60,6 @@ public class DailyReportPresenter implements Presenter{
 				// TODO Auto-generated method stub
 				//Setup Display
 				for(StartTimeLog m_log : result) {
-					 
 					display.LoadState(m_log);	
 				}
 			}
