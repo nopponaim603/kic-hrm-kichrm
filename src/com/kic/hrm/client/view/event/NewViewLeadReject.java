@@ -7,12 +7,12 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.data.model.LeaveTask;
 
-public class NewViewLeadEject implements ClickHandler{
+public class NewViewLeadReject implements ClickHandler{
 
 	private final GreetingServiceAsync rpcService;
 	private LeaveTask m_leavetask;
 	
-	public NewViewLeadEject(GreetingServiceAsync rpcService , LeaveTask m_leavetask) {
+	public NewViewLeadReject(GreetingServiceAsync rpcService , LeaveTask m_leavetask) {
 		// TODO Auto-generated constructor stub
 		this.rpcService = rpcService;
 		this.m_leavetask = m_leavetask;
