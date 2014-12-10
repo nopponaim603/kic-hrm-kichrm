@@ -13,7 +13,7 @@ import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.presenter.NewPresenter.Display;
 import com.kic.hrm.client.presenter.NewPresenter.taskRole;
 import com.kic.hrm.client.view.event.NewViewLeadApprove;
-import com.kic.hrm.client.view.event.NewViewLeadEject;
+import com.kic.hrm.client.view.event.NewViewLeadReject;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LeaveTask.progress;
 
@@ -145,9 +145,9 @@ public class NewView extends Composite implements Display{
 		}
 		
 		if(leavetask.getM_leaveprogress() != progress.Complete) {
-			Button EjectButton = new Button("Eject");
+			Button EjectButton = new Button("Reject");
 			horizontalPanel.add(EjectButton);
-			EjectButton.addClickHandler(new NewViewLeadEject(rpcService,leavetask));
+			EjectButton.addClickHandler(new NewViewLeadReject(rpcService,leavetask));
 		}
 		
 		
