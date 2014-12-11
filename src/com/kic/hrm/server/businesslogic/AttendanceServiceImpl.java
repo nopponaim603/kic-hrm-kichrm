@@ -111,6 +111,20 @@ public class AttendanceServiceImpl {
 		}
 	}
 	
+	public static void DailyProcess() {
+			// Process StartTimeLog
+		
+			// Counting EmployeeQuota
+		
+	}
+	
+	public static void MonthlyProcess() {
+			// Process StartTimeLog All
+			
+			// Process EmployeeQuota
+		
+	}
+	
 	private static void PreAddData(Employee m_employee ,Date saveDate,type m_leaveType ,String address) {
 		AttendanceSaveDate(m_employee
 				,saveDate
