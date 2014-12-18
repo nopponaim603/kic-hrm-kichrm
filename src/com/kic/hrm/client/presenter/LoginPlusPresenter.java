@@ -198,7 +198,7 @@ public class LoginPlusPresenter {
 
 	public void processLoginSucess(LoginInfo result,
 			final GreetingServiceAsync rpcService) {
-		System.out.println("C| Login Success : ");
+		log.log(Level.SEVERE ,"C| Login Success : ");
 
 		if (result.getName() != null && !result.getName().isEmpty()) {
 			// setM_loginInfo(result);
