@@ -133,12 +133,13 @@ public class LoginPlusPresenter {
 					public void onFailure(final Throwable caught) {
 						GWT.log("loginDetails -> onFailure : "
 								+ caught.getMessage()); //
-						log.severe(caught.getMessage());
+						log.log(Level.SEVERE ,"loginDetails -> onFailure : " + caught.getMessage());
+						
 					}
 
 					@Override
 					public void onSuccess(LoginInfo loginInfo) {
-						System.out.println("C:LP| Google H : on Success. ");
+						log.log(Level.SEVERE ,"C:LP| Google H : on Success. ");
 
 						// System.out.println("email : " + //
 						// loginInfo.getEmailAddress());
@@ -179,8 +180,6 @@ public class LoginPlusPresenter {
 							eventBus.fireEvent(new guiGuestEvent());
 						else
 							eventBus.fireEvent(new guiMemberEvent());
-						
-						
 
 					}
 				});
@@ -195,35 +194,6 @@ public class LoginPlusPresenter {
 			}
 		});
 
-	}
-
-	private void getMe() {
-		plus.people().get("me").to(new Receiver<Person>() {
-			@Override
-			public void onSuccess(Person person) {
-				System.out.println("Hello " + person.getDisplayName());
-
-				getMyActivities();
-			}
-		}).fire();
-	}
-
-	private void getMyActivities() {
-		plus.activities().list("me", Collection.PUBLIC)
-				.to(new Receiver<ActivityFeed>() {
-					@Override
-					public void onSuccess(ActivityFeed feed) {
-						System.out.println("===== PUBLIC ACTIVITIES =====");
-						if (feed.getItems() == null
-								|| feed.getItems().isEmpty()) {
-							System.out.println("You have no public activities");
-						} else {
-							for (Activity a : feed.getItems()) {
-								System.out.println(a.getTitle());
-							}
-						}
-					}
-				}).fire();
 	}
 
 	public void processLoginSucess(LoginInfo result,
@@ -243,7 +213,7 @@ public class LoginPlusPresenter {
 			
 			nameField.setEnabled(true);
 		} else {
-			System.out.println("C:LP| result is Else not run addGoogleAuthHelper.");
+			System.out.println("C:LP| result is Else not run addGoogleAuthHelper. when First Time.");
 			log.log(Level.SEVERE , " Result is Else not run Auth : " + result.getName());
 			loadLogin(result);
 		}
@@ -265,5 +235,34 @@ public class LoginPlusPresenter {
 	 */
 	private void setM_loginInfo(LoginInfo m_loginInfo) {
 		this.m_loginInfo = m_loginInfo;
+	}
+	
+	private void getMe() {
+		plus.people().get("me").to(new Receiver<Person>() {
+			@Override
+			public void onSuccess(Person person) {
+				System.out.println("Hello " + person.getDisplayName());
+
+				getMyActivities();
+			}
+		}).fire();
+	}
+	
+	private void getMyActivities() {
+		plus.activities().list("me", Collection.PUBLIC)
+				.to(new Receiver<ActivityFeed>() {
+					@Override
+					public void onSuccess(ActivityFeed feed) {
+						System.out.println("===== PUBLIC ACTIVITIES =====");
+						if (feed.getItems() == null
+								|| feed.getItems().isEmpty()) {
+							System.out.println("You have no public activities");
+						} else {
+							for (Activity a : feed.getItems()) {
+								System.out.println(a.getTitle());
+							}
+						}
+					}
+				}).fire();
 	}
 }

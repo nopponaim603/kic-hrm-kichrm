@@ -176,6 +176,9 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 		// TODO Auto-generated method stub
 		this.container = container;
 
+		LoginGooglePlus(this.rpcService);
+
+		
 		if ("".equals(History.getToken())) {
 			History.newItem(eventFire.Main.toString());
 		} else {
@@ -183,8 +186,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 			History.fireCurrentHistoryState();
 		}
 
-		LoginGooglePlus(this.rpcService);
-
+		
 		//System.out.println("AppController go Complete!!");
 	}
 
@@ -234,7 +236,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 
 	private void LoginGooglePlus(final GreetingServiceAsync rpcService) {
 
-		System.out.println("C:P| Login Plus");
+		System.out.println("C:P| First Time Setup Login Plus");
 		rpcService.login(GWT.getHostPageBaseURL(),
 				new AsyncCallback<LoginInfo>() {
 
@@ -243,6 +245,7 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 						// TODO Auto-generated method stub
 						// System.out.println("email : " +
 						// result.getEmailAddress());
+						System.out.println("login -> onSuccess");
 						m_loginPlus.processLoginSucess(result, rpcService);
 					}
 
