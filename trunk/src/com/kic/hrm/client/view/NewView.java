@@ -1,6 +1,7 @@
 package com.kic.hrm.client.view;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -24,6 +25,7 @@ public class NewView extends Composite implements Display{
 	
 	private final Button btnCheckIN;
 	private final Button btnOnSite;
+	private final Label lbLoginState;
 	
 	private final FlexTable flexTable;
 	public NewView() {
@@ -104,7 +106,7 @@ public class NewView extends Composite implements Display{
 		*/
 		
 		backButton = btnBack;
-		
+		lbLoginState = lblLoginComplete;
 		this.flexTable = flexTable;
 	}
 	
@@ -129,15 +131,18 @@ public class NewView extends Composite implements Display{
 		VerticalPanel verticalPanel_1 = new VerticalPanel();
 		Label lblLeave = new Label(leavetask.getM_leavetype().toString() + " : Owner" + Owner.toString());
 		verticalPanel_1.add(lblLeave);
+
+		Label lblNameDate = new Label("Start : " + DateTimeFormat.getLongDateFormat().format(leavetask.getM_start()) 
+							+ " to " 
+							+ DateTimeFormat.getLongDateFormat().format(leavetask.getM_end()));
+		verticalPanel_1.add(lblNameDate);
+		Label lblNameMessage = new Label(" \n Message : " + leavetask.getM_sendmessage());
+		verticalPanel_1.add(lblNameMessage);
+		Label lblNameProgress = new Label("Progress : " + leavetask.getM_leaveprogress().toString());
+		verticalPanel_1.add(lblNameProgress);
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		verticalPanel_1.add(horizontalPanel);
-		
-		Label lblNameDate = new Label("Start : " + leavetask.getM_start().toString() + " to " + leavetask.getM_end().toString()
-							+ " \n Message : " + leavetask.getM_sendmessage()
-							+ " \n Progress : " + leavetask.getM_leaveprogress().toString());
-		horizontalPanel.add(lblNameDate);
-			
 		if(Owner == taskRole.Leader || Owner == taskRole.HR) {
 			Button ApproveButton = new Button("Approve");
 			horizontalPanel.add(ApproveButton);
@@ -149,13 +154,7 @@ public class NewView extends Composite implements Display{
 			horizontalPanel.add(EjectButton);
 			EjectButton.addClickHandler(new NewViewLeadReject(rpcService,leavetask));
 		}
-		
-		
-		
-		
-		
-		
-		
+				
 		this.flexTable.setWidget(this.flexTable.getRowCount(), 0, verticalPanel_1);
 	}
 
@@ -169,6 +168,14 @@ public class NewView extends Composite implements Display{
 	public HasClickHandlers getOnSiteButton() {
 		// TODO Auto-generated method stub
 		return btnOnSite;
+	}
+	
+	public Label getLoginState() {
+		return lbLoginState;
+	}
+	
+	public void setLoginState(String inputState) {
+		lbLoginState.setText(inputState);
 	}
 	
 }

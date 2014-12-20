@@ -62,4 +62,9 @@ public interface GreetingService extends RemoteService {
 	SystemConfig getSystemConfig();
 	void ApplySystemConfig(SystemConfig sysConfig);
 
+	
+	void TestCreateAttendance();
+	void TestDailyProcessAttendance();
+	void TestMonthlyProcessAttendance();
+	void TestAllProcessAttendance();
 }

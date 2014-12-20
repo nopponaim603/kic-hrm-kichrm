@@ -10,6 +10,11 @@
 		<g:VerticalPanel width="100%" height="">
 			<g:Label text="Daily Report" width="100%"/>
 			<g:Button width="100%" ui:field="gBack">Back</g:Button>
+			<g:HorizontalPanel width="100%">
+				<g:Button text="Previous" width="100%" ui:field="btnPrevious"/>
+				<g:Button width="100%" text="Today" ui:field="btnToday"/>
+				<g:Button width="100%" text="Next" ui:field="btnNext"/>
+			</g:HorizontalPanel>
 			<g:Grid width="100%" ui:field="gGrid">
 				<g:row>
 					<g:customCell>

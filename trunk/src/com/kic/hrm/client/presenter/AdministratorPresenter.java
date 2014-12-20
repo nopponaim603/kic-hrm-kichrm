@@ -23,6 +23,7 @@ import com.kic.hrm.client.event.gotoProfileAndEditEvent;
 import com.kic.hrm.client.event.gotoProfileEvent;
 import com.kic.hrm.data.model.Employee;
 import com.kic.hrm.data.model.SystemConfig;
+import com.kic.hrm.server.businesslogic.AttendanceServiceImpl;
 
 
 
@@ -58,6 +59,10 @@ public class AdministratorPresenter implements Presenter{
 		ListBox ProjectEarlyMinutes();
 		
 		HasClickHandlers getDefaultButton();
+		
+		HasClickHandlers getDailyProcessButton();
+		HasClickHandlers getMonthlyProcessButton();
+		HasClickHandlers getAllProcessButton();
 		
 		Widget asWidget();
 	}
@@ -171,7 +176,7 @@ public class AdministratorPresenter implements Presenter{
 		
 		//If Data have not on Data store
 		//
-		
+		Testing();
 	}
 	
 	@Override
@@ -384,5 +389,75 @@ public class AdministratorPresenter implements Presenter{
 			}
 
 		});
+	}
+	
+	private void Testing() {
+		
+		display.getDailyProcessButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				rpcService.TestDailyProcessAttendance(new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						Window.alert("Process Success.");
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("Process Failure.");
+					}
+				});
+			}
+		});
+		
+		display.getMonthlyProcessButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				rpcService.TestMonthlyProcessAttendance(new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						Window.alert("Process Success.");
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("Process Failure.");
+					}
+				});
+			}
+		});
+		
+		display.getAllProcessButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				rpcService.TestAllProcessAttendance(new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						Window.alert("Process Success.");
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("Process Failure.");
+					}
+				});
+			}
+		});
+		
 	}
 }

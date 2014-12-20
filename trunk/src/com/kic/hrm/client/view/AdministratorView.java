@@ -47,6 +47,10 @@ public class AdministratorView extends Composite implements AdministratorPresent
 	
 	private final Button defaultButton;
 	
+	private final Button DailyProcess;
+	private final Button MonthlyProcess;
+	private final Button AllProcess;
+	
 	public AdministratorView() {
 		// TODO Auto-generated constructor stub
 		VerticalPanel verticalPanel = new VerticalPanel();
@@ -559,6 +563,29 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		ProjectEarlyduty_M = listBox_10;
 		
 		defaultButton = btnDefault;
+		
+		VerticalPanel verticalPanel_4 = new VerticalPanel();
+		decoratedStackPanel.add(verticalPanel_4, "Testing", false);
+		verticalPanel_4.setSize("100%", "100%");
+		
+		Button btnDailyProcress = new Button("New button");
+		verticalPanel_4.add(btnDailyProcress);
+		btnDailyProcress.setWidth("100%");
+		btnDailyProcress.setText("DailyProcress");
+		
+		Button btnMonthlyProcess = new Button("New button");
+		btnMonthlyProcess.setText("AdsceneAllDate");
+		verticalPanel_4.add(btnMonthlyProcess);
+		btnMonthlyProcess.setWidth("100%");
+		
+		Button btnAllProcess = new Button("New button");
+		btnAllProcess.setText("All StartTimeLog Process");
+		verticalPanel_4.add(btnAllProcess);
+		btnAllProcess.setWidth("100%");
+		
+		DailyProcess = btnDailyProcress;
+		MonthlyProcess = btnMonthlyProcess;
+		AllProcess = btnAllProcess;
 	}
 
 	@Override
@@ -698,6 +725,24 @@ public class AdministratorView extends Composite implements AdministratorPresent
 	public HasValue<String> getCalendarID() {
 		// TODO Auto-generated method stub
 		return calendarIDTextBox;
+	}
+
+	@Override
+	public HasClickHandlers getDailyProcessButton() {
+		// TODO Auto-generated method stub
+		return DailyProcess;
+	}
+
+	@Override
+	public HasClickHandlers getMonthlyProcessButton() {
+		// TODO Auto-generated method stub
+		return MonthlyProcess;
+	}
+
+	@Override
+	public HasClickHandlers getAllProcessButton() {
+		// TODO Auto-generated method stub
+		return AllProcess;
 	}
 
 	
