@@ -8,11 +8,18 @@ import java.util.logging.Logger;
 import org.apache.commons.logging.Log;
 
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.quota.QuotaService;
 import com.kic.hrm.data.model.Employee;
+import com.kic.hrm.data.model.EmployeeQuota;
+import com.kic.hrm.data.model.EmployeeQuotaService;
+import com.kic.hrm.data.model.EmployeeService;
+import com.kic.hrm.data.model.LeaveTask;
+import com.kic.hrm.data.model.LeaveTaskService;
 import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.StartTimeLogService;
@@ -96,7 +103,67 @@ public class AttendanceServiceImpl {
 		//TimeZone.c
 	}
 	
-	public static void AdsceneDailyDate() {
+	public static void AdsceneAllDate() {
+		
+		//List<StartTimeLog> m_startTimeLog = StartTimeLogService.
+		List<StartTimeLog> results;// = new ArrayList<Employee>();
+		List<Entity> entities = DataStoreControl.Query(StartTimeLog.class,
+				SortDirection.ASCENDING);
+		results = StartTimeLogService.Clone(entities);
+		// System.out.println("Rusults Size " +results.size());
+		//Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
+		//List<Employee> results = ProfileServiceImpl.getProfileList();
+		
+		for (StartTimeLog stl : results) {
+			if(stl.getM_type() == type.InProgress || stl.getM_type() == type.Absence) {
+				stl.setM_type(type.Absence);
+				stl.setM_Note("Absence");
+				Entity d_stl;
+				try {
+					d_stl = DataStoreControl.EditEntity(stl.getKind(), stl.getKeyID());
+					d_stl = StartTimeLogService.FlashData(d_stl, stl);
+					DataStoreControl.SaveEntity(d_stl);
+				} catch (EntityNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			//PreAddData(em,now,type.Absence,"Absence");
+		}
+		
+		List<LeaveTask> resultsLT;// = new ArrayList<Employee>();
+		List<Entity> entitiesLT = DataStoreControl.Query(LeaveTask.class,
+				SortDirection.ASCENDING);
+		resultsLT = LeaveTaskService.Clone(entitiesLT);
+		for(LeaveTask order : resultsLT) {
+			int rangDate = order.getM_end().getDate() - order.getM_start().getDate();
+			for(int i = 0 ; i <= rangDate ; i++) {
+				Date now = order.getM_start();
+				now.setDate(now.getDate() + i);
+				List<StartTimeLog> resultsSTLPerDay = StartTimeLogService.getStartTimeLogListDaily(now);
+				for (StartTimeLog stlPerDay : resultsSTLPerDay) {
+					if(stlPerDay.getM_employeeID() == order.getM_employeeID()) {
+						stlPerDay.setM_type(order.getM_leavetype());
+						stlPerDay.setM_Note(order.getM_sendmessage());
+						Entity d_stl;
+						try {
+							d_stl = DataStoreControl.EditEntity(stlPerDay.getKind(), stlPerDay.getKeyID());
+							d_stl = StartTimeLogService.FlashData(d_stl, stlPerDay);
+							DataStoreControl.SaveEntity(d_stl);
+						} catch (EntityNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		
+		//StartTimeLogService.
+	}
+	
+	public static void DailyProcess() {
+			// Process StartTimeLog
 		log.log(Level.SEVERE,"AdsceneDailyDate");
 		//Leave Update.
 		Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
@@ -109,20 +176,83 @@ public class AttendanceServiceImpl {
 			//////////////
 			PreAddData(em,now,type.Absence,"Absence");
 		}
-	}
-	
-	public static void DailyProcess() {
-			// Process StartTimeLog
-		
 			// Counting EmployeeQuota
+		Date now2 = StartTimeLogService.convertTimeZoneToBankok(new Date());
+		List<StartTimeLog> m_startTimeLog = StartTimeLogService.getStartTimeLogListDaily(now);
 		
+		for (StartTimeLog m_log : m_startTimeLog) {
+			ProcessQuota(m_log);
+		}
+	}
+		
+	public static void AllProcess() {
+		
+		//////////// Restate Quota ///////////////////////////////////////////////////////
+		List<EmployeeQuota> resultsEQ;// = new ArrayList<Employee>();
+		List<Entity> entitiesEQ = DataStoreControl.Query(EmployeeQuota.class,
+				SortDirection.ASCENDING);
+		resultsEQ = EmployeeQuotaService.Clone(entitiesEQ);
+		
+		for (EmployeeQuota eQuota : resultsEQ) {
+			eQuota.setM_absence(0);
+			eQuota.setM_late(0);
+			eQuota.setM_leave(0);
+			eQuota.setM_onsite(0);
+			eQuota.setM_ontime(0);
+			eQuota.setM_holiday(10);
+			eQuota.setM_leave(10);
+			Entity d_stl;
+			try {
+				d_stl = DataStoreControl.EditEntity(eQuota.getKind(), eQuota.getKeyID());
+				d_stl = EmployeeQuotaService.FlashData(d_stl, eQuota);
+				DataStoreControl.SaveEntity(d_stl);
+			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		///////////////////////////////////////////////////////////////////////////////
+		List<StartTimeLog> resultsSTL;// = new ArrayList<Employee>();
+		List<Entity> entitiesSTL = DataStoreControl.Query(StartTimeLog.class,
+				SortDirection.ASCENDING);
+		resultsSTL = StartTimeLogService.Clone(entitiesSTL);
+		// System.out.println("Rusults Size " +results.size());
+		//Date now = StartTimeLogService.convertTimeZoneToBankok(new Date());
+		//List<Employee> results = ProfileServiceImpl.getProfileList();
+		
+		for (StartTimeLog stl : resultsSTL) {
+			ProcessQuota(stl);
+		}
 	}
 	
-	public static void MonthlyProcess() {
-			// Process StartTimeLog All
-			
-			// Process EmployeeQuota
+	private static void ProcessQuota(StartTimeLog m_log) {
+		EmployeeQuota m_Quota = EmployeeQuotaService.getEmployeeQuota(m_log.getM_employeeID());
 		
+		if(m_log.getM_type() == type.Absence) {
+			m_Quota.setM_absence(m_Quota.getM_absence() + 1);
+		}else if(m_log.getM_type() == type.OnTime || m_log.getM_type() == type.Office) {
+			m_Quota.setM_ontime(m_Quota.getM_ontime() + 1);
+		}else if(m_log.getM_type() == type.Onsite) {
+			m_Quota.setM_onsite(m_Quota.getM_onsite() + 1);
+		}else if(m_log.getM_type() == type.Late) {
+			m_Quota.setM_late(m_Quota.getM_late() + 1);
+		}else if(m_log.getM_type() == type.Leave) {
+			m_Quota.setM_leave(m_Quota.getM_leave() - 1);
+		}else if(m_log.getM_type() == type.Holiday) {
+			m_Quota.setM_holiday(m_Quota.getM_holiday() - 1);
+		}
+		
+		Entity e_Quota;
+		try {
+			e_Quota = DataStoreControl.EditEntity(m_Quota.getKind(), m_Quota.getKeyID());
+			e_Quota = EmployeeQuotaService.FlashData(e_Quota, m_Quota);
+			DataStoreControl.SaveEntity(e_Quota);
+			
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private static void PreAddData(Employee m_employee ,Date saveDate,type m_leaveType ,String address) {

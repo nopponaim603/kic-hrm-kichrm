@@ -1,5 +1,6 @@
 package com.kic.hrm.client.presenter;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +29,7 @@ import com.kic.hrm.client.event.gotoDashBoardEvent;
 import com.kic.hrm.data.model.GeoPosition;
 import com.kic.hrm.data.model.LeaveTask;
 import com.kic.hrm.data.model.LoginInfo;
+import com.kic.hrm.data.model.StartTimeLog;
 import com.kic.hrm.data.model.LeaveTask.progress;
 import com.kic.hrm.data.model.StartTimeLog.type;
 import com.kic.hrm.server.GreetingServiceImpl;
@@ -48,6 +50,8 @@ public class NewPresenter implements Presenter {
 		void createTake(GreetingServiceAsync rpcService, LeaveTask leavetask,
 				taskRole Owner);
 
+		Label getLoginState();
+		void setLoginState(String input);
 		Widget asWidget();
 	}
 	
@@ -179,7 +183,39 @@ public class NewPresenter implements Presenter {
 					}
 				});
 
-		// LeaveTask temp = new LeaveTask();
+		Date m_daily = new Date();
+		
+		rpcService.getStartTimeLogListDaily(m_daily,
+				new AsyncCallback<List<StartTimeLog>>() {
+
+					@Override
+					public void onSuccess(List<StartTimeLog> result) {
+						// TODO Auto-generated method stub
+						// Setup Display
+						for (StartTimeLog m_log : result) {
+							if(m_loginInfo.getEmployeeID() == m_log.getM_employeeID()) {
+								if(m_log.getM_type() == type.InProgress) {
+									display.setLoginState("Not Login.");
+								}else if(m_log.getM_type() == type.Onsite || m_log.getM_type() == type.Office || m_log.getM_type() == type.OnTime) {
+									display.setLoginState("Login Complete.");
+								}else {
+									display.setLoginState(m_log.getM_type().toString());
+								}
+								
+								break;
+							}
+							//display.LoadState(m_log);
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		
+	
 
 	}
 

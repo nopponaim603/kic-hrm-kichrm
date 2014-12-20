@@ -71,6 +71,14 @@ public interface GreetingServiceAsync {
 
 	void getStartTimeLogListDaily(Date m_date,
 			AsyncCallback<List<StartTimeLog>> callback);
+
+	void TestCreateAttendance(AsyncCallback<Void> callback);
+
+	void TestDailyProcessAttendance(AsyncCallback<Void> callback);
+
+	void TestMonthlyProcessAttendance(AsyncCallback<Void> callback);
+
+	void TestAllProcessAttendance(AsyncCallback<Void> callback);
 	
 	//
 }

@@ -28,6 +28,10 @@ public class DailyReportView extends Composite implements HasText, DailyReportPr
 			.create(DailyReportViewUiBinder.class);
 	@UiField Grid gGrid;
 	@UiField Button gBack;
+	@UiField Button btnPrevious;
+	@UiField Button btnToday;
+	@UiField Button btnNext;
+
 
 	interface DailyReportViewUiBinder extends UiBinder<Widget, DailyReportView> {
 		
@@ -41,20 +45,26 @@ public class DailyReportView extends Composite implements HasText, DailyReportPr
 		
 		Label lbl_employeeName = new Label(m_log.getM_name());
 		Label lbl_employeeState = new Label(m_log.getM_type().toString());
-				
+		
 		//Convert Time
 		Label lbl_employeeTime = new Label(DateTimeFormat.getShortTimeFormat().format(ConvertTimeZone.ClineTimeZoneToBangkok(m_log.getM_clockIn())));
 		
 		Label lbl_employeeAddress = new Label(m_log.getM_Note());
 		
 		//gGrid.add(lbl_employeeState);
-		gGrid.insertRow(gGrid.getRowCount());
+		gGrid.insertRow(gGrid.getRowCount() );
 		
 		gGrid.setWidget(gGrid.getRowCount() -1 , 0, lbl_employeeName);
 		gGrid.setWidget(gGrid.getRowCount() -1 , 1, lbl_employeeState);
 		gGrid.setWidget(gGrid.getRowCount() -1 , 2, lbl_employeeTime);
 		gGrid.setWidget(gGrid.getRowCount() -1 , 3, lbl_employeeAddress);
 		//gGrid.add
+	}
+	
+	public void ResetGridContend() {
+		do {
+		gGrid.removeRow(gGrid.getRowCount()-1);
+		}while (gGrid.getRowCount() > 1);
 	}
 
 	@Override
@@ -73,6 +83,24 @@ public class DailyReportView extends Composite implements HasText, DailyReportPr
 	public HasClickHandlers getBack() {
 		// TODO Auto-generated method stub
 		return gBack;
+	}
+
+	@Override
+	public HasClickHandlers getPrevious() {
+		// TODO Auto-generated method stub
+		return btnPrevious;
+	}
+
+	@Override
+	public HasClickHandlers getToday() {
+		// TODO Auto-generated method stub
+		return btnToday;
+	}
+
+	@Override
+	public HasClickHandlers getNext() {
+		// TODO Auto-generated method stub
+		return btnNext;
 	}
 
 }

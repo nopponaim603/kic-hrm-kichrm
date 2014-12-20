@@ -169,8 +169,6 @@ public class LoginServiceImpl {
 		}
 	}
 	
-
-	
 	private static LoginInfo setupEmployeeData(LoginInfo loginInfo) {
 		System.out.println("email : " + loginInfo.getEmailAddress());
 		//int employeeId = -1;

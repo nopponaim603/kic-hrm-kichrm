@@ -236,4 +236,28 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 		return StartTimeLogService.getStartTimeLogListDaily(m_date);
 	}
 
+	@Override
+	public void TestCreateAttendance() {
+		// TODO Auto-generated method stub
+		AttendanceServiceImpl.CreateDailyData();
+	}
+
+	@Override
+	public void TestDailyProcessAttendance() {
+		// TODO Auto-generated method stub
+		AttendanceServiceImpl.DailyProcess();
+	}
+
+	@Override
+	public void TestMonthlyProcessAttendance() {
+		// TODO Auto-generated method stub
+		AttendanceServiceImpl.AdsceneAllDate();
+	}
+
+	@Override
+	public void TestAllProcessAttendance() {
+		// TODO Auto-generated method stub
+		AttendanceServiceImpl.AllProcess();
+	}
+
 }
