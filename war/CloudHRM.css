@@ -56,4 +56,15 @@ h1 {
 	color: #FFF;
 	text-decoration: none;
 }
+.gwt-Button {
+	font-variant: normal;
+	font-size: large;
+	font-style: normal;
+	font-family: TH Niramit AS;
+	font-weight: normal;
+	vertical-align: middle;
+	text-align: center;
+	background-color: Silver;
+
+}
 /** TODO #01:> end   */
