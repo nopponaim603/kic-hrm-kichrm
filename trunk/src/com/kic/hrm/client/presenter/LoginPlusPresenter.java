@@ -119,6 +119,7 @@ public class LoginPlusPresenter {
 				.withScopes(CloudHRM.getPLUS_ME_SCOPE());
 		//AUTH.setOAuthWindowUrl("tesr");
 		//AUTH.
+		//AUTH.
 		AUTH.login(req, new Callback<String, Throwable>() {
 
 			@Override

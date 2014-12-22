@@ -505,6 +505,7 @@ public class AdministratorView extends Composite implements AdministratorPresent
 		verticalPanel_2.add(horizontalPanel_2);
 		
 		ListBox listBox_ProfileEmployee = new ListBox();
+		listBox_ProfileEmployee.setStyleName("gwt-Button");
 		horizontalPanel_2.add(listBox_ProfileEmployee);
 		listBox_ProfileEmployee.setWidth("107px");
 		

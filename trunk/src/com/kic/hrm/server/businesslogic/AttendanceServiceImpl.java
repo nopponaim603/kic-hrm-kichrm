@@ -51,6 +51,7 @@ public class AttendanceServiceImpl {
 				// Home to camt = 7.378121432299594 : 7.3 KM
 				double[] CAMTPosition = { (double) 18.8005192,
 						(double) 98.9507971 };
+				
 				double[] currentPosition = {
 						userInfo.getCurrentPosition().getLatitude(),
 						userInfo.getCurrentPosition().getLongitude() };
