@@ -64,7 +64,11 @@ h1 {
 	font-weight: normal;
 	vertical-align: middle;
 	text-align: center;
-	background-color: Silver;
+	background-color: White;
 
+}
+.gwt-Label {
+	font-size: large;
+	font-family: TH Niramit AS;
 }
 /** TODO #01:> end   */
