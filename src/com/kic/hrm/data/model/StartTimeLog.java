@@ -116,10 +116,12 @@ public class StartTimeLog implements Serializable {
 	/**
 	 * @param m_date the m_date to set
 	 */
+	@SuppressWarnings("deprecation")
 	public void setM_date(Date m_date) {
 		m_date.setHours(0);
 		m_date.setMinutes(0);
 		m_date.setSeconds(0);
+		
 		
 		this.m_date = m_date;
 	}
@@ -196,16 +198,17 @@ public class StartTimeLog implements Serializable {
 		m_type = StartTimeLog.type.InProgress;
 		m_timeTable = StartTimeLog.timetable.None;
 		Date now = new Date();
-		m_date = now;
+		setM_date(now);
+		/*
 		m_date.setHours(0);
 		m_date.setMinutes(0);
-		m_date.setSeconds(0);
+		m_date.setSeconds(0);*/
 		
-		m_clockIn = now;
-		m_clockLate = now;
-		m_clockOut = now;
+		m_clockIn = m_date;
+		m_clockLate = m_date;
+		m_clockOut = m_date;
 	}
-    
+	
     //private 
 }
 

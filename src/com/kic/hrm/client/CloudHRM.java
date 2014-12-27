@@ -15,6 +15,7 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.api.gwt.client.GoogleApiRequestTransport;
 import com.google.api.gwt.client.OAuth2Login;
@@ -31,7 +32,14 @@ import com.google.api.gwt.shared.EmptyResponse;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.web.bindery.requestfactory.shared.ServerFailure;
 import com.sun.java.swing.plaf.windows.resources.windows;
+
+
+import com.google.api.gwt.services.plus.shared.Plus.ActivitiesContext.ListRequest.Collection;
+import com.google.api.gwt.services.plus.shared.model.Activity;
+import com.google.api.gwt.services.plus.shared.model.ActivityFeed;
+import com.google.api.gwt.services.plus.shared.model.Person;
 
 public class CloudHRM implements EntryPoint {
 
@@ -64,14 +72,14 @@ public class CloudHRM implements EntryPoint {
 
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.
-	private static final String[] PLUS_ME_SCOPE = {
-			"https://www.googleapis.com/auth/plus.login",
-			"https://www.googleapis.com/auth/userinfo.email" };
-
-	// private static final String PLUS_ME_SCOPE = ;
-	public static String[] getPLUS_ME_SCOPE() {
-		return PLUS_ME_SCOPE;
-	}
+	
+	 private static final String[] PLUS_ME_SCOPE = {
+	 "https://www.googleapis.com/auth/plus.login",
+	 "https://www.googleapis.com/auth/userinfo.email" };
+	  
+	  // private static final String PLUS_ME_SCOPE = ; static String[]
+	public static String[] getPLUS_ME_SCOPE() { return PLUS_ME_SCOPE; }
+	 
 
 	private static final String[] DRIVE_SCOPESArry = {
 			"https://www.googleapis.com/auth/plus.login",
@@ -100,7 +108,7 @@ public class CloudHRM implements EntryPoint {
 
 	// TODO #05: add constants for OAuth2 (don't forget to update
 	// GOOGLE_CLIENT_ID)
-	private static final String API_KEY = "AIzaSyAr5ZzZtmqAaAwhqQAgHmnrkzp0tsD7D3g";
+	private static final String API_KEY = "AIzaSyAgGni9RIcWvs0NBgBTThJqjBCCSPOpl3E";
 
 	public static String getAPI_KEY() {
 		return API_KEY;
@@ -123,7 +131,13 @@ public class CloudHRM implements EntryPoint {
 	 * service.
 	 */
 
-	
+	private static final Plus plus = GWT.create(Plus.class);
+
+	// private static final String CLIENT_ID =
+	// "692753340433.apps.googleusercontent.com";
+	// private static final String API_KEY =
+	// "AIzaSyA5bNyuRQFaTQle_YC5BUH7tQzRmAPiqsM";
+	// private static final String APPLICATION_NAME = "PlusSample/1.0";
 
 	public void onModuleLoad() {
 
@@ -138,19 +152,23 @@ public class CloudHRM implements EntryPoint {
 
 		// test
 		// Register(eventBus);
-		//QuickTest(rpcService);
-		// addGoogleAuth(rpcService);
+		 //QuickTest(rpcService);
+		 //addGoogleAuth(rpcService);
 
 	}
 
-	
 	@SuppressWarnings("unused")
 	private void QuickTest(final GreetingServiceAsync rpcService) {
-	/*	
-		calendar.initialize(new SimpleEventBus(),
-				new GoogleApiRequestTransport(APPLICATION_NAME, "AIzaSyAr5ZzZtmqAaAwhqQAgHmnrkzp0tsD7D3g"));
-*/
-		Button button = new Button("QuickTest");
+		/*
+		 * calendar.initialize(new SimpleEventBus(), new
+		 * GoogleApiRequestTransport(APPLICATION_NAME,
+		 * "AIzaSyAr5ZzZtmqAaAwhqQAgHmnrkzp0tsD7D3g"));
+		 */
+
+		plus.initialize(new SimpleEventBus(), new GoogleApiRequestTransport(
+				APPLICATION_NAME, API_KEY));
+
+		final Button button = new Button("QuickTest");
 
 		button.addClickHandler(new ClickHandler() {
 
@@ -158,25 +176,86 @@ public class CloudHRM implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				// OAuth2Login.get().
-				log.log(Level.SEVERE, "Click");
-				rpcService.QuickTest("Test", new AsyncCallback<String>() {
-					
-					@Override
-					public void onSuccess(String result) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
+				login();
+				button.setVisible(false);
+				/*
+				 * log.log(Level.SEVERE, "Click"); rpcService.QuickTest("Test",
+				 * new AsyncCallback<String>() {
+				 * 
+				 * @Override public void onSuccess(String result) { // TODO
+				 * Auto-generated method stub
+				 * 
+				 * }
+				 * 
+				 * @Override public void onFailure(Throwable caught) { // TODO
+				 * Auto-generated method stub
+				 * 
+				 * } });
+				 */
 			}
 		});
 
 		RootPanel.get().add(button);
+	}
+
+	private void login() {
+		OAuth2Login.get().authorize(CLIENT_ID, PlusAuthScope.USERINFO_EMAIL,
+				new Callback<Void, Exception>() {
+					@Override
+					public void onSuccess(Void v) {
+						System.out.println("New Plus login.");
+						getMe();
+					}
+
+					@Override
+					public void onFailure(Exception e) {
+						println(e.getMessage());
+					}
+				});
+	}
+
+	private void getMe() {
+		
+		plus.people().get("me").to(new Receiver<Person>() {
+			@Override
+			public void onSuccess(Person person) {
+				System.out.println("New Plus login S.");
+				println("Hello " + person.getDisplayName());
+
+				getMyActivities();
+			}
+			
+		}).fire();
+		
+		//plus.people().get(userId)
+		
+		
+		System.out.println("New Plus login Skip."  );
+	}
+
+	private void getMyActivities() {
+		plus.activities().list("me", Collection.PUBLIC).to(new Receiver<ActivityFeed>() {
+
+			@Override
+			public void onSuccess(ActivityFeed response) {
+				// TODO Auto-generated method stub
+				println("===== PUBLIC ACTIVITIES =====");
+				if (response.getItems() == null
+						|| response.getItems().isEmpty()) {
+					println("You have no public activities");
+				} else {
+					for (Activity a : response.getItems()) {
+						println(a.getTitle());
+					}
+				}
+			}
+					
+				}).fire();
+	}
+
+	private void println(String msg) {
+		System.out.println(msg);
+		//RootPanel.get().add(new Label(msg));
 	}
 
 	@SuppressWarnings("unused")
@@ -319,12 +398,14 @@ public class CloudHRM implements EntryPoint {
 		button.addClickHandler(new ClickHandler() {
 			@Override
 			public native void onClick(ClickEvent event) /*-{
+			$console.log("test");
+			$wnd.alert("Got an OAuth toke");
 		$wnd.oauth2
 				.login(
 						{
 							"authUrl" : "https://accounts.google.com/o/oauth2/auth",
-							"clientId" : "392232398516-9lg977lv9qm97hus7deli7v0jpr294ko.apps.googleusercontent.com",
-							"scopes" : [ "https://www.googleapis.com/auth/plus.me" ]
+							"clientId" : "392232398516-hdd0r2biksrovka8a6v93roambr2b54r.apps.googleusercontent.com",
+							"scopes" : [ "https://www.googleapis.com/auth/plus.login" , "https://www.googleapis.com/auth/userinfo.email" ]
 						}, function(token) {
 							$wnd.alert("Got an OAuth token:\n" + token + "\n"
 									+ "Token expires in "
@@ -332,8 +413,12 @@ public class CloudHRM implements EntryPoint {
 						}, function(error) {
 							$wnd.alert("Error:\n" + error);
 						});
+	
 	}-*/;
-		});
+			
+		}
+		
+				);
 		RootPanel.get().add(button);
 	}
 

@@ -2,16 +2,16 @@ package com.kic.hrm.data.model;
 
 
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.api.services.datastore.Datastore;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
-
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -125,11 +125,10 @@ public class StartTimeLogService {
 		String tempLong = Long.toString((Long) entity
 				.getProperty(property.employeeID.toString()));
 		startTime.setM_employeeID(Integer.parseInt(tempLong));
-
-		startTime.setM_name((String) entity.getProperty(property.name
-				.toString()));
-		startTime
-				.setM_date((Date) entity.getProperty(property.date.toString()));
+		startTime.setM_name((String) entity.getProperty(property.name.toString()));
+		startTime.setM_date((Date) entity.getProperty(property.date.toString()));
+		//startTime.setM_dateTime
+		
 		startTime.setM_timeTable(timetable.valueOf(entity.getProperty(
 				property.timetable.toString()).toString()));
 		startTime.setM_clockIn((Date) entity.getProperty(property.clockin
@@ -180,27 +179,28 @@ public class StartTimeLogService {
 
 	public static List<StartTimeLog> Clone(List<Entity> entities) {
 		List<StartTimeLog> results = new ArrayList<StartTimeLog>();
+		//log.log(Level.SEVERE , "test : entities : "+ entities);
 		for (Entity entity : entities)
 			results.add(AddDataStartTimeLog(entity));
 
 		return results;
 	}
 
+	@SuppressWarnings("deprecation")
 	public static StartTimeLog Create(Employee employee, Date createTime,
 			timetable m_timetable, type m_type, String address) {
 		StartTimeLog m_startTimelog = new StartTimeLog();
 		m_startTimelog.setM_date(createTime);
 		m_startTimelog.setM_employeeID(employee.getM_employeeID());
-		Date time = createTime;
 		// + 07.00
 		log.log(Level.SEVERE, "Key ID" + m_startTimelog.getKeyID()
 				+ " : Kind :" + m_startTimelog.getKind());
 		
-		log.log(Level.SEVERE, "Time Zone : " + time.getTimezoneOffset()
-				+ " : hours :" + time.getHours());
+		log.log(Level.SEVERE, "Time Zone : " + m_startTimelog.getM_date().getTimezoneOffset()
+				+ " : hours :" + m_startTimelog.getM_date().getHours());
 		log.log(Level.SEVERE,
-				" Date : " + time.getDay() + " : " + time.getDate() + " : "
-						+ time.getMonth() + " : " + time.getYear());
+				" Date day : " + m_startTimelog.getM_date().getDay() + " date : " + m_startTimelog.getM_date().getDate() + " month : "
+						+ m_startTimelog.getM_date().getMonth() + " year : " + m_startTimelog.getM_date().getYear());
 		
 
 		m_startTimelog.setM_name(employee.getM_name());
@@ -223,13 +223,11 @@ public class StartTimeLogService {
 			log.log(Level.SEVERE, "Have Data. | " + StartTimeLog.getKind()
 					+ " : " + StartTimeLog.getKeyID());
 			try {
-				d_OnWebStartTimeLog = DataStoreControl.EditEntity(
-						StartTimeLog.getKind(), StartTimeLog.getKeyID());
+				d_OnWebStartTimeLog = DataStoreControl.EditEntity(StartTimeLog.getKind(), StartTimeLog.getKeyID());
 				log.log(Level.SEVERE, "StartTimeLog Edit : " + StartTimeLog.getKeyID() + " : " + getTypeEntity(d_OnWebStartTimeLog).toString());
 				
 				if (getTypeEntity(d_OnWebStartTimeLog) == type.InProgress) {
-					d_OnWebStartTimeLog = StartTimeLogService.FlashData(
-							d_OnWebStartTimeLog, StartTimeLog);
+					d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, StartTimeLog);
 					DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
 					saveSuccess = true;
 				}
@@ -243,15 +241,13 @@ public class StartTimeLogService {
 					+ StartTimeLog.getM_employeeID() + " : "
 					+ StartTimeLog.getM_name() + " : "
 					+ StartTimeLog.getM_date());
-			d_OnWebStartTimeLog = DataStoreControl
-					.CreateEntity(StartTimeLog.class);
-			d_OnWebStartTimeLog = StartTimeLogService.FlashData(
-					d_OnWebStartTimeLog, StartTimeLog);
+			d_OnWebStartTimeLog = DataStoreControl.CreateEntity(StartTimeLog.class);
+			d_OnWebStartTimeLog = StartTimeLogService.FlashData(d_OnWebStartTimeLog, StartTimeLog);
 			DataStoreControl.SaveEntity(d_OnWebStartTimeLog);
 			saveSuccess = true;
 		}
 
-		log.log(Level.SEVERE, "Save Done. | save is : " + saveSuccess);
+		log.log(Level.SEVERE, "Save Done. | save is : " + saveSuccess + " date : " + StartTimeLog.getM_date().toString());
 
 		return saveSuccess;
 	}
@@ -290,52 +286,24 @@ public class StartTimeLogService {
 	}
 
 	public static List<StartTimeLog> getStartTimeLogListDaily(Date m_date) {
+
 		/*
-		 * Date gDate = m_date; gDate.setHours(0); gDate.setMinutes(0);
-		 * gDate.setSeconds(0); Date lDate = gDate; lDate.setSeconds(10);
-		 * 
-		 * SimpleDateFormat curFormater = new
-		 * SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //
-		 * curFormater.setTimeZone(TimeZone.getTimeZone("Asia/Bangkok"));
-		 * 
-		 * log.log(Level.SEVERE , " simpleDate : " +
-		 * curFormater.format(gDate).toString()); //Date timeInZone =
-		 * (Date)curFormater.parse();
-		 * 
-		 * 
-		 * log.log(Level.SEVERE," gDate : " + gDate.toString() + " : " +
-		 * gDate.toLocaleString() + " : " + gDate.toGMTString());
-		 * 
-		 * Filter beginThisday = new
-		 * FilterPredicate(StartTimeLog.property.employeeID
-		 * .toString(),FilterOperator.GREATER_THAN_OR_EQUAL, 55000); //Filter
-		 * endThisday = new
-		 * FilterPredicate(StartTimeLog.property.clockout.toString
-		 * (),FilterOperator.LESS_THAN_OR_EQUAL, lDate.getMonth()); //Filter
-		 * Combile = ModelService.CompositeAndFilter(beginThisday,endThisday);
-		 */
+		1419638400624
+		
+		1419665371980
+		
+		1419613200439
+		*/
+		
+		Filter m_dateTimeFilterG = new FilterPredicate(
+				StartTimeLog.property.date.toString(),
+				FilterOperator.GREATER_THAN_OR_EQUAL, m_date);
+		
+		List<StartTimeLog> tempStartTime = StartTimeLogService.Clone(DataStoreControl.Query(StartTimeLog.class, m_dateTimeFilterG));
+		
 
-		List<Entity> temp_entity = DataStoreControl.Query(StartTimeLog.class,
-				SortDirection.ASCENDING);
-
-		List<StartTimeLog> tempStartTime = StartTimeLogService
-				.Clone(temp_entity);
-		log.log(Level.SEVERE, "Size : " + tempStartTime.size());
-		List<StartTimeLog> tempST = StartTimeLogService.Clone(temp_entity);
-
-		tempST.clear();
-
-		log.log(Level.SEVERE, "Size : " + tempStartTime.size());
-
-		for (StartTimeLog timeLog : tempStartTime) {
-			if (AttendanceServiceImpl
-					.CollisionDate(m_date, timeLog.getM_date())) {
-				tempST.add(timeLog);
-			}
-		}
-		log.log(Level.SEVERE, "Size : " + tempST.size());
-
-		return tempST;
+		log.log(Level.SEVERE, "After Process Temp Size : " + tempStartTime.size());
+		return tempStartTime;
 	}
 
 	public static List<StartTimeLog> getStartTimeLogListOnlyOne(int employeeID) {

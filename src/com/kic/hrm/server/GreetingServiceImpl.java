@@ -251,7 +251,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public void TestMonthlyProcessAttendance() {
 		// TODO Auto-generated method stub
-		AttendanceServiceImpl.AdsceneAllDate();
+		AttendanceServiceImpl.CreateDailyData();
+		//AttendanceServiceImpl.AdsceneAllDate();
 	}
 
 	@Override

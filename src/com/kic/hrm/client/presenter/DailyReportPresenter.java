@@ -60,6 +60,10 @@ public class DailyReportPresenter implements Presenter {
 		});
 
 		Date m_daily = new Date();
+		m_daily.setHours(0);
+		m_daily.setMinutes(0);
+		m_daily.setSeconds(0);
+		
 		currentDay = m_daily.getDate();
 
 		rpcService.getStartTimeLogListDaily(m_daily,
@@ -69,6 +73,7 @@ public class DailyReportPresenter implements Presenter {
 					public void onSuccess(List<StartTimeLog> result) {
 						// TODO Auto-generated method stub
 						// Setup Display
+						if(result != null)
 						for (StartTimeLog m_log : result) {
 							display.LoadState(m_log);
 						}
