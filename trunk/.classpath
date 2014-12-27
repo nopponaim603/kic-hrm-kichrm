@@ -12,8 +12,8 @@
 	<classpathentry exported="true" kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/gwt-calendar-v3-0.3-alpha.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/guava-gwt-18.0.jar"/>
-	<classpathentry kind="lib" path="lib/gwt-plus-v1-0.2-alpha.jar"/>
-	<classpathentry kind="lib" path="lib/gwt-oauth2-0.2-alpha.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.6.1a"/>
+	<classpathentry exported="true" kind="lib" path="lib/gwt-plus-v1-0.3-alpha.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/gwt-oauth2-0.2-alpha.jar"/>
+	<classpathentry exported="true" kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.6.1a"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

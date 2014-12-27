@@ -3,8 +3,7 @@ package com.kic.hrm.client.presenter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.api.gwt.client.GoogleApiRequestTransport;
-import com.google.api.gwt.client.OAuth2Login;
+
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
@@ -12,28 +11,29 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.event.shared.SimpleEventBus;
+
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.kic.hrm.client.AppController.eventFire;
+
 import com.kic.hrm.client.GreetingServiceAsync;
 import com.kic.hrm.client.CloudHRM;
 import com.kic.hrm.client.event.guiGuestEvent;
 import com.kic.hrm.client.event.guiMemberEvent;
 import com.kic.hrm.data.model.LoginInfo;
 import com.kic.hrm.data.model.Employee.role;
-import com.sun.xml.internal.fastinfoset.stax.events.EventBase;
+
 import com.google.api.gwt.services.plus.shared.Plus;
 import com.google.api.gwt.services.plus.shared.Plus.ActivitiesContext.ListRequest.Collection;
-import com.google.api.gwt.services.plus.shared.Plus.PlusAuthScope;
+
 import com.google.api.gwt.services.plus.shared.model.Activity;
 import com.google.api.gwt.services.plus.shared.model.ActivityFeed;
 import com.google.api.gwt.services.plus.shared.model.Person;
 import com.google.web.bindery.requestfactory.shared.Receiver;
+
 
 public class LoginPlusPresenter {
 	private static final Logger log = Logger.getLogger(LoginPlusPresenter.class

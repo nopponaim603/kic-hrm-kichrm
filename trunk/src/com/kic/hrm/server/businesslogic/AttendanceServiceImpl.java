@@ -178,7 +178,7 @@ public class AttendanceServiceImpl {
 			PreAddData(em,now,type.Absence,"Absence");
 		}
 			// Counting EmployeeQuota
-		Date now2 = StartTimeLogService.convertTimeZoneToBankok(new Date());
+		//Date now2 = StartTimeLogService.convertTimeZoneToBankok(new Date());
 		List<StartTimeLog> m_startTimeLog = StartTimeLogService.getStartTimeLogListDaily(now);
 		
 		for (StartTimeLog m_log : m_startTimeLog) {
@@ -315,13 +315,18 @@ public class AttendanceServiceImpl {
 	public static boolean CollisionDate(Date thisIsToday, Date collisiontDate) {
 		boolean isCollision = false;
 
+		log.log(Level.SEVERE, "Collision in Date : " + thisIsToday.toString());
+		log.log(Level.SEVERE, "Collision in Date : " + collisiontDate.toString());
+		
 		if (thisIsToday.getYear() == collisiontDate.getYear()
 				&& thisIsToday.getMonth() == collisiontDate.getMonth()
 				&& thisIsToday.getDay() == collisiontDate.getDay()) {
-
+			
+			/*
 			log.log(Level.SEVERE, "Yesr :" + thisIsToday.getYear() + " : " + collisiontDate.getYear());
 			log.log(Level.SEVERE, "getMonth :" + thisIsToday.getMonth() + " : " + collisiontDate.getMonth());
 			log.log(Level.SEVERE, "getDay :" + thisIsToday.getDay() + " : " + collisiontDate.getDay());
+			*/
 			isCollision = true;
 		}
 			

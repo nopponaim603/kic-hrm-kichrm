@@ -58,10 +58,23 @@ public class DataStoreControl {
 		
 		Query query = new Query(entiryClassName.getSimpleName());
 		
-		Key grpKey = KeyFactory.createKey("SuggestedInterest", 100);
+		//Key grpKey = KeyFactory.createKey("SuggestedInterest", 100);
 				
 		query.setFilter(filter);
 	    query.addSort(Entity.KEY_RESERVED_PROPERTY, sortdirection);
+	    List<Entity> temp = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
+	   
+	    return temp;
+	}
+	
+	public static List<Entity> Query(Class<?> entiryClassName,Filter filter) {
+		
+		Query query = new Query(entiryClassName.getSimpleName());
+		
+		//Key grpKey = KeyFactory.createKey("SuggestedInterest", 100);
+				
+		query.setFilter(filter);
+	   // query.addSort(propertyname, sortdirection);
 	    List<Entity> temp = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
 
 	    return temp;
