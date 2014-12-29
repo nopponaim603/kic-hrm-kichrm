@@ -40,6 +40,7 @@ import com.google.api.gwt.services.plus.shared.Plus.ActivitiesContext.ListReques
 import com.google.api.gwt.services.plus.shared.model.Activity;
 import com.google.api.gwt.services.plus.shared.model.ActivityFeed;
 import com.google.api.gwt.services.plus.shared.model.Person;
+import com.kic.hrm.client.AppController.eventFire;
 
 public class CloudHRM implements EntryPoint {
 
@@ -164,10 +165,10 @@ public class CloudHRM implements EntryPoint {
 		 * GoogleApiRequestTransport(APPLICATION_NAME,
 		 * "AIzaSyAr5ZzZtmqAaAwhqQAgHmnrkzp0tsD7D3g"));
 		 */
-
+/*
 		plus.initialize(new SimpleEventBus(), new GoogleApiRequestTransport(
 				APPLICATION_NAME, API_KEY));
-
+*/
 		final Button button = new Button("QuickTest");
 
 		button.addClickHandler(new ClickHandler() {
@@ -176,8 +177,11 @@ public class CloudHRM implements EntryPoint {
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
 				// OAuth2Login.get().
+				//eventBus
+				
+				/*
 				login();
-				button.setVisible(false);
+				button.setVisible(false);*/
 				/*
 				 * log.log(Level.SEVERE, "Click"); rpcService.QuickTest("Test",
 				 * new AsyncCallback<String>() {
