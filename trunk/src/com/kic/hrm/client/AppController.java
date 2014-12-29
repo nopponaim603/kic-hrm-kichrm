@@ -39,6 +39,7 @@ import com.kic.hrm.client.presenter.NewPresenter;
 import com.kic.hrm.client.presenter.Presenter;
 import com.kic.hrm.client.presenter.ProfilePresenter;
 import com.kic.hrm.client.presenter.QuotaPresenter;
+import com.kic.hrm.client.presenter.TestPresenter;
 import com.kic.hrm.client.view.AdministratorView;
 import com.kic.hrm.client.view.CalendarReportView;
 import com.kic.hrm.client.view.DailyReportView;
@@ -47,6 +48,7 @@ import com.kic.hrm.client.view.LeaveView;
 import com.kic.hrm.client.view.NewView;
 import com.kic.hrm.client.view.ProfileView;
 import com.kic.hrm.client.view.QuotaView;
+import com.kic.hrm.client.view.TestView;
 import com.kic.hrm.data.model.LoginInfo;
 
 public class AppController implements Presenter, ValueChangeHandler<String> {
@@ -203,8 +205,14 @@ public class AppController implements Presenter, ValueChangeHandler<String> {
 				presenter = new DashBoardPresenter(rpcService, eventBus,
 						new DashBoardView());
 			} else if (token.equals(eventFire.Administrator.toString())) {
+				
 				presenter = new AdministratorPresenter(rpcService, eventBus,
 						new AdministratorView());
+				
+			
+				//Test
+			//	presenter = new TestPresenter(rpcService, eventBus, new TestView());
+				
 			} else if (token.equals(eventFire.Profile.toString())) {
 				presenter = new ProfilePresenter(rpcService, eventBus,
 						new ProfileView());

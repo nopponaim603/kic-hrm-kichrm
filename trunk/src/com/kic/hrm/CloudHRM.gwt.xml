@@ -8,7 +8,7 @@
 <module rename-to='CloudHRM'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <inherits name='com.google.gwt.user.User'/>
-
+  <inherits name="com.github.gwtbootstrap.Bootstrap"/>
   <!-- Inherit the default GWT style sheet.  You can change       -->
   <!-- the theme of your GWT application by uncommenting          -->
   <!-- any one of the following lines.                            -->
@@ -26,6 +26,9 @@
   
   <inherits name="com.google.api.gwt.services.Calendar" />
   <inherits name="com.google.api.gwt.services.Plus" />
+  
+  
+  
   
   <!-- <inherits name='org.slim3.gwt.emul.S3Emulation' />  -->
   
